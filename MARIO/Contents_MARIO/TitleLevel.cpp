@@ -7,3 +7,8 @@ UTitleLevel::UTitleLevel()
 UTitleLevel::~UTitleLevel()
 {
 }
+
+void UTitleLevel::BeginPlay()
+{
+
+}

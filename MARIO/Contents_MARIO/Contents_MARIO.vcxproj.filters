@@ -2,12 +2,14 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClInclude Include="ContentsCore.h" />
-    <ClInclude Include="PlayerLevel.h" />
+    <ClInclude Include="PlayLevel.h" />
     <ClInclude Include="TitleLevel.h" />
+    <ClInclude Include="Player.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp" />
-    <ClCompile Include="PlayerLevel.cpp" />
+    <ClCompile Include="PlayLevel.cpp" />
     <ClCompile Include="TitleLevel.cpp" />
+    <ClCompile Include="Player.cpp" />
   </ItemGroup>
 </Project>
