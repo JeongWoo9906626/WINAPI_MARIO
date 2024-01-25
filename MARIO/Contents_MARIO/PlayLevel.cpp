@@ -11,5 +11,5 @@ UPlayLevel::~UPlayLevel()
 
 void UPlayLevel::BeginPlay()
 {
-	SpawnActor<Player>();
+	this->SpawnActor<Player>();
 }

@@ -81,8 +81,6 @@ unsigned __int64 EngineWindow::WindowMessageLoop(void(*_Update)(), void(*_End)()
 
 	while (WindowLive)
 	{
-		// 기본 메시지 루프입니다:
-		// 10개가 들어있을 
 		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
@@ -102,3 +100,5 @@ unsigned __int64 EngineWindow::WindowMessageLoop(void(*_Update)(), void(*_End)()
 
 	return msg.wParam;
 }
+
+

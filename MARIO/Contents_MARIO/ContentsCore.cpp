@@ -1,4 +1,5 @@
 #include "ContentsCore.h"
+#include "Player.h"
 #include "TitleLevel.h"
 #include "PlayLevel.h"
 

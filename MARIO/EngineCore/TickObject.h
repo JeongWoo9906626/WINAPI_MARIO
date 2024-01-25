@@ -23,7 +23,7 @@ public:
 
 	bool IsOn()
 	{
-		return IsUpdateValue;
+		return IsUpdateValue && IsDeathValue == false;
 	}
 
 
