@@ -12,8 +12,17 @@ ABullet::~ABullet()
 
 void ABullet::BeginPlay()
 {
-	// SetActorLocation({ 100, 100 });
-	SetActorScale({ 50, 50 });
+	{
+		UImageRenderer* Renderer = CreateImageRenderer(0);
+		Renderer->SetScale({ 10, 50 });
+	}
+
+	{
+		UImageRenderer* Renderer = CreateImageRenderer(0);
+		Renderer->SetScale({ 50, 10 });
+	}
+
+	Destroy(2.0f);
 }
 
 void ABullet::Tick(float _DeltaTime)

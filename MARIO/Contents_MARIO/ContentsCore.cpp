@@ -15,6 +15,8 @@ ContentsCore::~ContentsCore()
 // 게임시작
 void ContentsCore::BeginPlay()
 {
+	SetFrame(60);
+
 	CreateLevel<UTitleLevel>("Title");
 	CreateLevel<UPlayLevel>("PlayLevel");
 

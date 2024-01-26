@@ -15,18 +15,38 @@ EngineCore::~EngineCore()
 {
 }
 
-void EngineCore::EngineTick()
+void EngineCore::CoreTick()
 {
+	float DeltaTime = MainTimer.TimeCheck();
 
-	float DeltaTime = GEngine->MainTimer.TimeCheck();
+	if (1 <= Frame)
+	{
+		CurFrameTime += DeltaTime;
+
+		if (CurFrameTime <= FrameTime)
+		{
+			return;
+		}
+
+		CurFrameTime -= FrameTime;
+		DeltaTime = FrameTime;
+	}
+
 	EngineInput::KeyCheckTick(DeltaTime);
-	if (nullptr == GEngine->CurLevel)
+
+	if (nullptr == CurLevel)
 	{
 		MsgBoxAssert("엔진을 시작할 레벨이 지정되지 않았습니다 치명적인 오류입니다");
 	}
+	CurLevel->Tick(DeltaTime);
+	CurLevel->LevelTick(DeltaTime);
+	CurLevel->LevelRender(DeltaTime);
+	CurLevel->LevelRelease(DeltaTime);
+}
 
-	GEngine->CurLevel->Tick(DeltaTime);
-	GEngine->CurLevel->ActorTick(DeltaTime);
+void EngineCore::EngineTick()
+{
+	GEngine->CoreTick();
 }
 
 void EngineCore::EngineEnd()

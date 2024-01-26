@@ -1,15 +1,19 @@
 #pragma once
 
-#include <EngineBase/FTransform.h>
+#include <EngineBase/Transform.h>
 #include "TickObject.h"
 #include "NameObject.h"
+#include "ImageRenderer.h"
 #include "Level.h"
 
 class ULevel;
+class UUActorComponent;
+class UImageRenderer;
 
 class AActor : public UNameObject, public UTickObject
 {
 	friend ULevel;
+
 public:
 	AActor();
 	~AActor();
@@ -49,10 +53,14 @@ public:
 		return World;
 	}
 
+	UImageRenderer* CreateImageRenderer(int _Order = 0);
+
 protected:
 
 private:
-	ULevel* World;
+	std::list<UImageRenderer*> Renderers;
+	
+	ULevel* World = nullptr;
 	FTransform Transform;
 
 	void SetWorld(ULevel* _Value)
