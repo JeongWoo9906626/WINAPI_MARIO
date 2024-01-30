@@ -26,6 +26,14 @@ public:
 
 	bool IsExists();
 
+	std::string GetFileName();
+	std::string GetExtension();
+
+	std::string GetFullPath()
+	{
+		return Path.string();
+	}
+
 	void MoveParent();
 	void Move(std::string_view _Path);
 

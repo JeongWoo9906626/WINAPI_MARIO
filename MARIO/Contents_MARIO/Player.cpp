@@ -21,14 +21,14 @@ void Player::BeginPlay()
 	{
 		BodyRenderer = CreateImageRenderer(0);
 		BodyRenderer->SetPosition({ 0, 30 });
-		BodyRenderer->SetScale({ 80, 80 });
+		BodyRenderer->SetImageToScale("MARIO.png");
 	}
 
 
 	{
 		HeadRenderer = CreateImageRenderer(0);
 		HeadRenderer->SetPosition({ 0, -25 });
-		HeadRenderer->SetScale({ 60, 60 });
+		HeadRenderer->SetImageToScale("MARIO.png");
 	}
 
 	SetActorLocation({ 100, 100 });

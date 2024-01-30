@@ -1,8 +1,9 @@
 #pragma once
 
 #include <EngineBase/Transform.h>
+#include <EngineBase\NameObject.h>
+
 #include "TickObject.h"
-#include "NameObject.h"
 #include "ImageRenderer.h"
 #include "Level.h"
 

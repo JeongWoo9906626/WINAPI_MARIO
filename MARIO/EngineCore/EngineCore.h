@@ -21,7 +21,7 @@ public:
 	EngineCore& operator=(const EngineCore& _Other) = delete;
 	EngineCore& operator=(EngineCore&& _Other) noexcept = delete;
 
-	EngineWindow MainWindow;
+	UEngineWindow MainWindow;
 	EngineTime MainTimer;
 
 	static void EngineStart(HINSTANCE _hInstance, EngineCore* _UserCore);
