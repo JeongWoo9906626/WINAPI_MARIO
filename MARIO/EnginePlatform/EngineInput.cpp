@@ -4,38 +4,40 @@ std::map<int, EngineInput::EngineKey> EngineInput::AllKeys;
 
 void EngineInput::EngineKey::KeyCheck()
 {
+	// 눌렀을 때
 	if (0 != GetAsyncKeyState(Key))
 	{
+		// 이전까지 이 키는 눌리고 있지 않음
 		if (true == Free)
 		{
-			// 이전까지 이 키는 눌리고 있지 않았다
 			Down = true;
 			Press = true;
 			Up = false;
 			Free = false;
 		}
+		// 이전까지 이 키는 눌리고 있었음
 		else if (true == Down)
 		{
-			// 이전까지 이 키는 눌리고 있었다.
 			Down = false;
 			Press = true;
 			Up = false;
 			Free = false;
 		}
 	}
+	// 눌르지 않을 때
 	else
 	{
+		// 이전까지 이 키는 눌리고 있었음
 		if (true == Press)
 		{
-			// 이전까지 이 키는 눌리고 있었다.
 			Down = false;
 			Press = false;
 			Up = true;
 			Free = false;
 		}
+		// 이전까지 이 키는 안눌리고 있었음
 		else if (true == Up)
 		{
-			// 이전까지 이 키는 안눌리고 있었고 앞으로도 안눌릴거다.
 			Down = false;
 			Press = false;
 			Up = false;

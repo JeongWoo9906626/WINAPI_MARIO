@@ -5,10 +5,6 @@
 #include "EngineCore.h"
 #include "EngineBase\EngineDebug.h"
 
-
-//UEngineResourcesManager UEngineResourcesManager::Inst;
-//UEngineResourcesManager* UEngineResourcesManager::pInst = nullptr;
-
 UEngineResourcesManager::UEngineResourcesManager()
 {
 }

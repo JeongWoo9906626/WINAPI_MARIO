@@ -1,7 +1,7 @@
 #pragma once
 #include "EnginePath.h"
 
-// 설명 :
+// 설명 : 파일 클래스
 class UEngineFile : public UEnginePath
 {
 public:

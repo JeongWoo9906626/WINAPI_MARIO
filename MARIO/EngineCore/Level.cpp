@@ -118,7 +118,6 @@ void ULevel::LevelRelease(float _DeltaTime)
 
 void ULevel::ActorInit(AActor* _NewActor)
 {
-	// 생성자에서는 레벨이 세팅되지 않아서 Get
 	_NewActor->SetWorld(this);
 	_NewActor->BeginPlay();
 }

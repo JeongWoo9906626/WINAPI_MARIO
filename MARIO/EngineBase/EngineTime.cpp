@@ -12,7 +12,6 @@ EngineTime::~EngineTime()
 
 void EngineTime::TimeCheckStart()
 {
-	// 초당 샐수 있는 양
 	QueryPerformanceFrequency(&Count);
 	QueryPerformanceCounter(&PrevTime);
 
@@ -25,7 +24,6 @@ float EngineTime::TimeCheck()
 
 	__int64 Tick = (CurTime.QuadPart - PrevTime.QuadPart);
 
-	// 정밀도를 높이기 위해서 double로 계산한다.
 	double dTick = static_cast<double>(Tick);
 	DeltaTime = dTick / dCount;
 	PrevTime.QuadPart = CurTime.QuadPart;

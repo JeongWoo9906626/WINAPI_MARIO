@@ -1,11 +1,8 @@
 #pragma once
 #include <string>
 #include <filesystem> 
-// C++표준 파일 경로 관리가 나왔습니다.
-// 함수만 호출해도 그냥 경로가 튀어 나오는 
-// 편리한 기능을 대거 지원하게 되었습니다.
 
-// 설명 : 파일 경로의 편집과 이동 등등을 처리한다.
+// 설명 : 파일 경로의 편집과 이동 처리 클래스 
 class UEnginePath
 {
 public:
@@ -20,29 +17,58 @@ public:
 	//UEnginePath& operator=(const UEnginePath& _Other) = delete;
 	//UEnginePath& operator=(UEnginePath&& _Other) noexcept = delete;
 
-	// 이게 파일경로인지.
+	/// <summary>
+	/// 파일인지 아닌지 리턴 함수
+	/// </summary>
+	/// <returns>파일 여부</returns>
 	bool IsFile();
+
+	/// <summary>
+	/// 디렉토리인지 아닌지 리턴 함수
+	/// </summary>
+	/// <returns>디렉토리 여부</returns>
 	bool IsDirectory();
 
+	/// <summary>
+	/// 파일 존재 여부 반환 함수
+	/// </summary>
+	/// <returns>파일 존재 여부</returns>
 	bool IsExists();
 
+	/// <summary>
+	/// 파일 이름 반환 함수
+	/// </summary>
+	/// <returns>FileName</returns>
 	std::string GetFileName();
+
+	/// <summary>
+	/// 확장자 반환 함수
+	/// </summary>
+	/// <returns>Ext(확장자)</returns>
 	std::string GetExtension();
 
+	/// <summary>
+	/// 전체 경로 반환 함수
+	/// </summary>
+	/// <returns>Path(경로)</returns>
 	std::string GetFullPath()
 	{
 		return Path.string();
 	}
 
+	/// <summary>
+	/// 상위 경로로 이동하는 함수
+	/// </summary>
 	void MoveParent();
+
+	/// <summary>
+	/// 지정 _Path로 이동하는 함수
+	/// </summary>
+	/// <param name="_Path">이동할 _Path</param>
 	void Move(std::string_view _Path);
 
 protected:
-	// 문자열을 잘 삭제표현할수 있어야 했다.
-	// Path = C:\GM\WIn\ContentsResources\Texture\CherryBomb_0.png
-	// Path = C:\GM\WIn\ContentsResources\Texture\
-	// 문자열은 기본
-	// std::string StringPath;
+	// 경로
 	std::filesystem::path Path;
 
 private:

@@ -1,5 +1,6 @@
 #pragma once
 
+// 설명 : 자료형 정의 (float 4개로 이루어짐)
 struct float4
 {
 public:
