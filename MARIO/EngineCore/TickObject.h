@@ -33,7 +33,7 @@ public:
 	}
 
 
-	void Destroy(float _DestroyTime = 0.0f)
+	virtual void Destroy(float _DestroyTime = 0.0f)
 	{
 		IsDestroyUpdate = true;
 		DestroyTime = _DestroyTime;
@@ -53,7 +53,7 @@ public:
 		Order = _Order;
 	}
 
-	void DestroyUpdate(float _DeltaTime)
+	virtual void DestroyUpdate(float _DeltaTime)
 	{
 		if (false == IsDestroyUpdate)
 		{
