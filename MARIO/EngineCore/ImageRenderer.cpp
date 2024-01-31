@@ -31,14 +31,16 @@ void UImageRenderer::Render(float _DeltaTime)
 		MsgBoxAssert("이미지가 존재하지 않는 랜더러 입니다");
 	}
 
+	// 렌더러의 위치
 	FTransform ThisTrans = GetTransform();
+	// 액터의 위치(부모)
 	FTransform OwnerTrans = GetOwner()->GetTransform();
 
-	// 컴포넌트의 위치는 부모에게서 상대적이기 때문에.
-	// 부모의 위치를 더해줘야 한다.
+	// 컴포넌트의 위치는 부모에게서 상대적
+	// 출력시에는 부모의 위치를 더해줘야 한다.
 	ThisTrans.AddPosition(OwnerTrans.GetPosition());
 
-	GEngine->MainWindow.GetWindowImage()->BitCopy(Image, ThisTrans);
+	GEngine->MainWindow.GetWindowImage()->TransCopy(Image, ThisTrans, ImageCuttingTransform);
 }
 
 void UImageRenderer::BeginPlay()
@@ -46,25 +48,15 @@ void UImageRenderer::BeginPlay()
 	USceneComponent::BeginPlay();
 }
 
-void UImageRenderer::SetImageToScale(std::string_view _Name)
+void UImageRenderer::SetImage(std::string_view _Name)
 {
-	SetImage(_Name, true);
-}
-
-void UImageRenderer::SetImage(std::string_view _Name, bool _IsImageScale /*= false*/)
-{
+	// 이미지 설정
 	Image = UEngineResourcesManager::GetInst().FindImg(_Name);
 
+	// 설정 했는데 이미지가 없을 경우
 	if (nullptr == Image)
 	{
-		// 예외를 출력하게 하는것도 중요하다.
 		MsgBoxAssert(std::string(_Name) + "이미지가 존재하지 않습니다.");
 		return;
-	}
-
-	if (true == _IsImageScale)
-	{
-		FVector Scale = Image->GetScale();
-		SetScale(Scale);
 	}
 }

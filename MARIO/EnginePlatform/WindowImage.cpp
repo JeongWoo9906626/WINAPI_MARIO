@@ -22,6 +22,7 @@ UWindowImage::~UWindowImage()
 
 FVector UWindowImage::GetScale()
 {
+	// 이미지 데이터의 정보에서 크기 반환
 	return FVector(BitMapInfo.bmWidth, BitMapInfo.bmHeight);
 }
 
@@ -43,12 +44,14 @@ bool UWindowImage::Load(UWindowImage* _Image)
 
 	std::string UpperExt = UEngineString::ToUpper(Path.GetExtension());
 	
+	// 이미지의 확장자가 BMP인 경우
 	if (".BMP" == UpperExt)
 	{
 		HANDLE ImageHandle = LoadImageA(nullptr, Path.GetFullPath().c_str(), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 		hBitMap = reinterpret_cast<HBITMAP>(ImageHandle);
 		ImageType = EWIndowImageType::IMG_BMP;
 	}
+	// 이미지의 확장자가 PNG인 경우
 	else if (".PNG" == UpperExt)
 	{
 		ULONG_PTR gdiplusToken = 0;
@@ -80,6 +83,7 @@ bool UWindowImage::Load(UWindowImage* _Image)
 	HBITMAP OldBitMap = reinterpret_cast<HBITMAP>(SelectObject(ImageDC, hBitMap));
 	DeleteObject(OldBitMap);
 
+	// 그릴 이미지의 정보(HBITMAP)를 BITMAP에 저장
 	GetObject(hBitMap, sizeof(BITMAP), &BitMapInfo);
 
 	return true;
@@ -87,6 +91,8 @@ bool UWindowImage::Load(UWindowImage* _Image)
 
 bool UWindowImage::Create(UWindowImage* _Image, const FVector& _Scale)
 {
+	// BITMAP생성(입력한 크기의 사이즈로)
+	// -> 1x1의 HANDLE생성(색상 X = 검정색)
 	HANDLE ImageHandle = CreateCompatibleBitmap(_Image->ImageDC, _Scale.iX(), _Scale.iY());
 
 	if (nullptr == ImageHandle)
@@ -107,6 +113,7 @@ bool UWindowImage::Create(UWindowImage* _Image, const FVector& _Scale)
 	HBITMAP OldBitMap = reinterpret_cast<HBITMAP>(SelectObject(ImageDC, hBitMap));
 	DeleteObject(OldBitMap);
 
+	// 그릴 이미지의 정보(HBITMAP)를 BITMAP에 저장
 	GetObject(hBitMap, sizeof(BITMAP), &BitMapInfo);
 
 	return true;
@@ -161,16 +168,16 @@ void UWindowImage::TransCopy(UWindowImage* _CopyImage, const FTransform& _Trans,
 	HDC hdc = ImageDC;
 	HDC hdcSrc = _CopyImage->ImageDC;
 	TransparentBlt(
-		hdc,
-		RenderLeft,
-		RenderTop,
-		RenderScaleX,
-		RenderScaleY,
-		hdcSrc,
-		ImageLeft,
-		ImageTop,
-		ImageScaleX,
-		ImageScaleY,
-		_Color.Color
+		hdc,			// 윈도우에 그리는 권한
+		RenderLeft,		// 그릴 X위치
+		RenderTop,		// 그릴 Y위치
+		RenderScaleX,	// 그릴 X크기
+		RenderScaleY,	// 그릴 Y크기
+		hdcSrc,			// 그릴 이미지
+		ImageLeft,		// 출력할 이미지를 자를 X위치
+		ImageTop,		// 출력할 이미지를 자를 Y위치
+		ImageScaleX,	// 출력할 이미지의 X크기
+		ImageScaleY,	// 출력할 이미지의 Y크기
+		_Color.Color	// 출력에서 제외할 색상
 	);
 }

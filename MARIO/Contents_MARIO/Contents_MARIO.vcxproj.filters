@@ -1,17 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="ContentsCore.h" />
-    <ClInclude Include="PlayLevel.h" />
-    <ClInclude Include="TitleLevel.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Bullet.h" />
+    <Filter Include="Stage">
+      <UniqueIdentifier>{abfd0f23-358f-46be-aac2-5d020234e6cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stage\PlayStage">
+      <UniqueIdentifier>{0653c200-145c-4d25-988e-fded2a39b139}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stage\StartStage">
+      <UniqueIdentifier>{608c4fe9-8718-4687-b977-5b5136062df1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stage\EndStage">
+      <UniqueIdentifier>{f125f3c3-eda2-498c-be91-8f16b8eb7f97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MarioCore">
+      <UniqueIdentifier>{951f4064-bb74-4662-a942-e9aa4bdf58fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stage\StartStage\Map">
+      <UniqueIdentifier>{4b22bdd1-19ca-4862-ba8f-42d2f499d361}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ContentsCore.cpp" />
-    <ClCompile Include="PlayLevel.cpp" />
-    <ClCompile Include="TitleLevel.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Bullet.cpp" />
+    <ClInclude Include="MarioContentsCore.h">
+      <Filter>MarioCore</Filter>
+    </ClInclude>
+    <ClInclude Include="StartMap.h">
+      <Filter>Stage\StartStage\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="StartStage.h">
+      <Filter>Stage\StartStage</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MarioContentsCore.cpp">
+      <Filter>MarioCore</Filter>
+    </ClCompile>
+    <ClCompile Include="StartMap.cpp">
+      <Filter>Stage\StartStage\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="StartStage.cpp">
+      <Filter>Stage\StartStage</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

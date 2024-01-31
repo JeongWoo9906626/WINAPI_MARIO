@@ -155,50 +155,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Bullet.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="ContentsCore.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="PlayLevel.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="TitleLevel.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Bullet.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="ContentsCore.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="PlayLevel.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="TitleLevel.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\EngineBase\EngineBase.vcxproj">
       <Project>{04874e07-be18-4063-93f3-91c0f1256e2f}</Project>
     </ProjectReference>
@@ -208,6 +164,16 @@
     <ProjectReference Include="..\EnginePlatform\EnginePlatform.vcxproj">
       <Project>{2615b017-9689-475a-8504-e8391753a8ff}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MarioContentsCore.h" />
+    <ClInclude Include="StartMap.h" />
+    <ClInclude Include="StartStage.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MarioContentsCore.cpp" />
+    <ClCompile Include="StartMap.cpp" />
+    <ClCompile Include="StartStage.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

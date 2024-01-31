@@ -39,7 +39,7 @@ public:
 	static unsigned __int64 WindowMessageLoop(void(*_Update)(), void(*_End)());
 
 	/// <summary>
-	/// 이미지 반환 함수
+	/// 윈도우 창 반환 함수
 	/// </summary>
 	/// <returns></returns>
 	UWindowImage* GetWindowImage()
@@ -57,22 +57,22 @@ public:
 	}
 
 	/// <summary>
-	/// 
+	/// 윈도우 창의 위치 설정 함수
 	/// </summary>
-	/// <param name="_Pos"></param>
+	/// <param name="_Pos">위치</param>
 	void SetWindowPosition(const FVector& _Pos);
 	/// <summary>
-	/// 
+	/// 윈도우 창의 크기 설정 함수
 	/// </summary>
-	/// <param name="_Scale"></param>
+	/// <param name="_Scale">크기</param>
 	void SetWindowSclale(const FVector& _Scale);
 
 	/// <summary>
-	/// 
+	/// 창을 지우는 함수(단색으로 이미지 출력)
 	/// </summary>
 	void ScreenClear();
 	/// <summary>
-	/// 
+	/// 백버퍼 이미지의 위치와 크기 업데이트하고 그리는 함수
 	/// </summary>
 	void ScreenUpdate();
 
@@ -98,13 +98,13 @@ private:
 	// 윈도우 핸들
 	HWND hWnd = nullptr;
 
-	// 이미지
+	// 윈도우 창 이미지
 	UWindowImage* WindowImage = nullptr;
 
 	// 백버퍼 이미지 (랜더링 전에 출력된 이미지를 받아서 저장하는 용도)
 	UWindowImage* BackBufferImage = nullptr;
 
-	// 이미지 크기
+	// 윈도우 창 이미지 크기
 	FVector Scale;
 };
 

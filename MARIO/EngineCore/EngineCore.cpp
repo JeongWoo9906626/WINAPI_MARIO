@@ -4,18 +4,18 @@
 #include "EnginePlatform\EngineInput.h"
 
 
-EngineCore* GEngine = nullptr;
+UEngineCore* GEngine = nullptr;
 
-EngineCore::EngineCore()
+UEngineCore::UEngineCore()
 	: MainWindow()
 {
 }
 
-EngineCore::~EngineCore()
+UEngineCore::~UEngineCore()
 {
 }
 
-void EngineCore::CoreTick()
+void UEngineCore::CoreTick()
 {
 	float DeltaTime = MainTimer.TimeCheck();
 
@@ -38,18 +38,22 @@ void EngineCore::CoreTick()
 	{
 		MsgBoxAssert("엔진을 시작할 레벨이 지정되지 않았습니다 치명적인 오류입니다");
 	}
+	// Level 객체의 업데이트
 	CurLevel->Tick(DeltaTime);
+	// Level에 속한 Actor 업데이트
 	CurLevel->LevelTick(DeltaTime);
+	// Level에 속한 렌더링 업데이트
 	CurLevel->LevelRender(DeltaTime);
+	// Level 소멸
 	CurLevel->LevelRelease(DeltaTime);
 }
 
-void EngineCore::EngineTick()
+void UEngineCore::EngineTick()
 {
 	GEngine->CoreTick();
 }
 
-void EngineCore::EngineEnd()
+void UEngineCore::EngineEnd()
 {
 	for (std::pair<const std::string, ULevel*>& _Pair : GEngine->AllLevel)
 	{
@@ -65,9 +69,9 @@ void EngineCore::EngineEnd()
 	GEngine->AllLevel.clear();
 }
 
-void EngineCore::EngineStart(HINSTANCE _hInstance, EngineCore* _UserCore)
+void UEngineCore::EngineStart(HINSTANCE _hInstance, UEngineCore* _UserCore)
 {
-	EngineCore* Ptr = _UserCore;
+	UEngineCore* Ptr = _UserCore;
 	GEngine = Ptr;
 	Ptr->MainTimer.TimeCheckStart();
 	Ptr->CoreInit(_hInstance);
@@ -75,7 +79,7 @@ void EngineCore::EngineStart(HINSTANCE _hInstance, EngineCore* _UserCore)
 	UEngineWindow::WindowMessageLoop(EngineTick, EngineEnd);
 }
 
-void EngineCore::CoreInit(HINSTANCE _HINSTANCE)
+void UEngineCore::CoreInit(HINSTANCE _HINSTANCE)
 {
 	if (true == EngineInit)
 	{
@@ -90,22 +94,22 @@ void EngineCore::CoreInit(HINSTANCE _HINSTANCE)
 	EngineInit = true;
 }
 
-void EngineCore::BeginPlay()
+void UEngineCore::BeginPlay()
 {
 
 }
 
-void EngineCore::Tick(float _DeltaTime)
+void UEngineCore::Tick(float _DeltaTime)
 {
 
 }
 
-void EngineCore::End()
+void UEngineCore::End()
 {
 
 }
 
-void EngineCore::ChangeLevel(std::string_view _Name)
+void UEngineCore::ChangeLevel(std::string_view _Name)
 {
 	std::string UpperName = UEngineString::ToUpper(_Name);
 
@@ -117,7 +121,7 @@ void EngineCore::ChangeLevel(std::string_view _Name)
 	CurLevel = AllLevel[UpperName];
 }
 
-void EngineCore::LevelInit(ULevel* _Level)
+void UEngineCore::LevelInit(ULevel* _Level)
 {
 	_Level->BeginPlay();
 }

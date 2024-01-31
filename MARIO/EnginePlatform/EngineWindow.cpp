@@ -38,6 +38,12 @@ UEngineWindow::UEngineWindow()
 
 UEngineWindow::~UEngineWindow()
 {
+	if (nullptr != BackBufferImage)
+	{
+		delete BackBufferImage;
+		BackBufferImage = nullptr;
+	}
+
 	if (nullptr != WindowImage)
 	{
 		delete WindowImage;
@@ -128,12 +134,13 @@ void UEngineWindow::SetWindowSclale(const FVector& _Scale)
 {
 	Scale = _Scale;
 
+	// 백버퍼가 있을 경우 지우고
 	if (nullptr != BackBufferImage)
 	{
 		delete BackBufferImage;
 		BackBufferImage = nullptr;
 	}
-
+	// 다시 만들기
 	BackBufferImage = new UWindowImage();
 	BackBufferImage->Create(WindowImage, Scale);
 
@@ -146,14 +153,17 @@ void UEngineWindow::SetWindowSclale(const FVector& _Scale)
 
 void UEngineWindow::ScreenClear()
 {
+	// 창을 지우는 것 = 흰색(단색)으로 창을 띄워주는 것
 	Rectangle(BackBufferImage->ImageDC, -1, -1, Scale.iX() + 1, Scale.iY() + 1);
 }
 
 void UEngineWindow::ScreenUpdate()
 {
+	// 위치와 크기 설정
 	FTransform CopyTrans;
 	CopyTrans.SetPosition({ Scale.ihX(), Scale.ihY() });
 	CopyTrans.SetScale({ Scale.iX(), Scale.iY() });
 
+	// 
 	WindowImage->BitCopy(BackBufferImage, CopyTrans);
 }

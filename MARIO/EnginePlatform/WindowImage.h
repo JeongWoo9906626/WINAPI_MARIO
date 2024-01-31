@@ -36,7 +36,7 @@ public:
 	bool Load(UWindowImage* _Image);
 
 	/// <summary>
-	/// 이미지의 스케일을 반환하는 함수
+	/// 이미지의 크기를 반환하는 함수
 	/// </summary>
 	/// <returns></returns>
 	FVector GetScale();
@@ -49,26 +49,26 @@ public:
 	void BitCopy(UWindowImage* _CopyImage, FTransform _Trans);
 
 	/// <summary>
-	/// 
+	/// 출력할 위치를 지정하고 해당 위치에 이미지의 크기를 잘라서 출력하는 함수
 	/// </summary>
-	/// <param name="_CopyImage">복사할 이미지</param>
-	/// <param name="_CopyTrans"></param>
-	/// <param name="_ImageTrans"></param>
+	/// <param name="_CopyImage">출력할 이미지</param>
+	/// <param name="_CopyTrans">출력할 이미지의 위치</param>
+	/// <param name="_ImageTrans">출력할 부분의 위치</param>
 	/// <param name="_Color">출력에서 제외할 색상</param>
 	void TransCopy(UWindowImage* _CopyImage, const FTransform& _CopyTrans, const FTransform& _ImageTrans, Color8Bit _Color = Color8Bit::Black);
 
 	/// <summary>
-	/// 
+	/// 이미지를 지정한 크기로 생성
 	/// </summary>
-	/// <param name="_Image"></param>
-	/// <param name="_Scale"></param>
+	/// <param name="_Image">이미지</param>
+	/// <param name="_Scale">크기</param>
 	/// <returns></returns>
 	bool Create(UWindowImage* _Image, const FVector& _Scale);
 
 protected:
 	    
 private:
-	// 이미지의 메모리적 권한
+	// 이미지의 메모리적 권한 (이미지 데이터)
 	HBITMAP hBitMap = 0;
 	// 윈도우에 그리는 권한
 	HDC ImageDC = 0;
@@ -78,9 +78,9 @@ private:
 	EWIndowImageType ImageType = EWIndowImageType::IMG_NONE;
 
 	/// <summary>
-	/// 이미지의 HDC 권한 설정하는 함수
+	/// 이미지의 HDC 설정하는 함수
 	/// </summary>
-	/// <param name="_MainDC"></param>
+	/// <param name="_MainDC">HDC</param>
 	/// <returns></returns>
 	bool Create(HDC _MainDC);
 };
