@@ -48,8 +48,25 @@ public:
 	/// <param name="_Trans">출력할 위치</param>
 	void BitCopy(UWindowImage* _CopyImage, FTransform _Trans);
 
-protected:
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="_CopyImage">복사할 이미지</param>
+	/// <param name="_CopyTrans"></param>
+	/// <param name="_ImageTrans"></param>
+	/// <param name="_Color">출력에서 제외할 색상</param>
+	void TransCopy(UWindowImage* _CopyImage, const FTransform& _CopyTrans, const FTransform& _ImageTrans, Color8Bit _Color = Color8Bit::Black);
 
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="_Image"></param>
+	/// <param name="_Scale"></param>
+	/// <returns></returns>
+	bool Create(UWindowImage* _Image, const FVector& _Scale);
+
+protected:
+	    
 private:
 	// 이미지 데이터
 	HBITMAP hBitMap = 0;

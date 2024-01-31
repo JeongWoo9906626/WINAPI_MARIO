@@ -1,6 +1,7 @@
 #pragma once
 #include <Windows.h>
 #include <string>
+#include <EngineBase\EngineMath.h>
 
 class UWindowImage;
 // 설명 : Window 창 클래스
@@ -46,12 +47,41 @@ public:
 		return WindowImage;
 	}
 
+	/// <summary>
+	/// 백버퍼 이미지 반환 함수
+	/// </summary>
+	/// <returns></returns>
+	UWindowImage* GetBackBufferImage()
+	{
+		return BackBufferImage;
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="_Pos"></param>
+	void SetWindowPosition(const FVector& _Pos);
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="_Scale"></param>
+	void SetWindowSclale(const FVector& _Scale);
+
+	/// <summary>
+	/// 
+	/// </summary>
+	void ScreenClear();
+	/// <summary>
+	/// 
+	/// </summary>
+	void ScreenUpdate();
+
 protected:
 
 private:
 	// 윈도우 창 업데이트 여부
 	static bool WindowLive;
-	
+
 	// HINSTANCE
 	static HINSTANCE hInstance;
 
@@ -70,5 +100,11 @@ private:
 
 	// 이미지
 	UWindowImage* WindowImage = nullptr;
+
+	// 백버퍼 이미지 (랜더링 전에 출력된 이미지를 받아서 저장하는 용도)
+	UWindowImage* BackBufferImage = nullptr;
+
+	// 이미지 크기
+	FVector Scale;
 };
 

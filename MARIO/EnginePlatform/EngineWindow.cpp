@@ -66,6 +66,13 @@ void UEngineWindow::Open(std::string_view _Title /*= "Title"*/)
 
 	RegisterClassExA(&wcex);
 
+	int Style = WS_OVERLAPPED |
+		WS_CAPTION |
+		WS_SYSMENU |
+		WS_THICKFRAME |
+		WS_MINIMIZEBOX |
+		WS_MAXIMIZEBOX;
+
 	hWnd = CreateWindowA("DefaultWindow", _Title.data(), WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
@@ -83,10 +90,8 @@ void UEngineWindow::Open(std::string_view _Title /*= "Title"*/)
 		WindowImage->Create(hDC);
 	}
 
-
 	ShowWindow(hWnd, SW_SHOW);
 	UpdateWindow(hWnd);
-
 }
 
 unsigned __int64 UEngineWindow::WindowMessageLoop(void(*_Update)(), void(*_End)())
@@ -115,4 +120,40 @@ unsigned __int64 UEngineWindow::WindowMessageLoop(void(*_Update)(), void(*_End)(
 	return msg.wParam;
 }
 
+void UEngineWindow::SetWindowPosition(const FVector& _Pos)
+{
+}
 
+void UEngineWindow::SetWindowSclale(const FVector& _Scale)
+{
+	Scale = _Scale;
+
+	if (nullptr != BackBufferImage)
+	{
+		delete BackBufferImage;
+		BackBufferImage = nullptr;
+	}
+
+	BackBufferImage = new UWindowImage();
+	BackBufferImage->Create(WindowImage, Scale);
+
+	RECT Rc = { 0, 0, _Scale.iX(), _Scale.iY() };
+	// 메뉴창을 제외한 창의 크기를 설정한 크기로 만들어주는 함수
+	AdjustWindowRect(&Rc, WS_OVERLAPPEDWINDOW, FALSE);
+	// 크기 조절기능, 위치 조절 기능
+	SetWindowPos(hWnd, nullptr, 0, 0, Rc.right - Rc.left, Rc.bottom - Rc.top, SWP_NOZORDER | SWP_NOMOVE);
+}
+
+void UEngineWindow::ScreenClear()
+{
+	Rectangle(BackBufferImage->ImageDC, -1, -1, Scale.iX() + 1, Scale.iY() + 1);
+}
+
+void UEngineWindow::ScreenUpdate()
+{
+	FTransform CopyTrans;
+	CopyTrans.SetPosition({ Scale.ihX(), Scale.ihY() });
+	CopyTrans.SetScale({ Scale.iX(), Scale.iY() });
+
+	WindowImage->BitCopy(BackBufferImage, CopyTrans);
+}

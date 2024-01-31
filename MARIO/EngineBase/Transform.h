@@ -29,7 +29,7 @@ public:
 	/// 스케일 값 리턴 함수
 	/// </summary>
 	/// <returns></returns>
-	FVector GetScale()
+	FVector GetScale() const
 	{
 		return Scale;
 	}
@@ -56,41 +56,41 @@ public:
 	/// 위치 리턴 함수
 	/// </summary>
 	/// <returns></returns>
-	FVector GetPosition()
+	FVector GetPosition() const
 	{
 		return Position;
 	}
 
-	float Left()
+	float Left() const
 	{
 		return Position.X - Scale.hX();
 	}
-	float Right()
+	float Right() const
 	{
 		return Position.X + Scale.hX();
 	}
-	float Top()
+	float Top() const
 	{
 		return Position.Y - Scale.hY();
 	}
-	float Bottom()
+	float Bottom() const
 	{
 		return Position.Y + Scale.hY();
 	}
 
-	int iLeft()
+	int iLeft() const
 	{
 		return static_cast<int>(Left());
 	}
-	int iRight()
+	int iRight() const
 	{
 		return static_cast<int>(Right());
 	}
-	int iTop()
+	int iTop() const
 	{
 		return static_cast<int>(Top());
 	}
-	int iBottom()
+	int iBottom() const
 	{
 		return static_cast<int>(Bottom());
 	}

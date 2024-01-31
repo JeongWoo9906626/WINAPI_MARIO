@@ -10,10 +10,17 @@ public:
 	static const float4 Up;
 	static const float4 Down;
 
-	float X; // 2D
-	float Y; // 2D
-	float Z;
-	float W;
+	union
+	{
+		struct
+		{
+			float X; // 2D
+			float Y; // 2D
+			float Z;
+			float W;
+		};
+	};
+
 
 	float4()
 		: X(0.0f), Y(0.0f), Z(0.0f), W(1.0f)
@@ -53,33 +60,33 @@ public:
 	}
 
 public:
-	int iX()
+	int iX() const
 	{
 		return static_cast<int>(X);
 	}
 
-	int iY()
+	int iY() const
 	{
 		return static_cast<int>(Y);
 	}
 
-	float hX()
+	float hX() const
 	{
 		return X * 0.5f;
 	}
 
-	float hY()
+	float hY() const
 	{
 		return Y * 0.5f;
 	}
 
 
-	int ihY()
+	int ihY() const
 	{
 		return static_cast<int>(hY());
 	}
 
-	int ihX()
+	int ihX() const
 	{
 		return static_cast<int>(hX());
 	}
@@ -158,6 +165,32 @@ public:
 };
 
 using FVector = float4;
+
+// 설명 : 자료형 정의 (int 4개로 이루어짐)
+// -> 색상을 나타내는 자료형 (R, G, B, A)
+class Color8Bit
+{
+public:
+	static const Color8Bit Black;
+	static const Color8Bit Red;
+	static const Color8Bit Green;
+	static const Color8Bit Blue;
+	static const Color8Bit White;
+
+	union
+	{
+		struct
+		{
+			unsigned char R;
+			unsigned char G;
+			unsigned char B;
+			unsigned char A;
+		};
+
+		unsigned char Arr1D[4] = { 0, 0, 0, 255 };
+		unsigned int Color;
+	};
+};
 
 class EngineMath
 {
