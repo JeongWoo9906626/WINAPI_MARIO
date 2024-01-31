@@ -68,7 +68,7 @@ public:
 protected:
 	    
 private:
-	// 이미지 데이터
+	// 이미지의 메모리적 권한
 	HBITMAP hBitMap = 0;
 	// 윈도우에 그리는 권한
 	HDC ImageDC = 0;
