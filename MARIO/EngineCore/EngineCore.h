@@ -32,7 +32,7 @@ public:
 	/// </summary>
 	/// <param name="_hInstance">HINSTANCE</param>
 	/// <param name="_UserCore">시작할 코어</param>
-	static void EngineStart(HINSTANCE _hInstance, UEngineCore* _UserCore);
+	void EngineStart(HINSTANCE _hInstance, UEngineCore* _UserCore);
 
 	/// <summary>
 	/// 코어 설정 함수

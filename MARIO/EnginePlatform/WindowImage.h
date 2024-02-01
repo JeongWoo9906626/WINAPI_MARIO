@@ -4,12 +4,31 @@
 #include <EngineBase\Transform.h>
 #include <Windows.h>
 
+// 설명 : 이미지의 로드 종류
+// 한 폴더에 여러 이미지가 들어있는 타입
+// 한 이미지 안에 여러 사진이 들어있는 타입
+enum class EImageLoadType
+{
+	IMG_Folder,
+	IMG_Cutting,
+};
+
 // 설명 : 이미지의 종류
 enum class EWIndowImageType
 {
 	IMG_NONE,
 	IMG_BMP,
 	IMG_PNG
+};
+
+// 설명 : 이미지의 정보를 저장하는 클래스
+class ImageInfo
+{
+public:
+	HBITMAP hBitMap;
+	HDC ImageDC = nullptr;
+	FTransform CuttingTrans;
+	EWIndowImageType ImageType = EWIndowImageType::IMG_NONE;
 };
 
 class UEngineWindow;
@@ -34,6 +53,13 @@ public:
 	/// <param name="_Image">이미지</param>
 	/// <returns></returns>
 	bool Load(UWindowImage* _Image);
+
+	/// <summary>
+	/// 폴더에 있는 여러 이미지를 불러오는 함수
+	/// </summary>
+	/// <param name="_Image">이미지 이름</param>
+	/// <returns></returns>
+	bool LoadFolder(UWindowImage* _Image);
 
 	/// <summary>
 	/// 이미지의 크기를 반환하는 함수
@@ -65,6 +91,13 @@ public:
 	/// <returns></returns>
 	bool Create(UWindowImage* _Image, const FVector& _Scale);
 
+	/// <summary>
+	/// 한 이미지에 사진이 여러개 있을 때 자르는 함수
+	/// </summary>
+	/// <param name="_X">X의 개수</param>
+	/// <param name="_Y">Y의 개수</param>
+	void Cutting(int _X, int _Y);
+
 protected:
 	    
 private:
@@ -76,6 +109,11 @@ private:
 	BITMAP BitMapInfo = BITMAP();
 	// 이미지의 타입
 	EWIndowImageType ImageType = EWIndowImageType::IMG_NONE;
+	// 이미지 로드 타입
+	EImageLoadType LoadType = EImageLoadType::IMG_Cutting;
+
+	// 이미지 정보들을 저장하는 vector
+	std::vector<ImageInfo> Infos;
 
 	/// <summary>
 	/// 이미지의 HDC 설정하는 함수

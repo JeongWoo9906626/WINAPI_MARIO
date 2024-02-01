@@ -31,16 +31,80 @@ void UImageRenderer::Render(float _DeltaTime)
 		MsgBoxAssert("이미지가 존재하지 않는 랜더러 입니다");
 	}
 
+	if (nullptr != CurAnimation)
+	{
+		Image = CurAnimation->Image;
+		InfoIndex = CurAnimation->Update(_DeltaTime);
+	}
+
 	// 렌더러의 위치
-	FTransform ThisTrans = GetTransform();
+	FTransform RendererTrans = GetTransform();
 	// 액터의 위치(부모)
-	FTransform OwnerTrans = GetOwner()->GetTransform();
+	FTransform ActorTrans = GetOwner()->GetTransform();
 
 	// 컴포넌트의 위치는 부모에게서 상대적
 	// 출력시에는 부모의 위치를 더해줘야 한다.
-	ThisTrans.AddPosition(OwnerTrans.GetPosition());
+	RendererTrans.AddPosition(ActorTrans.GetPosition());
 
-	GEngine->MainWindow.GetWindowImage()->TransCopy(Image, ThisTrans, ImageCuttingTransform);
+	GEngine->MainWindow.GetWindowImage()->TransCopy(Image, RendererTrans, InfoIndex);
+}
+
+void UImageRenderer::CreateAnimation(std::string_view _AnimationName, std::string_view _ImageName, int _Start, int _End, float _Inter, bool _Loop)
+{
+	UWindowImage* FindImage = UEngineResourcesManager::GetInst().FindImg(_ImageName);
+	if (nullptr == FindImage)
+	{
+		MsgBoxAssert(std::string(_ImageName) + "이미지가 존재하지 않습니다.");
+		return;
+	}
+
+	std::string UpperAniName = UEngineString::ToUpper(_AnimationName);
+	if (true == AnimationInfos.contains(UpperAniName))
+	{
+		MsgBoxAssert(std::string(UpperAniName) + "라는 이름의 애니메이션이 이미 존재합니다.");
+		return;
+	}
+
+	UAnimationInfo& Info = AnimationInfos[UpperAniName];
+	Info.Image = FindImage;
+	Info.CurFrame = 0;
+	Info.Start = _Start;
+	Info.End = _End;
+	Info.CurFrame = 0.0f;
+	Info.Loop = _Loop;
+
+	int Size = Info.End - Info.Start;
+	Info.Times.reserve(Size);
+	Info.Indexs.reserve(Size);
+	
+	for (int i = _Start; i <= _End; i++)
+	{
+		Info.Times.push_back(_Inter);
+	}
+	for (int i = _Start; i <= _End; i++)
+	{
+		Info.Indexs.push_back(i);
+	}
+}
+
+void UImageRenderer::ChangeAnimation(std::string_view _AnimationName)
+{
+	std::string UpperAniName = UEngineString::ToUpper(_AnimationName);
+	if (false == AnimationInfos.contains(UpperAniName))
+	{
+		MsgBoxAssert(std::string(UpperAniName) + "라는 이름의 애니메이션이 존재하지 않습니다.");
+		return;
+	}
+
+	UAnimationInfo& Info = AnimationInfos[UpperAniName];
+	CurAnimation = &Info;
+	CurAnimation->CurFrame = 0;
+	CurAnimation->CurTime = CurAnimation->Times[0];
+}
+
+void UImageRenderer::AnimationReset()
+{
+	CurAnimation = nullptr;
 }
 
 void UImageRenderer::BeginPlay()
@@ -59,4 +123,31 @@ void UImageRenderer::SetImage(std::string_view _Name)
 		MsgBoxAssert(std::string(_Name) + "이미지가 존재하지 않습니다.");
 		return;
 	}
+}
+
+int UAnimationInfo::Update(float _DeltaTime)
+{
+	CurTime -= _DeltaTime;
+
+	if (0.0f >= CurTime)
+	{
+		CurTime = Times[CurFrame];
+		++CurFrame;
+	}
+
+	if (Indexs.size() <= CurFrame)
+	{
+		if (true == Loop)
+		{
+			CurFrame = 0;
+		}
+		else
+		{
+			--CurFrame;
+		}
+	}
+
+	int Index = Indexs[CurFrame];
+
+	return Index;
 }

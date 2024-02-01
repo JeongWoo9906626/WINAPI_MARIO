@@ -53,9 +53,6 @@
     <ClCompile Include="Actor.cpp">
       <Filter>Object\Actor</Filter>
     </ClCompile>
-    <ClCompile Include="Level.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
     <ClCompile Include="TickObject.cpp">
       <Filter>Object</Filter>
     </ClCompile>
@@ -70,6 +67,9 @@
     </ClCompile>
     <ClCompile Include="EngineResourcesManager.cpp">
       <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

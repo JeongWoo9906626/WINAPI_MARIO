@@ -42,8 +42,12 @@ void UEngineCore::CoreTick()
 	CurLevel->Tick(DeltaTime);
 	// Level에 속한 Actor 업데이트
 	CurLevel->LevelTick(DeltaTime);
+	// 스크린 비우기
+	MainWindow.ScreenClear();
 	// Level에 속한 렌더링 업데이트
 	CurLevel->LevelRender(DeltaTime);
+	// 변경된 스크린 그리기
+	MainWindow.ScreenUpdate();
 	// Level 소멸
 	CurLevel->LevelRelease(DeltaTime);
 }
@@ -71,11 +75,10 @@ void UEngineCore::EngineEnd()
 
 void UEngineCore::EngineStart(HINSTANCE _hInstance, UEngineCore* _UserCore)
 {
-	UEngineCore* Ptr = _UserCore;
-	GEngine = Ptr;
-	Ptr->MainTimer.TimeCheckStart();
-	Ptr->CoreInit(_hInstance);
-	Ptr->BeginPlay();
+	GEngine = this;
+	MainTimer.TimeCheckStart();
+	CoreInit(_hInstance);
+	BeginPlay();
 	UEngineWindow::WindowMessageLoop(EngineTick, EngineEnd);
 }
 

@@ -100,6 +100,7 @@ public:
 	void DestroyUpdate(float _DeltaTime) override;
 
 protected:
+	void Tick(float _DeltaTime) override;
 
 private:
 	// 액터가 가지고 있는 이미지(액터에 나타나는 이미지)

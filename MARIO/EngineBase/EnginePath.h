@@ -39,22 +39,29 @@ public:
 	/// 파일 이름 반환 함수
 	/// </summary>
 	/// <returns>FileName</returns>
-	std::string GetFileName();
+	std::string GetFileName() const;
 
 	/// <summary>
 	/// 확장자 반환 함수
 	/// </summary>
 	/// <returns>Ext(확장자)</returns>
-	std::string GetExtension();
+	std::string GetExtension() const;
 
 	/// <summary>
 	/// 전체 경로 반환 함수
 	/// </summary>
 	/// <returns>Path(경로)</returns>
-	std::string GetFullPath()
+	std::string GetFullPath() const
 	{
 		return Path.string();
 	}
+
+	/// <summary>
+	/// 경로를 추가 하는 함수
+	/// </summary>
+	/// <param name="_Path">경로</param>
+	/// <returns></returns>
+	std::string AppendPath(std::string_view _Path);
 
 	/// <summary>
 	/// 상위 경로로 이동하는 함수

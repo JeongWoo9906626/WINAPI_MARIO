@@ -205,10 +205,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Level.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="SceneComponent.cpp">
       <SubType>
       </SubType>

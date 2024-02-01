@@ -45,7 +45,28 @@ public:
 	/// <returns></returns>
 	UWindowImage* FindImg(std::string_view _Name);
 
+	/// <summary>
+	/// 경로에 존재하는 폴더 찾기
+	/// </summary>
+	/// <param name="_Path"></param>
+	/// <returns></returns>
+	UWindowImage* LoadFolder(std::string_view _Path);
 
+	/// <summary>
+	/// 경로에 해당 및 이름이 같은 폴더 찾기
+	/// </summary>
+	/// <param name="_Path">경로</param>
+	/// <param name="_Name">이름</param>
+	/// <returns></returns>
+	UWindowImage* LoadFolder(std::string_view _Path, std::string_view _Name);
+
+	/// <summary>
+	/// 이미지를 자르는 함수
+	/// </summary>
+	/// <param name="_Name">사진 이름</param>
+	/// <param name="_X">X크기</param>
+	/// <param name="_Y">Y크기</param>
+	void CuttingImage(std::string_view _Name, int _X, int _Y);
 
 protected:
 
