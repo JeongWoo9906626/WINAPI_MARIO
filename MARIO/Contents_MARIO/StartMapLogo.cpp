@@ -1,4 +1,5 @@
 #include "StartMapLogo.h"
+#include <EngineCore/EngineCore.h>
 
 AStartMapLogo::AStartMapLogo()
 {
@@ -13,10 +14,10 @@ void AStartMapLogo::BeginPlay()
 	AActor::BeginPlay();
 
 	UImageRenderer* Renderer = CreateImageRenderer();
-
-	Renderer->SetImage("Title.png");
-	SetActorLocation({ 50, 50 });
-	Renderer->SetTransform({ {50,50}, {100, 100} });
+	
+	Renderer->SetImage("Mario_Title.png");
+	SetActorLocation({ 0, 0 });
+	Renderer->SetTransform({ GEngine->MainWindow.GetWindowScale().Half2D(), GEngine->MainWindow.GetWindowScale() });
 	Renderer->SetImageCuttingTransform({ {0,0}, {200, 200} });
 }
 

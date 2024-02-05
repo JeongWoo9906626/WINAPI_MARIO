@@ -281,7 +281,7 @@ void UWindowImage::TransCopy(UWindowImage* _CopyImage, const FTransform& _Trans,
 
 	// 그릴 위치 설정
 	int RenderLeft = _Trans.iLeft();
-	int RenderTop = _Trans.Top();
+	int RenderTop = _Trans.iTop();
 	// 그릴 크기 설정
 	int RenderScaleX = _Trans.GetScale().iX();
 	int RenderScaleY = _Trans.GetScale().iY();
@@ -310,7 +310,7 @@ void UWindowImage::TransCopy(UWindowImage* _CopyImage, const FTransform& _Trans,
 	);
 }
 
-void UWindowImage::AlphaCopy(UWindowImage* _CopyImage, const FTransform& _Trans, int _Index, Color8Bit _Color = Color8Bit::Black)
+void UWindowImage::AlphaCopy(UWindowImage* _CopyImage, const FTransform& _Trans, int _Index, Color8Bit _Color)
 {
 	if (nullptr == _CopyImage)
 	{

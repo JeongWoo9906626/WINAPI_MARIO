@@ -36,7 +36,6 @@
     <ClInclude Include="StartStage.h">
       <Filter>Stage\StartStage</Filter>
     </ClInclude>
-    <ClInclude Include="ContentsHelper.h" />
     <ClInclude Include="PlayStage.h">
       <Filter>Stage\PlayStage</Filter>
     </ClInclude>
@@ -45,6 +44,9 @@
     </ClInclude>
     <ClInclude Include="Mario.h">
       <Filter>Stage\PlayStage\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsHelper.h">
+      <Filter>Helper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -57,7 +59,6 @@
     <ClCompile Include="StartStage.cpp">
       <Filter>Stage\StartStage</Filter>
     </ClCompile>
-    <ClCompile Include="ContentsHelper.cpp" />
     <ClCompile Include="PlayStage.cpp">
       <Filter>Stage\PlayStage</Filter>
     </ClCompile>
@@ -66,6 +67,9 @@
     </ClCompile>
     <ClCompile Include="Mario.cpp">
       <Filter>Stage\PlayStage\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsHelper.cpp">
+      <Filter>Helper</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

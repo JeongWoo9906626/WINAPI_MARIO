@@ -18,9 +18,9 @@ void AMario::BeginPlay()
 	AActor::BeginPlay();
 
 	Renderer = CreateImageRenderer(RenderOrder::Player);
-	Renderer->SetImage("TestPlayer_Right.png");
+	Renderer->SetImage("Mario_Right.png");
 	Renderer->SetTransform({ {0,0}, {256, 256} });
-	Renderer->CreateAnimation("Small_Idle_Right", "TestPlayer_Right.png", 0, 0, 0.5f, true);
+	Renderer->CreateAnimation("Small_Idle_Right", "Mario_Right.png", 0, 0, 0.5f, true);
 	Renderer->ChangeAnimation("Small_Idle_Right");
 }
 

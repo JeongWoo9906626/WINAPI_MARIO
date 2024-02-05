@@ -1,6 +1,6 @@
 #include "StartStage.h"
 
-#include "StartMap.h"
+#include "StartMapLogo.h"
 #include "EngineCore\EngineCore.h"
 
 UStartStage::UStartStage()
@@ -17,7 +17,7 @@ void UStartStage::BeginPlay()
 
 	{
 		// Start Map
-		ATestTitleLogo* Logo = SpawnActor<ATestTitleLogo>();
+		AStartMapLogo* Logo = SpawnActor<AStartMapLogo>();
 	}
 
 

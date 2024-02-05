@@ -18,8 +18,8 @@ void UPlayStage::BeginPlay()
 	ULevel::BeginPlay();
 
 	ABackGround* Map = SpawnActor<ABackGround>();
-	Map->SetMapImage("Stage1Map.png");
-	Map->SetColMapImage("Stage1Map_Col.png");
+	Map->SetMapImage("Stage01.png");
+	Map->SetColMapImage("Stage01_Col.png");
 	Map->SwitchDebug();
 
 

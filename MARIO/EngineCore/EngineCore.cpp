@@ -85,7 +85,7 @@ void UEngineCore::EngineEnd()
 	GEngine->AllLevel.clear();
 }
 
-void UEngineCore::EngineStart(HINSTANCE _hInstance, UEngineCore* _UserCore)
+void UEngineCore::EngineStart(HINSTANCE _hInstance)
 {
 	GEngine = this;
 	MainTimer.TimeCheckStart();

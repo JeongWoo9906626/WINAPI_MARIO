@@ -12,5 +12,5 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 {
 	LeakCheck;
 	UMarioContentsCore NewMarioCore = UMarioContentsCore();
-	UEngineCore::EngineStart(hInstance);
+	NewMarioCore.EngineStart(hInstance);
 }

@@ -4,8 +4,8 @@
 #include <EngineBase\EngineFile.h>
 #include <EngineCore\EngineResourcesManager.h>
 
-#include "TestTitleLevel.h"
-#include "TestPlayLevel.h"
+#include "StartStage.h"
+#include "PlayStage.h"
 
 UMarioContentsCore::UMarioContentsCore()
 {
@@ -39,12 +39,12 @@ void UMarioContentsCore::BeginPlay()
 		UEngineResourcesManager::GetInst().LoadImg(File.GetFullPath());
 	}
 
-	UEngineResourcesManager::GetInst().CuttingImage("TestPlayer_Right.png", 5, 8);
-	UEngineResourcesManager::GetInst().LoadFolder(NewDir.AppendPath("PlayLevel\\TestFolderAnimation"));
+	UEngineResourcesManager::GetInst().CuttingImage("Mario_Right.png", 5, 8);
+	//UEngineResourcesManager::GetInst().LoadFolder(NewDir.AppendPath("PlayLevel\\TestFolderAnimation"));
 
-	CreateLevel<UTestTitleLevel>("Title");
-	CreateLevel<UTestPlayLevel>("Play");
-	ChangeLevel("Play");
+	CreateLevel<UStartStage>("Title");
+	CreateLevel<UPlayStage>("Play");
+	ChangeLevel("Title");
 }
 
 void UMarioContentsCore::Tick(float _DeltaTime)
