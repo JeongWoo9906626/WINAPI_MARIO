@@ -63,13 +63,23 @@ void AMario::Jump(float _DeltaTime)
 }
 void AMario::Move(float _DeltaTime)
 {
-
+	GravityCheck(_DeltaTime);
 }
 
 
 void AMario::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
-
+	if (EngineInput::IsPress(VK_LEFT))
+	{
+		State = PlayState::Move;
+		AddActorLocation(FVector::Left * Speed * _DeltaTime);
+	}
+	if (EngineInput::IsPress(VK_RIGHT))
+	{
+		State = PlayState::Move;
+		AddActorLocation(FVector::Right * Speed * _DeltaTime);
+	}
+	
 	StateUpdate(_DeltaTime);
 }

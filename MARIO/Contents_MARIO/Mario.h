@@ -42,5 +42,6 @@ private:
 	bool Dir = false;
 
 	float Gravity = 500.0f;
+	float Speed = 300.0f;
 };
 
