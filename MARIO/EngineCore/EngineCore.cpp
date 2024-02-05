@@ -34,6 +34,18 @@ void UEngineCore::CoreTick()
 
 	EngineInput::KeyCheckTick(DeltaTime);
 
+	if (nullptr != NextLevel)
+	{
+		if (nullptr != CurLevel)
+		{
+			CurLevel->LevelEnd(NextLevel);
+		}
+
+		NextLevel->LevelStart(CurLevel);
+		CurLevel = NextLevel;
+		NextLevel = nullptr;
+	}
+
 	if (nullptr == CurLevel)
 	{
 		MsgBoxAssert("엔진을 시작할 레벨이 지정되지 않았습니다 치명적인 오류입니다");
@@ -99,17 +111,14 @@ void UEngineCore::CoreInit(HINSTANCE _HINSTANCE)
 
 void UEngineCore::BeginPlay()
 {
-
 }
 
 void UEngineCore::Tick(float _DeltaTime)
 {
-
 }
 
 void UEngineCore::End()
 {
-
 }
 
 void UEngineCore::ChangeLevel(std::string_view _Name)

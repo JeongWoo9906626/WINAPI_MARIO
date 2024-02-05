@@ -100,6 +100,8 @@ private:
 	std::map<std::string, ULevel*> AllLevel;
 	// 현재 레벨
 	ULevel* CurLevel = nullptr;
+	// 다음 레벨
+	ULevel* NextLevel = nullptr;
 
 	/// <summary>
 	/// Engine Update 함수

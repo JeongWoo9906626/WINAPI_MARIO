@@ -54,15 +54,6 @@ public:
 	}
 
 	/// <summary>
-	/// 액터의 크기 설정
-	/// </summary>
-	/// <param name="_Value">크기</param>
-	void SetActorScale(FVector _Value)
-	{
-		Transform.SetScale(_Value);
-	}
-
-	/// <summary>
 	/// 액터의 위치 반환
 	/// </summary>
 	/// <returns></returns>

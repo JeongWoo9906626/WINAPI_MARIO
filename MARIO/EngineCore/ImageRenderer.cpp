@@ -46,6 +46,22 @@ void UImageRenderer::Render(float _DeltaTime)
 	// 출력시에는 부모의 위치를 더해줘야 한다.
 	RendererTrans.AddPosition(ActorTrans.GetPosition());
 
+	EWIndowImageType ImageType = Image->GetImageType();
+
+	switch (ImageType)
+	{
+	case EWIndowImageType::IMG_BMP:
+		GEngine->MainWindow.GetBackBufferImage()->TransCopy(Image, RendererTrans, InfoIndex, TransColor);
+		break;
+	case EWIndowImageType::IMG_PNG:
+		// 투명 처리
+		GEngine->MainWindow.GetBackBufferImage()->AlphaCopy(Image, RendererTrans, InfoIndex, TransColor);
+		break;
+	default:
+		MsgBoxAssert("투명처리가 불가능한 이미지 입니다.");
+		break;
+	}
+
 	GEngine->MainWindow.GetWindowImage()->TransCopy(Image, RendererTrans, InfoIndex);
 }
 
@@ -112,7 +128,7 @@ void UImageRenderer::BeginPlay()
 	USceneComponent::BeginPlay();
 }
 
-void UImageRenderer::SetImage(std::string_view _Name)
+void UImageRenderer::SetImage(std::string_view _Name, int _InfoIndex)
 {
 	// 이미지 설정
 	Image = UEngineResourcesManager::GetInst().FindImg(_Name);
@@ -123,6 +139,8 @@ void UImageRenderer::SetImage(std::string_view _Name)
 		MsgBoxAssert(std::string(_Name) + "이미지가 존재하지 않습니다.");
 		return;
 	}
+
+	InfoIndex = _InfoIndex;
 }
 
 int UAnimationInfo::Update(float _DeltaTime)

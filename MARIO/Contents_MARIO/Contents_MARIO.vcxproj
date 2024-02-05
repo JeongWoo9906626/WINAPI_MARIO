@@ -166,13 +166,21 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BackGround.h" />
+    <ClInclude Include="ContentsHelper.h" />
+    <ClInclude Include="Mario.h" />
     <ClInclude Include="MarioContentsCore.h" />
-    <ClInclude Include="StartMap.h" />
+    <ClInclude Include="PlayStage.h" />
+    <ClInclude Include="StartMapLogo.h" />
     <ClInclude Include="StartStage.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BackGround.cpp" />
+    <ClCompile Include="ContentsHelper.cpp" />
+    <ClCompile Include="Mario.cpp" />
     <ClCompile Include="MarioContentsCore.cpp" />
-    <ClCompile Include="StartMap.cpp" />
+    <ClCompile Include="PlayStage.cpp" />
+    <ClCompile Include="StartMapLogo.cpp" />
     <ClCompile Include="StartStage.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

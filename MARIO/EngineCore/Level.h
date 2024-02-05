@@ -26,6 +26,18 @@ public:
 	virtual void Tick(float _DeltaTime) {};
 
 	/// <summary>
+	/// 레벨이 시작할 때 해야할 일 (이전 레벨에서 받아올 것?)
+	/// </summary>
+	/// <param name="_PrevLevel">이전 레벨</param>
+	virtual void LevelStart(ULevel* _PrevLevel) {};
+
+	/// <summary>
+	/// 레벨이 끝났을 때 해야할 일 (다음 레벨에 전달할 것?)
+	/// </summary>
+	/// <param name="_NextLevel">다음 레벨</param>
+	virtual void LevelEnd(ULevel* _NextLevel) {};
+
+	/// <summary>
 	/// 액터 생성
 	/// </summary>
 	/// <typeparam name="ActorType">액터 클래스</typeparam>

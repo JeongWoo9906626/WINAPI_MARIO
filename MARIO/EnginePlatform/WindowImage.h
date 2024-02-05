@@ -81,7 +81,16 @@ public:
 	/// <param name="_CopyTrans">출력할 이미지의 위치</param>
 	/// <param name="_ImageTrans">출력할 부분의 위치</param>
 	/// <param name="_Color">출력에서 제외할 색상</param>
-	void TransCopy(UWindowImage* _CopyImage, const FTransform& _CopyTrans, const FTransform& _ImageTrans, Color8Bit _Color = Color8Bit::Black);
+	void TransCopy(UWindowImage* _CopyImage, const FTransform& _CopyTrans, int _Index, Color8Bit _Color = Color8Bit::Black);
+
+	/// <summary>
+	/// 출력할 위치를 지정하고 해당 위치에 이미지의 투명도를 출력하는 함수 
+	/// </summary>
+	/// <param name="_CopyImage"></param>
+	/// <param name="_Trans"></param>
+	/// <param name="_Index"></param>
+	/// <param name="_Color"></param>
+	void AlphaCopy(UWindowImage* _CopyImage, const FTransform& _Trans, int _Index, Color8Bit _Color = Color8Bit::Black);
 
 	/// <summary>
 	/// 이미지를 지정한 크기로 생성
@@ -97,6 +106,23 @@ public:
 	/// <param name="_X">X의 개수</param>
 	/// <param name="_Y">Y의 개수</param>
 	void Cutting(int _X, int _Y);
+
+	/// <summary>
+	/// X, Y 위치에 해당하는 색상 반환
+	/// </summary>
+	/// <param name="_X">X 위치</param>
+	/// <param name="_Y">Y 위치</param>
+	/// <returns></returns>
+	Color8Bit GetColor(int _X, int _Y);
+
+	/// <summary>
+	/// 이미지 타입 반환(BMP, PNG)
+	/// </summary>
+	/// <returns></returns>
+	EWIndowImageType GetImageType()
+	{
+		return ImageType;
+	}
 
 protected:
 	    

@@ -61,11 +61,12 @@ public:
 	/// </summary>
 	/// <param name="_Pos">위치</param>
 	void SetWindowPosition(const FVector& _Pos);
+
 	/// <summary>
 	/// 윈도우 창의 크기 설정 함수
 	/// </summary>
 	/// <param name="_Scale">크기</param>
-	void SetWindowSclale(const FVector& _Scale);
+	void SetWindowScale(const FVector& _Scale);
 
 	/// <summary>
 	/// 창을 지우는 함수(단색으로 이미지 출력)
@@ -75,6 +76,15 @@ public:
 	/// 백버퍼 이미지의 위치와 크기 업데이트하고 그리는 함수
 	/// </summary>
 	void ScreenUpdate();
+
+	/// <summary>
+	/// 윈도우 크기 반환
+	/// </summary>
+	/// <returns></returns>
+	FVector GetWindowScale()
+	{
+		return Scale;
+	}
 
 protected:
 
@@ -106,5 +116,7 @@ private:
 
 	// 윈도우 창 이미지 크기
 	FVector Scale;
+	// 윈도우 창 위치
+	FVector Position;
 };
 

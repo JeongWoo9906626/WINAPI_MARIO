@@ -54,15 +54,22 @@ public:
 	/// <param name="_DeltaTime"></param>
 	void Render(float _DeltaTime);
 
-	// 이미지를 세팅하는 역할만 하고
-	
 	/// <summary>
 	/// 이미지 설정 함수
 	/// </summary>
-	/// <param name="_Name"></param>
-	/// <param name="_IsImageScale"></param>
-	void SetImage(std::string_view _Name);
+	/// <param name="_Name">이미지 이름</param>
+	/// <param name="_InfoIndex">이미지 인덱스</param>
+	void SetImage(std::string_view _Name, int _InfoIndex = 0);
 	
+	/// <summary>
+	/// 이미지의 인덱스 설정 함수
+	/// </summary>
+	/// <param name="_InfoIndex">인덱스</param>
+	void SetImageIndex(int _InfoIndex)
+	{
+		InfoIndex = _InfoIndex;
+	}
+
 	/// <summary>
 	/// 컴포넌트의 위치, 크기 설정
 	/// </summary>
@@ -111,6 +118,31 @@ public:
 	/// </summary>
 	void AnimationReset();
 
+	/// <summary>
+	/// 투명도를 (0 ~ 1)를 (0 ~ 255)로 변경하는 함수
+	/// </summary>
+	/// <param name="_Alpha">투명도</param>
+	void SetAlpha(float _Alpha)
+	{
+		if (0.0f >= _Alpha)
+		{
+			_Alpha = 0.0f;
+		}
+
+		if (1.0f <= _Alpha)
+		{
+			_Alpha = 1.0f;
+		}
+
+		TransColor.A = static_cast<char>(_Alpha * 255.0f);
+	}
+
+	// 이미지 반환 함수
+	UWindowImage* GetImage()
+	{
+		return Image;
+	}
+
 protected:
 	void BeginPlay() override;
 	
@@ -119,10 +151,13 @@ private:
 	int InfoIndex = 0;
 
 	// 그릴 이미지
-	UWindowImage* Image;
+	UWindowImage* Image = nullptr;
 
 	// 자를 이미지의 크기, 위치
 	FTransform ImageCuttingTransform;
+
+	// 이미지의 색상
+	Color8Bit TransColor;
 
 	// 에니메이션 동작 이름으로 에니메이션 정보를 저장하는 map
 	std::map<std::string, UAnimationInfo> AnimationInfos;
