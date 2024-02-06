@@ -1,12 +1,6 @@
 #pragma once
 #include <EngineCore\Actor.h>
-
-enum class PlayState
-{
-	Idle,
-	Move,
-	Jump,
-};
+#include "ContentsHelper.h"
 
 class AMario : public AActor
 {
@@ -25,13 +19,28 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
+	void GravityCheck(float _DeltaTime);
+	void DirCheck();
+
+	void StateChange(EPlayState _State);
 	void StateUpdate(float _DeltaTime);
+
+	void CameraFreeMove(float _DeltaTime);
+	void FreeMove(float _DeltaTime);
+	
 	void Idle(float _DeltaTime);
 	void Jump(float _DeltaTime);
 	void Move(float _DeltaTime);
-	void GravityCheck(float _DeltaTime);
 
-	PlayState State = PlayState::Idle;
+	void IdleStart();
+	void MoveStart();
+	void JumpStart();
+
+	std::string GetAnimationName(std::string _Name);
+
+	EPlayState State = EPlayState::None;
+	EActorDir DirState = EActorDir::Right;
+	std::string CurAnimationName = "None";
 
 private:
 	UImageRenderer* Renderer = nullptr;
@@ -41,7 +50,9 @@ private:
 	float AlphaTime = 0.0f;
 	bool Dir = false;
 
+	float FreeMoveSpeed = 2000.0f;
+
 	float Gravity = 500.0f;
-	float Speed = 300.0f;
+	float MoveSpeed = 300.0f;
 };
 

@@ -40,11 +40,12 @@ void UMarioContentsCore::BeginPlay()
 	}
 
 	UEngineResourcesManager::GetInst().CuttingImage("Mario_Right.png", 5, 8);
+	UEngineResourcesManager::GetInst().CuttingImage("Mario_Left.png", 5, 8);
 	//UEngineResourcesManager::GetInst().LoadFolder(NewDir.AppendPath("PlayLevel\\TestFolderAnimation"));
 
 	CreateLevel<UStartStage>("Title");
 	CreateLevel<UPlayStage>("Play");
-	ChangeLevel("Title");
+	ChangeLevel("Play");
 }
 
 void UMarioContentsCore::Tick(float _DeltaTime)

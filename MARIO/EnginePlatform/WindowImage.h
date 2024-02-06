@@ -113,7 +113,7 @@ public:
 	/// <param name="_X">X 위치</param>
 	/// <param name="_Y">Y 위치</param>
 	/// <returns></returns>
-	Color8Bit GetColor(int _X, int _Y);
+	Color8Bit GetColor(int _X, int _Y, Color8Bit _DefaultColor);
 
 	/// <summary>
 	/// 이미지 타입 반환(BMP, PNG)

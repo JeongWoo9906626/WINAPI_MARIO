@@ -10,6 +10,22 @@ enum RenderOrder
 	Player
 };
 
+enum class EActorDir
+{
+	Left,
+	Right,
+};
+
+enum class EPlayState
+{
+	None,
+	CameraFreeMove,
+	FreeMove,
+	Idle,
+	Move,
+	Jump,
+};
+
 class UContentsHelper
 {
 public:

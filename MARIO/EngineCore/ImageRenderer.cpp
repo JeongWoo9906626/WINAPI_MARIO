@@ -42,9 +42,12 @@ void UImageRenderer::Render(float _DeltaTime)
 	// 액터의 위치(부모)
 	FTransform ActorTrans = GetOwner()->GetTransform();
 
-	// 컴포넌트의 위치는 부모에게서 상대적
-	// 출력시에는 부모의 위치를 더해줘야 한다.
 	RendererTrans.AddPosition(ActorTrans.GetPosition());
+
+	AActor* Actor = GetOwner();
+	ULevel* World = Actor->GetWorld();
+	FVector CameraPos = World->GetCameraPos();
+	RendererTrans.AddPosition(-CameraPos);
 
 	EWIndowImageType ImageType = Image->GetImageType();
 
@@ -61,8 +64,6 @@ void UImageRenderer::Render(float _DeltaTime)
 		MsgBoxAssert("투명처리가 불가능한 이미지 입니다.");
 		break;
 	}
-
-	GEngine->MainWindow.GetWindowImage()->TransCopy(Image, RendererTrans, InfoIndex);
 }
 
 void UImageRenderer::CreateAnimation(std::string_view _AnimationName, std::string_view _ImageName, int _Start, int _End, float _Inter, bool _Loop)
@@ -86,7 +87,7 @@ void UImageRenderer::CreateAnimation(std::string_view _AnimationName, std::strin
 	Info.CurFrame = 0;
 	Info.Start = _Start;
 	Info.End = _End;
-	Info.CurFrame = 0.0f;
+	Info.CurTime = 0.0f;
 	Info.Loop = _Loop;
 
 	int Size = Info.End - Info.Start;

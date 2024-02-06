@@ -1,5 +1,6 @@
 #pragma once
 #include <EngineBase\NameObject.h>
+#include <EngineBase\EngineMath.h>
 #include <map>
 #include <list>
 
@@ -52,6 +53,21 @@ public:
 		return NewActor;
 	}
 
+	void SetCameraPos(FVector _CameraPos)
+	{
+		CameraPos = _CameraPos;
+	}
+
+
+	void AddCameraPos(FVector _CameraPos)
+	{
+		CameraPos += _CameraPos;
+	}
+
+	FVector GetCameraPos()
+	{
+		return CameraPos;
+	}
 
 protected:
 
@@ -61,6 +77,9 @@ private:
 	
 	// 랜더링 해야하는 이미지를 저장하는 map
 	std::map<int, std::list<UImageRenderer*>> Renderers;
+
+
+	FVector CameraPos = FVector::Zero;
 
 	/// <summary>
 	/// 액터 초기 설정(레벨 설정, 액터 객체의 설정)
@@ -79,7 +98,7 @@ private:
 	/// </summary>
 	/// <param name="_DeltaTime"></param>
 	void LevelRender(float _DeltaTime);
-	
+
 	/// <summary>
 	/// 레벨에 속하는 모든 것(Renderer, Actor) 릴리즈
 	/// </summary>

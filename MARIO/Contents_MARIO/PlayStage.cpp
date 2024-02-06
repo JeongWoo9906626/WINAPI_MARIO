@@ -20,8 +20,6 @@ void UPlayStage::BeginPlay()
 	ABackGround* Map = SpawnActor<ABackGround>();
 	Map->SetMapImage("Stage01.png");
 	Map->SetColMapImage("Stage01_Col.png");
-	Map->SwitchDebug();
-
 
 	AMario* Player = SpawnActor<AMario>();
 	Player->SetActorLocation({ 200, 200 });

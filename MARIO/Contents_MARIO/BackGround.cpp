@@ -58,9 +58,7 @@ void ABackGround::SwitchDebug()
 }
 void ABackGround::BeginPlay()
 {
-	// 여기서 상수로 고정시키면.
 	Renderer = CreateImageRenderer(RenderOrder::Map);
 	CollisionRenderer = CreateImageRenderer(RenderOrder::Map);
 	CollisionRenderer->SetActive(false);
-	// Renderer->SetImageCuttingTransform({ 0,0 }, { });
 }
