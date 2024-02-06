@@ -298,21 +298,33 @@ void AMario::Move(float _DeltaTime)
 	Color8Bit Color = UContentsHelper::MapColImage->GetColor(CheckPos.iX(), CheckPos.iY(), Color8Bit::MagentaA);
 	if (Color != Color8Bit(255, 0, 255, 0))
 	{
-		AddActorLocation(MovePos);
-		
-		FVector NextCamerPos = GetWorld()->GetCameraPos() + MovePos;
-		if (0 >= NextCamerPos.X)
+		// 현재 카메라의 위치(맵에서의 위치)
+		FVector CamerPos = GetWorld()->GetCameraPos();
+		// 화면이 랜더링 되고 있는 곳에서 왼쪽으로 갈 수 없게 하는 것
+		if (CamerPos.X >= CheckPos.X)
 		{
 			return;
 		}
 		
-
-		if (GEngine->MainWindow.GetWindowScale().Half2D().X + GetWorld()->GetCameraPos().X <= GetActorLocation().X)
+		AddActorLocation(MovePos);
+		
+		FVector NextCamerPos = CamerPos + MovePos;
+		// 0보다 작은 곳까지 이동 안하게 하는 것
+		if (0 >= NextCamerPos.X)
+		{
+			return;
+		}
+		// 화면이 맵의 마지막 부분까지 출력했으면 더 이상 카메라 이동 안하게 하는 것
+		if (/*백그라운드 이미지의 X 크기*/13504.0f <= (CamerPos.X + GEngine->MainWindow.GetWindowScale().X))
+		{
+			return;
+		}
+		// 화면 이동이 캐릭터가 중간에 오면 이동하는 것
+		if (GEngine->MainWindow.GetWindowScale().Half2D().X + CamerPos.X <= GetActorLocation().X)
 		{
 			GetWorld()->AddCameraPos(MovePos);
 		}
 	}
-	
 }
 
 

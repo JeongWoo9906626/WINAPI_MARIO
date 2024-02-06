@@ -20,6 +20,10 @@ public:
 	void SetColMapImage(std::string_view _MapImageName);
 
 	void SwitchDebug();
+	UImageRenderer* GetRenderer()
+	{
+		return Renderer;
+	}
 
 protected:
 	void BeginPlay() override;
@@ -28,5 +32,6 @@ protected:
 private:
 	UImageRenderer* Renderer = nullptr;
 	UImageRenderer* CollisionRenderer = nullptr;
+
 };
 

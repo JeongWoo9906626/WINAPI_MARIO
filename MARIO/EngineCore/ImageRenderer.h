@@ -141,6 +141,7 @@ public:
 	UWindowImage* GetImage()
 	{
 		return Image;
+		int a = 0;
 	}
 
 protected:
