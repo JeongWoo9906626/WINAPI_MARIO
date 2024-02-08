@@ -24,10 +24,12 @@ void AMario::BeginPlay()
 
 	Renderer->CreateAnimation("Idle_Right", "Mario_Right.png", 0, 0, 0.1f, true);
 	Renderer->CreateAnimation("Move_Right", "Mario_Right.png", 1, 3, 0.1f, true);
+	Renderer->CreateAnimation("MoveReverse_Right", "Mario_Right.png", 4, 4, 0.1f, true);
 	Renderer->CreateAnimation("Jump_Right", "Mario_Right.png", 5, 5, 0.1f, true);
 
 	Renderer->CreateAnimation("Idle_Left", "Mario_Left.png", 0, 0, 0.1f, true);
 	Renderer->CreateAnimation("Move_Left", "Mario_Left.png", 1, 3, 0.1f, true);
+	Renderer->CreateAnimation("MoveReverse_Left", "Mario_Left.png", 4, 4, 0.1f, true);
 	Renderer->CreateAnimation("Jump_Left", "Mario_Left.png", 5, 5, 0.1f, true);
 
 	StateChange(EPlayState::Idle);
@@ -45,11 +47,11 @@ void AMario::GravityCheck(float _DeltaTime)
 void AMario::DirCheck()
 {
 	EActorDir Dir = DirState;
-	if (EngineInput::IsPress(VK_LEFT))
+	if (EngineInput::IsPress(VK_LEFT) && EngineInput::IsFree(VK_RIGHT))
 	{
 		Dir = EActorDir::Left;
 	}
-	if (EngineInput::IsPress(VK_RIGHT))
+	if (EngineInput::IsPress(VK_RIGHT) && EngineInput::IsFree(VK_LEFT))
 	{
 		Dir = EActorDir::Right;
 	}
@@ -95,6 +97,12 @@ void AMario::MoveStart()
 	DirCheck();
 }
 
+void AMario::MoveReverseStart()
+{
+	Renderer->ChangeAnimation(GetAnimationName("MoveReverse"));
+	DirCheck();
+}
+
 void AMario::JumpStart()
 {
 	Renderer->ChangeAnimation(GetAnimationName("Jump"));
@@ -112,6 +120,9 @@ void AMario::StateChange(EPlayState _State)
 			break;
 		case EPlayState::Move:
 			MoveStart();
+			break;
+		case EPlayState::MoveReverse:
+			MoveReverseStart();
 			break;
 		case EPlayState::Jump:
 			JumpStart();
@@ -139,6 +150,9 @@ void AMario::StateUpdate(float _DeltaTime)
 		break;
 	case EPlayState::Move:
 		Move(_DeltaTime);
+		break;
+	case EPlayState::MoveReverse:
+		MoveReverse(_DeltaTime);
 		break;
 	case EPlayState::Jump:
 		Jump(_DeltaTime);
@@ -292,11 +306,25 @@ void AMario::Move(float _DeltaTime)
 	FVector MovePos = FVector::Zero;
 	if (EngineInput::IsPress(VK_LEFT))
 	{
+		if (true == EngineInput::IsPress(VK_RIGHT))
+		{
+			if (MoveSpeed >= 1000.0f)
+			{
+				StateChange(EPlayState::MoveReverse);
+			}
+		}
 		MovePos += FVector::Left * _DeltaTime * MoveSpeed;
 	}
 
 	if (EngineInput::IsPress(VK_RIGHT))
 	{
+		if (true == EngineInput::IsPress(VK_LEFT))
+		{
+			if (MoveSpeed >= 1000.0f)
+			{
+				StateChange(EPlayState::MoveReverse);
+			}
+		}
 		MovePos += FVector::Right * _DeltaTime * MoveSpeed;
 	}
 
@@ -333,7 +361,7 @@ void AMario::Move(float _DeltaTime)
 			return;
 		}
 		// 화면이 맵의 마지막 부분까지 출력했으면 더 이상 카메라 이동 안하게 하는 것
-		if (/*백그라운드 이미지의 X 크기*/13504.0f <= (CamerPos.X + GEngine->MainWindow.GetWindowScale().X))
+		if (/*백그라운드 이미지의 X 크기*/UContentsHelper::MapColImage->GetScale().X <= (CamerPos.X + GEngine->MainWindow.GetWindowScale().X))
 		{
 			return;
 		}
@@ -345,6 +373,28 @@ void AMario::Move(float _DeltaTime)
 	}
 }
 
+void AMario::MoveReverse(float _DeltaTime)
+{
+	DirCheck();
+	GravityCheck(_DeltaTime);
+
+	MoveSpeed = 0;
+
+	if (DirState == EActorDir::Left)
+	{
+		if (true == EngineInput::IsFree(VK_RIGHT))
+		{
+			StateChange(EPlayState::Idle);
+		}
+	}
+	if (DirState == EActorDir::Right)
+	{
+		if (true == EngineInput::IsFree(VK_LEFT))
+		{
+			StateChange(EPlayState::Idle);
+		}
+	}
+}
 
 void AMario::Tick(float _DeltaTime)
 {

@@ -23,6 +23,7 @@ enum class EPlayState
 	FreeMove,
 	Idle,
 	Move,
+	MoveReverse,
 	Jump,
 };
 

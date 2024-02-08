@@ -31,9 +31,11 @@ protected:
 	void Idle(float _DeltaTime);
 	void Jump(float _DeltaTime);
 	void Move(float _DeltaTime);
+	void MoveReverse(float _DeltaTime);
 
 	void IdleStart();
 	void MoveStart();
+	void MoveReverseStart();
 	void JumpStart();
 
 	std::string GetAnimationName(std::string _Name);
