@@ -58,11 +58,11 @@ void AMario::GravityCheck(float _DeltaTime)
 void AMario::DirCheck()
 {
 	EActorDir Dir = DirState;
-	if (EngineInput::IsPress(VK_LEFT) && EngineInput::IsFree(VK_RIGHT))
+	if (UEngineInput::IsPress(VK_LEFT) && UEngineInput::IsFree(VK_RIGHT))
 	{
 		Dir = EActorDir::Left;
 	}
-	if (EngineInput::IsPress(VK_RIGHT) && EngineInput::IsFree(VK_LEFT))
+	if (UEngineInput::IsPress(VK_RIGHT) && UEngineInput::IsFree(VK_LEFT))
 	{
 		Dir = EActorDir::Right;
 	}
@@ -194,30 +194,30 @@ void AMario::StateUpdate(float _DeltaTime)
 
 void AMario::CameraFreeMove(float _DeltaTime)
 {
-	if (EngineInput::IsPress(VK_LEFT))
+	if (UEngineInput::IsPress(VK_LEFT))
 	{
 		GetWorld()->AddCameraPos(FVector::Left * _DeltaTime * FreeMoveSpeed);
 		// AddActorLocation(FVector::Left * _DeltaTime * 500.0f);
 	}
 
-	if (EngineInput::IsPress(VK_RIGHT))
+	if (UEngineInput::IsPress(VK_RIGHT))
 	{
 		GetWorld()->AddCameraPos(FVector::Right * _DeltaTime * FreeMoveSpeed);
 	}
 
-	if (EngineInput::IsPress(VK_UP))
+	if (UEngineInput::IsPress(VK_UP))
 	{
 		GetWorld()->AddCameraPos(FVector::Up * _DeltaTime * FreeMoveSpeed);
 		// AddActorLocation(FVector::Up * _DeltaTime * 500.0f);
 	}
 
-	if (EngineInput::IsPress(VK_DOWN))
+	if (UEngineInput::IsPress(VK_DOWN))
 	{
 		GetWorld()->AddCameraPos(FVector::Down * _DeltaTime * FreeMoveSpeed);
 		// AddActorLocation(FVector::Down * _DeltaTime * 500.0f);
 	}
 
-	if (EngineInput::IsDown('2'))
+	if (UEngineInput::IsDown('2'))
 	{
 		StateChange(EPlayState::Idle);
 	}
@@ -227,22 +227,22 @@ void AMario::FreeMove(float _DeltaTime)
 {
 	FVector MovePos;
 
-	if (EngineInput::IsPress(VK_LEFT))
+	if (UEngineInput::IsPress(VK_LEFT))
 	{
 		MovePos += FVector::Left * _DeltaTime * FreeMoveSpeed;
 	}
 
-	if (EngineInput::IsPress(VK_RIGHT))
+	if (UEngineInput::IsPress(VK_RIGHT))
 	{
 		MovePos += FVector::Right * _DeltaTime * FreeMoveSpeed;
 	}
 
-	if (EngineInput::IsPress(VK_UP))
+	if (UEngineInput::IsPress(VK_UP))
 	{
 		MovePos += FVector::Up * _DeltaTime * FreeMoveSpeed;
 	}
 
-	if (EngineInput::IsPress(VK_DOWN))
+	if (UEngineInput::IsPress(VK_DOWN))
 	{
 		MovePos += FVector::Down * _DeltaTime * FreeMoveSpeed;
 	}
@@ -250,7 +250,7 @@ void AMario::FreeMove(float _DeltaTime)
 	AddActorLocation(MovePos);
 	GetWorld()->AddCameraPos(MovePos);
 
-	if (EngineInput::IsDown('1'))
+	if (UEngineInput::IsDown('1'))
 	{
 		StateChange(EPlayState::Idle);
 	}
@@ -258,13 +258,13 @@ void AMario::FreeMove(float _DeltaTime)
 
 void AMario::Idle(float _DeltaTime)
 {
-	if (true == EngineInput::IsDown('1'))
+	if (true == UEngineInput::IsDown('1'))
 	{
 		StateChange(EPlayState::FreeMove);
 		return;
 	}
 
-	if (true == EngineInput::IsDown('2'))
+	if (true == UEngineInput::IsDown('2'))
 	{
 		StateChange(EPlayState::CameraFreeMove);
 		return;
@@ -273,8 +273,8 @@ void AMario::Idle(float _DeltaTime)
 	
 
 	if (
-		true == EngineInput::IsPress(VK_LEFT) ||
-		true == EngineInput::IsPress(VK_RIGHT)
+		true == UEngineInput::IsPress(VK_LEFT) ||
+		true == UEngineInput::IsPress(VK_RIGHT)
 		)
 	{
 		StateChange(EPlayState::Move);
@@ -282,7 +282,7 @@ void AMario::Idle(float _DeltaTime)
 	}
 
 	if (
-		true == EngineInput::IsDown(VK_SPACE)
+		true == UEngineInput::IsDown(VK_SPACE)
 		)
 	{
 		/*if (true == EngineInput::IsPress(VK_SPACE))
@@ -300,7 +300,7 @@ void AMario::Jump(float _DeltaTime)
 	FVector MovePos = FVector::Up * _DeltaTime * /*JumpSpeed*/500.0f;
 	AddActorLocation(MovePos);
 
-	if (true == EngineInput::IsFree(VK_SPACE))
+	if (true == UEngineInput::IsFree(VK_SPACE))
 	{
 		StateChange(EPlayState::Idle);
 		return;
@@ -311,32 +311,32 @@ void AMario::Move(float _DeltaTime)
 	DirCheck();
 	GravityCheck(_DeltaTime);
 
-	if (true == EngineInput::IsFree(VK_LEFT) && EngineInput::IsFree(VK_RIGHT))
+	if (true == UEngineInput::IsFree(VK_LEFT) && UEngineInput::IsFree(VK_RIGHT))
 	{
 		StateChange(EPlayState::Idle);
 		return;
 	}
 
-	if (true == EngineInput::IsPress(VK_LSHIFT))
+	if (true == UEngineInput::IsPress(VK_LSHIFT))
 	{
 		MoveSpeed = 1000.0f;
 	}
 
-	if (true == EngineInput::IsFree(VK_LSHIFT))
+	if (true == UEngineInput::IsFree(VK_LSHIFT))
 	{
 		MoveSpeed = 300.0f;
 	}
 
-	if (true == EngineInput::IsDown(VK_SPACE))
+	if (true == UEngineInput::IsDown(VK_SPACE))
 	{
 		StateChange(EPlayState::Jump);
 		return;
 	}
 
 	FVector MovePos = FVector::Zero;
-	if (EngineInput::IsPress(VK_LEFT))
+	if (UEngineInput::IsPress(VK_LEFT))
 	{
-		if (true == EngineInput::IsPress(VK_RIGHT))
+		if (true == UEngineInput::IsPress(VK_RIGHT))
 		{
 			if (MoveSpeed >= 1000.0f)
 			{
@@ -346,9 +346,9 @@ void AMario::Move(float _DeltaTime)
 		MovePos += FVector::Left * _DeltaTime * MoveSpeed;
 	}
 
-	if (EngineInput::IsPress(VK_RIGHT))
+	if (UEngineInput::IsPress(VK_RIGHT))
 	{
-		if (true == EngineInput::IsPress(VK_LEFT))
+		if (true == UEngineInput::IsPress(VK_LEFT))
 		{
 			if (MoveSpeed >= 1000.0f)
 			{
@@ -412,14 +412,14 @@ void AMario::MoveReverse(float _DeltaTime)
 
 	if (DirState == EActorDir::Left)
 	{
-		if (true == EngineInput::IsFree(VK_RIGHT))
+		if (true == UEngineInput::IsFree(VK_RIGHT))
 		{
 			StateChange(EPlayState::Idle);
 		}
 	}
 	if (DirState == EActorDir::Right)
 	{
-		if (true == EngineInput::IsFree(VK_LEFT))
+		if (true == UEngineInput::IsFree(VK_LEFT))
 		{
 			StateChange(EPlayState::Idle);
 		}
@@ -430,12 +430,12 @@ void AMario::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 	
-	if (EngineInput::IsAnyKeyDown())
+	if (UEngineInput::IsAnyKeyDown())
 	{
 		int a = 0;
 	}
 
-	if (EngineInput::IsAnyKeyUp())
+	if (UEngineInput::IsAnyKeyUp())
 	{
 		int a = 0;
 	}

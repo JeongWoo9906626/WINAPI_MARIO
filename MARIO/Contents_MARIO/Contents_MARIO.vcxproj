@@ -173,6 +173,7 @@
     <ClInclude Include="PlayStage.h" />
     <ClInclude Include="StartMapLogo.h" />
     <ClInclude Include="StartStage.h" />
+    <ClInclude Include="TestLevel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BackGround.cpp" />
@@ -182,6 +183,7 @@
     <ClCompile Include="PlayStage.cpp" />
     <ClCompile Include="StartMapLogo.cpp" />
     <ClCompile Include="StartStage.cpp" />
+    <ClCompile Include="TestLevel.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

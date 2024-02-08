@@ -4,7 +4,7 @@
 #include <EngineBase\EngineDebug.h>
 
 // 설명 : 입력 처리 클래스
-class EngineInput
+class UEngineInput
 {
 	friend class InputInitCreator;
 
@@ -12,7 +12,7 @@ private:
 	// 설명 : 키 클래스
 	class EngineKey
 	{
-		friend EngineInput;
+		friend UEngineInput;
 
 	public:
 		// 누른 순간
@@ -47,14 +47,14 @@ private:
 
 public:
 	// constrcuter destructer
-	EngineInput();
-	~EngineInput();
+	UEngineInput();
+	~UEngineInput();
 
 	// delete Function
-	EngineInput(const EngineInput& _Other) = delete;
-	EngineInput(EngineInput&& _Other) noexcept = delete;
-	EngineInput& operator=(const EngineInput& _Other) = delete;
-	EngineInput& operator=(EngineInput&& _Other) noexcept = delete;
+	UEngineInput(const UEngineInput& _Other) = delete;
+	UEngineInput(UEngineInput&& _Other) noexcept = delete;
+	UEngineInput& operator=(const UEngineInput& _Other) = delete;
+	UEngineInput& operator=(UEngineInput&& _Other) noexcept = delete;
 
 	/// <summary>
 	/// 키의 Down 상태를 반환하는 함수

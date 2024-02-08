@@ -85,6 +85,13 @@ public:
 	{
 		return Scale;
 	}
+	
+	void SetClearColor(Color8Bit _Color)
+	{
+		_Color.A = 0;
+		ClearColor = _Color;
+	}
+
 
 protected:
 
@@ -104,6 +111,8 @@ private:
 	/// <param name="">LPARAM</param>
 	/// <returns></returns>
 	static LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
+
+	Color8Bit ClearColor = Color8Bit::WhiteA;
 
 	// 윈도우 핸들
 	HWND hWnd = nullptr;

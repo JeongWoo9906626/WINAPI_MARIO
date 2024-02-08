@@ -25,6 +25,9 @@
     <Filter Include="Stage\PlayStage\Actor">
       <UniqueIdentifier>{67981d75-707a-4683-baa3-88f566f64892}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TestLevel">
+      <UniqueIdentifier>{ca430284-8f3a-4539-a350-72fbc97233e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MarioContentsCore.h">
@@ -48,6 +51,7 @@
     <ClInclude Include="ContentsHelper.h">
       <Filter>Helper</Filter>
     </ClInclude>
+    <ClInclude Include="TestLevel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MarioContentsCore.cpp">
@@ -71,5 +75,6 @@
     <ClCompile Include="ContentsHelper.cpp">
       <Filter>Helper</Filter>
     </ClCompile>
+    <ClCompile Include="TestLevel.cpp" />
   </ItemGroup>
 </Project>
