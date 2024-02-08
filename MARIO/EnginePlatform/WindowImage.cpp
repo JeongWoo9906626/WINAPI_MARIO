@@ -93,7 +93,7 @@ bool UWindowImage::LoadFolder(UWindowImage* _Image)
 		DeleteObject(OldBitMap);
 		GetObject(hBitMap, sizeof(BITMAP), &BitMapInfo);
 
-		ImageInfo Info;
+		UImageInfo Info;
 		Info.hBitMap = hBitMap;
 		Info.ImageDC = ImageDC;
 		Info.CuttingTrans.SetPosition({ 0, 0 });
@@ -172,7 +172,7 @@ bool UWindowImage::Load(UWindowImage* _Image)
 	// 그릴 이미지의 정보(HBITMAP)를 BITMAP에 저장
 	GetObject(hBitMap, sizeof(BITMAP), &BitMapInfo);
 
-	ImageInfo Info;
+	UImageInfo Info;
 	Info.hBitMap = hBitMap;
 	Info.ImageDC = ImageDC;
 	Info.CuttingTrans.SetPosition({ 0,0 });
@@ -226,7 +226,7 @@ void UWindowImage::Cutting(int _X, int _Y)
 	{
 		for (int i = 0; i < _X; i++)
 		{
-			ImageInfo Info;
+			UImageInfo Info;
 			Info.ImageDC = ImageDC;
 			Info.CuttingTrans.SetPosition(CuttingPos);
 			Info.CuttingTrans.SetScale(CuttingScale);

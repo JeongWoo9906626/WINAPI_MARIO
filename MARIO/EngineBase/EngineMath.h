@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <cmath>
 
 // 설명 : 자료형 정의 (float 4개로 이루어짐)
 struct float4
@@ -73,12 +74,12 @@ public:
 
 	int iX() const
 	{
-		return static_cast<int>(X);
+		return std::lround(X);
 	}
 
 	int iY() const
 	{
-		return static_cast<int>(Y);
+		return std::lround(Y);
 	}
 
 	float hX() const
@@ -94,12 +95,12 @@ public:
 
 	int ihY() const
 	{
-		return static_cast<int>(hY());
+		return std::lround(hY());
 	}
 
 	int ihX() const
 	{
-		return static_cast<int>(hX());
+		return std::lround(hX());
 	}
 
 	float4 operator+(const float4& _Other)

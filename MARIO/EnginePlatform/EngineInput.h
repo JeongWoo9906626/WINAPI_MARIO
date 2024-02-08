@@ -116,6 +116,27 @@ public:
 		return AllKeys[_Key].Free;
 	}
 
+	static bool IsAnyKeyDown()
+	{
+		return AnyKeyDown;
+	}
+
+	static bool IsAnyKeyPress()
+	{
+		return AnyKeyPress;
+	}
+
+	static bool IsAnyKeyUp()
+	{
+		return AnyKeyUp;
+	}
+
+	static bool IsAnyKeyFree()
+	{
+		return AnyKeyFree;
+	}
+
+
 	/// <summary>
 	/// 키의 상태 업데이트 함수
 	/// </summary>
@@ -125,6 +146,11 @@ public:
 protected:
 	// 설정되는 키 저장
 	static std::map<int, EngineKey> AllKeys;
+
+	static bool AnyKeyDown;
+	static bool AnyKeyPress;
+	static bool AnyKeyUp;
+	static bool AnyKeyFree;
 
 private:
 	/// <summary>

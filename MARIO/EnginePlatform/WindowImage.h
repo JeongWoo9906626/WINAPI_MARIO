@@ -22,7 +22,7 @@ enum class EWIndowImageType
 };
 
 // 설명 : 이미지의 정보를 저장하는 클래스
-class ImageInfo
+class UImageInfo
 {
 public:
 	HBITMAP hBitMap;
@@ -139,7 +139,7 @@ private:
 	EImageLoadType LoadType = EImageLoadType::IMG_Cutting;
 
 	// 이미지 정보들을 저장하는 vector
-	std::vector<ImageInfo> Infos;
+	std::vector<UImageInfo> Infos;
 
 	/// <summary>
 	/// 이미지의 HDC 설정하는 함수

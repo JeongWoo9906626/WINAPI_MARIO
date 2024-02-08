@@ -45,7 +45,7 @@ void UMarioContentsCore::BeginPlay()
 
 	CreateLevel<UStartStage>("Title");
 	CreateLevel<UPlayStage>("Play");
-	ChangeLevel("Play");
+	ChangeLevel("Title");
 }
 
 void UMarioContentsCore::Tick(float _DeltaTime)

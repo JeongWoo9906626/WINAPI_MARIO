@@ -2,6 +2,11 @@
 
 std::map<int, EngineInput::EngineKey> EngineInput::AllKeys;
 
+bool EngineInput::AnyKeyDown = false;
+bool EngineInput::AnyKeyPress = false;
+bool EngineInput::AnyKeyUp = false;
+bool EngineInput::AnyKeyFree = true;
+
 void EngineInput::EngineKey::KeyCheck()
 {
 	// ´­·¶À» ¶§
@@ -71,9 +76,9 @@ void EngineInput::InputInit()
 	AllKeys[VK_MENU] = EngineKey(VK_MENU);
 	AllKeys[VK_PAUSE] = EngineKey(VK_PAUSE);
 	AllKeys[VK_CAPITAL] = EngineKey(VK_CAPITAL);
-	AllKeys[VK_KANA] = EngineKey(VK_KANA);
-	AllKeys[VK_HANGEUL] = EngineKey(VK_HANGEUL);
-	AllKeys[VK_HANGUL] = EngineKey(VK_HANGUL);
+	//AllKeys[VK_KANA] = EngineKey(VK_KANA);
+	//AllKeys[VK_HANGEUL] = EngineKey(VK_HANGEUL);
+	//AllKeys[VK_HANGUL] = EngineKey(VK_HANGUL);
 	AllKeys[VK_IME_ON] = EngineKey(VK_IME_ON);
 	AllKeys[VK_JUNJA] = EngineKey(VK_JUNJA);
 	AllKeys[VK_FINAL] = EngineKey(VK_FINAL);
@@ -164,11 +169,53 @@ void EngineInput::InputInit()
 
 void EngineInput::KeyCheckTick(float _DeltaTime)
 {
+	bool KeyCheck = false;
+
 	for (std::pair<const int, EngineKey>& Key : AllKeys)
 	{
 		EngineKey& CurKey = Key.second;
 
 		CurKey.KeyCheck();
+
+		if (true == CurKey.Press)
+		{
+			KeyCheck = true;
+		}
+	}
+
+	if (true == KeyCheck)
+	{
+		if (true == AnyKeyFree)
+		{
+			AnyKeyDown = true;
+			AnyKeyPress = true;
+			AnyKeyUp = false;
+			AnyKeyFree = false;
+		}
+		else if (true == AnyKeyDown)
+		{
+			AnyKeyDown = false;
+			AnyKeyPress = true;
+			AnyKeyUp = false;
+			AnyKeyFree = false;
+		}
+	}
+	else
+	{
+		if (true == AnyKeyPress)
+		{
+			AnyKeyDown = false;
+			AnyKeyPress = false;
+			AnyKeyUp = true;
+			AnyKeyFree = false;
+		}
+		else if (true == AnyKeyUp)
+		{
+			AnyKeyDown = false;
+			AnyKeyPress = false;
+			AnyKeyUp = false;
+			AnyKeyFree = true;
+		}
 	}
 }
 

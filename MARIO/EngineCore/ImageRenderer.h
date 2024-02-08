@@ -144,12 +144,18 @@ public:
 		int a = 0;
 	}
 
+	void CameraEffectOff()
+	{
+		CameraEffect = false;
+	}
+
 protected:
 	void BeginPlay() override;
 	
 private:
 	// 이미지 배열의 인덱스
 	int InfoIndex = 0;
+	bool CameraEffect = true;
 
 	// 그릴 이미지
 	UWindowImage* Image = nullptr;

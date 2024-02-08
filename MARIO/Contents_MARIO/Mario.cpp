@@ -24,11 +24,11 @@ void AMario::BeginPlay()
 
 	Renderer->CreateAnimation("Idle_Right", "Mario_Right.png", 0, 0, 0.1f, true);
 	Renderer->CreateAnimation("Move_Right", "Mario_Right.png", 1, 3, 0.1f, true);
+	Renderer->CreateAnimation("Jump_Right", "Mario_Right.png", 5, 5, 0.1f, true);
 
 	Renderer->CreateAnimation("Idle_Left", "Mario_Left.png", 0, 0, 0.1f, true);
 	Renderer->CreateAnimation("Move_Left", "Mario_Left.png", 1, 3, 0.1f, true);
-
-	//Renderer->ChangeAnimation("Idle_Right");
+	Renderer->CreateAnimation("Jump_Left", "Mario_Right.png", 5, 5, 0.1f, true);
 
 	StateChange(EPlayState::Idle);
 }
@@ -97,7 +97,7 @@ void AMario::MoveStart()
 
 void AMario::JumpStart()
 {
-	Renderer->ChangeAnimation(GetAnimationName("Move"));
+	Renderer->ChangeAnimation(GetAnimationName("Jump"));
 	DirCheck();
 }
 
@@ -241,6 +241,10 @@ void AMario::Idle(float _DeltaTime)
 		true == EngineInput::IsDown(VK_SPACE)
 		)
 	{
+		/*if (true == EngineInput::IsPress(VK_SPACE))
+		{
+
+		}*/
 		StateChange(EPlayState::Jump);
 		return;
 	}
@@ -248,7 +252,14 @@ void AMario::Idle(float _DeltaTime)
 }
 void AMario::Jump(float _DeltaTime)
 {
+	FVector MovePos = FVector::Up * _DeltaTime * /*JumpSpeed*/500.0f;
+	AddActorLocation(MovePos);
 
+	if (true == EngineInput::IsFree(VK_SPACE))
+	{
+		StateChange(EPlayState::Idle);
+		return;
+	}
 }
 void AMario::Move(float _DeltaTime)
 {
@@ -269,6 +280,12 @@ void AMario::Move(float _DeltaTime)
 	if (true == EngineInput::IsFree(VK_LSHIFT))
 	{
 		MoveSpeed = 300.0f;
+	}
+
+	if (true == EngineInput::IsDown(VK_SPACE))
+	{
+		StateChange(EPlayState::Jump);
+		return;
 	}
 
 	FVector MovePos = FVector::Zero;
@@ -332,5 +349,15 @@ void AMario::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 	
+	if (EngineInput::IsAnyKeyDown())
+	{
+		int a = 0;
+	}
+
+	if (EngineInput::IsAnyKeyUp())
+	{
+		int a = 0;
+	}
+
 	StateUpdate(_DeltaTime);
 }

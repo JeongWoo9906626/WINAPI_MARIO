@@ -22,6 +22,7 @@ void UPlayStage::BeginPlay()
 	Map->SetColMapImage("Stage01_Col.png");
 
 	AMario* Player = SpawnActor<AMario>();
+	Player->SetName("Player");
 	Player->SetActorLocation({ 200, 200 });
 }
 

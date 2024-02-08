@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "EngineString.h"
 
 // 설명 : 이름 Object
 class UNameObject
@@ -19,7 +20,7 @@ public:
 	/// <param name="_View">이름</param>
 	void SetName(std::string_view _View)
 	{
-		Name = _View;
+		Name = UEngineString::ToUpper(_View);
 	}
 
 	/// <summary>

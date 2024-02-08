@@ -60,7 +60,7 @@ public:
 		}
 
 		LevelType* NewLevel = new LevelType();
-		LevelInit(NewLevel);
+		LevelInit(NewLevel, _Name);
 		AllLevel.insert(std::pair<std::string, ULevel*>(UpperName, NewLevel));
 	}
 
@@ -121,7 +121,7 @@ private:
 	/// 레벨의 Update를 실행하는 함수
 	/// </summary>
 	/// <param name="_Level">실행할 레벨</param>
-	void LevelInit(ULevel* _Level);
+	void LevelInit(ULevel* _Level, std::string_view _Name);
 };
 
 // 해당 클래스를 include만 하면 어디서든 클래스의 객체를 사용하게 하기 위해 전역 변수로 생성
