@@ -22,17 +22,28 @@ void AMario::BeginPlay()
 	Renderer->SetImage("Mario_Right.png");
 	Renderer->SetTransform({ {0,0}, {256, 256} });
 
-	Renderer->CreateAnimation("Idle_Right", "Mario_Right.png", 0, 0, 0.1f, true);
-	Renderer->CreateAnimation("Move_Right", "Mario_Right.png", 1, 3, 0.1f, true);
-	Renderer->CreateAnimation("MoveReverse_Right", "Mario_Right.png", 4, 4, 0.1f, true);
-	Renderer->CreateAnimation("Jump_Right", "Mario_Right.png", 5, 5, 0.1f, true);
+	Renderer->CreateAnimation("Idle_Small_Right", "Mario_Right.png", 0, 0, 0.1f, true);
+	Renderer->CreateAnimation("Move_Small_Right", "Mario_Right.png", 1, 3, 0.1f, true);
+	Renderer->CreateAnimation("MoveReverse_Small_Right", "Mario_Right.png", 4, 4, 0.1f, true);
+	Renderer->CreateAnimation("Jump_Small_Right", "Mario_Right.png", 5, 5, 0.1f, true);
 
-	Renderer->CreateAnimation("Idle_Left", "Mario_Left.png", 0, 0, 0.1f, true);
-	Renderer->CreateAnimation("Move_Left", "Mario_Left.png", 1, 3, 0.1f, true);
-	Renderer->CreateAnimation("MoveReverse_Left", "Mario_Left.png", 4, 4, 0.1f, true);
-	Renderer->CreateAnimation("Jump_Left", "Mario_Left.png", 5, 5, 0.1f, true);
+	Renderer->CreateAnimation("Idle_Big_Right", "Mario_Right.png", 14, 14, 0.1f, true);
+	Renderer->CreateAnimation("Move_Big_Right", "Mario_Right.png", 15, 17, 0.1f, true);
+	Renderer->CreateAnimation("MoveReverse_Big_Right", "Mario_Right.png", 18, 18, 0.1f, true);
+	Renderer->CreateAnimation("Jump_Big_Right", "Mario_Right.png", 19, 19, 0.1f, true);
+
+	Renderer->CreateAnimation("Idle_Small_Left", "Mario_Left.png", 0, 0, 0.1f, true);
+	Renderer->CreateAnimation("Move_Small_Left", "Mario_Left.png", 1, 3, 0.1f, true);
+	Renderer->CreateAnimation("MoveReverse_Small_Left", "Mario_Left.png", 4, 4, 0.1f, true);
+	Renderer->CreateAnimation("Jump_Small_Left", "Mario_Left.png", 5, 5, 0.1f, true);
+
+	Renderer->CreateAnimation("Idle_Big_Left", "Mario_Left.png", 14, 14, 0.1f, true);
+	Renderer->CreateAnimation("Move_Big_Left", "Mario_Left.png", 15, 17, 0.1f, true);
+	Renderer->CreateAnimation("MoveReverse_Big_Left", "Mario_Left.png", 18, 18, 0.1f, true);
+	Renderer->CreateAnimation("Jump_Big_Left", "Mario_Left.png", 19, 19, 0.1f, true);
 
 	StateChange(EPlayState::Idle);
+	//MarioSzie = EMArioSizeState::Big;
 }
 
 void AMario::GravityCheck(float _DeltaTime)
@@ -66,7 +77,26 @@ void AMario::DirCheck()
 
 std::string AMario::GetAnimationName(std::string _Name)
 {
+	std::string MarioSizeName = "";
 	std::string DirName = "";
+
+	switch (MarioSzie)
+	{
+	case EMArioSizeState::Small:
+		MarioSizeName = "_Small";
+		break;
+	case EMArioSizeState::Big:
+		MarioSizeName = "_Big";
+		break;
+	case EMArioSizeState::Red:
+		MarioSizeName = "_Red";
+		break;
+	case EMArioSizeState::Star:
+		MarioSizeName = "_Star";
+		break;
+	default:
+		break;
+	}
 
 	switch (DirState)
 	{
@@ -82,7 +112,7 @@ std::string AMario::GetAnimationName(std::string _Name)
 
 	CurAnimationName = _Name;
 
-	return _Name + DirName;
+	return _Name + MarioSizeName + DirName;
 }
 
 void AMario::IdleStart()

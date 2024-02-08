@@ -42,6 +42,7 @@ protected:
 
 	EPlayState State = EPlayState::None;
 	EActorDir DirState = EActorDir::Right;
+	EMArioSizeState MarioSzie = EMArioSizeState::Small;
 	std::string CurAnimationName = "None";
 
 private:

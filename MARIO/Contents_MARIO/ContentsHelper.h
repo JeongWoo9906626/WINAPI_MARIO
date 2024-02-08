@@ -27,6 +27,14 @@ enum class EPlayState
 	Jump,
 };
 
+enum class EMArioSizeState
+{
+	Small,
+	Big,
+	Red,
+	Star
+};
+
 class UContentsHelper
 {
 public:
