@@ -28,7 +28,7 @@ void AMario::BeginPlay()
 
 	Renderer->CreateAnimation("Idle_Left", "Mario_Left.png", 0, 0, 0.1f, true);
 	Renderer->CreateAnimation("Move_Left", "Mario_Left.png", 1, 3, 0.1f, true);
-	Renderer->CreateAnimation("Jump_Left", "Mario_Right.png", 5, 5, 0.1f, true);
+	Renderer->CreateAnimation("Jump_Left", "Mario_Left.png", 5, 5, 0.1f, true);
 
 	StateChange(EPlayState::Idle);
 }
@@ -252,6 +252,7 @@ void AMario::Idle(float _DeltaTime)
 }
 void AMario::Jump(float _DeltaTime)
 {
+	DirCheck();
 	FVector MovePos = FVector::Up * _DeltaTime * /*JumpSpeed*/500.0f;
 	AddActorLocation(MovePos);
 
