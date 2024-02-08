@@ -17,10 +17,10 @@ void UPlayStage::BeginPlay()
 {
 	ULevel::BeginPlay();
 
-	ABackGround* Map = SpawnActor<ABackGround>();
+	ABackGround* Map = SpawnActor<ABackGround>(RenderOrder::Map);
 	Map->SetMapImage("Stage01.png");
 	Map->SetColMapImage("Stage01_Col.png");
-
+	
 	AMario* Player = SpawnActor<AMario>();
 	Player->SetName("Player");
 	Player->SetActorLocation({ 200, 200 });

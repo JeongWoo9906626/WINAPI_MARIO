@@ -90,6 +90,8 @@ public:
 	/// <param name="_DeltaTime">½Ã°£</param>
 	void DestroyUpdate(float _DeltaTime) override;
 
+	void ActiveUpdate(float _DeltaTime) override;
+
 protected:
 	void Tick(float _DeltaTime) override;
 

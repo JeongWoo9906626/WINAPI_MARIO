@@ -33,9 +33,17 @@ public:
 	/// 업데이트 활성화 설정 함수
 	/// </summary>
 	/// <param name="_Active">업데이트 활성화 여부</param>
-	void SetActive(bool _Active)
+	void SetActive(bool _Active, float _ActiveTime = 0.0f)
 	{
-		IsActiveValue = _Active;
+		ActiveTime = _ActiveTime;
+		
+		if (true == _Active && 0.0f == ActiveTime)
+		{
+			IsActiveValue = _Active;
+			return;
+		}
+
+		IsActiveValue = false;
 	}
 
 	/// <summary>
@@ -77,6 +85,20 @@ public:
 	virtual void SetOrder(int _Order)
 	{
 		Order = _Order;
+	}
+
+	virtual void ActiveUpdate(float _DeltaTime)
+	{
+		ActiveTime -= _DeltaTime;
+		if (true == IsActiveUpdate)
+		{
+			if (0.0f >= ActiveTime)
+			{
+				IsActiveUpdate = false;
+				IsActiveValue = true;
+				return;
+			}
+		}
 	}
 
 	/// <summary>
@@ -122,5 +144,7 @@ private:
 	bool IsActiveValue = true;
 	// Object 파괴 여부
 	bool IsDestroyValue = false;
+	bool IsActiveUpdate = false;
+	float ActiveTime = 0.0f;
 };
 
