@@ -55,7 +55,9 @@ private:
 
 	float FreeMoveSpeed = 2000.0f;
 
+	float Force = 500.0f;
 	float Gravity = 500.0f;
 	float MoveSpeed = 300.0f;
+	float MaxSpeed = 1500.0f;
 };
 

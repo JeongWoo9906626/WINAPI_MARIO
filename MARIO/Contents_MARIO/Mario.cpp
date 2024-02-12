@@ -43,7 +43,7 @@ void AMario::BeginPlay()
 	Renderer->CreateAnimation("Jump_Big_Left", "Mario_Left.png", 19, 19, 0.1f, true);
 
 	StateChange(EPlayState::Idle);
-	//MarioSzie = EMArioSizeState::Big;
+	MarioSzie = EMArioSizeState::Big;
 }
 
 void AMario::GravityCheck(float _DeltaTime)
@@ -319,7 +319,14 @@ void AMario::Move(float _DeltaTime)
 
 	if (true == UEngineInput::IsPress(VK_LSHIFT))
 	{
-		MoveSpeed = 1000.0f;
+		if (MaxSpeed <= MoveSpeed)
+		{
+			MoveSpeed = MaxSpeed;
+		}
+		else
+		{
+			MoveSpeed += Force * _DeltaTime;
+		}
 	}
 
 	if (true == UEngineInput::IsFree(VK_LSHIFT))
