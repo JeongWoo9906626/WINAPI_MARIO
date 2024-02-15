@@ -8,11 +8,11 @@ class UAnimationInfo
 {
 public:
 	UWindowImage* Image = nullptr;
-	int Start = -1;
-	int End = -1;
+	std::string Name;
 	int CurFrame = 0;
 	float CurTime = 0.0f;
 	bool Loop = false;
+	bool IsEnd = false;
 	std::vector<float> Times;
 	std::vector<int> Indexs;
 
@@ -106,17 +106,30 @@ public:
 		float _Inter,
 		bool Loop = true
 	);
+
+	void CreateAnimation(
+		std::string_view _AnimationName,
+		std::string_view _ImageName,
+		std::vector<int> _Indexs,
+		float _Inter,
+		bool Loop = true
+	);
 	
 	/// <summary>
 	/// 에니메이션 변경 (key에 해당하는 에니메이션으로)
 	/// </summary>
 	/// <param name="_AnimationName">에니메이션 동작 이름</param>
-	void ChangeAnimation(std::string_view _AnimationName);
+	void ChangeAnimation(std::string_view _AnimationName, bool _IsForce = false, int _StartIndex = 0, float _Time = -1.0f);
 
 	/// <summary>
 	/// 에니메이션 초기화
 	/// </summary>
 	void AnimationReset();
+
+	void SetTransColor(Color8Bit _Color)
+	{
+		TransColor = _Color;
+	}
 
 	/// <summary>
 	/// 투명도를 (0 ~ 1)를 (0 ~ 255)로 변경하는 함수
@@ -147,6 +160,27 @@ public:
 	void CameraEffectOff()
 	{
 		CameraEffect = false;
+	}
+
+	bool IsCurAnimationEnd() const
+	{
+		return CurAnimation->IsEnd;
+	}
+
+	int GetCurAnimationFrame() const
+	{
+		return CurAnimation->CurFrame;
+	}
+
+	int GetCurAnimationImageFrame() const
+	{
+		const std::vector<int>& Indexs = CurAnimation->Indexs;
+		return Indexs[CurAnimation->CurFrame];
+	}
+
+	float GetCurAnimationTime() const
+	{
+		return CurAnimation->CurTime;
 	}
 
 protected:

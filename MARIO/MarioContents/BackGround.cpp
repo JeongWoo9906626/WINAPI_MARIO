@@ -1,14 +1,13 @@
 #include "BackGround.h"
-
-#include <EngineCore\EngineResourcesManager.h>
-
+#include <EngineCore/EngineResourcesManager.h>
+#include <EnginePlatform/EngineInput.h>
 #include "ContentsHelper.h"
 
-ABackGround::ABackGround()
+ABackGround::ABackGround() 
 {
 }
 
-ABackGround::~ABackGround()
+ABackGround::~ABackGround() 
 {
 }
 
@@ -20,7 +19,7 @@ void ABackGround::SetMapImage(std::string_view _MapImageName)
 	Renderer->SetTransform({ ImageScale.Half2D(), ImageScale });
 }
 
-void ABackGround::SetColMapImage(std::string_view _MapImageName)
+void ABackGround::SetCollisionMapImage(std::string_view _MapImageName)
 {
 	CollisionRenderer->SetImage(_MapImageName);
 	UWindowImage* Image = CollisionRenderer->GetImage();
@@ -28,19 +27,6 @@ void ABackGround::SetColMapImage(std::string_view _MapImageName)
 	FVector ImageScale = Image->GetScale();
 	CollisionRenderer->SetTransform({ ImageScale.Half2D(), ImageScale });
 }
-
-void ABackGround::Tick(float _DeltaTime)
-{
-	AActor::Tick(_DeltaTime);
-
-
-
-	if (UEngineInput::IsDown('O'))
-	{
-		SwitchDebug();
-	}
-}
-
 
 void ABackGround::SwitchDebug()
 {
@@ -54,11 +40,24 @@ void ABackGround::SwitchDebug()
 		Renderer->SetActive(true);
 		CollisionRenderer->SetActive(false);
 	}
-
 }
+
 void ABackGround::BeginPlay()
 {
+	AActor::BeginPlay();
+
 	Renderer = CreateImageRenderer(RenderOrder::Map);
 	CollisionRenderer = CreateImageRenderer(RenderOrder::Map);
-	CollisionRenderer->SetActive(false);
+	Renderer->SetActive(false);
 }
+
+void ABackGround::Tick(float _DeltaTime)
+{
+	AActor::Tick(_DeltaTime);
+
+	if (UEngineInput::IsDown('O'))
+	{
+		SwitchDebug();
+	}
+}
+

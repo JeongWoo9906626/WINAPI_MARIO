@@ -106,7 +106,10 @@ bool UWindowImage::LoadFolder(UWindowImage* _Image)
 
 FVector UWindowImage::GetScale()
 {
+	UWindowImage* Temp = this;
+	int a = 0;
 	// 이미지 데이터의 정보에서 크기 반환
+
 	return FVector(BitMapInfo.bmWidth, BitMapInfo.bmHeight);
 }
 

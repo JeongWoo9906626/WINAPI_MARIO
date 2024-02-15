@@ -1,6 +1,5 @@
 #pragma once
-#include <EngineCore\Actor.h>
-
+#include <EngineCore/Actor.h>
 
 // Ό³Έν :
 class ABackGround : public AActor
@@ -17,9 +16,9 @@ public:
 	ABackGround& operator=(ABackGround&& _Other) noexcept = delete;
 
 	void SetMapImage(std::string_view _MapImageName);
-	void SetColMapImage(std::string_view _MapImageName);
-
+	void SetCollisionMapImage(std::string_view _MapImageName);
 	void SwitchDebug();
+
 	UImageRenderer* GetRenderer()
 	{
 		return Renderer;
@@ -32,6 +31,5 @@ protected:
 private:
 	UImageRenderer* Renderer = nullptr;
 	UImageRenderer* CollisionRenderer = nullptr;
-
 };
 

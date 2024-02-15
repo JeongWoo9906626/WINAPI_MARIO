@@ -2,10 +2,11 @@
 
 UWindowImage* UContentsHelper::MapColImage = nullptr;
 
-UContentsHelper::UContentsHelper()
+UContentsHelper::UContentsHelper() 
 {
 }
 
-UContentsHelper::~UContentsHelper()
+UContentsHelper::~UContentsHelper() 
 {
 }
+

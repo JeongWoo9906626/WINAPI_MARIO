@@ -22,8 +22,8 @@ enum class EPlayState
 	CameraFreeMove,
 	FreeMove,
 	Idle,
-	Move,
-	MoveReverse,
+	Run,
+	Reverse,
 	Jump,
 };
 
@@ -35,10 +35,14 @@ enum class EMArioSizeState
 	Star
 };
 
+// Ό³Έν :
 class UContentsHelper
 {
 public:
+	static class AMario* MainPlayer;
 	static UWindowImage* MapColImage;
+
+protected:
 
 private:
 	// constrcuter destructer

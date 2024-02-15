@@ -43,6 +43,11 @@ public:
 			return;
 		}
 
+		if (true == _Active && 0.0f != ActiveTime)
+		{
+			IsActiveUpdate = true;
+		}
+
 		IsActiveValue = false;
 	}
 

@@ -155,12 +155,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Mario.cpp" />
+    <ClCompile Include="MarioGame.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Contents_MARIO\Contents_MARIO.vcxproj">
-      <Project>{7d9fffdc-eb53-4ed0-91a4-953257f610ef}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\EngineBase\EngineBase.vcxproj">
       <Project>{04874e07-be18-4063-93f3-91c0f1256e2f}</Project>
     </ProjectReference>
@@ -169,6 +166,9 @@
     </ProjectReference>
     <ProjectReference Include="..\EnginePlatform\EnginePlatform.vcxproj">
       <Project>{2615b017-9689-475a-8504-e8391753a8ff}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\MarioContents\MarioContents.vcxproj">
+      <Project>{0c4854a2-ce10-4b45-b2bf-e62267446c69}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

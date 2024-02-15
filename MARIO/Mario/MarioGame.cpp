@@ -1,7 +1,7 @@
 #include <Windows.h>
 #include <EngineCore\EngineCore.h>
 #include <EnginePlatform\EngineWindow.h>
-#include <Contents_MARIO/MarioContentsCore.h>
+#include <MarioContents/MarioCore.h>
 
 //ENGINESTART(ContentsCore)
 
@@ -11,6 +11,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_ int       nCmdShow)
 {
 	LeakCheck;
-	UMarioContentsCore NewMarioCore = UMarioContentsCore();
+	UMarioCore NewMarioCore = UMarioCore();
 	NewMarioCore.EngineStart(hInstance);
 }
