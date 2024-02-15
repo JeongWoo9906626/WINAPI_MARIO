@@ -96,6 +96,27 @@ std::string AMario::GetAnimationName(std::string _Name)
 	return _Name + DirName;
 }
 
+std::string AMario::GetReverseAnimationName(std::string _Name)
+{
+	std::string DirName = "";
+
+	switch (DirState)
+	{
+	case EActorDir::Left:
+		DirName = "_Right";
+		break;
+	case EActorDir::Right:
+		DirName = "_Left";
+		break;
+	default:
+		break;
+	}
+
+	CurAnimationName = _Name;
+
+	return _Name + DirName;
+}
+
 void AMario::StateChange(EPlayState _State)
 {
 	if (State != _State)
@@ -230,7 +251,7 @@ void AMario::JumpStart()
 
 void AMario::ReverseStart()
 {
-	Renderer->ChangeAnimation(GetAnimationName("Reverse"));
+	Renderer->ChangeAnimation(GetReverseAnimationName("Reverse"));
 }
 
 void AMario::Idle(float _DeltaTime)

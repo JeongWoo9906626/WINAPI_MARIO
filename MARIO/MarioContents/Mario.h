@@ -28,6 +28,7 @@ protected:
 	void DirCheck();
 	void AnimationCheck(EActorDir _Dir);
 	std::string GetAnimationName(std::string _Name);
+	std::string GetReverseAnimationName(std::string _Name);
 
 	void StateChange(EPlayState _State);
 	void StateUpdate(float _DeltaTime);
