@@ -390,15 +390,20 @@ void AMario::Reverse(float _DeltaTime)
 
 	if (DirState == EActorDir::Left)
 	{
-		float CurSpeed = RunVector.X;
+		if (true == UEngineInput::IsDown(VK_LEFT))
+		{
+			StateChange(EPlayState::Run);
+			return;
+		}
 
 		if (true == UEngineInput::IsPress(VK_RIGHT))
 		{
 			AddVector(FVector::Right * _DeltaTime * BreakSpeed);
 		}
 
-		if (0.0f <= CurSpeed)
+		if (0.0f <= RunVector.X)
 		{
+			RunVector.X = 0.0f;
 			ReverseDir();
 			StateChange(EPlayState::Idle);
 			return;
@@ -407,16 +412,20 @@ void AMario::Reverse(float _DeltaTime)
 
 	if (DirState == EActorDir::Right)
 	{
-		float CurSpeed = RunVector.X;
+		if (true == UEngineInput::IsDown(VK_RIGHT))
+		{
+			StateChange(EPlayState::Run);
+			return;
+		}
 
 		if (true == UEngineInput::IsPress(VK_LEFT))
 		{
 			AddVector(FVector::Left * _DeltaTime * BreakSpeed);
-
 		}
 
-		if (0.0f >= CurSpeed)
+		if (0.0f >= RunVector.X)
 		{
+			RunVector.X = 0.0f;
 			ReverseDir();
 			StateChange(EPlayState::Idle);
 			return;

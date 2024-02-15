@@ -70,7 +70,7 @@ private:
 	float MaxRunSpeed = 300.0f;
 	float NoramlRunSpeed = 400.0f;
 	float ShiftRunSpeed = 700.0f;
-	float BreakSpeed = 2.0f;
+	float BreakSpeed = 3.0f;
 	void AddVector(const FVector& _DirDelta);
 
 	FVector GravityAcc = FVector::Down * 2000.0f;
