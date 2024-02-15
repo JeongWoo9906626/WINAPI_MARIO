@@ -25,7 +25,6 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-	void GravityCheck(float _DeltaTime);
 	void DirCheck();
 	void AnimationCheck(EActorDir _Dir);
 	std::string GetAnimationName(std::string _Name);

@@ -41,26 +41,6 @@ void AMario::Tick(float _DeltaTime)
 	StateUpdate(_DeltaTime);
 }
 
-void AMario::GravityCheck(float _DeltaTime)
-{
-	if (nullptr == UContentsHelper::MapColImage)
-	{
-		MsgBoxAssert("콜리전 이미지가 없습니다.");
-	}
-
-	Color8Bit Color = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
-
-	if (Color8Bit(255, 0, 255, 0) != Color)
-	{
-		GravityVector += FVector::Down * _DeltaTime * GravityAcc;
-	}
-	else
-	{
-		GravityVector = FVector::Zero;
-		TotalForceVector.Y = 0;
-	}
-}
-
 void AMario::DirCheck()
 {
 	EActorDir Dir = DirState;
@@ -468,15 +448,15 @@ void AMario::RunVectorUpdate(float _DeltaTime)
 	switch (DirState)
 	{
 	case EActorDir::Left:
-		CheckPos.X -= 30.2;
+		CheckPos.X -= 32.0f;
 		break;
 	case EActorDir::Right:
-		CheckPos.X += 30.2;
+		CheckPos.X += 32.0f;
 		break;
 	default:
 		break;
 	}
-	CheckPos.Y -= 30;
+	CheckPos.Y -= 32.0f;
 
 	Color8Bit Color = UContentsHelper::MapColImage->GetColor(CheckPos.iX(), CheckPos.iY(), Color8Bit::MagentaA);
 	if (Color == Color8Bit(255, 0, 255, 0))
