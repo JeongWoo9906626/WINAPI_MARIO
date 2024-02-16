@@ -2,53 +2,50 @@
 
 std::map<int, UEngineInput::EngineKey> UEngineInput::AllKeys;
 
-bool UEngineInput::AnyKeyDown = false;
-bool UEngineInput::AnyKeyPress = false;
-bool UEngineInput::AnyKeyUp = false;
-bool UEngineInput::AnyKeyFree = true;
+bool UEngineInput::AnykeyDown = false;
+bool UEngineInput::AnykeyPress = false;
+bool UEngineInput::AnykeyUp = false;
+bool UEngineInput::AnykeyFree = true;
 
-void UEngineInput::EngineKey::KeyCheck()
+void UEngineInput::EngineKey::KeyCheck(float _DeltaTime)
 {
-	// 눌렀을 때
 	if (0 != GetAsyncKeyState(Key))
 	{
-		// 이전까지 이 키는 눌리고 있지 않음
 		if (true == Free)
 		{
+			PressTime = 0.0f;
 			Down = true;
 			Press = true;
 			Up = false;
 			Free = false;
 		}
-		// 이전까지 이 키는 눌리고 있었음
-		else if (true == Down)
+		else if(true == Down)
 		{
+			PressTime += _DeltaTime;
 			Down = false;
 			Press = true;
 			Up = false;
 			Free = false;
 		}
 	}
-	// 눌르지 않을 때
 	else
 	{
-		// 이전까지 이 키는 눌리고 있었음
 		if (true == Press)
 		{
+			PressTime = 0.0f;
 			Down = false;
 			Press = false;
 			Up = true;
 			Free = false;
 		}
-		// 이전까지 이 키는 안눌리고 있었음
-		else if (true == Up)
+		else if(true == Up)
 		{
+			PressTime = 0.0f;
 			Down = false;
 			Press = false;
 			Up = false;
 			Free = true;
 		}
-
 	}
 }
 
@@ -76,7 +73,7 @@ void UEngineInput::InputInit()
 	AllKeys[VK_MENU] = EngineKey(VK_MENU);
 	AllKeys[VK_PAUSE] = EngineKey(VK_PAUSE);
 	AllKeys[VK_CAPITAL] = EngineKey(VK_CAPITAL);
-	//AllKeys[VK_KANA] = EngineKey(VK_KANA);
+	// AllKeys[VK_KANA] = EngineKey(VK_KANA);
 	//AllKeys[VK_HANGEUL] = EngineKey(VK_HANGEUL);
 	//AllKeys[VK_HANGUL] = EngineKey(VK_HANGUL);
 	AllKeys[VK_IME_ON] = EngineKey(VK_IME_ON);
@@ -174,8 +171,7 @@ void UEngineInput::KeyCheckTick(float _DeltaTime)
 	for (std::pair<const int, EngineKey>& Key : AllKeys)
 	{
 		EngineKey& CurKey = Key.second;
-
-		CurKey.KeyCheck();
+		CurKey.KeyCheck(_DeltaTime);
 
 		if (true == CurKey.Press)
 		{
@@ -185,36 +181,36 @@ void UEngineInput::KeyCheckTick(float _DeltaTime)
 
 	if (true == KeyCheck)
 	{
-		if (true == AnyKeyFree)
+		if (true == AnykeyFree)
 		{
-			AnyKeyDown = true;
-			AnyKeyPress = true;
-			AnyKeyUp = false;
-			AnyKeyFree = false;
+			AnykeyDown = true;
+			AnykeyPress = true;
+			AnykeyUp = false;
+			AnykeyFree = false;
 		}
-		else if (true == AnyKeyDown)
+		else if (true == AnykeyDown)
 		{
-			AnyKeyDown = false;
-			AnyKeyPress = true;
-			AnyKeyUp = false;
-			AnyKeyFree = false;
+			AnykeyDown = false;
+			AnykeyPress = true;
+			AnykeyUp = false;
+			AnykeyFree = false;
 		}
 	}
 	else
 	{
-		if (true == AnyKeyPress)
+		if (true == AnykeyPress)
 		{
-			AnyKeyDown = false;
-			AnyKeyPress = false;
-			AnyKeyUp = true;
-			AnyKeyFree = false;
+			AnykeyDown = false;
+			AnykeyPress = false;
+			AnykeyUp = true;
+			AnykeyFree = false;
 		}
-		else if (true == AnyKeyUp)
+		else if (true == AnykeyUp)
 		{
-			AnyKeyDown = false;
-			AnyKeyPress = false;
-			AnyKeyUp = false;
-			AnyKeyFree = true;
+			AnykeyDown = false;
+			AnykeyPress = false;
+			AnykeyUp = false;
+			AnykeyFree = true;
 		}
 	}
 }

@@ -3,21 +3,22 @@
 #include "Level.h"
 #include "EnginePlatform\EngineInput.h"
 
-
+bool UEngineCore::IsDebugValue = false;
 UEngineCore* GEngine = nullptr;
 
-UEngineCore::UEngineCore()
+UEngineCore::UEngineCore() 
 	: MainWindow()
 {
 }
 
-UEngineCore::~UEngineCore()
+UEngineCore::~UEngineCore() 
 {
 }
 
 void UEngineCore::CoreTick()
 {
 	float DeltaTime = MainTimer.TimeCheck();
+	double dDeltaTime = MainTimer.GetDeltaTime();
 
 	if (1 <= Frame)
 	{
@@ -26,10 +27,15 @@ void UEngineCore::CoreTick()
 		if (CurFrameTime <= FrameTime)
 		{
 			return;
-		}
+		} 
 
 		CurFrameTime -= FrameTime;
 		DeltaTime = FrameTime;
+	}
+
+	if (1.0f / 60.0f <= DeltaTime)
+	{
+		DeltaTime = 1.0f / 60.0f;
 	}
 
 	UEngineInput::KeyCheckTick(DeltaTime);
@@ -46,21 +52,18 @@ void UEngineCore::CoreTick()
 		NextLevel = nullptr;
 	}
 
+
 	if (nullptr == CurLevel)
 	{
 		MsgBoxAssert("엔진을 시작할 레벨이 지정되지 않았습니다 치명적인 오류입니다");
 	}
-	// Level 객체의 업데이트
+
+	GEngine->Tick(DeltaTime);
 	CurLevel->Tick(DeltaTime);
-	// Level에 속한 Actor 업데이트
 	CurLevel->LevelTick(DeltaTime);
-	// 스크린 비우기
 	MainWindow.ScreenClear();
-	// Level에 속한 렌더링 업데이트
 	CurLevel->LevelRender(DeltaTime);
-	// 변경된 스크린 그리기
 	MainWindow.ScreenUpdate();
-	// Level 소멸
 	CurLevel->LevelRelease(DeltaTime);
 }
 
@@ -89,7 +92,7 @@ void UEngineCore::EngineStart(HINSTANCE _hInstance)
 {
 	GEngine = this;
 	MainTimer.TimeCheckStart();
-	CoreInit(_hInstance);
+	CoreInit(_hInstance); 
 	BeginPlay();
 	UEngineWindow::WindowMessageLoop(EngineTick, EngineEnd);
 }
@@ -130,7 +133,7 @@ void UEngineCore::ChangeLevel(std::string_view _Name)
 		MsgBoxAssert(std::string(_Name) + "라는 존재하지 않는 레벨로 체인지 하려고 했습니다");
 	}
 
-	CurLevel = AllLevel[UpperName];
+	NextLevel = AllLevel[UpperName];
 }
 
 void UEngineCore::LevelInit(ULevel* _Level, std::string_view _Name)

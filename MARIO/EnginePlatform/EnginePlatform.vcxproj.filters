@@ -1,23 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Window">
-      <UniqueIdentifier>{18bbc30d-ed37-42b1-a01c-b760fef40767}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Input">
-      <UniqueIdentifier>{b1205a38-4a3c-48ca-86b4-6ad4035c6ad8}</UniqueIdentifier>
+      <UniqueIdentifier>{a1807b99-4d07-4219-854e-5555aad0ce70}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="EngineWindow.h">
-      <Filter>Window</Filter>
-    </ClInclude>
-    <ClInclude Include="EngineInput.h">
-      <Filter>Input</Filter>
-    </ClInclude>
-    <ClInclude Include="WindowImage.h">
-      <Filter>Window</Filter>
-    </ClInclude>
+    <Filter Include="Window">
+      <UniqueIdentifier>{0c30e8fe-edfa-4cd9-baa8-9be3627dda8b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineWindow.cpp">
@@ -29,5 +18,16 @@
     <ClCompile Include="WindowImage.cpp">
       <Filter>Window</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EngineWindow.h">
+      <Filter>Window</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineInput.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowImage.h">
+      <Filter>Window</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

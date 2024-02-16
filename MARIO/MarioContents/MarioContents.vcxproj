@@ -151,17 +151,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EngineBase\EngineBase.vcxproj">
-      <Project>{04874e07-be18-4063-93f3-91c0f1256e2f}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\EngineCore\EngineCore.vcxproj">
-      <Project>{ebb5d161-2c68-4928-845f-5199b29b7b96}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\EnginePlatform\EnginePlatform.vcxproj">
-      <Project>{2615b017-9689-475a-8504-e8391753a8ff}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="BackGround.h">
       <SubType>
       </SubType>
@@ -228,6 +217,17 @@
       <SubType>
       </SubType>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EngineBase\EngineBase.vcxproj">
+      <Project>{ea197215-13bb-4729-9573-db483a0ee1a3}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\EngineCore\EngineCore.vcxproj">
+      <Project>{35fa176c-16bb-4c2a-a672-f4ff30c1bea5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\EnginePlatform\EnginePlatform.vcxproj">
+      <Project>{f0716ec2-0bc5-43ea-9046-b203e0985a67}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

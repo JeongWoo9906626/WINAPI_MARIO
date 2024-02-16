@@ -5,11 +5,11 @@
 #include "EngineCore.h"
 #include "EngineBase\EngineDebug.h"
 
-UEngineResourcesManager::UEngineResourcesManager()
+UEngineResourcesManager::UEngineResourcesManager() 
 {
 }
 
-UEngineResourcesManager::~UEngineResourcesManager()
+UEngineResourcesManager::~UEngineResourcesManager() 
 {
 	for (std::pair<const std::string, UWindowImage*>& Pair : Images)
 	{
@@ -61,6 +61,18 @@ UWindowImage* UEngineResourcesManager::FindImg(std::string_view _Name)
 	return Images[UpperName];
 }
 
+void UEngineResourcesManager::CuttingImage(std::string_view _Name, int _X, int _Y)
+{
+	UWindowImage* FindImage = FindImg(_Name);
+
+	if (nullptr == FindImage)
+	{
+		MsgBoxAssert("파일명 : " + std::string(_Name) + "존재하지 않는 이미지를 커팅하려고 했습니다");
+	}
+
+	FindImage->Cutting(_X, _Y);
+}
+
 UWindowImage* UEngineResourcesManager::LoadFolder(std::string_view _Path)
 {
 	UEnginePath NewPath = UEnginePath(std::filesystem::path(_Path));
@@ -84,16 +96,6 @@ UWindowImage* UEngineResourcesManager::LoadFolder(std::string_view _Path, std::s
 	NewImage->LoadFolder(GEngine->MainWindow.GetWindowImage());
 
 	Images[UpperName] = NewImage;
+
 	return nullptr;
-}
-
-void UEngineResourcesManager::CuttingImage(std::string_view _Name, int _X, int _Y)
-{
-	UWindowImage* FindImage = FindImg(_Name);
-	if (nullptr == FindImage)
-	{
-		MsgBoxAssert("파일명 : " + std::string(_Name) + "존재하지 않는 이미지를 커팅하려고 했습니다");
-	}
-
-	FindImage->Cutting(_X, _Y);
 }

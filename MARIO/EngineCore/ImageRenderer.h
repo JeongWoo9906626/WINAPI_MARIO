@@ -1,9 +1,8 @@
 #pragma once
-#include <EnginePlatform\WindowImage.h>
 #include "SceneComponent.h"
+#include <EnginePlatform\WindowImage.h>
 #include <map>
 
-// 설명 : 한장의 이미지에서 나오는 애니메이션의 정보를 저장하는 클래스
 class UAnimationInfo
 {
 public:
@@ -16,125 +15,66 @@ public:
 	std::vector<float> Times;
 	std::vector<int> Indexs;
 
-	/// <summary>
-	/// 애니메이션의 출력(순서)를 업데이트 하는 함수 
-	/// </summary>
-	/// <param name="_DeltaTime"></param>
-	/// <returns></returns>
 	int Update(float _DeltaTime);
 };
 
-
-
 class UWindowImage;
-
-// 설명 : 랜더링 순서, 이미지 출력 & 설정, 이미지 슬라이싱 클래스
+// 설명 :
 class UImageRenderer : public USceneComponent
 {
 public:
+
+public:
+	// constrcuter destructer
 	UImageRenderer();
 	~UImageRenderer();
 
+	// delete Function
 	UImageRenderer(const UImageRenderer& _Other) = delete;
 	UImageRenderer(UImageRenderer&& _Other) noexcept = delete;
 	UImageRenderer& operator=(const UImageRenderer& _Other) = delete;
 	UImageRenderer& operator=(UImageRenderer&& _Other) noexcept = delete;
 
-	/// <summary>
-	/// 랜더링 순서 설정
-	/// </summary>
-	/// <param name="_Order">랜더링 순서</param>
 	void SetOrder(int _Order) override;
-
-	/// <summary>
-	/// 이미지 출력(그릴 이미지, 그릴 위치, 자르는 Transform)
-	/// 그릴 이미지 = Image
-	/// 자르는 Transform = ImageCuttingTransform
-	/// </summary>
-	/// <param name="_DeltaTime"></param>
 	void Render(float _DeltaTime);
-
-	/// <summary>
-	/// 이미지 설정 함수
-	/// </summary>
-	/// <param name="_Name">이미지 이름</param>
-	/// <param name="_InfoIndex">이미지 인덱스</param>
 	void SetImage(std::string_view _Name, int _InfoIndex = 0);
-	
-	/// <summary>
-	/// 이미지의 인덱스 설정 함수
-	/// </summary>
-	/// <param name="_InfoIndex">인덱스</param>
+
 	void SetImageIndex(int _InfoIndex)
 	{
 		InfoIndex = _InfoIndex;
 	}
-
-	/// <summary>
-	/// 컴포넌트의 위치, 크기 설정
-	/// </summary>
-	/// <param name="_Value">설정할 위치, 크기</param>
 	void SetTransform(const FTransform& _Value)
 	{
 		USceneComponent::SetTransform(_Value);
 	}
-
-	/// <summary>
-	/// 이미지의 자를 크기, 위치
-	/// </summary>
-	/// <param name="_Value">크기, 위치</param>
 	void SetImageCuttingTransform(const FTransform& _Value)
 	{
 		ImageCuttingTransform = _Value;
 	}
 
-	/// <summary>
-	/// 한장에 애니메이션의 사진들이 담겨 있을 경우 사용
-	/// 이름에 해당하는 이미지를 찾고 AnimationInfo의 값을 세팅 후 AnimationInfos map에 저장하는 함수
-	/// </summary>
-	/// <param name="_AnimationName">에니메이션 동작 이름(Key)</param>
-	/// <param name="_ImageName">이미지 이름</param>
-	/// <param name="_Start">사진 순서에서 에니메이션 시작</param>
-	/// <param name="_End">사진 순서에서 에니메이션 끝</param>
-	/// <param name="_Inter">사진 유지 시간</param>
-	/// <param name="Loop">반복 여부</param>
 	void CreateAnimation(
-		std::string_view _AnimationName,
-		std::string_view _ImageName,
-		int _Start,
-		int _End,
-		float _Inter,
-		bool Loop = true
+		std::string_view _AnimationName, 
+		std::string_view _ImageName, 
+		int _Start, 
+		int _End, 
+		float _Inter, 
+		bool _Loop = true
 	);
-
 	void CreateAnimation(
 		std::string_view _AnimationName,
 		std::string_view _ImageName,
 		std::vector<int> _Indexs,
 		float _Inter,
-		bool Loop = true
+		bool _Loop = true
 	);
-	
-	/// <summary>
-	/// 에니메이션 변경 (key에 해당하는 에니메이션으로)
-	/// </summary>
-	/// <param name="_AnimationName">에니메이션 동작 이름</param>
-	void ChangeAnimation(std::string_view _AnimationName, bool _IsForce = false, int _StartIndex = 0, float _Time = -1.0f);
 
-	/// <summary>
-	/// 에니메이션 초기화
-	/// </summary>
+	void ChangeAnimation(std::string_view _AnimationName, bool _IsForce = false, int _StartIndex = 0, float _Time = -1.0f);
 	void AnimationReset();
 
 	void SetTransColor(Color8Bit _Color)
 	{
 		TransColor = _Color;
 	}
-
-	/// <summary>
-	/// 투명도를 (0 ~ 1)를 (0 ~ 255)로 변경하는 함수
-	/// </summary>
-	/// <param name="_Alpha">투명도</param>
 	void SetAlpha(float _Alpha)
 	{
 		if (0.0f >= _Alpha)
@@ -150,14 +90,12 @@ public:
 		TransColor.A = static_cast<char>(_Alpha * 255.0f);
 	}
 
-	// 이미지 반환 함수
-	UWindowImage* GetImage()
+	UWindowImage* GetImage() const
 	{
 		return Image;
-		int a = 0;
 	}
 
-	void CameraEffectOff()
+	void CameraEffectOff() 
 	{
 		CameraEffect = false;
 	}
@@ -183,27 +121,45 @@ public:
 		return CurAnimation->CurTime;
 	}
 
+	void TextRender(float _DeltaTime);
+	void ImageRender(float _DeltaTime);
+
+	void SetText(std::string_view _Text)
+	{
+		Text = _Text;
+	}
+	void SetFont(std::string_view _Font)
+	{
+		Font = _Font;
+	}
+	void SetTextSize(float _Value)
+	{
+		Size = _Value;
+	}
+	void SetTextColor(Color8Bit _Color)
+	{
+		TextColor = _Color;
+	}
+
+	FTransform GetRenderTransForm();
+
 protected:
 	void BeginPlay() override;
-	
+
 private:
-	// 이미지 배열의 인덱스
 	int InfoIndex = 0;
-	bool CameraEffect = true;
-
-	// 그릴 이미지
 	UWindowImage* Image = nullptr;
-
-	// 자를 이미지의 크기, 위치
 	FTransform ImageCuttingTransform;
-
-	// 이미지의 색상
 	Color8Bit TransColor;
 
-	// 에니메이션 동작 이름으로 에니메이션 정보를 저장하는 map
+	bool CameraEffect = true;
+
 	std::map<std::string, UAnimationInfo> AnimationInfos;
-	
-	// 현재 에니메이션
 	UAnimationInfo* CurAnimation = nullptr;
+
+	std::string Text = "";
+	std::string Font = "궁서";
+	float Size = 10.0f;
+	Color8Bit TextColor = Color8Bit::BlackA;
 };
 

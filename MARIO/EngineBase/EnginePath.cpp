@@ -2,7 +2,7 @@
 #include "EngineDebug.h"
 #include <Windows.h>
 
-UEnginePath::UEnginePath()
+UEnginePath::UEnginePath() 
 	: Path(std::filesystem::current_path())
 {
 }
@@ -12,7 +12,7 @@ UEnginePath::UEnginePath(std::filesystem::path _Path)
 {
 }
 
-UEnginePath::~UEnginePath()
+UEnginePath::~UEnginePath() 
 {
 }
 
@@ -47,11 +47,6 @@ bool UEnginePath::IsExists()
 	return std::filesystem::exists(Path);
 }
 
-std::string UEnginePath::AppendPath(std::string_view _Path)
-{
-	return Path.string() + "\\" + std::string(_Path);
-}
-
 void UEnginePath::MoveParent()
 {
 	Path = Path.parent_path();
@@ -64,4 +59,9 @@ bool UEnginePath::IsFile()
 bool UEnginePath::IsDirectory()
 {
 	return std::filesystem::is_directory(Path);
+}
+
+std::string UEnginePath::AppendPath(std::string_view _Path)
+{
+	return Path.string() + "\\" + std::string(_Path);
 }

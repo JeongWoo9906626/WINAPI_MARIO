@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{ebb5d161-2c68-4928-845f-5199b29b7b96}</ProjectGuid>
+    <ProjectGuid>{35fa176c-16bb-4c2a-a672-f4ff30c1bea5}</ProjectGuid>
     <RootNamespace>EngineCore</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -72,23 +72,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\;</IncludePath>
-    <OutDir>$(SolutionDir)Bin\$(Platfrom)\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)Bin\$(Platfrom)\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\;</IncludePath>
-    <OutDir>$(SolutionDir)Bin\$(Platfrom)\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)Bin\$(Platfrom)\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\;</IncludePath>
-    <OutDir>$(SolutionDir)Bin\$(Platfrom)\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)Bin\$(Platfrom)\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\;</IncludePath>
-    <OutDir>$(SolutionDir)Bin\$(Platfrom)\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)Bin\$(Platfrom)\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -97,6 +97,8 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -112,6 +114,8 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,6 +131,8 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,6 +148,8 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -151,11 +159,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EngineBase\EngineBase.vcxproj">
+      <Project>{ea197215-13bb-4729-9573-db483a0ee1a3}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\EnginePlatform\EnginePlatform.vcxproj">
+      <Project>{f0716ec2-0bc5-43ea-9046-b203e0985a67}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="Actor.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="ActorComponent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -179,10 +199,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="TickObject.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
+    <ClInclude Include="TickObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp">
@@ -190,6 +207,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="ActorComponent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -205,23 +226,18 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Level.cpp" />
+    <ClCompile Include="Level.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="SceneComponent.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="TickObject.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
+    <ClCompile Include="TickObject.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EngineBase\EngineBase.vcxproj">
-      <Project>{04874e07-be18-4063-93f3-91c0f1256e2f}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\EnginePlatform\EnginePlatform.vcxproj">
-      <Project>{2615b017-9689-475a-8504-e8391753a8ff}</Project>
-    </ProjectReference>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

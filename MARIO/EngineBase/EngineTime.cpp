@@ -1,18 +1,19 @@
 #include "EngineTime.h"
 #include <Windows.h>
 
-EngineTime::EngineTime()
+EngineTime::EngineTime() 
 {
 	TimeCheckStart();
 }
 
-EngineTime::~EngineTime()
+EngineTime::~EngineTime() 
 {
 }
 
 void EngineTime::TimeCheckStart()
 {
 	QueryPerformanceFrequency(&Count);
+
 	QueryPerformanceCounter(&PrevTime);
 
 	dCount = static_cast<double>(Count.QuadPart);

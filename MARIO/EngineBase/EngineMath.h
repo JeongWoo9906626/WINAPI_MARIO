@@ -2,7 +2,6 @@
 #include <string>
 #include <cmath>
 
-// 설명 : 자료형 정의 (float 4개로 이루어짐)
 struct float4
 {
 public:
@@ -21,8 +20,15 @@ public:
 			float Z;
 			float W;
 		};
-	};
 
+		struct
+		{
+			float R; // 2D
+			float G; // 2D
+			float B;
+			float A;
+		};
+	};
 
 	float4()
 		: X(0.0f), Y(0.0f), Z(0.0f), W(1.0f)
@@ -61,6 +67,7 @@ public:
 
 	}
 
+
 public:
 	float Size2D()
 	{
@@ -93,6 +100,12 @@ public:
 		return { hX(), hY() };
 	}
 
+	bool IsZeroVector2D() const
+	{
+		return X == 0.0f && Y == 0.0f;
+	}
+
+
 	int iX() const
 	{
 		return std::lround(X);
@@ -102,6 +115,7 @@ public:
 	{
 		return std::lround(Y);
 	}
+
 
 	float hX() const
 	{
@@ -113,7 +127,6 @@ public:
 		return Y * 0.5f;
 	}
 
-
 	int ihY() const
 	{
 		return std::lround(hY());
@@ -124,7 +137,16 @@ public:
 		return std::lround(hX());
 	}
 
-	float4 operator+(const float4& _Other)
+	float4& operator=(const float4& _Other)
+	{
+		X = _Other.X;
+		Y = _Other.Y;
+		Z = _Other.Z;
+		W = _Other.W;
+		return *this;
+	}
+
+	float4 operator+(const float4& _Other) const
 	{
 		float4 Result = *this;
 		Result.X += _Other.X;
@@ -178,7 +200,7 @@ public:
 		return *this;
 	}
 
-	float4 operator-()
+	float4 operator-() 
 	{
 		float4 Result;
 		Result.X = -X;
@@ -187,7 +209,7 @@ public:
 		return Result;
 	}
 
-	float4 operator-(const float4& _Other)
+	float4 operator-(const float4& _Other) const
 	{
 		float4 Result = *this;
 		Result.X -= _Other.X;
@@ -207,9 +229,8 @@ public:
 };
 
 using FVector = float4;
+using FColor = float4;
 
-// 설명 : 자료형 정의 (int 4개로 이루어짐)
-// -> 색상을 나타내는 자료형 (R, G, B, A)
 class Color8Bit
 {
 public:
@@ -237,7 +258,7 @@ public:
 			unsigned char A;
 		};
 
-		unsigned char Arr1D[4] = { 0, 0, 0, 255 };
+		unsigned char Arr1D[4] = { 0,0,0,255 };
 		unsigned int Color;
 	};
 
@@ -251,10 +272,10 @@ public:
 		unsigned char _B,
 		unsigned char _A
 	)
-		: R(_R), G(_G), B(_B), A(_A)
-
+		:R(_R), G(_G), B(_B), A(_A)
 	{
 	}
+
 
 	bool operator==(Color8Bit _Color)
 	{
@@ -267,6 +288,7 @@ public:
 	}
 };
 
+// 설명 :
 class EngineMath
 {
 public:

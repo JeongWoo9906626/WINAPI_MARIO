@@ -32,11 +32,12 @@ void UEngineWindow::Init(HINSTANCE _hInst)
 }
 
 
-UEngineWindow::UEngineWindow()
+
+UEngineWindow::UEngineWindow() 
 {
 }
 
-UEngineWindow::~UEngineWindow()
+UEngineWindow::~UEngineWindow() 
 {
 	if (nullptr != BackBufferImage)
 	{
@@ -49,7 +50,7 @@ UEngineWindow::~UEngineWindow()
 		delete WindowImage;
 		WindowImage = nullptr;
 	}
-
+	
 }
 
 void UEngineWindow::Open(std::string_view _Title /*= "Title"*/)
@@ -79,7 +80,7 @@ void UEngineWindow::Open(std::string_view _Title /*= "Title"*/)
 		WS_MINIMIZEBOX |
 		WS_MAXIMIZEBOX;
 
-	hWnd = CreateWindowA("DefaultWindow", _Title.data(), WS_OVERLAPPEDWINDOW,
+	hWnd = CreateWindowA("DefaultWindow", _Title.data(), Style,
 		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
 	if (!hWnd)
@@ -95,6 +96,7 @@ void UEngineWindow::Open(std::string_view _Title /*= "Title"*/)
 		WindowImage = new UWindowImage();
 		WindowImage->Create(hDC);
 	}
+
 
 	ShowWindow(hWnd, SW_SHOW);
 	UpdateWindow(hWnd);
@@ -126,10 +128,20 @@ unsigned __int64 UEngineWindow::WindowMessageLoop(void(*_Update)(), void(*_End)(
 	return msg.wParam;
 }
 
+
+FVector UEngineWindow::GetMousePosition()
+{
+	POINT MousePoint;
+	GetCursorPos(&MousePoint);
+	ScreenToClient(hWnd, &MousePoint);
+
+	return FVector(MousePoint.x, MousePoint.y);
+}
+
 void UEngineWindow::SetWindowPosition(const FVector& _Pos)
 {
 	Position = _Pos;
-	
+
 	::SetWindowPos(hWnd, nullptr, Position.iX(), Position.iY(), 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 }
 
@@ -137,28 +149,25 @@ void UEngineWindow::SetWindowScale(const FVector& _Scale)
 {
 	Scale = _Scale;
 
-	// 백버퍼가 있을 경우 지우고
 	if (nullptr != BackBufferImage)
 	{
 		delete BackBufferImage;
 		BackBufferImage = nullptr;
 	}
-	// 다시 만들기
+
 	BackBufferImage = new UWindowImage();
 	BackBufferImage->Create(WindowImage, Scale);
 
 	RECT Rc = { 0, 0, _Scale.iX(), _Scale.iY() };
-	// 메뉴창을 제외한 창의 크기를 설정한 크기로 만들어주는 함수
+
 	AdjustWindowRect(&Rc, WS_OVERLAPPEDWINDOW, FALSE);
-	// 크기 조절기능, 위치 조절 기능
-	SetWindowPos(hWnd, nullptr, 0, 0, Rc.right - Rc.left, Rc.bottom - Rc.top, SWP_NOZORDER | SWP_NOMOVE);
+	::SetWindowPos(hWnd, nullptr, 0, 0, Rc.right - Rc.left, Rc.bottom - Rc.top, SWP_NOZORDER | SWP_NOMOVE);
 }
 
 void UEngineWindow::ScreenClear()
 {
 	HBRUSH myBrush = (HBRUSH)CreateSolidBrush(ClearColor.Color);
 	HBRUSH oldBrush = (HBRUSH)SelectObject(BackBufferImage->ImageDC, myBrush);
-	// 창을 지우는 것 = 흰색(단색)으로 창을 띄워주는 것
 	Rectangle(BackBufferImage->ImageDC, -1, -1, Scale.iX() + 1, Scale.iY() + 1);
 	SelectObject(BackBufferImage->ImageDC, oldBrush);
 	DeleteObject(myBrush);
@@ -166,11 +175,9 @@ void UEngineWindow::ScreenClear()
 
 void UEngineWindow::ScreenUpdate()
 {
-	// 위치와 크기 설정
 	FTransform CopyTrans;
-	CopyTrans.SetPosition({ Scale.ihX(), Scale.ihY() });
+	CopyTrans.SetPosition({Scale.ihX(), Scale.ihY()});
 	CopyTrans.SetScale({ Scale.iX(), Scale.iY() });
 
-	// 
 	WindowImage->BitCopy(BackBufferImage, CopyTrans);
 }

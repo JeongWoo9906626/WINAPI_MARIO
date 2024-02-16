@@ -19,60 +19,90 @@ void UImageRenderer::SetOrder(int _Order)
 
 	std::map<int, std::list<UImageRenderer*>>& Renderers = Level->Renderers;
 	Renderers[GetOrder()].remove(this);
-	
+
 	UTickObject::SetOrder(_Order);
 	Renderers[GetOrder()].push_back(this);
 }
 
-void UImageRenderer::Render(float _DeltaTime)
+int UAnimationInfo::Update(float _DeltaTime)
 {
-	if (nullptr == Image)
+	IsEnd = false;
+	CurTime -= _DeltaTime;
+
+	if (0.0f >= CurTime)
 	{
-		MsgBoxAssert("이미지가 존재하지 않는 랜더러 입니다");
+		CurTime = Times[CurFrame];
+		++CurFrame;
+
+		if (1 == Indexs.size())
+		{
+			IsEnd = true;
+		}
 	}
 
-	if (nullptr != CurAnimation)
+	if (Indexs.size() <= CurFrame)
 	{
-		Image = CurAnimation->Image;
-		InfoIndex = CurAnimation->Update(_DeltaTime);
+		if (1 < Indexs.size())
+		{
+			IsEnd = true;
+		}
+		if (true == Loop)
+		{
+			CurFrame = 0;
+		}
+		else
+		{
+			--CurFrame;
+		}
 	}
 
-	// 렌더러의 위치
-	FTransform RendererTrans = GetTransform();
-	// 액터의 위치(부모)
-	FTransform ActorTrans = GetOwner()->GetTransform();
+	int Index = Indexs[CurFrame];
 
-	RendererTrans.AddPosition(ActorTrans.GetPosition());
-	
-	if (true == CameraEffect)
-	{
-		AActor* Actor = GetOwner();
-		ULevel* World = Actor->GetWorld();
-		FVector CameraPos = World->GetCameraPos();
-		RendererTrans.AddPosition(-CameraPos);
-	}
-
-	EWIndowImageType ImageType = Image->GetImageType();
-
-	switch (ImageType)
-	{
-	case EWIndowImageType::IMG_BMP:
-		GEngine->MainWindow.GetBackBufferImage()->TransCopy(Image, RendererTrans, InfoIndex, TransColor);
-		break;
-	case EWIndowImageType::IMG_PNG:
-		// 투명 처리
-		GEngine->MainWindow.GetBackBufferImage()->AlphaCopy(Image, RendererTrans, InfoIndex, TransColor);
-		break;
-	default:
-		MsgBoxAssert("투명처리가 불가능한 이미지 입니다.");
-		break;
-	}
+	return Index;
 }
 
-void UImageRenderer::CreateAnimation(std::string_view _AnimationName, std::string_view _ImageName, int _Start, int _End, float _Inter, bool _Loop)
+
+void UImageRenderer::Render(float _DeltaTime)
+{
+	if (false == Text.empty())
+	{
+		TextRender(_DeltaTime);
+	}
+	else {
+		ImageRender(_DeltaTime);
+	}
+
+}
+
+void UImageRenderer::BeginPlay()
+{
+	USceneComponent::BeginPlay();
+}
+
+void UImageRenderer::SetImage(std::string_view _Name, int _InfoIndex /*= 0*/)
+{
+	Image = UEngineResourcesManager::GetInst().FindImg(_Name);
+
+	if (nullptr == Image)
+	{
+		MsgBoxAssert(std::string(_Name) + "이미지가 존재하지 않습니다.");
+		return;
+	}
+
+	InfoIndex = _InfoIndex;
+}
+
+void UImageRenderer::CreateAnimation(
+	std::string_view _AnimationName,
+	std::string_view _ImageName,
+	int _Start,
+	int _End,
+	float _Inter,
+	bool _Loop /*= true*/
+)
 {
 	std::vector<int> Indexs;
-	//int Size = _End - _Start;
+	int Size = _End - _Start;
 
 	for (int i = _Start; i <= _End; i++)
 	{
@@ -80,11 +110,20 @@ void UImageRenderer::CreateAnimation(std::string_view _AnimationName, std::strin
 	}
 
 	CreateAnimation(_AnimationName, _ImageName, Indexs, _Inter, _Loop);
+
 }
 
-void UImageRenderer::CreateAnimation(std::string_view _AnimationName, std::string_view _ImageName, std::vector<int> _Indexs, float _Inter, bool _Loop)
+
+void UImageRenderer::CreateAnimation(
+	std::string_view _AnimationName,
+	std::string_view _ImageName,
+	std::vector<int> _Indexs,
+	float _Inter,
+	bool _Loop/* = true*/
+)
 {
 	UWindowImage* FindImage = UEngineResourcesManager::GetInst().FindImg(_ImageName);
+
 	if (nullptr == FindImage)
 	{
 		MsgBoxAssert(std::string(_ImageName) + "이미지가 존재하지 않습니다.");
@@ -92,6 +131,7 @@ void UImageRenderer::CreateAnimation(std::string_view _AnimationName, std::strin
 	}
 
 	std::string UpperAniName = UEngineString::ToUpper(_AnimationName);
+
 	if (true == AnimationInfos.contains(UpperAniName))
 	{
 		MsgBoxAssert(std::string(UpperAniName) + "라는 이름의 애니메이션이 이미 존재합니다.");
@@ -111,26 +151,30 @@ void UImageRenderer::CreateAnimation(std::string_view _AnimationName, std::strin
 	{
 		Info.Times.push_back(_Inter);
 	}
+
 	Info.Indexs = _Indexs;
 }
 
-void UImageRenderer::ChangeAnimation(std::string_view _AnimationName, bool _IsForce, int _StartIndex, float _Time)
+void UImageRenderer::ChangeAnimation(std::string_view _AnimationName, bool _IsForce /*= false*/, int _StartIndex/* = 0*/, float _Time /*= -1.0f*/)
 {
 	std::string UpperAniName = UEngineString::ToUpper(_AnimationName);
+
 	if (false == AnimationInfos.contains(UpperAniName))
 	{
 		MsgBoxAssert(std::string(UpperAniName) + "라는 이름의 애니메이션이 존재하지 않습니다.");
 		return;
 	}
+
 	if (false == _IsForce && nullptr != CurAnimation && CurAnimation->Name == UpperAniName)
 	{
 		return;
 	}
+
 	UAnimationInfo& Info = AnimationInfos[UpperAniName];
 	CurAnimation = &Info;
-	CurAnimation->CurFrame = 0;
-	CurAnimation->CurTime = _Time;
-	if (0.0f >= _Time)
+	CurAnimation->CurFrame = _StartIndex;
+	CurAnimation->CurTime = CurAnimation->Times[_StartIndex];
+	if (0.0f < _Time)
 	{
 		CurAnimation->CurTime = _Time;
 	}
@@ -142,50 +186,57 @@ void UImageRenderer::AnimationReset()
 	CurAnimation = nullptr;
 }
 
-void UImageRenderer::BeginPlay()
+FTransform UImageRenderer::GetRenderTransForm()
 {
-	USceneComponent::BeginPlay();
+	FTransform RendererTrans = GetActorBaseTransform();
+
+	if (true == CameraEffect)
+	{
+		AActor* Actor = GetOwner();
+		ULevel* World = Actor->GetWorld();
+		FVector CameraPos = World->GetCameraPos();
+		RendererTrans.AddPosition(-CameraPos);
+	}
+
+	return RendererTrans;
 }
 
-void UImageRenderer::SetImage(std::string_view _Name, int _InfoIndex)
+void UImageRenderer::TextRender(float _DeltaTime)
 {
-	// 이미지 설정
-	Image = UEngineResourcesManager::GetInst().FindImg(_Name);
+	FTransform RendererTrans = GetRenderTransForm();
+	float TextCount = static_cast<float>(Text.size());
 
-	// 설정 했는데 이미지가 없을 경우
+	GEngine->MainWindow.GetBackBufferImage()->TextCopy(Text, Font, Size, RendererTrans, TextColor);
+}
+
+void UImageRenderer::ImageRender(float _DeltaTime)
+{
+
 	if (nullptr == Image)
 	{
-		MsgBoxAssert(std::string(_Name) + "이미지가 존재하지 않습니다.");
-		return;
+		MsgBoxAssert("이미지가 존재하지 않는 랜더러 입니다");
 	}
 
-	InfoIndex = _InfoIndex;
-}
-
-int UAnimationInfo::Update(float _DeltaTime)
-{
-	IsEnd = false;
-	CurTime -= _DeltaTime;
-
-	if (0.0f >= CurTime)
+	if (nullptr != CurAnimation)
 	{
-		CurTime = Times[CurFrame];
-		++CurFrame;
+		Image = CurAnimation->Image;
+		InfoIndex = CurAnimation->Update(_DeltaTime);
 	}
 
-	if (Indexs.size() <= CurFrame)
+	FTransform RendererTrans = GetRenderTransForm();
+
+	EWIndowImageType ImageType = Image->GetImageType();
+
+	switch (ImageType)
 	{
-		if (true == Loop)
-		{
-			CurFrame = 0;
-		}
-		else
-		{
-			--CurFrame;
-		}
+	case EWIndowImageType::IMG_BMP:
+		GEngine->MainWindow.GetBackBufferImage()->TransCopy(Image, RendererTrans, InfoIndex, TransColor);
+		break;
+	case EWIndowImageType::IMG_PNG:
+		GEngine->MainWindow.GetBackBufferImage()->AlphaCopy(Image, RendererTrans, InfoIndex, TransColor);
+		break;
+	default:
+		MsgBoxAssert("투명처리가 불가능한 이미지 입니다.");
+		break;
 	}
-
-	int Index = Indexs[CurFrame];
-
-	return Index;
 }
