@@ -22,6 +22,9 @@
     <Filter Include="PlayLevel\Actor\Player">
       <UniqueIdentifier>{1f9f3230-79e0-4dc3-87ea-291e0eb00ddc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PlayLevel\Actor\Monster">
+      <UniqueIdentifier>{33549f06-0602-4354-910e-8655c4b6ddf8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TitleLevel.h">
@@ -45,6 +48,9 @@
     <ClInclude Include="Mario.h">
       <Filter>PlayLevel\Actor\Player</Filter>
     </ClInclude>
+    <ClInclude Include="Goomba.h">
+      <Filter>PlayLevel\Actor\Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -67,6 +73,9 @@
     </ClCompile>
     <ClCompile Include="Mario.cpp">
       <Filter>PlayLevel\Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Goomba.cpp">
+      <Filter>PlayLevel\Actor\Monster</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

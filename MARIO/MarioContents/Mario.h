@@ -68,11 +68,15 @@ private:
 
 	FVector RunAcc = FVector::Right * 500.0f;
 	FVector RunVector = FVector::Zero;
-	float MaxRunSpeed = 300.0f;
+	
+	float MaxRunSpeed = 400.0f;
 	float NoramlRunSpeed = 400.0f;
 	float ShiftRunSpeed = 700.0f;
-	float BreakSpeed = 3.0f;
+
+	float CurBreakSpeed = 200.0f;
+
 	void AddVector(const FVector& _DirDelta);
+	void SubtractVector(const FVector& _DirDelta);
 
 	FVector GravityAcc = FVector::Down * 2000.0f;
 	FVector GravityVector = FVector::Zero;

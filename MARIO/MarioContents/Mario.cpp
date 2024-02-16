@@ -290,6 +290,8 @@ void AMario::Idle(float _DeltaTime)
 
 void AMario::Run(float _DeltaTime)
 {
+	//CurBreakSpeed = 150.0f;
+
 	if (true == UEngineInput::IsDown(VK_SPACE))
 	{
 		StateChange(EPlayState::Jump);
@@ -298,8 +300,48 @@ void AMario::Run(float _DeltaTime)
 
 	if (true == UEngineInput::IsFree(VK_LEFT) && true == UEngineInput::IsFree(VK_RIGHT))
 	{
-		StateChange(EPlayState::Idle);
-		return;
+		if (abs(RunVector.X) <= 5.0f)
+		{
+			RunVector.X = 0.0f;
+			StateChange(EPlayState::Idle);
+			return;
+		}
+		else
+		{
+			MoveUpdate(_DeltaTime);
+			return;
+		}
+		//StateChange(EPlayState::Idle);
+		//return;
+	}
+
+	if (true == UEngineInput::IsPress(VK_LEFT) && true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		if(abs(RunVector.X) <= 10.0f)
+		{
+			RunVector.X = 0.0f;
+			StateChange(EPlayState::Idle);
+			return;
+		}
+		else
+		{
+			FVector BreakDirState = FVector::Zero;
+			switch (DirState)
+			{
+			case EActorDir::Left:
+				BreakDirState = FVector::Right;
+				break;
+			case EActorDir::Right:
+				BreakDirState = FVector::Left;
+				break;
+			default:
+				break;
+			}
+			//CurBreakSpeed = 300.0f;
+			SubtractVector(BreakDirState * _DeltaTime);
+			MoveUpdate(_DeltaTime);
+			return;
+		}
 	}
 
 	if (true == UEngineInput::IsPress(VK_LSHIFT))
@@ -311,42 +353,6 @@ void AMario::Run(float _DeltaTime)
 	{
 		MaxRunSpeed = NoramlRunSpeed;
 		JumpPower = NoramlJumpPower;
-	}
-
-	if (true == UEngineInput::IsPress(VK_LEFT) && true == UEngineInput::IsPress(VK_RIGHT))
-	{
-		if (EActorDir::Left == DirState)
-		{
-			if (0.0f <= RunVector.X)
-			{
-				RunVector.X = 0.0f;
-				StateChange(EPlayState::Idle);
-				return;
-			}
-
-			if (0.0f > RunVector.X)
-			{	
-				AddVector(FVector::Right * _DeltaTime);
-			}
-		}
-
-		if (EActorDir::Right == DirState)
-		{
-			if (0.0f >= RunVector.X)
-			{
-				RunVector.X = 0.0f;
-				StateChange(EPlayState::Idle);
-				return;
-			}
-
-			if (0.0f < RunVector.X)
-			{
-				AddVector(FVector::Left * _DeltaTime);
-			}
-		}
-
-		MoveUpdate(_DeltaTime);
-		return;
 	}
 
 	if (true == UEngineInput::IsPress(VK_LEFT))
@@ -409,6 +415,8 @@ void AMario::Reverse(float _DeltaTime)
 		return;
 	}
 
+	//CurBreakSpeed = 500.0f;
+
 	if (DirState == EActorDir::Left)
 	{
 		if (true == UEngineInput::IsDown(VK_LEFT))
@@ -419,7 +427,7 @@ void AMario::Reverse(float _DeltaTime)
 
 		if (true == UEngineInput::IsPress(VK_RIGHT))
 		{
-			AddVector(FVector::Right * _DeltaTime * BreakSpeed);
+			SubtractVector(FVector::Right * _DeltaTime);
 		}
 
 		if (0.0f <= RunVector.X)
@@ -441,7 +449,7 @@ void AMario::Reverse(float _DeltaTime)
 
 		if (true == UEngineInput::IsPress(VK_LEFT))
 		{
-			AddVector(FVector::Left * _DeltaTime * BreakSpeed);
+			SubtractVector(FVector::Left * _DeltaTime);
 		}
 
 		if (0.0f >= RunVector.X)
@@ -472,6 +480,11 @@ void AMario::AddVector(const FVector& _DirDelta)
 	RunVector += _DirDelta * RunAcc;
 }
 
+void AMario::SubtractVector(const FVector& _DirDelta)
+{
+	RunVector += _DirDelta * CurBreakSpeed;
+}
+
 void AMario::RunVectorUpdate(float _DeltaTime)
 {
 	FVector CheckPos = GetActorLocation();
@@ -498,7 +511,7 @@ void AMario::RunVectorUpdate(float _DeltaTime)
 	{
 		if (0.001 <= RunVector.Size2D())
 		{
-			RunVector += (-RunVector.Normalize2DReturn()) * _DeltaTime * RunAcc * 5;
+			RunVector += (-RunVector.Normalize2DReturn()) * _DeltaTime * CurBreakSpeed * 5;
 		}
 		else
 		{
