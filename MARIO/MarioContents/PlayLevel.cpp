@@ -2,6 +2,7 @@
 #include "BackGround.h"
 #include "ContentsHelper.h"
 #include "Mario.h"
+#include "Goomba.h"
 
 UPlayLevel::UPlayLevel() 
 {
@@ -23,6 +24,10 @@ void UPlayLevel::BeginPlay()
 	AMario* Mario = SpawnActor<AMario>(RenderOrder::Player);
 	Mario->SetName("Player");
 	Mario->SetActorLocation({ 200, 200 });
+
+	AGoomba* Goomba = SpawnActor<AGoomba>(RenderOrder::Monster);
+	Goomba->SetName("Goomba1");
+	Goomba->SetActorLocation({ 400, 200 });
 }
 
 void UPlayLevel::Tick(float _DeltaTime)

@@ -34,6 +34,7 @@ void UMarioCore::BeginPlay()
 
 	ResoucreManager.CuttingImage("Mario_Right.png", 5, 8);
 	ResoucreManager.CuttingImage("Mario_Left.png", 5, 8);
+	ResoucreManager.CuttingImage("Goomba.png", 3, 1);
 
 	// TODO
 	// 생성할 모든 레벨 Core에서 생성
