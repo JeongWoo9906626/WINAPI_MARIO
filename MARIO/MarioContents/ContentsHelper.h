@@ -35,6 +35,13 @@ enum class EMArioSizeState
 	Star
 };
 
+enum class EMonsterState
+{
+	Move,
+	Dead,
+	None
+};
+
 // Ό³Έν :
 class UContentsHelper
 {

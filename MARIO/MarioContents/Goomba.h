@@ -17,10 +17,23 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
+	void StateChange(EMonsterState _State);
+
+	void MoveStart();
+	void DeadStart();
+
+	void StateUpdate(float _DelatTime);
+
+	void Move(float _DeltaTime);
+	void Dead(float _DeltaTime);
+
 private:
 	UImageRenderer* Renderer = nullptr;
 	UCollision* BodyCollision = nullptr;
 
+	EMonsterState State = EMonsterState::None;
+
 	bool DeadValue = false;
+	float MoveSpeed = 100.0f;
 };
 
