@@ -17,19 +17,30 @@ void AMario::BeginPlay()
 {
 	AActor::BeginPlay();
 
-	Renderer = CreateImageRenderer(RenderOrder::Player);
-	Renderer->SetImage("Mario_Right.png");
-	Renderer->SetTransform({ { 0, 0 }, { 256, 256 } });
+	{
+		Renderer = CreateImageRenderer(ERenderOrder::Player);
+		Renderer->SetImage("Mario_Right.png");
+		Renderer->SetTransform({ { 0, 0 }, { 256, 256 } });
+	}
 
-	Renderer->CreateAnimation("Idle_Right", "Mario_Right.png", 0, 0, 0.1f, true);
-	Renderer->CreateAnimation("Move_Right", "Mario_Right.png", 1, 3, 0.1f, true);
-	Renderer->CreateAnimation("Reverse_Right", "Mario_Right.png", 4, 4, 0.1f, true);
-	Renderer->CreateAnimation("Jump_Right", "Mario_Right.png", 5, 5, 0.1f, true);
+	{
+		Renderer->CreateAnimation("Idle_Right", "Mario_Right.png", 0, 0, 0.1f, true);
+		Renderer->CreateAnimation("Move_Right", "Mario_Right.png", 1, 3, 0.1f, true);
+		Renderer->CreateAnimation("Reverse_Right", "Mario_Right.png", 4, 4, 0.1f, true);
+		Renderer->CreateAnimation("Jump_Right", "Mario_Right.png", 5, 5, 0.1f, true);
+	
+		Renderer->CreateAnimation("Idle_Left", "Mario_Left.png", 0, 0, 0.1f, true);
+		Renderer->CreateAnimation("Move_Left", "Mario_Left.png", 1, 3, 0.1f, true);
+		Renderer->CreateAnimation("Reverse_Left", "Mario_Left.png", 4, 4, 0.1f, true);
+		Renderer->CreateAnimation("Jump_Left", "Mario_Left.png", 5, 5, 0.1f, true);
+	}
 
-	Renderer->CreateAnimation("Idle_Left", "Mario_Left.png", 0, 0, 0.1f, true);
-	Renderer->CreateAnimation("Move_Left", "Mario_Left.png", 1, 3, 0.1f, true);
-	Renderer->CreateAnimation("Reverse_Left", "Mario_Left.png", 4, 4, 0.1f, true);
-	Renderer->CreateAnimation("Jump_Left", "Mario_Left.png", 5, 5, 0.1f, true);
+	{
+		BodyCollision = CreateCollision(ECollisionOrder::Player);
+		BodyCollision->SetColType(ECollisionType::Rect);
+		BodyCollision->SetPosition({ 0, -35 });
+		BodyCollision->SetScale({ 50, 65 });
+	}
 
 	StateChange(EPlayState::Idle);
 }
@@ -37,6 +48,12 @@ void AMario::BeginPlay()
 void AMario::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
+
+	/*std::vector<UCollision*> Result;
+	if (true == BodyCollision->CollisionCheck(ECollisionOrder::Monster, Result))
+	{
+		Destroy();
+	}*/
 
 	StateUpdate(_DeltaTime);
 }
@@ -317,7 +334,7 @@ void AMario::Run(float _DeltaTime)
 
 	if (true == UEngineInput::IsPress(VK_LEFT) && true == UEngineInput::IsPress(VK_RIGHT))
 	{
-		if(abs(RunVector.X) <= 10.0f)
+		if (abs(RunVector.X) <= 10.0f)
 		{
 			RunVector.X = 0.0f;
 			StateChange(EPlayState::Idle);
@@ -523,7 +540,7 @@ void AMario::RunVectorUpdate(float _DeltaTime)
 	{
 		RunVector = RunVector.Normalize2DReturn() * MaxRunSpeed;
 	}
-	
+
 	float CamerPos = GetWorld()->GetCameraPos().X;
 	int a = 0;
 	if (CheckPos.X <= CamerPos)

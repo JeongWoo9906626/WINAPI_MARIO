@@ -3,11 +3,19 @@
 #include <EngineCore\EngineCore.h>
 #include <EngineCore\ImageRenderer.h>
 
-enum RenderOrder
+enum ERenderOrder
 {
 	Map,
 	Monster,
 	Player
+};
+
+enum class ECollisionOrder
+{
+	Player,
+	Monster,
+	Box,
+	Step,
 };
 
 enum class EActorDir

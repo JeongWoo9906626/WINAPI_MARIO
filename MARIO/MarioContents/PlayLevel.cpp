@@ -16,18 +16,18 @@ void UPlayLevel::BeginPlay()
 {
 	ULevel::BeginPlay();
 
-	ABackGround* BackGroundMap = SpawnActor<ABackGround>(RenderOrder::Map);
+	ABackGround* BackGroundMap = SpawnActor<ABackGround>(ERenderOrder::Map);
 	BackGroundMap->SetMapImage("Stage01.png");
 	BackGroundMap->SetCollisionMapImage("Stage01_Col.png");
 	BackGroundMap->SwitchDebug();
 
-	AMario* Mario = SpawnActor<AMario>(RenderOrder::Player);
+	AMario* Mario = SpawnActor<AMario>(ERenderOrder::Player);
 	Mario->SetName("Player");
-	Mario->SetActorLocation({ 200, 200 });
+	Mario->SetActorLocation({ 200, 500 });
 
-	AGoomba* Goomba = SpawnActor<AGoomba>(RenderOrder::Monster);
+	AGoomba* Goomba = SpawnActor<AGoomba>(ERenderOrder::Monster);
 	Goomba->SetName("Goomba1");
-	Goomba->SetActorLocation({ 400, 200 });
+	Goomba->SetActorLocation({ 600, 500 });
 }
 
 void UPlayLevel::Tick(float _DeltaTime)

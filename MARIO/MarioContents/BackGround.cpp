@@ -46,8 +46,8 @@ void ABackGround::BeginPlay()
 {
 	AActor::BeginPlay();
 
-	Renderer = CreateImageRenderer(RenderOrder::Map);
-	CollisionRenderer = CreateImageRenderer(RenderOrder::Map);
+	Renderer = CreateImageRenderer(ERenderOrder::Map);
+	CollisionRenderer = CreateImageRenderer(ERenderOrder::Map);
 	Renderer->SetActive(false);
 }
 

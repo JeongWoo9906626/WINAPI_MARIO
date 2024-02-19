@@ -25,15 +25,22 @@ protected:
 	void StateUpdate(float _DelatTime);
 
 	void Move(float _DeltaTime);
-	void Dead(float _DeltaTime);
+	void GravityMove(float _DeltaTime);
+
+	void ChangeDir(EActorDir _State);
+	void CheckWindowPosition();
 
 private:
 	UImageRenderer* Renderer = nullptr;
 	UCollision* BodyCollision = nullptr;
 
 	EMonsterState State = EMonsterState::None;
+	EActorDir DirState = EActorDir::Left;
 
 	bool DeadValue = false;
-	float MoveSpeed = 100.0f;
+
+	float MoveSpeed = 300.0f;
+	float GravitySpeed = 500.0f;
+	float DirUnitVector = -1.0f;
 };
 
