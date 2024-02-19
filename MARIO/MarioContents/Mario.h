@@ -37,6 +37,7 @@ protected:
 	void RunStart();
 	void JumpStart();
 	void ReverseStart();
+	void DieStart();
 
 	void CameraFreeMove(float _DeltaTime);
 	void FreeMove(float _DeltaTime);
@@ -45,6 +46,7 @@ protected:
 	void Run(float _DeltaTime);
 	void Jump(float _DeltaTime);
 	void Reverse(float _DeltaTime);
+	void Die(float _DeltaTime);
 
 	void ReverseDir();
 	
@@ -73,7 +75,6 @@ private:
 	float MaxRunSpeed = 400.0f;
 	float NoramlRunSpeed = 400.0f;
 	float ShiftRunSpeed = 700.0f;
-
 	float CurBreakSpeed = 200.0f;
 
 	void AddVector(const FVector& _DirDelta);
@@ -82,6 +83,7 @@ private:
 	FVector GravityAcc = FVector::Down * 2000.0f;
 	FVector GravityVector = FVector::Zero;
 
+	FVector DieJumpVector = FVector::Up * 600.0f;
 	FVector JumpPower = FVector::Up * 700.0f;
 	FVector NoramlJumpPower = FVector::Up * 700.0f;
 	FVector RunJumpPower = FVector::Up * 1000.0f;

@@ -40,6 +40,8 @@ void AGoomba::Tick(float _DeltaTime)
 	std::vector<UCollision*> Result;
 	if (true == BodyCollision->CollisionCheck(ECollisionOrder::Player, Result))
 	{
+		UCollision* MarioPosition = Result[0];
+		FTransform Collision = MarioPosition->GetTransform();
 		StateChange(EMonsterState::Dead);
 		return;
 	}

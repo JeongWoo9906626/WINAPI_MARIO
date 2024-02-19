@@ -26,13 +26,14 @@ enum class EActorDir
 
 enum class EPlayState
 {
-	None,
 	CameraFreeMove,
 	FreeMove,
 	Idle,
 	Run,
 	Reverse,
 	Jump,
+	Die,
+	None,
 };
 
 enum class EMArioSizeState

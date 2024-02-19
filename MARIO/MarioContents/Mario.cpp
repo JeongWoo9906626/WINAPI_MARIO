@@ -33,6 +33,8 @@ void AMario::BeginPlay()
 		Renderer->CreateAnimation("Move_Left", "Mario_Left.png", 1, 3, 0.1f, true);
 		Renderer->CreateAnimation("Reverse_Left", "Mario_Left.png", 4, 4, 0.1f, true);
 		Renderer->CreateAnimation("Jump_Left", "Mario_Left.png", 5, 5, 0.1f, true);
+
+		Renderer->CreateAnimation("Die", "Mario_Left.png", 6, 6, 0.1f, true);
 	}
 
 	{
@@ -49,11 +51,12 @@ void AMario::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 
-	/*std::vector<UCollision*> Result;
+	std::vector<UCollision*> Result;
 	if (true == BodyCollision->CollisionCheck(ECollisionOrder::Monster, Result))
 	{
-		Destroy();
-	}*/
+		StateChange(EPlayState::Die);
+		return;
+	}
 
 	StateUpdate(_DeltaTime);
 }
@@ -152,6 +155,9 @@ void AMario::StateChange(EPlayState _State)
 		case EPlayState::Reverse:
 			ReverseStart();
 			break;
+		case EPlayState::Die:
+			DieStart();
+			break;
 		default:
 			break;
 		}
@@ -181,6 +187,9 @@ void AMario::StateUpdate(float _DeltaTime)
 		break;
 	case EPlayState::Reverse:
 		Reverse(_DeltaTime);
+		break;
+	case EPlayState::Die:
+		Die(_DeltaTime);
 		break;
 	default:
 		break;
@@ -269,6 +278,12 @@ void AMario::JumpStart()
 void AMario::ReverseStart()
 {
 	Renderer->ChangeAnimation(GetReverseAnimationName("Reverse"));
+}
+
+void AMario::DieStart()
+{
+	JumpVector = DieJumpVector;
+	Renderer->ChangeAnimation("Die");
 }
 
 void AMario::Idle(float _DeltaTime)
@@ -480,6 +495,12 @@ void AMario::Reverse(float _DeltaTime)
 	MoveUpdate(_DeltaTime);
 }
 
+void AMario::Die(float _DeltaTime)
+{
+	AddActorLocation(JumpVector * _DeltaTime);
+	JumpVector += GravityAcc * _DeltaTime;
+}
+
 void AMario::ReverseDir()
 {
 	if (EActorDir::Left == DirState)
@@ -556,6 +577,8 @@ void AMario::JumpVectorUpdate(float _DeltaTime)
 void AMario::GravityVectorUpdate(float _DeltaTime)
 {
 	GravityVector += GravityAcc * _DeltaTime;
+
+
 	Color8Bit Color = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
