@@ -43,6 +43,9 @@ private:
 
 	EMonsterState State = EMonsterState::None;
 	EActorDir DirState = EActorDir::Left;
+	EMonsterShootDir ShootState = EMonsterShootDir::Left;
+	
+	FVector ShootMoveVector = FVector::Zero;
 
 	std::string CurAnimationName = "";
 
@@ -50,7 +53,10 @@ private:
 	bool DestoryValue = false;
 
 	float MoveSpeed = 100.0f;
+	float ShootSpeed = 300.0f;
 	float GravitySpeed = 500.0f;
 	float DirUnitVector = -1.0f;
+	float WakeUpTime = 5.0f;
+	float CurTime = 0.0f;
 };
 

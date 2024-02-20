@@ -24,6 +24,12 @@ enum class EActorDir
 	Right,
 };
 
+enum class EMonsterShootDir
+{
+	Left,
+	Right
+};
+
 enum class EPlayState
 {
 	CameraFreeMove,

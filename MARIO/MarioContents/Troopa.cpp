@@ -57,25 +57,32 @@ void ATroopa::Tick(float _DeltaTime)
 				(
 					Collision.GetPosition().Y + 32.0f >= MyTransform.GetPosition().Y - 32.0f
 					&& Collision.GetPosition().Y + 32.0f < MyTransform.GetPosition().Y
-					&& Collision.GetPosition().X + 32.0f >= MyTransform.GetPosition().X - 32.0f
-					&& Collision.GetPosition().X - 32.0f <= MyTransform.GetPosition().X + 32.0f
 				)
 			{
+				Player->StateChange(EPlayState::Kill);
 				StateChange(EMonsterState::Dead);
+				return;
 			}
 		}
 
 		if (EMonsterState::Dead == State)
 		{
-			if
+			if 
 				(
-					Collision.GetPosition().X + 32.0f >= MyTransform.GetPosition().X - 32.0f
-					&& Collision.GetPosition().X - 32.0f <= MyTransform.GetPosition().X + 32.0f
+					Collision.GetPosition().X > MyTransform.GetPosition().X - 32.0f
+					&& Collision.GetPosition().X < MyTransform.GetPosition().X
 				)
 			{
-				StateChange(EMonsterState::Shoot);
-				return;
+				ShootState = EMonsterShootDir::Left;
+				
 			}
+			else
+			{
+				ShootState = EMonsterShootDir::Right;
+			}
+
+			StateChange(EMonsterState::Shoot);
+			return;
 		}
 	}
 
@@ -97,9 +104,9 @@ void ATroopa::StateChange(EMonsterState _State)
 		case EMonsterState::Shoot:
 			ShootStart();
 			break;
-		case EMonsterState::Wake:
+		/*case EMonsterState::Wake:
 			WakeStart();
-			break;
+			break;*/
 		default:
 			break;
 		}
@@ -169,19 +176,31 @@ void ATroopa::MoveStart()
 
 void ATroopa::DeadStart()
 {
-	DeadValue = true;
+	BodyCollision->ActiveOff();
 	Renderer->ChangeAnimation("TroopaHide");
 }
 
 void ATroopa::ShootStart()
 {
-
+	switch (ShootState)
+	{
+	case EMonsterShootDir::Left:
+		DirState = EActorDir::Right;
+		break;
+	case EMonsterShootDir::Right:
+		DirState = EActorDir::Right;
+		break;
+	default:
+		break;
+	}
 }
 
 void ATroopa::WakeStart()
 {
-	DeadValue = false;
-	Renderer->ChangeAnimation("TroopaWake");
+	//DeadValue = false;
+	//BodyCollision->SetPosition({ 0, -30 });
+	//BodyCollision->SetScale({ 50, 50 });
+	//Renderer->ChangeAnimation("TroopaWake");
 }
 
 void ATroopa::GravityMove(float _DeltaTime)
@@ -203,22 +222,113 @@ void ATroopa::Move(float _DeltaTime)
 	FVector ForwardVector = { 1.0f, 0.0f, 0.0f, 0.0f };
 	GravityMove(_DeltaTime);
 
-	if (true == DestoryValue)
+	FVector CheckPos = GetActorLocation();
+	switch (DirState)
+	{
+	case EActorDir::Left:
+		CheckPos.X -= 32.0f;
+		break;
+	case EActorDir::Right:
+		CheckPos.X += 32.0f;
+		break;
+	default:
+		break;
+	}
+	CheckPos.Y -= 32.0f;
+
+	Color8Bit Color = UContentsHelper::MapColImage->GetColor(CheckPos.iX(), CheckPos.iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		ChangeDir(DirState);
+	}
+
+	if (EActorDir::Left == DirState)
+	{
+		DirUnitVector = -1.0f;
+	}
+	else
+	{
+		DirUnitVector = 1.0f;
+	}
+
+	CheckWindowPosition();
+
+	if (true == DeadValue)
 	{
 		Destroy();
 	}
+
+	AddActorLocation(ForwardVector * DirUnitVector * MoveSpeed * _DeltaTime);
 }
 
 void ATroopa::Dead(float _DeltaTime)
 {
+	BodyCollision->ActiveOn();
+	BodyCollision->SetPosition({ 0, -10 });
+	BodyCollision->SetScale({ 50, 30 });
+
+	if (WakeUpTime <= CurTime)
+	{
+		CurTime = 0.0f;
+		StateChange(EMonsterState::Wake);
+		return;
+	}
+	CurTime += _DeltaTime;
 }
 
 void ATroopa::Shoot(float _DeltaTime)
 {
+	FVector ForwardVector = { 1.0f, 0.0f, 0.0f, 0.0f };
+
+	GravityMove(_DeltaTime);
+
+	FVector CheckPos = GetActorLocation();
+	switch (DirState)
+	{
+	case EActorDir::Left:
+	{
+		CheckPos.X -= 32.0f;
+		break;
+	}
+	case EActorDir::Right:
+	{
+		CheckPos.X += 32.0f;
+		break;
+	}
+	default:
+		break;
+	}
+	CheckPos.Y -= 32.0f;
+
+	Color8Bit Color = UContentsHelper::MapColImage->GetColor(CheckPos.iX(), CheckPos.iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		ChangeDir(DirState);
+	}
+
+	if (EActorDir::Left == DirState)
+	{
+		DirUnitVector = -1.0f;
+	}
+	else
+	{
+		DirUnitVector = 1.0f;
+	}
+
+	CheckWindowPosition();
+
+	if (true == DeadValue)
+	{
+		Destroy();
+	}
+
+	AddActorLocation(ForwardVector * DirUnitVector * ShootSpeed * _DeltaTime);
 }
 
 void ATroopa::Wake(float _DeltaTime)
 {
+	StateChange(EMonsterState::Move);
+	return;
 }
 
 void ATroopa::ChangeDir(EActorDir _State)
