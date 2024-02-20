@@ -15,7 +15,7 @@ void AGoomba::BeginPlay()
 
 	{
 		Renderer = CreateImageRenderer(ERenderOrder::Monster);
-		Renderer->SetImage("Goomba.png");
+		Renderer->SetImage("OpenWorldGoomba.png");
 		Renderer->SetTransform({ { 0, 0 }, { 256 * 1.5f, 256 * 1.3f } });
 	}
 

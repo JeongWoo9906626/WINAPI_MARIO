@@ -3,12 +3,13 @@
 #include "ContentsHelper.h"
 #include "Mario.h"
 #include "Goomba.h"
+#include "Turtle.h"
 
-UPlayLevel::UPlayLevel() 
+UPlayLevel::UPlayLevel()
 {
 }
 
-UPlayLevel::~UPlayLevel() 
+UPlayLevel::~UPlayLevel()
 {
 }
 
@@ -16,18 +17,22 @@ void UPlayLevel::BeginPlay()
 {
 	ULevel::BeginPlay();
 
-	ABackGround* BackGroundMap = SpawnActor<ABackGround>(ERenderOrder::Map);
-	BackGroundMap->SetMapImage("Stage01.png");
-	BackGroundMap->SetCollisionMapImage("Stage01_Col.png");
-	BackGroundMap->SwitchDebug();
+		ABackGround* BackGroundMap = SpawnActor<ABackGround>(ERenderOrder::Map);
+		BackGroundMap->SetMapImage("Stage01.png");
+		BackGroundMap->SetCollisionMapImage("Stage01_Col.png");
+		BackGroundMap->SwitchDebug();
 
-	AMario* Mario = SpawnActor<AMario>(ERenderOrder::Player);
-	Mario->SetName("Player");
-	Mario->SetActorLocation({ 200, 500 });
+		AMario* Mario = SpawnActor<AMario>(ERenderOrder::Player);
+		Mario->SetName("Player");
+		Mario->SetActorLocation({ 200, 500 });
+	
+		AGoomba* Goomba = SpawnActor<AGoomba>(ERenderOrder::Monster);
+		Goomba->SetName("OpenWorldGoomba1");
+		Goomba->SetActorLocation({ 600, 500 });
 
-	AGoomba* Goomba = SpawnActor<AGoomba>(ERenderOrder::Monster);
-	Goomba->SetName("Goomba1");
-	Goomba->SetActorLocation({ 600, 500 });
+		ATurtle* Turtle = SpawnActor<ATurtle>(ERenderOrder::Monster);
+		Turtle->SetName("OpenWorldTroopa");
+		Turtle->SetActorLocation({ 800, 700 });
 }
 
 void UPlayLevel::Tick(float _DeltaTime)
