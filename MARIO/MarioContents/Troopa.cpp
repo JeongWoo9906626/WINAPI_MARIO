@@ -1,15 +1,15 @@
 #include "Troopa.h"
 #include "Mario.h"
 
-ATurtle::ATurtle()
+ATroopa::ATroopa()
 {
 }
 
-ATurtle::~ATurtle()
+ATroopa::~ATroopa()
 {
 }
 
-void ATurtle::BeginPlay()
+void ATroopa::BeginPlay()
 {
 	AActor::BeginPlay();
 
@@ -37,7 +37,7 @@ void ATurtle::BeginPlay()
 	StateChange(EMonsterState::Move);
 }
 
-void ATurtle::Tick(float _DeltaTime)
+void ATroopa::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 
@@ -82,7 +82,7 @@ void ATurtle::Tick(float _DeltaTime)
 	StateUpdate(_DeltaTime);
 }
 
-void ATurtle::StateChange(EMonsterState _State)
+void ATroopa::StateChange(EMonsterState _State)
 {
 	if (State != _State)
 	{
@@ -108,7 +108,7 @@ void ATurtle::StateChange(EMonsterState _State)
 	State = _State;
 }
 
-void ATurtle::StateUpdate(float _DeltaTime)
+void ATroopa::StateUpdate(float _DeltaTime)
 {
 	switch (State)
 	{
@@ -130,31 +130,7 @@ void ATurtle::StateUpdate(float _DeltaTime)
 
 }
 
-void ATurtle::DirCheck()
-{
-	EActorDir Dir = DirState;
-
-	if (UEngineInput::IsPress(VK_LEFT) && UEngineInput::IsPress(VK_RIGHT))
-	{
-		AnimationCheck(Dir);
-		return;
-	}
-
-	if (UEngineInput::IsPress(VK_LEFT))
-	{
-		Dir = EActorDir::Left;
-		AnimationCheck(Dir);
-		return;
-	}
-	if (UEngineInput::IsPress(VK_RIGHT))
-	{
-		Dir = EActorDir::Right;
-		AnimationCheck(Dir);
-		return;
-	}
-}
-
-void ATurtle::AnimationCheck(EActorDir _Dir)
+void ATroopa::AnimationCheck(EActorDir _Dir)
 {
 	if (_Dir != DirState)
 	{
@@ -164,7 +140,7 @@ void ATurtle::AnimationCheck(EActorDir _Dir)
 	}
 }
 
-std::string ATurtle::GetAnimationName(std::string _Name)
+std::string ATroopa::GetAnimationName(std::string _Name)
 {
 	std::string DirName = "";
 
@@ -185,42 +161,84 @@ std::string ATurtle::GetAnimationName(std::string _Name)
 	return _Name + DirName;
 }
 
-void ATurtle::MoveStart()
+void ATroopa::MoveStart()
 {
 	DeadValue = false;
-	DirCheck();
 	Renderer->ChangeAnimation(GetAnimationName("Troopa_Move"));
 }
 
-void ATurtle::DeadStart()
+void ATroopa::DeadStart()
 {
 	DeadValue = true;
 	Renderer->ChangeAnimation("TroopaHide");
 }
 
-void ATurtle::ShootStart()
+void ATroopa::ShootStart()
 {
 
 }
 
-void ATurtle::WakeStart()
+void ATroopa::WakeStart()
 {
 	DeadValue = false;
 	Renderer->ChangeAnimation("TroopaWake");
 }
 
-void ATurtle::Move(float _DeltaTime)
+void ATroopa::GravityMove(float _DeltaTime)
+{
+	FVector GravityVector = { 0.0f, 1.0f, 0.0f, 0.0f };
+	Color8Bit Color = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		GravityVector = FVector::Zero;
+	}
+	else
+	{
+		AddActorLocation(GravityVector * GravitySpeed * _DeltaTime);
+	}
+}
+
+void ATroopa::Move(float _DeltaTime)
+{
+	FVector ForwardVector = { 1.0f, 0.0f, 0.0f, 0.0f };
+	GravityMove(_DeltaTime);
+
+	if (true == DestoryValue)
+	{
+		Destroy();
+	}
+}
+
+void ATroopa::Dead(float _DeltaTime)
 {
 }
 
-void ATurtle::Dead(float _DeltaTime)
+void ATroopa::Shoot(float _DeltaTime)
 {
 }
 
-void ATurtle::Shoot(float _DeltaTime)
+void ATroopa::Wake(float _DeltaTime)
 {
 }
 
-void ATurtle::Wake(float _DeltaTime)
+void ATroopa::ChangeDir(EActorDir _State)
 {
+	if (EActorDir::Left == DirState)
+	{
+		DirState = EActorDir::Right;
+	}
+	else
+	{
+		DirState = EActorDir::Left;
+	}
+}
+
+void ATroopa::CheckWindowPosition()
+{
+	FVector CurPosition = GetActorLocation();
+	FVector CameraPos = GetWorld()->GetCameraPos();
+	if (CameraPos.X >= CurPosition.X)
+	{
+		DestoryValue = true;
+	}
 }

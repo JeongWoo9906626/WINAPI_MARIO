@@ -3,7 +3,7 @@
 #include "ContentsHelper.h"
 #include "Mario.h"
 #include "Goomba.h"
-#include "Turtle.h"
+#include "Troopa.h"
 
 UPlayLevel::UPlayLevel()
 {
@@ -30,7 +30,7 @@ void UPlayLevel::BeginPlay()
 		Goomba->SetName("OpenWorldGoomba1");
 		Goomba->SetActorLocation({ 600, 500 });
 
-		ATurtle* Turtle = SpawnActor<ATurtle>(ERenderOrder::Monster);
+		ATroopa* Turtle = SpawnActor<ATroopa>(ERenderOrder::Monster);
 		Turtle->SetName("OpenWorldTroopa");
 		Turtle->SetActorLocation({ 800, 700 });
 }

@@ -3,12 +3,12 @@
 #include "ContentsHelper.h"
 
 class AGoomba;
-class ATurtle;
+class ATroopa;
 // Ό³Έν :
 class AMario : public AActor
 {
 	friend AGoomba;
-	friend ATurtle;
+	friend ATroopa;
 private:
 	//static AMario* MainPlayer;
 

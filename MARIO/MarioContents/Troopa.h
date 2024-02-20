@@ -2,16 +2,16 @@
 #include <EngineCore/Actor.h>
 #include "ContentsHelper.h"
 
-class ATurtle : public AActor
+class ATroopa : public AActor
 {
 public:
-	ATurtle();
-	~ATurtle();
+	ATroopa();
+	~ATroopa();
 
-	ATurtle(const ATurtle& _Other) = delete;
-	ATurtle(ATurtle&& _Other) noexcept = delete;
-	ATurtle& operator=(const ATurtle& _Other) = delete;
-	ATurtle& operator=(ATurtle&& _Other) noexcept = delete;
+	ATroopa(const ATroopa& _Other) = delete;
+	ATroopa(ATroopa&& _Other) noexcept = delete;
+	ATroopa& operator=(const ATroopa& _Other) = delete;
+	ATroopa& operator=(ATroopa&& _Other) noexcept = delete;
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -19,7 +19,6 @@ protected:
 	void StateChange(EMonsterState _State);
 	void StateUpdate(float _DeltaTime);
 
-	void DirCheck();
 	void AnimationCheck(EActorDir _Dir);
 
 	std::string GetAnimationName(std::string _Name);
@@ -29,10 +28,14 @@ protected:
 	void ShootStart();
 	void WakeStart();
 
+	void GravityMove(float _DeltaTime);
 	void Move(float _DeltaTime);
 	void Dead(float _DeltaTime);
 	void Shoot(float _DeltaTime);
 	void Wake(float _DeltaTime);
+
+	void ChangeDir(EActorDir _State);
+	void CheckWindowPosition();
 
 private:
 	UImageRenderer* Renderer = nullptr;
@@ -44,6 +47,7 @@ private:
 	std::string CurAnimationName = "";
 
 	bool DeadValue = false;
+	bool DestoryValue = false;
 
 	float MoveSpeed = 100.0f;
 	float GravitySpeed = 500.0f;
