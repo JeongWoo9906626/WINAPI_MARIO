@@ -49,6 +49,8 @@ enum class EMonsterState
 {
 	Move,
 	Dead,
+	Shoot,
+	Wake,
 	None
 };
 

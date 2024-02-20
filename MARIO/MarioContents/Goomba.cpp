@@ -16,19 +16,19 @@ void AGoomba::BeginPlay()
 	{
 		Renderer = CreateImageRenderer(ERenderOrder::Monster);
 		Renderer->SetImage("OpenWorldGoomba.png");
-		Renderer->SetTransform({ { 0, 0 }, { 256 * 1.5f, 256 * 1.3f } });
+		Renderer->SetTransform({ { 0, 0 }, { 256 * 1.3f, 256 * 1.3f } });
 	}
 
 	{
-		Renderer->CreateAnimation("GoombaDie", "Goomba.png", 2, 2, 0.1f, true);
-		Renderer->CreateAnimation("GoombaMove", "Goomba.png", 0, 1, 0.2f, true);
+		Renderer->CreateAnimation("GoombaDie", "OpenWorldGoomba.png", 2, 2, 0.1f, true);
+		Renderer->CreateAnimation("GoombaMove", "OpenWorldGoomba.png", 0, 1, 0.2f, true);
 	}
 
 	{
 		BodyCollision = CreateCollision(ECollisionOrder::Monster);
 		BodyCollision->SetColType(ECollisionType::Rect);
 		BodyCollision->SetPosition({ 0, -30 });
-		BodyCollision->SetScale({ 60, 60 });
+		BodyCollision->SetScale({ 40, 40 });
 	}
 
 	StateChange(EMonsterState::Move);

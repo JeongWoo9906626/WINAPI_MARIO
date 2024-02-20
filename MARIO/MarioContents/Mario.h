@@ -2,10 +2,13 @@
 #include <EngineCore/Actor.h>
 #include "ContentsHelper.h"
 
+class AGoomba;
+class ATurtle;
 // Ό³Έν :
 class AMario : public AActor
 {
-	friend class AGoomba;
+	friend AGoomba;
+	friend ATurtle;
 private:
 	//static AMario* MainPlayer;
 

@@ -51,7 +51,7 @@
     <ClInclude Include="Goomba.h">
       <Filter>PlayLevel\Actor\Monster</Filter>
     </ClInclude>
-    <ClInclude Include="Turtle.h">
+    <ClInclude Include="Troopa.h">
       <Filter>PlayLevel\Actor\Monster</Filter>
     </ClInclude>
   </ItemGroup>
@@ -80,7 +80,7 @@
     <ClCompile Include="Goomba.cpp">
       <Filter>PlayLevel\Actor\Monster</Filter>
     </ClCompile>
-    <ClCompile Include="Turtle.cpp">
+    <ClCompile Include="Troopa.cpp">
       <Filter>PlayLevel\Actor\Monster</Filter>
     </ClCompile>
   </ItemGroup>

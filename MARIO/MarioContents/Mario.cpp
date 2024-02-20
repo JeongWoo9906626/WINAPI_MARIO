@@ -5,6 +5,7 @@
 
 #include "ContentsHelper.h"
 #include "Goomba.h"
+#include "Turtle.h"
 
 AMario::AMario()
 {

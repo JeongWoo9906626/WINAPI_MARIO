@@ -16,6 +16,23 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
+	void StateChange(EMonsterState _State);
+	void StateUpdate(float _DeltaTime);
+
+	void DirCheck();
+	void AnimationCheck(EActorDir _Dir);
+
+	std::string GetAnimationName(std::string _Name);
+
+	void MoveStart();
+	void DeadStart();
+	void ShootStart();
+	void WakeStart();
+
+	void Move(float _DeltaTime);
+	void Dead(float _DeltaTime);
+	void Shoot(float _DeltaTime);
+	void Wake(float _DeltaTime);
 
 private:
 	UImageRenderer* Renderer = nullptr;
@@ -23,6 +40,8 @@ private:
 
 	EMonsterState State = EMonsterState::None;
 	EActorDir DirState = EActorDir::Left;
+
+	std::string CurAnimationName = "";
 
 	bool DeadValue = false;
 

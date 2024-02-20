@@ -187,7 +187,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Turtle.h">
+    <ClInclude Include="Troopa.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -225,7 +225,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Turtle.cpp">
+    <ClCompile Include="Troopa.cpp">
       <SubType>
       </SubType>
     </ClCompile>
