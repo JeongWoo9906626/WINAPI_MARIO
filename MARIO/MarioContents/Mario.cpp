@@ -4,6 +4,7 @@
 #include <EngineBase\EngineDebug.h>
 
 #include "ContentsHelper.h"
+#include "Goomba.h"
 
 AMario::AMario()
 {
@@ -54,8 +55,32 @@ void AMario::Tick(float _DeltaTime)
 	std::vector<UCollision*> Result;
 	if (true == BodyCollision->CollisionCheck(ECollisionOrder::Monster, Result))
 	{
-		StateChange(EPlayState::Die);
-		return;
+		for (size_t i = 0; i < Result.size(); i++)
+		{
+			UCollision* MonsterCollision = Result[i];
+			FTransform MonsterTransform = MonsterCollision->GetActorBaseTransform();
+			FTransform MyTransform = BodyCollision->GetActorBaseTransform();
+
+			int a = 0;
+
+			// 몬스터의 머리 y좌표 > 마리오의 바닥 y좌표
+			if 
+				(
+					   MonsterTransform.GetPosition().Y - 32.0f < MyTransform.GetPosition().Y + 32.0f 
+					&& MonsterTransform.GetPosition().Y > MyTransform.GetPosition().Y + 32.0f
+					&& MonsterTransform.GetPosition().X - 32.0f < MyTransform.GetPosition().X + 32.0f
+					&& MonsterTransform.GetPosition().X + 32.0f > MyTransform.GetPosition().X - 32.0f
+				)
+			{
+				StateChange(EPlayState::Kill);
+				return;
+			}
+			else
+			{
+				StateChange(EPlayState::Die);
+				return;
+			}
+		}
 	}
 
 	StateUpdate(_DeltaTime);
@@ -158,6 +183,9 @@ void AMario::StateChange(EPlayState _State)
 		case EPlayState::Die:
 			DieStart();
 			break;
+		case EPlayState::Kill:
+			KillStart();
+			break;
 		default:
 			break;
 		}
@@ -190,6 +218,9 @@ void AMario::StateUpdate(float _DeltaTime)
 		break;
 	case EPlayState::Die:
 		Die(_DeltaTime);
+		break;
+	case EPlayState::Kill:
+		Kill(_DeltaTime);
 		break;
 	default:
 		break;
@@ -283,7 +314,16 @@ void AMario::ReverseStart()
 void AMario::DieStart()
 {
 	JumpVector = DieJumpVector;
+	BodyCollision->ActiveOff();
 	Renderer->ChangeAnimation("Die");
+}
+
+void AMario::KillStart()
+{
+	DirCheck();
+	GravityVector = FVector::Zero;
+	JumpVector = DieJumpVector;
+	Renderer->ChangeAnimation(GetAnimationName("Jump"));
 }
 
 void AMario::Idle(float _DeltaTime)
@@ -322,8 +362,6 @@ void AMario::Idle(float _DeltaTime)
 
 void AMario::Run(float _DeltaTime)
 {
-	//CurBreakSpeed = 150.0f;
-
 	if (true == UEngineInput::IsDown(VK_SPACE))
 	{
 		StateChange(EPlayState::Jump);
@@ -343,8 +381,6 @@ void AMario::Run(float _DeltaTime)
 			MoveUpdate(_DeltaTime);
 			return;
 		}
-		//StateChange(EPlayState::Idle);
-		//return;
 	}
 
 	if (true == UEngineInput::IsPress(VK_LEFT) && true == UEngineInput::IsPress(VK_RIGHT))
@@ -369,7 +405,6 @@ void AMario::Run(float _DeltaTime)
 			default:
 				break;
 			}
-			//CurBreakSpeed = 300.0f;
 			SubtractVector(BreakDirState * _DeltaTime);
 			MoveUpdate(_DeltaTime);
 			return;
@@ -447,8 +482,6 @@ void AMario::Reverse(float _DeltaTime)
 		return;
 	}
 
-	//CurBreakSpeed = 500.0f;
-
 	if (DirState == EActorDir::Left)
 	{
 		if (true == UEngineInput::IsDown(VK_LEFT))
@@ -499,6 +532,19 @@ void AMario::Die(float _DeltaTime)
 {
 	AddActorLocation(JumpVector * _DeltaTime);
 	JumpVector += GravityAcc * _DeltaTime;
+}
+
+void AMario::Kill(float _DeltaTime)
+{
+	MoveUpdate(_DeltaTime);
+
+	Color8Bit Color = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		JumpVector = FVector::Zero;
+		StateChange(EPlayState::Idle);
+		return;
+	}
 }
 
 void AMario::ReverseDir()
@@ -563,7 +609,7 @@ void AMario::RunVectorUpdate(float _DeltaTime)
 	}
 
 	float CamerPos = GetWorld()->GetCameraPos().X;
-	int a = 0;
+
 	if (CheckPos.X <= CamerPos)
 	{
 		RunVector = FVector::Zero;

@@ -1,4 +1,5 @@
 #include "Goomba.h"
+#include "Mario.h"
 
 AGoomba::AGoomba()
 {
@@ -41,9 +42,24 @@ void AGoomba::Tick(float _DeltaTime)
 	if (true == BodyCollision->CollisionCheck(ECollisionOrder::Player, Result))
 	{
 		UCollision* MarioPosition = Result[0];
-		FTransform Collision = MarioPosition->GetTransform();
-		StateChange(EMonsterState::Dead);
-		return;
+		AMario* Player = (AMario*)MarioPosition->GetOwner();
+
+		FTransform Collision = MarioPosition->GetActorBaseTransform();
+
+		FTransform MyTransform = BodyCollision->GetActorBaseTransform();
+
+		if 
+			(
+				   Collision.GetPosition().Y + 32.0f >= MyTransform.GetPosition().Y - 32.0f 
+				&& Collision.GetPosition().Y + 32.0f < MyTransform.GetPosition().Y
+				&& Collision.GetPosition().X + 32.0f >= MyTransform.GetPosition().X - 32.0f 
+				&& Collision.GetPosition().X - 32.0f <= MyTransform.GetPosition().X + 32.0f
+			)
+		{
+			Player->StateChange(EPlayState::Kill);
+			StateChange(EMonsterState::Dead);
+			return;
+		}
 	}
 
 	StateUpdate(_DeltaTime);
@@ -79,6 +95,7 @@ void AGoomba::DeadStart()
 {
 	DeadValue = true;
 	Renderer->ChangeAnimation("GoombaDie");
+	BodyCollision->ActiveOff();
 	Destroy(0.5f);
 }
 

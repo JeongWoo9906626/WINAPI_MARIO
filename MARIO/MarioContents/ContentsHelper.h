@@ -33,6 +33,7 @@ enum class EPlayState
 	Reverse,
 	Jump,
 	Die,
+	Kill,
 	None,
 };
 

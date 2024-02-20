@@ -39,7 +39,7 @@ private:
 
 	bool DeadValue = false;
 
-	float MoveSpeed = 300.0f;
+	float MoveSpeed = 100.0f;
 	float GravitySpeed = 500.0f;
 	float DirUnitVector = -1.0f;
 };

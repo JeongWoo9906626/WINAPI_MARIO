@@ -5,6 +5,7 @@
 // Ό³Έν :
 class AMario : public AActor
 {
+	friend class AGoomba;
 private:
 	//static AMario* MainPlayer;
 
@@ -38,6 +39,7 @@ protected:
 	void JumpStart();
 	void ReverseStart();
 	void DieStart();
+	void KillStart();
 
 	void CameraFreeMove(float _DeltaTime);
 	void FreeMove(float _DeltaTime);
@@ -47,6 +49,7 @@ protected:
 	void Jump(float _DeltaTime);
 	void Reverse(float _DeltaTime);
 	void Die(float _DeltaTime);
+	void Kill(float _DeltaTime);
 
 	void ReverseDir();
 	
@@ -83,8 +86,9 @@ private:
 	FVector GravityAcc = FVector::Down * 2000.0f;
 	FVector GravityVector = FVector::Zero;
 
-	FVector DieJumpVector = FVector::Up * 600.0f;
+	FVector DieJumpVector = FVector::Up * 300.0f;
 	FVector JumpPower = FVector::Up * 700.0f;
+	FVector KillJumpPower = FVector::Up * 500.0f;
 	FVector NoramlJumpPower = FVector::Up * 700.0f;
 	FVector RunJumpPower = FVector::Up * 1000.0f;
 
