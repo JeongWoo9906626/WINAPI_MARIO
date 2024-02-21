@@ -175,6 +175,8 @@ std::string ATroopa::GetAnimationName(std::string _Name)
 void ATroopa::MoveStart()
 {
 	DeadValue = false;
+	BodyCollision->SetPosition({ 0, -30 });
+	BodyCollision->SetScale({ 50, 50 });
 	Renderer->ChangeAnimation(GetAnimationName("Troopa_Move"));
 }
 
