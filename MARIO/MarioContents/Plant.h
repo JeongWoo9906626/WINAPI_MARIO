@@ -37,12 +37,11 @@ private:
 
 	bool IsUp = true;
 
-	float MoveSpeed = 30.0f;
-
+	float MoveSpeed = 50.0f;
 	float MaxMoveY = 90.0f;
 	float CurMoveY = 0.0f;
 
 	float CurTime = 0.0f;
-	float WaitTime = 3.0f;
+	float WaitTime = 2.0f;
 };
 
