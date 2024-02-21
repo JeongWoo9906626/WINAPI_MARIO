@@ -60,6 +60,13 @@ enum class EMonsterState
 	None
 };
 
+enum class EPlantState
+{
+	Move,
+	Stop,
+	None,
+};
+
 // Ό³Έν :
 class UContentsHelper
 {

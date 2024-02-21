@@ -16,8 +16,29 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
+	void StateChange(EPlantState _State);
+	void StateUpdate(float _DeltaTime);
+
+	void MoveStart();
+	void StopStart();
+
+	void Move(float _DeltaTime);
+	void Stop(float _DeltaTime);
+
 private:
 	UImageRenderer* Renderer = nullptr;
 	UCollision* BodyCollision = nullptr;
+
+	EPlantState State = EPlantState::None;
+
+	FVector DirVector = FVector::Up;
+
+	bool IsUp = true;
+
+	float MoveSpeed = 30.0f;
+
+	float MaxMoveY = 90.0f;
+	float CurMoveY = 0.0f;
+
 };
 

@@ -37,7 +37,9 @@ void UPlayLevel::BeginPlay()
 
 		APlant* Plant = SpawnActor<APlant>(ERenderOrder::Monster);
 		Plant->SetName("Plant");
-		Plant->SetActorLocation({ 1855, 710 });
+		// 710 MaxTop 
+		// 800 MaxBottom
+		Plant->SetActorLocation({ 1855, 800 });
 }
 
 void UPlayLevel::Tick(float _DeltaTime)
