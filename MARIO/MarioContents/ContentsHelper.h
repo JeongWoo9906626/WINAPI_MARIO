@@ -63,6 +63,7 @@ enum class EMonsterState
 enum class EPlantState
 {
 	Move,
+	Wait,
 	Stop,
 	None,
 };

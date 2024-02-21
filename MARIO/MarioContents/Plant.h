@@ -20,9 +20,11 @@ protected:
 	void StateUpdate(float _DeltaTime);
 
 	void MoveStart();
+	void WaitStart();
 	void StopStart();
 
 	void Move(float _DeltaTime);
+	void Wait(float _DeltaTime);
 	void Stop(float _DeltaTime);
 
 private:
@@ -40,5 +42,7 @@ private:
 	float MaxMoveY = 90.0f;
 	float CurMoveY = 0.0f;
 
+	float CurTime = 0.0f;
+	float WaitTime = 3.0f;
 };
 

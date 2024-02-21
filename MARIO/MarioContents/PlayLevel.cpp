@@ -29,7 +29,7 @@ void UPlayLevel::BeginPlay()
 	
 		AGoomba* Goomba = SpawnActor<AGoomba>(ERenderOrder::Monster);
 		Goomba->SetName("OpenWorldGoomba1");
-		Goomba->SetActorLocation({ 600, 500 });
+		Goomba->SetActorLocation({ 1000, 700 });
 
 		ATroopa* Turtle = SpawnActor<ATroopa>(ERenderOrder::Monster);
 		Turtle->SetName("OpenWorldTroopa");

@@ -49,6 +49,9 @@ void APlant::StateChange(EPlantState _State)
 		case EPlantState::Move:
 			MoveStart();
 			break;
+		case EPlantState::Wait:
+			WaitStart();
+			break;
 		case EPlantState::Stop:
 			StopStart();
 			break;
@@ -67,6 +70,9 @@ void APlant::StateUpdate(float _DeltaTime)
 	case EPlantState::Move:
 		Move(_DeltaTime);
 		break;
+	case EPlantState::Wait:
+		Wait(_DeltaTime);
+		break;
 	case EPlantState::Stop:
 		Stop(_DeltaTime);
 		break;
@@ -77,7 +83,12 @@ void APlant::StateUpdate(float _DeltaTime)
 
 void APlant::MoveStart()
 {
-	
+	CurMoveY = 0.0f;
+}
+
+void APlant::WaitStart()
+{
+	CurTime = 0.0f;
 }
 
 void APlant::StopStart()
@@ -86,39 +97,37 @@ void APlant::StopStart()
 
 void APlant::Move(float _DeltaTime)
 {
-	//if (CurMoveY >= MaxMoveY)
-	//{
-	//	CurMoveY -= MoveSpeed * _DeltaTime;
-	//	DirVector = FVector::Down;
-	//}
 	if (true == IsUp)
 	{
 		DirVector = FVector::Up;
-		if (CurMoveY <= MaxMoveY && CurMoveY >= 0.0f)
-		{
-			CurMoveY += MoveSpeed * _DeltaTime;
-		}
-		else
-		{
-			CurMoveY = MaxMoveY;
-			IsUp = false;
-		}
 	}
 	else
 	{
 		DirVector = FVector::Down;
-		if (CurMoveY <= MaxMoveY && CurMoveY >= 0.0f)
-		{
-			CurMoveY -= MoveSpeed * _DeltaTime;
-		}
-		else
-		{
-			CurMoveY = 0.0f;
-			IsUp = true;
-		}
+	}
+
+	if (CurMoveY <= MaxMoveY && CurMoveY >= 0.0f)
+	{
+		CurMoveY += MoveSpeed * _DeltaTime;
+	}
+	else
+	{
+		StateChange(EPlantState::Wait);
+		return;
 	}
 
 	AddActorLocation(DirVector * MoveSpeed * _DeltaTime);
+}
+
+void APlant::Wait(float _DeltaTime)
+{
+	if (CurTime >= WaitTime)
+	{
+		IsUp = !IsUp;
+		StateChange(EPlantState::Move);
+		return;
+	}
+	CurTime += _DeltaTime;
 }
 
 void APlant::Stop(float _DeltaTime)
