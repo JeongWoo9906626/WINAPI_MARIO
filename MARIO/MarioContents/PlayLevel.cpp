@@ -27,13 +27,13 @@ void UPlayLevel::BeginPlay()
 		Mario->SetName("Player");
 		Mario->SetActorLocation({ 200, 500 });
 	
-		/*AGoomba* Goomba = SpawnActor<AGoomba>(ERenderOrder::Monster);
+		AGoomba* Goomba = SpawnActor<AGoomba>(ERenderOrder::Monster);
 		Goomba->SetName("OpenWorldGoomba1");
 		Goomba->SetActorLocation({ 600, 500 });
 
 		ATroopa* Turtle = SpawnActor<ATroopa>(ERenderOrder::Monster);
 		Turtle->SetName("OpenWorldTroopa");
-		Turtle->SetActorLocation({ 800, 700 });*/
+		Turtle->SetActorLocation({ 800, 700 });
 
 		APlant* Plant = SpawnActor<APlant>(ERenderOrder::Monster);
 		Plant->SetName("Plant");
