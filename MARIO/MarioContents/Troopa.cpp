@@ -76,7 +76,11 @@ void ATroopa::Tick(float _DeltaTime)
 				ShootState = EMonsterShootDir::Left;
 				
 			}
-			else
+			else if 
+				(
+					Collision.GetPosition().X > MyTransform.GetPosition().X
+					&& Collision.GetPosition().X < MyTransform.GetPosition().X + 32.0f
+				)
 			{
 				ShootState = EMonsterShootDir::Right;
 			}
@@ -176,6 +180,7 @@ void ATroopa::MoveStart()
 
 void ATroopa::DeadStart()
 {
+	DeadValue = true;
 	BodyCollision->ActiveOff();
 	Renderer->ChangeAnimation("TroopaHide");
 }
@@ -188,7 +193,7 @@ void ATroopa::ShootStart()
 		DirState = EActorDir::Right;
 		break;
 	case EMonsterShootDir::Right:
-		DirState = EActorDir::Right;
+		DirState = EActorDir::Left;
 		break;
 	default:
 		break;
@@ -197,10 +202,10 @@ void ATroopa::ShootStart()
 
 void ATroopa::WakeStart()
 {
-	//DeadValue = false;
-	//BodyCollision->SetPosition({ 0, -30 });
-	//BodyCollision->SetScale({ 50, 50 });
-	//Renderer->ChangeAnimation("TroopaWake");
+	DeadValue = false;
+	BodyCollision->SetPosition({ 0, -30 });
+	BodyCollision->SetScale({ 50, 50 });
+	Renderer->ChangeAnimation("TroopaWake");
 }
 
 void ATroopa::GravityMove(float _DeltaTime)
@@ -240,6 +245,7 @@ void ATroopa::Move(float _DeltaTime)
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
 		ChangeDir(DirState);
+		Renderer->ChangeAnimation(GetAnimationName("Troopa_Move"));
 	}
 
 	if (EActorDir::Left == DirState)
@@ -253,7 +259,7 @@ void ATroopa::Move(float _DeltaTime)
 
 	CheckWindowPosition();
 
-	if (true == DeadValue)
+	if (true == DestoryValue)
 	{
 		Destroy();
 	}
@@ -266,14 +272,16 @@ void ATroopa::Dead(float _DeltaTime)
 	BodyCollision->ActiveOn();
 	BodyCollision->SetPosition({ 0, -10 });
 	BodyCollision->SetScale({ 50, 30 });
-
 	if (WakeUpTime <= CurTime)
 	{
 		CurTime = 0.0f;
 		StateChange(EMonsterState::Wake);
 		return;
 	}
-	CurTime += _DeltaTime;
+	if (true == DeadValue)
+	{
+		CurTime += _DeltaTime;
+	}
 }
 
 void ATroopa::Shoot(float _DeltaTime)
@@ -317,7 +325,7 @@ void ATroopa::Shoot(float _DeltaTime)
 
 	CheckWindowPosition();
 
-	if (true == DeadValue)
+	if (true == DestoryValue)
 	{
 		Destroy();
 	}

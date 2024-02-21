@@ -37,7 +37,7 @@ private:
 	EMonsterState State = EMonsterState::None;
 	EActorDir DirState = EActorDir::Left;
 
-	bool DeadValue = false;
+	bool DestroyValue = false;
 
 	float MoveSpeed = 100.0f;
 	float GravitySpeed = 500.0f;

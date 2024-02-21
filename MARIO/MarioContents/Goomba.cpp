@@ -87,13 +87,13 @@ void AGoomba::StateChange(EMonsterState _State)
 
 void AGoomba::MoveStart()
 {
-	DeadValue = false;
+	DestroyValue = false;
 	Renderer->ChangeAnimation("GoombaMove");
 }
 
 void AGoomba::DeadStart()
 {
-	DeadValue = true;
+	DestroyValue = true;
 	Renderer->ChangeAnimation("GoombaDie");
 	BodyCollision->ActiveOff();
 	Destroy(0.5f);
@@ -147,7 +147,7 @@ void AGoomba::Move(float _DeltaTime)
 
 	CheckWindowPosition();
 
-	if (true == DeadValue)
+	if (true == DestroyValue)
 	{
 		Destroy();
 	}
@@ -187,6 +187,6 @@ void AGoomba::CheckWindowPosition()
 	FVector CameraPos = GetWorld()->GetCameraPos();
 	if (CameraPos.X >= CurPosition.X)
 	{
-		DeadValue = true;
+		DestroyValue = true;
 	}
 }
