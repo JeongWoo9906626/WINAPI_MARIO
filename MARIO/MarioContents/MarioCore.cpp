@@ -37,6 +37,7 @@ void UMarioCore::BeginPlay()
 	ResoucreManager.CuttingImage("OpenWorldGoomba.png", 3, 1);
 	ResoucreManager.CuttingImage("OpenWorldTroopa_Left.png", 5, 2);
 	ResoucreManager.CuttingImage("OpenWorldTroopa_Right.png", 5, 2);
+	ResoucreManager.CuttingImage("Plant.png", 2, 1);
 
 	// TODO
 	// 생성할 모든 레벨 Core에서 생성

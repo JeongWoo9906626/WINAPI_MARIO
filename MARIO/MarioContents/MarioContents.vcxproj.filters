@@ -54,6 +54,9 @@
     <ClInclude Include="Troopa.h">
       <Filter>PlayLevel\Actor\Monster</Filter>
     </ClInclude>
+    <ClInclude Include="Plant.h">
+      <Filter>PlayLevel\Actor\Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -81,6 +84,9 @@
       <Filter>PlayLevel\Actor\Monster</Filter>
     </ClCompile>
     <ClCompile Include="Troopa.cpp">
+      <Filter>PlayLevel\Actor\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Plant.cpp">
       <Filter>PlayLevel\Actor\Monster</Filter>
     </ClCompile>
   </ItemGroup>
