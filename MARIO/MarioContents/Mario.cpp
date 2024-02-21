@@ -538,7 +538,7 @@ void AMario::Die(float _DeltaTime)
 void AMario::Kill(float _DeltaTime)
 {
 	MoveUpdate(_DeltaTime);
-
+	State = EPlayState::Jump;
 	Color8Bit Color = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{

@@ -89,9 +89,9 @@ private:
 	FVector GravityAcc = FVector::Down * 2000.0f;
 	FVector GravityVector = FVector::Zero;
 
-	FVector DieJumpVector = FVector::Up * 300.0f;
+	FVector DieJumpVector = FVector::Up * 500.0f;
 	FVector JumpPower = FVector::Up * 700.0f;
-	FVector KillJumpPower = FVector::Up * 500.0f;
+	FVector KillJumpPower = FVector::Up * 600.0f;
 	FVector NoramlJumpPower = FVector::Up * 700.0f;
 	FVector RunJumpPower = FVector::Up * 1000.0f;
 

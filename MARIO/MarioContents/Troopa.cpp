@@ -74,7 +74,6 @@ void ATroopa::Tick(float _DeltaTime)
 				)
 			{
 				ShootState = EMonsterShootDir::Left;
-				
 			}
 			else if 
 				(
@@ -108,9 +107,9 @@ void ATroopa::StateChange(EMonsterState _State)
 		case EMonsterState::Shoot:
 			ShootStart();
 			break;
-		/*case EMonsterState::Wake:
+		case EMonsterState::Wake:
 			WakeStart();
-			break;*/
+			break;
 		default:
 			break;
 		}
