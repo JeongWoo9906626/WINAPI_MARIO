@@ -55,6 +55,7 @@ enum class EMonsterState
 {
 	Move,
 	Dead,
+	Touch,
 	Shoot,
 	Wake,
 	None

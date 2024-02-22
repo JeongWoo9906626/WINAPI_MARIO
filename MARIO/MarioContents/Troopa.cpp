@@ -23,7 +23,7 @@ void ATroopa::BeginPlay()
 		Renderer->CreateAnimation("Troopa_Move_Left", "OpenWorldTroopa_Left.png", 0, 1, 0.1f, true);
 		Renderer->CreateAnimation("Troopa_Move_Right", "OpenWorldTroopa_Right.png", 0, 1, 0.1f, true);
 
-		Renderer->CreateAnimation("TroopaWake", "OpenWorldTroopa_Left.png", 5, 5, 0.1f, true);
+		Renderer->CreateAnimation("TroopaWake", "OpenWorldTroopa_Left.png", 4, 5, 0.2f, true);
 		Renderer->CreateAnimation("TroopaHide", "OpenWorldTroopa_Left.png", 4, 4, 0.1f, true);
 	}
 
@@ -48,44 +48,60 @@ void ATroopa::Tick(float _DeltaTime)
 		AMario* Player = (AMario*)MarioPosition->GetOwner();
 
 		FTransform Collision = MarioPosition->GetActorBaseTransform();
-
 		FTransform MyTransform = BodyCollision->GetActorBaseTransform();
 
 		if (EMonsterState::Move == State)
 		{
-			if
-				(
-					Collision.GetPosition().Y + 32.0f >= MyTransform.GetPosition().Y - 32.0f
-					&& Collision.GetPosition().Y + 32.0f < MyTransform.GetPosition().Y
-				)
+			if (Collision.GetPosition().Y + 32.0f < MyTransform.GetPosition().Y)
 			{
+				if (Collision.GetPosition().X < MyTransform.GetPosition().X)
+				{
+					DeadState = EActorDir::Left;
+				}
+				else
+				{
+					DeadState = EActorDir::Right;
+				}
+
 				Player->StateChange(EPlayState::Kill);
 				StateChange(EMonsterState::Dead);
+				return;
+			}
+			else
+			{
+				Player->StateChange(EPlayState::Die);
 				return;
 			}
 		}
 
 		if (EMonsterState::Dead == State)
 		{
-			if 
-				(
-					Collision.GetPosition().X > MyTransform.GetPosition().X - 32.0f
-					&& Collision.GetPosition().X < MyTransform.GetPosition().X
-				)
+			if (Collision.GetPosition().X < MyTransform.GetPosition().X)
 			{
 				ShootState = EMonsterShootDir::Left;
 			}
-			else if 
-				(
-					Collision.GetPosition().X > MyTransform.GetPosition().X
-					&& Collision.GetPosition().X < MyTransform.GetPosition().X + 32.0f
-				)
+			else
 			{
 				ShootState = EMonsterShootDir::Right;
 			}
 
 			StateChange(EMonsterState::Shoot);
 			return;
+		}
+
+		if (EMonsterState::Shoot == State)
+		{
+			if (false == IsAttack)
+			{
+				IsAttack = true;
+				return;
+			}
+			else
+			{
+
+				Player->StateChange(EPlayState::Die);
+				return;
+			}
 		}
 	}
 
@@ -206,7 +222,6 @@ void ATroopa::WakeStart()
 	DeadValue = false;
 	BodyCollision->SetPosition({ 0, -30 });
 	BodyCollision->SetScale({ 50, 50 });
-	Renderer->ChangeAnimation("TroopaWake");
 }
 
 void ATroopa::GravityMove(float _DeltaTime)
@@ -279,6 +294,12 @@ void ATroopa::Dead(float _DeltaTime)
 		StateChange(EMonsterState::Wake);
 		return;
 	}
+
+	if (3.0f <= CurTime)
+	{
+		Renderer->ChangeAnimation("TroopaWake");
+	}
+
 	if (true == DeadValue)
 	{
 		CurTime += _DeltaTime;
@@ -336,6 +357,7 @@ void ATroopa::Shoot(float _DeltaTime)
 
 void ATroopa::Wake(float _DeltaTime)
 {
+	DirState = DeadState;
 	StateChange(EMonsterState::Move);
 	return;
 }

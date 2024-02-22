@@ -6,6 +6,7 @@
 #include "ContentsHelper.h"
 #include "Goomba.h"
 #include "Troopa.h"
+#include "Plant.h"
 
 AMario::AMario()
 {
@@ -53,36 +54,34 @@ void AMario::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 
-	std::vector<UCollision*> Result;
-	if (true == BodyCollision->CollisionCheck(ECollisionOrder::Monster, Result))
-	{
-		for (size_t i = 0; i < Result.size(); i++)
-		{
-			UCollision* MonsterCollision = Result[i];
-			FTransform MonsterTransform = MonsterCollision->GetActorBaseTransform();
-			FTransform MyTransform = BodyCollision->GetActorBaseTransform();
+	//std::vector<UCollision*> Result;
+	//if (true == BodyCollision->CollisionCheck(ECollisionOrder::Monster, Result))
+	//{
+	//	for (size_t i = 0; i < Result.size(); i++)
+	//	{
+	//		UCollision* MonsterCollision = Result[i];
+	//		FTransform MonsterTransform = MonsterCollision->GetActorBaseTransform();
+	//		FTransform MyTransform = BodyCollision->GetActorBaseTransform();
 
-			int a = 0;
+	//		int a = 0;
 
-			// ¸ó½ºÅÍÀÇ ¸Ó¸® yÁÂÇ¥ > ¸¶¸®¿ÀÀÇ ¹Ù´Ú yÁÂÇ¥
-			if 
-				(
-					   MonsterTransform.GetPosition().Y - 32.0f < MyTransform.GetPosition().Y + 32.0f 
-					&& MonsterTransform.GetPosition().Y > MyTransform.GetPosition().Y + 32.0f
-					&& MonsterTransform.GetPosition().X - 32.0f < MyTransform.GetPosition().X + 32.0f
-					&& MonsterTransform.GetPosition().X + 32.0f > MyTransform.GetPosition().X - 32.0f
-				)
-			{
-				StateChange(EPlayState::Kill);
-				return;
-			}
-			else
-			{
-				StateChange(EPlayState::Die);
-				return;
-			}
-		}
-	}
+	//		// ¸ó½ºÅÍÀÇ ¸Ó¸® yÁÂÇ¥ > ¸¶¸®¿ÀÀÇ ¹Ù´Ú yÁÂÇ¥
+	//		/*if 
+	//			(
+	//				   MonsterTransform.GetPosition().Y - 32.0f < MyTransform.GetPosition().Y + 32.0f 
+	//				&& MonsterTransform.GetPosition().Y > MyTransform.GetPosition().Y + 32.0f
+	//			)
+	//		{
+	//			StateChange(EPlayState::Kill);
+	//			return;
+	//		}
+	//		else
+	//		{
+	//			StateChange(EPlayState::Die);
+	//			return;
+	//		}*/
+	//	}
+	//}
 
 	StateUpdate(_DeltaTime);
 }

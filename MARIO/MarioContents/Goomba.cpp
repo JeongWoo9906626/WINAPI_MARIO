@@ -48,16 +48,15 @@ void AGoomba::Tick(float _DeltaTime)
 
 		FTransform MyTransform = BodyCollision->GetActorBaseTransform();
 
-		if 
-			(
-				   Collision.GetPosition().Y + 32.0f >= MyTransform.GetPosition().Y - 32.0f 
-				&& Collision.GetPosition().Y + 32.0f < MyTransform.GetPosition().Y
-				&& Collision.GetPosition().X + 32.0f >= MyTransform.GetPosition().X - 32.0f 
-				&& Collision.GetPosition().X - 32.0f <= MyTransform.GetPosition().X + 32.0f
-			)
+		if (Collision.GetPosition().Y + 32.0f < MyTransform.GetPosition().Y)
 		{
 			Player->StateChange(EPlayState::Kill);
 			StateChange(EMonsterState::Dead);
+			return;
+		}
+		else
+		{
+			Player->StateChange(EPlayState::Die);
 			return;
 		}
 	}

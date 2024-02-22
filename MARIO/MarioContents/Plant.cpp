@@ -1,4 +1,5 @@
 #include "Plant.h"
+#include "Mario.h"
 
 APlant::APlant()
 {
@@ -36,6 +37,15 @@ void APlant::BeginPlay()
 void APlant::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
+
+	std::vector<UCollision*> Result;
+	if (true == BodyCollision->CollisionCheck(ECollisionOrder::Player, Result))
+	{
+		UCollision* MarioPosition = Result[0];
+		AMario* Player = (AMario*)MarioPosition->GetOwner();
+		Player->StateChange(EPlayState::Die);
+		return;
+	}
 
 	StateUpdate(_DeltaTime);
 }

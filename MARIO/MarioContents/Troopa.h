@@ -43,6 +43,7 @@ private:
 
 	EMonsterState State = EMonsterState::None;
 	EActorDir DirState = EActorDir::Left;
+	EActorDir DeadState = EActorDir::Left;
 	EMonsterShootDir ShootState = EMonsterShootDir::Left;
 	
 	FVector ShootMoveVector = FVector::Zero;
@@ -51,6 +52,8 @@ private:
 
 	bool DeadValue = false;
 	bool DestoryValue = false;
+
+	bool IsAttack = false;
 
 	float MoveSpeed = 100.0f;
 	float ShootSpeed = 600.0f;

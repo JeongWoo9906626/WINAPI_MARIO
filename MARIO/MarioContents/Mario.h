@@ -4,11 +4,13 @@
 
 class AGoomba;
 class ATroopa;
+class APlant;
 // Ό³Έν :
 class AMario : public AActor
 {
 	friend AGoomba;
 	friend ATroopa;
+	friend APlant;
 private:
 	//static AMario* MainPlayer;
 
