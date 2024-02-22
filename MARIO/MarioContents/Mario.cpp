@@ -7,6 +7,7 @@
 #include "Goomba.h"
 #include "Troopa.h"
 #include "Plant.h"
+#include "Flag.h"
 
 AMario::AMario()
 {
@@ -38,6 +39,8 @@ void AMario::BeginPlay()
 		Renderer->CreateAnimation("Jump_Left", "Mario_Left.png", 5, 5, 0.1f, true);
 
 		Renderer->CreateAnimation("Die", "Mario_Left.png", 6, 6, 0.1f, true);
+
+		Renderer->CreateAnimation("Down", "Mario_Right.png", 7, 7, 0.1f, true);
 	}
 
 	{
@@ -157,6 +160,9 @@ void AMario::StateChange(EPlayState _State)
 		case EPlayState::Kill:
 			KillStart();
 			break;
+		case EPlayState::FinishMove:
+			FinishMoveStart();
+			break;
 		default:
 			break;
 		}
@@ -193,6 +199,9 @@ void AMario::StateUpdate(float _DeltaTime)
 	case EPlayState::Kill:
 		Kill(_DeltaTime);
 		break;
+	case EPlayState::FinishMove:
+		FinishMove(_DeltaTime);
+		break;
 	default:
 		break;
 	}
@@ -202,12 +211,12 @@ void AMario::CameraFreeMove(float _DeltaTime)
 {
 	if (UEngineInput::IsPress(VK_LEFT))
 	{
-		GetWorld()->AddCameraPos(FVector::Left * _DeltaTime * 500.0f);
+		GetWorld()->AddCameraPos(FVector::Left * _DeltaTime * 2000.0f);
 	}
 
 	if (UEngineInput::IsPress(VK_RIGHT))
 	{
-		GetWorld()->AddCameraPos(FVector::Right * _DeltaTime * 500.0f);
+		GetWorld()->AddCameraPos(FVector::Right * _DeltaTime * 2000.0f);
 	}
 
 	if (UEngineInput::IsPress(VK_UP))
@@ -295,6 +304,12 @@ void AMario::KillStart()
 	GravityVector = FVector::Zero;
 	JumpVector = DieJumpVector;
 	Renderer->ChangeAnimation(GetAnimationName("Jump"));
+}
+
+void AMario::FinishMoveStart()
+{
+	int a = 0;
+ 	//Renderer->ChangeAnimation("Down");
 }
 
 void AMario::Idle(float _DeltaTime)
@@ -516,6 +531,23 @@ void AMario::Kill(float _DeltaTime)
 		StateChange(EPlayState::Idle);
 		return;
 	}
+}
+
+void AMario::FinishMove(float _DeltaTime)
+{
+	int a = 0;
+	//Color8Bit Color = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+	//if (Color == Color8Bit(255, 0, 255, 0))
+	//{
+	//	Renderer->ChangeAnimation("Move_Right");
+	//	//JumpVector = FVector::Zero;
+	//	AddActorLocation(FVector::Right * FinishMoveSpeed * _DeltaTime);
+	//	return;
+	//}
+	//else
+	//{
+	//	AddActorLocation(FVector::Down * GravityAcc * _DeltaTime);
+	//}
 }
 
 void AMario::ReverseDir()

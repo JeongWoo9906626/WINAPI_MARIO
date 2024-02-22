@@ -5,6 +5,7 @@
 #include "Goomba.h"
 #include "Troopa.h"
 #include "Plant.h"
+#include "Flag.h"
 
 UPlayLevel::UPlayLevel()
 {
@@ -22,6 +23,10 @@ void UPlayLevel::BeginPlay()
 		BackGroundMap->SetMapImage("Stage01.png");
 		BackGroundMap->SetCollisionMapImage("Stage01_Col.png");
 		BackGroundMap->SwitchDebug();
+
+		AFlag* Flag = SpawnActor<AFlag>(ERenderOrder::Map);
+		Flag->SetActorLocation({ 705, 700 });
+		//Flag->SetActorLocation({ 12705, 700 });
 
 		AMario* Mario = SpawnActor<AMario>(ERenderOrder::Player);
 		Mario->SetName("Player");

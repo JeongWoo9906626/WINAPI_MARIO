@@ -5,12 +5,14 @@
 class AGoomba;
 class ATroopa;
 class APlant;
+class AFlag;
 // Ό³Έν :
 class AMario : public AActor
 {
 	friend AGoomba;
 	friend ATroopa;
 	friend APlant;
+	friend AFlag;
 private:
 	//static AMario* MainPlayer;
 
@@ -45,6 +47,7 @@ protected:
 	void ReverseStart();
 	void DieStart();
 	void KillStart();
+	void FinishMoveStart();
 
 	void CameraFreeMove(float _DeltaTime);
 	void FreeMove(float _DeltaTime);
@@ -55,13 +58,14 @@ protected:
 	void Reverse(float _DeltaTime);
 	void Die(float _DeltaTime);
 	void Kill(float _DeltaTime);
+	void FinishMove(float _DeltaTime);
 
 	void ReverseDir();
 	
 
 	EPlayState State = EPlayState::None;
 	EActorDir DirState = EActorDir::Right;
-	std::string CurAnimationName = "None";
+	std::string CurAnimationName = "";
 
 private:
 	UImageRenderer* Renderer = nullptr;
@@ -75,14 +79,14 @@ private:
 
 	float FreeMoveSpeed = 1000.0f;
 
-	//float BreakSpeed = 100.0f;
-
 	FVector RunAcc = FVector::Right * 500.0f;
 	FVector RunVector = FVector::Zero;
 	
 	float MaxRunSpeed = 400.0f;
 	float NoramlRunSpeed = 400.0f;
 	float ShiftRunSpeed = 700.0f;
+
+	float FinishMoveSpeed = 300.0f;
 	float CurBreakSpeed = 200.0f;
 
 	void AddVector(const FVector& _DirDelta);

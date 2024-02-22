@@ -57,6 +57,9 @@
     <ClInclude Include="Plant.h">
       <Filter>PlayLevel\Actor\Monster</Filter>
     </ClInclude>
+    <ClInclude Include="Flag.h">
+      <Filter>PlayLevel\Actor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -88,6 +91,9 @@
     </ClCompile>
     <ClCompile Include="Plant.cpp">
       <Filter>PlayLevel\Actor\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Flag.cpp">
+      <Filter>PlayLevel\Actor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

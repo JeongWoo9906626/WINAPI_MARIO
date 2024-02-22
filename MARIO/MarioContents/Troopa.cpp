@@ -97,13 +97,12 @@ void ATroopa::Tick(float _DeltaTime)
 		}
 	}
 
+	// 상대방 Troopa
 	std::vector<UCollision*> TroopaResult;
 	if (true == BodyCollision->CollisionCheck(ECollisionOrder::Troopa, TroopaResult))
 	{
-		UCollision* TroopaPosition = TroopaResult[0];
-		ATroopa* Troopa = (ATroopa*)TroopaPosition->GetOwner();
-		// TODO : 거북이 Shoot상태에서 충돌했을 때 쓰러져서 죽는 상태로 변경
-		Troopa->Destroy();
+		//// TODO : 거북이 Shoot상태에서 충돌했을 때 쓰러져서 죽는 상태로 변경
+		Destroy();
 	}
 
 	StateUpdate(_DeltaTime);

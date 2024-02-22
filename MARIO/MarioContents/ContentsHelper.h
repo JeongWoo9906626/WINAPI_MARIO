@@ -17,6 +17,7 @@ enum class ECollisionOrder
 	Goomba,
 	Troopa,
 	Box,
+	Flag,
 	Step,
 };
 
@@ -42,6 +43,7 @@ enum class EPlayState
 	Jump,
 	Die,
 	Kill,
+	FinishMove,
 	None,
 };
 
