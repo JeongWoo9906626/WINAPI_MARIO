@@ -5,15 +5,17 @@
 
 enum ERenderOrder
 {
+	Plant,
 	Map,
 	Monster,
-	Player
+	Player,
 };
 
 enum class ECollisionOrder
 {
 	Player,
-	Monster,
+	Goomba,
+	Troopa,
 	Box,
 	Step,
 };

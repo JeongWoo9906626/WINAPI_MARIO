@@ -28,7 +28,7 @@ void ATroopa::BeginPlay()
 	}
 
 	{
-		BodyCollision = CreateCollision(ECollisionOrder::Monster);
+		BodyCollision = CreateCollision(ECollisionOrder::Troopa);
 		BodyCollision->SetColType(ECollisionType::Rect);
 		BodyCollision->SetPosition({ 0, -30 });
 		BodyCollision->SetScale({ 50, 50 });
@@ -91,18 +91,19 @@ void ATroopa::Tick(float _DeltaTime)
 
 		if (EMonsterState::Shoot == State)
 		{
-			if (false == IsAttack)
-			{
-				IsAttack = true;
-				return;
-			}
-			else
-			{
-
-				Player->StateChange(EPlayState::Die);
-				return;
-			}
+			// TODO : 거북이 Shoot상태일 때 마리오와 콜리전 발생시에 죽게 만들기
+			Player->StateChange(EPlayState::Die);
+			return;
 		}
+	}
+
+	std::vector<UCollision*> TroopaResult;
+	if (true == BodyCollision->CollisionCheck(ECollisionOrder::Troopa, TroopaResult))
+	{
+		UCollision* TroopaPosition = TroopaResult[0];
+		ATroopa* Troopa = (ATroopa*)TroopaPosition->GetOwner();
+		// TODO : 거북이 Shoot상태에서 충돌했을 때 쓰러져서 죽는 상태로 변경
+		Troopa->Destroy();
 	}
 
 	StateUpdate(_DeltaTime);
@@ -204,6 +205,7 @@ void ATroopa::DeadStart()
 
 void ATroopa::ShootStart()
 {
+	BodyCollision->ActiveOff();
 	switch (ShootState)
 	{
 	case EMonsterShootDir::Left:
@@ -308,6 +310,12 @@ void ATroopa::Dead(float _DeltaTime)
 
 void ATroopa::Shoot(float _DeltaTime)
 {
+	if (CollisionHideTime <= CollisionCurTime)
+	{
+		CollisionCurTime = 0.0f;
+		BodyCollision->ActiveOn();
+	}
+	CollisionCurTime += _DeltaTime;
 	FVector ForwardVector = { 1.0f, 0.0f, 0.0f, 0.0f };
 
 	GravityMove(_DeltaTime);

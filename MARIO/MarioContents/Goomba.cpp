@@ -1,5 +1,6 @@
 #include "Goomba.h"
 #include "Mario.h"
+#include "Troopa.h"
 
 AGoomba::AGoomba()
 {
@@ -25,7 +26,7 @@ void AGoomba::BeginPlay()
 	}
 
 	{
-		BodyCollision = CreateCollision(ECollisionOrder::Monster);
+		BodyCollision = CreateCollision(ECollisionOrder::Goomba);
 		BodyCollision->SetColType(ECollisionType::Rect);
 		BodyCollision->SetPosition({ 0, -30 });
 		BodyCollision->SetScale({ 40, 40 });
@@ -38,10 +39,10 @@ void AGoomba::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 	
-	std::vector<UCollision*> Result;
-	if (true == BodyCollision->CollisionCheck(ECollisionOrder::Player, Result))
+	std::vector<UCollision*> MarioResult;
+	if (true == BodyCollision->CollisionCheck(ECollisionOrder::Player, MarioResult))
 	{
-		UCollision* MarioPosition = Result[0];
+		UCollision* MarioPosition = MarioResult[0];
 		AMario* Player = (AMario*)MarioPosition->GetOwner();
 
 		FTransform Collision = MarioPosition->GetActorBaseTransform();
@@ -59,6 +60,13 @@ void AGoomba::Tick(float _DeltaTime)
 			Player->StateChange(EPlayState::Die);
 			return;
 		}
+	}
+
+	std::vector<UCollision*> TroopaResult;
+	if (true == BodyCollision->CollisionCheck(ECollisionOrder::Troopa, MarioResult))
+	{
+		StateChange(EMonsterState::Dead);
+		return;
 	}
 
 	StateUpdate(_DeltaTime);

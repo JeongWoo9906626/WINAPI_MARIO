@@ -54,35 +54,6 @@ void AMario::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 
-	//std::vector<UCollision*> Result;
-	//if (true == BodyCollision->CollisionCheck(ECollisionOrder::Monster, Result))
-	//{
-	//	for (size_t i = 0; i < Result.size(); i++)
-	//	{
-	//		UCollision* MonsterCollision = Result[i];
-	//		FTransform MonsterTransform = MonsterCollision->GetActorBaseTransform();
-	//		FTransform MyTransform = BodyCollision->GetActorBaseTransform();
-
-	//		int a = 0;
-
-	//		// 몬스터의 머리 y좌표 > 마리오의 바닥 y좌표
-	//		/*if 
-	//			(
-	//				   MonsterTransform.GetPosition().Y - 32.0f < MyTransform.GetPosition().Y + 32.0f 
-	//				&& MonsterTransform.GetPosition().Y > MyTransform.GetPosition().Y + 32.0f
-	//			)
-	//		{
-	//			StateChange(EPlayState::Kill);
-	//			return;
-	//		}
-	//		else
-	//		{
-	//			StateChange(EPlayState::Die);
-	//			return;
-	//		}*/
-	//	}
-	//}
-
 	StateUpdate(_DeltaTime);
 }
 

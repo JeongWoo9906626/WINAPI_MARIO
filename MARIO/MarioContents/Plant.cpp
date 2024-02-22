@@ -14,6 +14,8 @@ void APlant::BeginPlay()
 	AActor::BeginPlay();
 
 	{
+		// TODO : 식물이 파이프보다 뒤에서 나와야함
+		//		: 파이프 따로 그려 RenderOrder 설정할 것
 		Renderer = CreateImageRenderer(ERenderOrder::Monster);
 		Renderer->SetImage("Plant.png");
 		Renderer->SetTransform({ { 0, 0 }, { 256 * 3.0f, 256 * 3.0f } });
@@ -24,7 +26,7 @@ void APlant::BeginPlay()
 	}
 
 	{
-		BodyCollision = CreateCollision(ECollisionOrder::Monster);
+		BodyCollision = CreateCollision(ECollisionOrder::Goomba);
 		BodyCollision->SetColType(ECollisionType::Rect);
 		BodyCollision->SetPosition({ 0, -40 });
 		BodyCollision->SetScale({ 40, 80 });

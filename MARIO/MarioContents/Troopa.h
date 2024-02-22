@@ -58,7 +58,12 @@ private:
 	float MoveSpeed = 100.0f;
 	float ShootSpeed = 600.0f;
 	float GravitySpeed = 500.0f;
+	
 	float DirUnitVector = -1.0f;
+
+	float CollisionHideTime = 0.1f;
+	float CollisionCurTime = 0.0f;
+
 	float WakeUpTime = 5.0f;
 	float CurTime = 0.0f;
 };
