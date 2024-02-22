@@ -309,7 +309,7 @@ void AMario::KillStart()
 void AMario::FinishMoveStart()
 {
 	int a = 0;
- 	//Renderer->ChangeAnimation("Down");
+ 	Renderer->ChangeAnimation("Down");
 }
 
 void AMario::Idle(float _DeltaTime)
@@ -536,18 +536,17 @@ void AMario::Kill(float _DeltaTime)
 void AMario::FinishMove(float _DeltaTime)
 {
 	int a = 0;
-	//Color8Bit Color = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
-	//if (Color == Color8Bit(255, 0, 255, 0))
-	//{
-	//	Renderer->ChangeAnimation("Move_Right");
-	//	//JumpVector = FVector::Zero;
-	//	AddActorLocation(FVector::Right * FinishMoveSpeed * _DeltaTime);
-	//	return;
-	//}
-	//else
-	//{
-	//	AddActorLocation(FVector::Down * GravityAcc * _DeltaTime);
-	//}
+	Color8Bit Color = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+	if (Color == Color8Bit(255, 0, 255, 0))
+	{
+		Renderer->ChangeAnimation("Move_Right");
+		AddActorLocation(FVector::Right * FinishMoveSpeed * _DeltaTime);
+		return;
+	}
+	else
+	{
+		AddActorLocation(FVector::Down * GravityAcc * _DeltaTime);
+	}
 }
 
 void AMario::ReverseDir()
