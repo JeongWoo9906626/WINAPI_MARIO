@@ -49,6 +49,8 @@ void AMario::BeginPlay()
 		BodyCollision->SetScale({ 50, 65 });
 	}
 
+	CurDieTime = 0.0f;
+
 	StateChange(EPlayState::Idle);
 }
 
@@ -282,6 +284,7 @@ void AMario::JumpStart()
 {
 	DirCheck();
 	JumpVector += JumpPower;
+	AddActorLocation(FVector::Up * 6);
 	Renderer->ChangeAnimation(GetAnimationName("Jump"));
 }
 
@@ -344,6 +347,7 @@ void AMario::Idle(float _DeltaTime)
 	if (true == UEngineInput::IsPress(VK_LEFT) || true == UEngineInput::IsPress(VK_RIGHT))
 	{
 		StateChange(EPlayState::Run);
+		GroundUp();
 		return;
 	}
 
@@ -352,10 +356,11 @@ void AMario::Idle(float _DeltaTime)
 		if (false == IsJump)
 		{
 			StateChange(EPlayState::Jump);
+			GroundUp();
 			return;
 		}
 	}
-	if (true == UEngineInput::IsUp(VK_SPACE))
+	if (true == UEngineInput::IsFree(VK_SPACE))
 	{
 		IsJump = false;
 	}
@@ -368,6 +373,7 @@ void AMario::Run(float _DeltaTime)
 		if (false == IsJump)
 		{
 			StateChange(EPlayState::Jump);
+			GroundUp();
 			return;
 		}
 	}
@@ -382,6 +388,7 @@ void AMario::Run(float _DeltaTime)
 		{
 			RunVector.X = 0.0f;
 			StateChange(EPlayState::Idle);
+			GroundUp();
 			return;
 		}
 		else
@@ -397,6 +404,7 @@ void AMario::Run(float _DeltaTime)
 		{
 			RunVector.X = 0.0f;
 			StateChange(EPlayState::Idle);
+			GroundUp();
 			return;
 		}
 		else
@@ -435,12 +443,12 @@ void AMario::Run(float _DeltaTime)
 		if (RunVector.X > 0.0f)
 		{
 			StateChange(EPlayState::Reverse);
+			GroundUp();
 			return;
 		}
 
 		AddRunVector(FVector::Left * _DeltaTime);
 		MoveUpdate(_DeltaTime);
-
 		return;
 	}
 
@@ -449,12 +457,12 @@ void AMario::Run(float _DeltaTime)
 		if (RunVector.X < 0.0f)
 		{
 			StateChange(EPlayState::Reverse);
+			GroundUp();
 			return;
 		}
 
 		AddRunVector(FVector::Right * _DeltaTime);
 		MoveUpdate(_DeltaTime);
-
 		return;
 	}
 }
@@ -483,11 +491,13 @@ void AMario::Jump(float _DeltaTime)
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
 		JumpVector = FVector::Zero;
+		GravityVector = FVector::Zero;
 		if (RunVector.X > 0.0f)
 		{
 			if (true == UEngineInput::IsPress(VK_LEFT))
 			{
 				StateChange(EPlayState::Reverse);
+				GroundUp();
 				return;
 			}
 		}
@@ -496,10 +506,12 @@ void AMario::Jump(float _DeltaTime)
 			if (true == UEngineInput::IsPress(VK_RIGHT))
 			{
 				StateChange(EPlayState::Reverse);
+				GroundUp();
 				return;
 			}
 		}
 		StateChange(EPlayState::Idle);
+		GroundUp();
 		return;
 	}
 }
@@ -509,6 +521,7 @@ void AMario::Reverse(float _DeltaTime)
 	if (true == UEngineInput::IsDown(VK_SPACE))
 	{
 		StateChange(EPlayState::Jump);
+		GroundUp();
 		return;
 	}
 
@@ -517,6 +530,7 @@ void AMario::Reverse(float _DeltaTime)
 		if (true == UEngineInput::IsDown(VK_LEFT))
 		{
 			StateChange(EPlayState::Run);
+			GroundUp();
 			return;
 		}
 
@@ -530,6 +544,7 @@ void AMario::Reverse(float _DeltaTime)
 			RunVector.X = 0.0f;
 			ReverseDir();
 			StateChange(EPlayState::Idle);
+			GroundUp();
 			return;
 		}
 	}
@@ -539,6 +554,7 @@ void AMario::Reverse(float _DeltaTime)
 		if (true == UEngineInput::IsDown(VK_RIGHT))
 		{
 			StateChange(EPlayState::Run);
+			GroundUp();
 			return;
 		}
 
@@ -552,6 +568,7 @@ void AMario::Reverse(float _DeltaTime)
 			RunVector.X = 0.0f;
 			ReverseDir();
 			StateChange(EPlayState::Idle);
+			GroundUp();
 			return;
 		}
 	}
@@ -561,8 +578,15 @@ void AMario::Reverse(float _DeltaTime)
 
 void AMario::Die(float _DeltaTime)
 {
-	AddActorLocation(JumpVector * _DeltaTime);
-	JumpVector += GravityAcc * _DeltaTime;
+	if (CurDieTime >= DieTime)
+	{
+		AddActorLocation(JumpVector * (_DeltaTime));
+		JumpVector += GravityAcc * _DeltaTime;
+	}
+	else
+	{
+		CurDieTime += _DeltaTime;
+	}
 }
 
 void AMario::Kill(float _DeltaTime)
@@ -574,6 +598,7 @@ void AMario::Kill(float _DeltaTime)
 	{
 		JumpVector = FVector::Zero;
 		StateChange(EPlayState::Idle);
+		GroundUp();
 		return;
 	}
 }
@@ -686,7 +711,6 @@ void AMario::GravityVectorUpdate(float _DeltaTime)
 	{
 		GravityVector = FVector::Zero;
 	} 
-	//GroundUp();
 }
 
 void AMario::MoveVectorUpdate(float _DeltaTime)
@@ -730,14 +754,14 @@ void AMario::MoveUpdate(float _DeltaTime)
 	RunVectorUpdate(_DeltaTime);
 	MoveVectorUpdate(_DeltaTime);
 	Move(_DeltaTime);
-	//GroundUp();
 }
 
 void AMario::GroundUp()
 {
 	while (true)
 	{
-		Color8Bit Color = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+		FVector Location = GetActorLocation();
+		Color8Bit Color = UContentsHelper::MapColImage->GetColor(Location.iX(), Location.iY(), Color8Bit::MagentaA);
 		if (Color == Color8Bit(255, 0, 255, 0))
 		{
 			AddActorLocation(FVector::Up);
