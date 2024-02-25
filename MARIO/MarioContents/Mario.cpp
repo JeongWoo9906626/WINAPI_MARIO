@@ -281,7 +281,7 @@ void AMario::RunStart()
 void AMario::JumpStart()
 {
 	DirCheck();
-	JumpVector = JumpPower;
+	JumpVector += JumpPower;
 	Renderer->ChangeAnimation(GetAnimationName("Jump"));
 }
 
@@ -312,6 +312,7 @@ void AMario::FinishMoveStart()
 
 void AMario::Idle(float _DeltaTime)
 {
+	MoveUpdate(_DeltaTime);
 	if (true == UEngineInput::IsDown('1'))
 	{
 		StateChange(EPlayState::FreeMove);
@@ -329,42 +330,53 @@ void AMario::Idle(float _DeltaTime)
 		return;
 	}
 
+	if (true == UEngineInput::IsPress(VK_LSHIFT))
+	{
+		MaxRunSpeed = ShiftRunSpeed;
+		CurBreakSpeed = ShiftBreakSpeed;
+	}
+	if (true == UEngineInput::IsFree(VK_LSHIFT))
+	{
+		MaxRunSpeed = NoramlRunSpeed;
+		CurBreakSpeed = NormalBreakSpeed;
+	}
+
 	if (true == UEngineInput::IsPress(VK_LEFT) || true == UEngineInput::IsPress(VK_RIGHT))
 	{
 		StateChange(EPlayState::Run);
 		return;
 	}
 
-	if (true == UEngineInput::IsDown(VK_SPACE))
+	if (true == UEngineInput::IsPress(VK_SPACE))
 	{
-		StateChange(EPlayState::Jump);
-		return;
+		if (false == IsJump)
+		{
+			StateChange(EPlayState::Jump);
+			return;
+		}
 	}
-
-	MoveUpdate(_DeltaTime);
+	if (true == UEngineInput::IsUp(VK_SPACE))
+	{
+		IsJump = false;
+	}
 }
 
 void AMario::Run(float _DeltaTime)
 {
-	if (1.0f >= abs(RunVector.X) && UEngineInput::IsFree(VK_LEFT) && UEngineInput::IsFree(VK_RIGHT))
+	if (true == UEngineInput::IsPress(VK_SPACE))
 	{
-		RunVector.X = 0.0f;
-		StateChange(EPlayState::Idle);
-		return;
+		if (false == IsJump)
+		{
+			StateChange(EPlayState::Jump);
+			return;
+		}
+	}
+	if (true == UEngineInput::IsUp(VK_SPACE))
+	{
+		IsJump = false;
 	}
 
-	/*if (true == UEngineInput::IsPress(VK_RIGHT) && true == UEngineInput::IsPress(VK_LEFT))
-	{
-
-	}*/
-
-	if (true == UEngineInput::IsDown(VK_SPACE))
-	{
-		StateChange(EPlayState::Jump);
-		return;
-	}
-
-	/*if (true == UEngineInput::IsFree(VK_LEFT) && true == UEngineInput::IsFree(VK_RIGHT))
+	if (true == UEngineInput::IsFree(VK_LEFT) && true == UEngineInput::IsFree(VK_RIGHT))
 	{
 		if (abs(RunVector.X) <= 5.0f)
 		{
@@ -374,14 +386,14 @@ void AMario::Run(float _DeltaTime)
 		}
 		else
 		{
-			
+			MoveUpdate(_DeltaTime);
 			return;
 		}
-	}*/
+	}
 
-	/*if (true == UEngineInput::IsPress(VK_LEFT) && true == UEngineInput::IsPress(VK_RIGHT))
+	if (true == UEngineInput::IsPress(VK_LEFT) && true == UEngineInput::IsPress(VK_RIGHT))
 	{
-		if (abs(RunVector.X) <= 10.0f)
+		if (abs(RunVector.X) <= 5.0f)
 		{
 			RunVector.X = 0.0f;
 			StateChange(EPlayState::Idle);
@@ -401,23 +413,35 @@ void AMario::Run(float _DeltaTime)
 			default:
 				break;
 			}
-			SubtractVector(BreakDirState * _DeltaTime);
+			SubtractRunVector(BreakDirState * _DeltaTime);
 			MoveUpdate(_DeltaTime);
 			return;
 		}
-	}*/
+	}
 
 	if (true == UEngineInput::IsPress(VK_LSHIFT))
 	{
 		MaxRunSpeed = ShiftRunSpeed;
-		JumpPower = RunJumpPower;
 		CurBreakSpeed = ShiftBreakSpeed;
 	}
 	if (true == UEngineInput::IsFree(VK_LSHIFT))
 	{
 		MaxRunSpeed = NoramlRunSpeed;
-		JumpPower = NoramlJumpPower;
 		CurBreakSpeed = NormalBreakSpeed;
+	}
+
+	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		if (RunVector.X > 0.0f)
+		{
+			StateChange(EPlayState::Reverse);
+			return;
+		}
+
+		AddRunVector(FVector::Left * _DeltaTime);
+		MoveUpdate(_DeltaTime);
+
+		return;
 	}
 
 	if (true == UEngineInput::IsPress(VK_RIGHT))
@@ -427,67 +451,54 @@ void AMario::Run(float _DeltaTime)
 			StateChange(EPlayState::Reverse);
 			return;
 		}
-		AddVector(FVector::Right * _DeltaTime);
-	}
-	if (true == UEngineInput::IsPress(VK_LEFT))
-	{
-		if (RunVector.X > 0.0f)
-		{
-			StateChange(EPlayState::Reverse);
-			return;
-		}
-		AddVector(FVector::Left * _DeltaTime);
-	}
 
-	MoveUpdate(_DeltaTime);
-
-	/*if (true == UEngineInput::IsPress(VK_LEFT))
-	{
-		if (RunVector.X > 0.0f)
-		{
-			StateChange(EPlayState::Reverse);
-			return;
-		}
-
-		AddVector(FVector::Left * _DeltaTime);
+		AddRunVector(FVector::Right * _DeltaTime);
 		MoveUpdate(_DeltaTime);
 
 		return;
-	}*/
-
-	/*if (true == UEngineInput::IsPress(VK_RIGHT))
-	{
-		if (RunVector.X < 0.0f)
-		{
-			StateChange(EPlayState::Reverse);
-			return;
-		}
-
-		AddVector(FVector::Right * _DeltaTime);
-		MoveUpdate(_DeltaTime);
-
-		return;
-	}*/
-
+	}
 }
 
 void AMario::Jump(float _DeltaTime)
 {
+	IsJump = true;
 	if (UEngineInput::IsPress(VK_LEFT))
 	{
-		AddVector(FVector::Left * _DeltaTime);
+		AddRunVector(FVector::Left * _DeltaTime);
 	}
 	if (UEngineInput::IsPress(VK_RIGHT))
 	{
-		AddVector(FVector::Right * _DeltaTime);
+		AddRunVector(FVector::Right * _DeltaTime);
 	}
 
+	if (UEngineInput::IsPress(VK_SPACE))
+	{
+		AddJumpVector(FVector::Up * _DeltaTime);
+	}
+
+	JumpVectorUpdate(_DeltaTime);
 	MoveUpdate(_DeltaTime);
 
 	Color8Bit Color = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
 		JumpVector = FVector::Zero;
+		if (RunVector.X > 0.0f)
+		{
+			if (true == UEngineInput::IsPress(VK_LEFT))
+			{
+				StateChange(EPlayState::Reverse);
+				return;
+			}
+		}
+		if (RunVector.X < 0.0f)
+		{
+			if (true == UEngineInput::IsPress(VK_RIGHT))
+			{
+				StateChange(EPlayState::Reverse);
+				return;
+			}
+		}
 		StateChange(EPlayState::Idle);
 		return;
 	}
@@ -501,27 +512,50 @@ void AMario::Reverse(float _DeltaTime)
 		return;
 	}
 
-	FVector BreakVector = FVector::Zero;
-	switch (DirState)
+	if (DirState == EActorDir::Left)
 	{
-	case EActorDir::Left:
-		BreakVector = FVector::Right;
-		break;
-	case EActorDir::Right:
-		BreakVector = FVector::Left;
-		break;
-	default:
-		break;
+		if (true == UEngineInput::IsDown(VK_LEFT))
+		{
+			StateChange(EPlayState::Run);
+			return;
+		}
+
+		if (true == UEngineInput::IsPress(VK_RIGHT))
+		{
+			SubtractRunVector(FVector::Right * _DeltaTime);
+		}
+
+		if (0.0f <= RunVector.X)
+		{
+			RunVector.X = 0.0f;
+			ReverseDir();
+			StateChange(EPlayState::Idle);
+			return;
+		}
 	}
 
-	if (abs(RunVector.X) < 3.0f)
+	if (DirState == EActorDir::Right)
 	{
-		RunVector.X = 0.0f;
-		StateChange(EPlayState::Idle);
-		return;
+		if (true == UEngineInput::IsDown(VK_RIGHT))
+		{
+			StateChange(EPlayState::Run);
+			return;
+		}
+
+		if (true == UEngineInput::IsPress(VK_LEFT))
+		{
+			SubtractRunVector(FVector::Left * _DeltaTime);
+		}
+
+		if (0.0f >= RunVector.X)
+		{
+			RunVector.X = 0.0f;
+			ReverseDir();
+			StateChange(EPlayState::Idle);
+			return;
+		}
 	}
 
-	SubtractVector(BreakVector * _DeltaTime);
 	MoveUpdate(_DeltaTime);
 }
 
@@ -572,14 +606,19 @@ void AMario::ReverseDir()
 	}
 }
 
-void AMario::AddVector(const FVector& _DirDelta)
+void AMario::AddRunVector(const FVector& _DirDelta)
 {
 	RunVector += _DirDelta * RunAcc;
 }
 
-void AMario::SubtractVector(const FVector& _DirDelta)
+void AMario::SubtractRunVector(const FVector& _DirDelta)
 {
 	RunVector += _DirDelta * CurBreakSpeed;
+}
+
+void AMario::AddJumpVector(const FVector& _DirDelta)
+{
+	JumpVector += _DirDelta * JumpUpSpeed;
 }
 
 void AMario::RunVectorUpdate(float _DeltaTime)
@@ -631,6 +670,10 @@ void AMario::RunVectorUpdate(float _DeltaTime)
 
 void AMario::JumpVectorUpdate(float _DeltaTime)
 {
+	if (JumpVector.Size2D() >= MaxJumpSpeed)
+	{
+		JumpVector = JumpVector.Normalize2DReturn() * MaxJumpSpeed;
+	}
 }
 
 void AMario::GravityVectorUpdate(float _DeltaTime)
@@ -642,7 +685,8 @@ void AMario::GravityVectorUpdate(float _DeltaTime)
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
 		GravityVector = FVector::Zero;
-	}
+	} 
+	//GroundUp();
 }
 
 void AMario::MoveVectorUpdate(float _DeltaTime)
@@ -667,11 +711,11 @@ void AMario::Move(float _DeltaTime)
 
 	if (EActorDir::Left == DirState)
 	{
-		NextMarioPos.X -= 30;
+		NextMarioPos.X -= 32.0f;
 	}
 	if (EActorDir::Right == DirState)
 	{
-		NextMarioPos.X += 30;
+		NextMarioPos.X += 32.0f;
 	}
 
 	if (CurCameraPos.X <= NextMarioPos.X)
@@ -686,4 +730,21 @@ void AMario::MoveUpdate(float _DeltaTime)
 	RunVectorUpdate(_DeltaTime);
 	MoveVectorUpdate(_DeltaTime);
 	Move(_DeltaTime);
+	//GroundUp();
+}
+
+void AMario::GroundUp()
+{
+	while (true)
+	{
+		Color8Bit Color = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+		if (Color == Color8Bit(255, 0, 255, 0))
+		{
+			AddActorLocation(FVector::Up);
+		}
+		else
+		{
+			break;
+		}
+	}
 }

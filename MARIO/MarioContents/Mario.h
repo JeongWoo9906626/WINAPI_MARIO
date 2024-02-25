@@ -71,6 +71,9 @@ private:
 	UImageRenderer* Renderer = nullptr;
 	UCollision* BodyCollision = nullptr;
 
+	bool IsJump = false;
+	bool IsGround = false;
+
 	float AnimationTime = 0.0f;
 	int AnimationFrame = 0;
 
@@ -92,8 +95,12 @@ private:
 	float NormalBreakSpeed = 1000.0f;
 	float CurBreakSpeed = 0.0f;
 
-	void AddVector(const FVector& _DirDelta);
-	void SubtractVector(const FVector& _DirDelta);
+	float JumpUpSpeed = 1200.0f;
+	float MaxJumpSpeed = 1500.0f;
+
+	void AddRunVector(const FVector& _DirDelta);
+	void SubtractRunVector(const FVector& _DirDelta);
+	void AddJumpVector(const FVector& _DirDelta);
 
 	FVector GravityAcc = FVector::Down * 2000.0f;
 	FVector GravityVector = FVector::Zero;
@@ -102,7 +109,7 @@ private:
 	FVector JumpPower = FVector::Up * 700.0f;
 	FVector KillJumpPower = FVector::Up * 500.0f;
 	FVector NoramlJumpPower = FVector::Up * 700.0f;
-	FVector RunJumpPower = FVector::Up * 1000.0f;
+	FVector RunJumpPower = FVector::Up * 1100.0f;
 
 	FVector JumpVector = FVector::Zero;
 
@@ -121,5 +128,7 @@ private:
 
 	// 이동 업데이트 (종합 관리)
 	void MoveUpdate(float _DeltaTime);
+
+	void GroundUp();
 };
 
