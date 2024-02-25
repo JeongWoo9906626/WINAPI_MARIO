@@ -284,7 +284,7 @@ void AMario::JumpStart()
 {
 	DirCheck();
 	JumpVector += JumpPower;
-	AddActorLocation(FVector::Up * 6);
+	AddActorLocation(FVector::Up * 4);
 	Renderer->ChangeAnimation(GetAnimationName("Jump"));
 }
 
@@ -353,33 +353,20 @@ void AMario::Idle(float _DeltaTime)
 
 	if (true == UEngineInput::IsPress(VK_SPACE))
 	{
-		if (false == IsJump)
-		{
-			StateChange(EPlayState::Jump);
-			GroundUp();
-			return;
-		}
-	}
-	if (true == UEngineInput::IsFree(VK_SPACE))
-	{
-		IsJump = false;
+		StateChange(EPlayState::Jump);
+		GroundUp();
+		return;
 	}
 }
 
 void AMario::Run(float _DeltaTime)
 {
+	GroundUp();
 	if (true == UEngineInput::IsPress(VK_SPACE))
 	{
-		if (false == IsJump)
-		{
-			StateChange(EPlayState::Jump);
-			GroundUp();
-			return;
-		}
-	}
-	if (true == UEngineInput::IsUp(VK_SPACE))
-	{
-		IsJump = false;
+		StateChange(EPlayState::Jump);
+		GroundUp();
+		return;
 	}
 
 	if (true == UEngineInput::IsFree(VK_LEFT) && true == UEngineInput::IsFree(VK_RIGHT))
@@ -487,11 +474,15 @@ void AMario::Jump(float _DeltaTime)
 	JumpVectorUpdate(_DeltaTime);
 	MoveUpdate(_DeltaTime);
 
-	Color8Bit Color = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+	FVector Location = GetActorLocation();
+
+	Color8Bit Color = UContentsHelper::MapColImage->GetColor(Location.iX(), Location.iY(), Color8Bit::MagentaA);
+   	int a = 0;
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
 		JumpVector = FVector::Zero;
 		GravityVector = FVector::Zero;
+
 		if (RunVector.X > 0.0f)
 		{
 			if (true == UEngineInput::IsPress(VK_LEFT))
@@ -501,6 +492,7 @@ void AMario::Jump(float _DeltaTime)
 				return;
 			}
 		}
+
 		if (RunVector.X < 0.0f)
 		{
 			if (true == UEngineInput::IsPress(VK_RIGHT))
@@ -510,6 +502,7 @@ void AMario::Jump(float _DeltaTime)
 				return;
 			}
 		}
+
 		StateChange(EPlayState::Idle);
 		GroundUp();
 		return;
@@ -761,7 +754,7 @@ void AMario::GroundUp()
 	while (true)
 	{
 		FVector Location = GetActorLocation();
-		Color8Bit Color = UContentsHelper::MapColImage->GetColor(Location.iX(), Location.iY(), Color8Bit::MagentaA);
+		Color8Bit Color = UContentsHelper::MapColImage->GetColor(Location.iX(), Location.iY() - 1.0f, Color8Bit::MagentaA);
 		if (Color == Color8Bit(255, 0, 255, 0))
 		{
 			AddActorLocation(FVector::Up);
