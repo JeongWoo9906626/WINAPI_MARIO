@@ -39,7 +39,6 @@ void AMario::BeginPlay()
 		Renderer->CreateAnimation("Jump_Left", "Mario_Left.png", 5, 5, 0.1f, true);
 
 		Renderer->CreateAnimation("Die", "Mario_Left.png", 6, 6, 0.1f, true);
-
 		Renderer->CreateAnimation("Down", "Mario_Right.png", 7, 7, 0.1f, true);
 	}
 
@@ -302,13 +301,12 @@ void AMario::KillStart()
 {
 	DirCheck();
 	GravityVector = FVector::Zero;
-	JumpVector = DieJumpVector;
+	JumpVector = KillJumpPower;
 	Renderer->ChangeAnimation(GetAnimationName("Jump"));
 }
 
 void AMario::FinishMoveStart()
 {
-	int a = 0;
  	Renderer->ChangeAnimation("Down");
 }
 
@@ -348,13 +346,25 @@ void AMario::Idle(float _DeltaTime)
 
 void AMario::Run(float _DeltaTime)
 {
+	if (1.0f >= abs(RunVector.X) && UEngineInput::IsFree(VK_LEFT) && UEngineInput::IsFree(VK_RIGHT))
+	{
+		RunVector.X = 0.0f;
+		StateChange(EPlayState::Idle);
+		return;
+	}
+
+	/*if (true == UEngineInput::IsPress(VK_RIGHT) && true == UEngineInput::IsPress(VK_LEFT))
+	{
+
+	}*/
+
 	if (true == UEngineInput::IsDown(VK_SPACE))
 	{
 		StateChange(EPlayState::Jump);
 		return;
 	}
 
-	if (true == UEngineInput::IsFree(VK_LEFT) && true == UEngineInput::IsFree(VK_RIGHT))
+	/*if (true == UEngineInput::IsFree(VK_LEFT) && true == UEngineInput::IsFree(VK_RIGHT))
 	{
 		if (abs(RunVector.X) <= 5.0f)
 		{
@@ -364,12 +374,12 @@ void AMario::Run(float _DeltaTime)
 		}
 		else
 		{
-			MoveUpdate(_DeltaTime);
+			
 			return;
 		}
-	}
+	}*/
 
-	if (true == UEngineInput::IsPress(VK_LEFT) && true == UEngineInput::IsPress(VK_RIGHT))
+	/*if (true == UEngineInput::IsPress(VK_LEFT) && true == UEngineInput::IsPress(VK_RIGHT))
 	{
 		if (abs(RunVector.X) <= 10.0f)
 		{
@@ -395,20 +405,43 @@ void AMario::Run(float _DeltaTime)
 			MoveUpdate(_DeltaTime);
 			return;
 		}
-	}
+	}*/
 
 	if (true == UEngineInput::IsPress(VK_LSHIFT))
 	{
 		MaxRunSpeed = ShiftRunSpeed;
 		JumpPower = RunJumpPower;
+		CurBreakSpeed = ShiftBreakSpeed;
 	}
 	if (true == UEngineInput::IsFree(VK_LSHIFT))
 	{
 		MaxRunSpeed = NoramlRunSpeed;
 		JumpPower = NoramlJumpPower;
+		CurBreakSpeed = NormalBreakSpeed;
 	}
 
+	if (true == UEngineInput::IsPress(VK_RIGHT))
+	{
+		if (RunVector.X < 0.0f)
+		{
+			StateChange(EPlayState::Reverse);
+			return;
+		}
+		AddVector(FVector::Right * _DeltaTime);
+	}
 	if (true == UEngineInput::IsPress(VK_LEFT))
+	{
+		if (RunVector.X > 0.0f)
+		{
+			StateChange(EPlayState::Reverse);
+			return;
+		}
+		AddVector(FVector::Left * _DeltaTime);
+	}
+
+	MoveUpdate(_DeltaTime);
+
+	/*if (true == UEngineInput::IsPress(VK_LEFT))
 	{
 		if (RunVector.X > 0.0f)
 		{
@@ -420,9 +453,9 @@ void AMario::Run(float _DeltaTime)
 		MoveUpdate(_DeltaTime);
 
 		return;
-	}
+	}*/
 
-	if (true == UEngineInput::IsPress(VK_RIGHT))
+	/*if (true == UEngineInput::IsPress(VK_RIGHT))
 	{
 		if (RunVector.X < 0.0f)
 		{
@@ -434,7 +467,8 @@ void AMario::Run(float _DeltaTime)
 		MoveUpdate(_DeltaTime);
 
 		return;
-	}
+	}*/
+
 }
 
 void AMario::Jump(float _DeltaTime)
@@ -443,7 +477,6 @@ void AMario::Jump(float _DeltaTime)
 	{
 		AddVector(FVector::Left * _DeltaTime);
 	}
-
 	if (UEngineInput::IsPress(VK_RIGHT))
 	{
 		AddVector(FVector::Right * _DeltaTime);
@@ -468,49 +501,27 @@ void AMario::Reverse(float _DeltaTime)
 		return;
 	}
 
-	if (DirState == EActorDir::Left)
+	FVector BreakVector = FVector::Zero;
+	switch (DirState)
 	{
-		if (true == UEngineInput::IsDown(VK_LEFT))
-		{
-			StateChange(EPlayState::Run);
-			return;
-		}
-
-		if (true == UEngineInput::IsPress(VK_RIGHT))
-		{
-			SubtractVector(FVector::Right * _DeltaTime);
-		}
-
-		if (0.0f <= RunVector.X)
-		{
-			RunVector.X = 0.0f;
-			ReverseDir();
-			StateChange(EPlayState::Idle);
-			return;
-		}
+	case EActorDir::Left:
+		BreakVector = FVector::Right;
+		break;
+	case EActorDir::Right:
+		BreakVector = FVector::Left;
+		break;
+	default:
+		break;
 	}
 
-	if (DirState == EActorDir::Right)
+	if (abs(RunVector.X) < 3.0f)
 	{
-		if (true == UEngineInput::IsDown(VK_RIGHT))
-		{
-			StateChange(EPlayState::Run);
-			return;
-		}
-
-		if (true == UEngineInput::IsPress(VK_LEFT))
-		{
-			SubtractVector(FVector::Left * _DeltaTime);
-		}
-
-		if (0.0f >= RunVector.X)
-		{
-			RunVector.X = 0.0f;
-			ReverseDir();
-			StateChange(EPlayState::Idle);
-			return;
-		}
+		RunVector.X = 0.0f;
+		StateChange(EPlayState::Idle);
+		return;
 	}
+
+	SubtractVector(BreakVector * _DeltaTime);
 	MoveUpdate(_DeltaTime);
 }
 

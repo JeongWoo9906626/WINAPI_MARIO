@@ -87,7 +87,10 @@ private:
 	float ShiftRunSpeed = 700.0f;
 
 	float FinishMoveSpeed = 300.0f;
-	float CurBreakSpeed = 200.0f;
+
+	float ShiftBreakSpeed = 2000.0f;
+	float NormalBreakSpeed = 1000.0f;
+	float CurBreakSpeed = 0.0f;
 
 	void AddVector(const FVector& _DirDelta);
 	void SubtractVector(const FVector& _DirDelta);
@@ -97,7 +100,7 @@ private:
 
 	FVector DieJumpVector = FVector::Up * 500.0f;
 	FVector JumpPower = FVector::Up * 700.0f;
-	FVector KillJumpPower = FVector::Up * 600.0f;
+	FVector KillJumpPower = FVector::Up * 500.0f;
 	FVector NoramlJumpPower = FVector::Up * 700.0f;
 	FVector RunJumpPower = FVector::Up * 1000.0f;
 
