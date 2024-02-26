@@ -9,6 +9,7 @@
 #include "Plant.h"
 #include "Flag.h"
 #include "Brick.h"
+#include "Gate.h"
 
 AMario::AMario()
 {

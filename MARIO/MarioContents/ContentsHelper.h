@@ -7,6 +7,7 @@ enum ERenderOrder
 {
 	Plant,
 	Map,
+	Gate,
 	Brick,
 	Monster,
 	Player,

@@ -175,6 +175,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Gate.h" />
     <ClInclude Include="Goomba.h">
       <SubType>
       </SubType>
@@ -225,6 +226,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Gate.cpp" />
     <ClCompile Include="Goomba.cpp">
       <SubType>
       </SubType>

@@ -28,6 +28,9 @@
     <Filter Include="PlayLevel\Actor\Box">
       <UniqueIdentifier>{ad69e73f-f88d-41db-8672-5168217395b7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PlayLevel\Actor\Gate">
+      <UniqueIdentifier>{60cd6cf8-d1fc-495f-a722-5660a69f494f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TitleLevel.h">
@@ -66,6 +69,9 @@
     <ClInclude Include="Brick.h">
       <Filter>PlayLevel\Actor\Box</Filter>
     </ClInclude>
+    <ClInclude Include="Gate.h">
+      <Filter>PlayLevel\Actor\Gate</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -103,6 +109,9 @@
     </ClCompile>
     <ClCompile Include="Brick.cpp">
       <Filter>PlayLevel\Actor\Box</Filter>
+    </ClCompile>
+    <ClCompile Include="Gate.cpp">
+      <Filter>PlayLevel\Actor\Gate</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

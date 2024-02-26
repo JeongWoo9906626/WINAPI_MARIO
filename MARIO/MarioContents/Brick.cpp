@@ -47,8 +47,17 @@ void ABrick::Tick(float _DeltaTime)
 		{
 			if (MarioCollision.GetPosition().Y - 32.0f > MyTransform.GetPosition().Y + 32.0f)
 			{
+				Player->GravityPower = FVector::Zero;
 				Player->JumpVector = FVector::Zero;
 				StateChange(EBoxState::Hit);
+				return;
+			}
+		}
+		if (EBoxState::Block == State)
+		{
+			if (MarioCollision.GetPosition().Y - 32.0f > MyTransform.GetPosition().Y + 32.0f)
+			{
+				Player->JumpVector = FVector::Zero;
 				return;
 			}
 		}
