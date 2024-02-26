@@ -38,6 +38,7 @@ void UMarioCore::BeginPlay()
 	ResoucreManager.CuttingImage("OpenWorldTroopa_Left.png", 5, 2);
 	ResoucreManager.CuttingImage("OpenWorldTroopa_Right.png", 5, 2);
 	ResoucreManager.CuttingImage("Plant.png", 2, 1);
+	ResoucreManager.CuttingImage("OpenWorldBrick.png", 5, 1);
 
 	// TODO
 	// 생성할 모든 레벨 Core에서 생성
@@ -46,8 +47,8 @@ void UMarioCore::BeginPlay()
 
 	// TODO
 	// 처음 시작할 레벨 설정
-	//ChangeLevel("Play");
-	ChangeLevel("Title");
+	ChangeLevel("Play");
+	//ChangeLevel("Title");
 }
 
 void UMarioCore::Tick(float _DeltaTime)

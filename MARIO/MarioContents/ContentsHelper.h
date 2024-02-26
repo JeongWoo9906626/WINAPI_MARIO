@@ -7,6 +7,7 @@ enum ERenderOrder
 {
 	Plant,
 	Map,
+	Brick,
 	Monster,
 	Player,
 };
@@ -54,7 +55,8 @@ enum class EMArioSizeState
 	Small,
 	Big,
 	Red,
-	Star
+	Star,
+	None
 };
 
 enum class EMonsterState
@@ -72,6 +74,15 @@ enum class EPlantState
 	Move,
 	Wait,
 	Stop,
+	None,
+};
+
+enum class EBoxState
+{
+	Idle,
+	Hit,
+	Break,
+	Block,
 	None,
 };
 

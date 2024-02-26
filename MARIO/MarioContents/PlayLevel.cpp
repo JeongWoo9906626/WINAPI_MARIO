@@ -6,6 +6,7 @@
 #include "Troopa.h"
 #include "Plant.h"
 #include "Flag.h"
+#include "Brick.h"
 
 UPlayLevel::UPlayLevel()
 {
@@ -51,6 +52,10 @@ void UPlayLevel::BeginPlay()
 		//// 710 MaxTop 
 		//// 800 MaxBottom
 		//Plant->SetActorLocation({ 1855, 800 });
+
+		ABrick* OWBrick = SpawnActor<ABrick>(ERenderOrder::Brick);
+		OWBrick->SetName("Brick1");
+		OWBrick->SetActorLocation({ 800, 640 });
 }
 
 void UPlayLevel::Tick(float _DeltaTime)

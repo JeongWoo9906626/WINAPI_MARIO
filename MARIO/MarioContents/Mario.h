@@ -6,6 +6,7 @@ class AGoomba;
 class ATroopa;
 class APlant;
 class AFlag;
+class ABrick;
 // Ό³Έν :
 class AMario : public AActor
 {
@@ -13,6 +14,8 @@ class AMario : public AActor
 	friend ATroopa;
 	friend APlant;
 	friend AFlag;
+	friend ABrick;
+
 private:
 	//static AMario* MainPlayer;
 

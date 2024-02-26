@@ -8,6 +8,7 @@
 #include "Troopa.h"
 #include "Plant.h"
 #include "Flag.h"
+#include "Brick.h"
 
 AMario::AMario()
 {

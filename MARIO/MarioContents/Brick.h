@@ -16,7 +16,33 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-private:
+	void SetHitCount(int _HitCount);
+	void SetIsBreak(bool _IsBreak);
 
+	void StateChange(EBoxState _State);
+	void StateUpdate(float _DeltaTime);
+
+	void IdleStart();
+	void HitStart();
+	void BreakStart();
+	void BlockStart();
+
+	void Idle(float _DeltaTime);
+	void Hit(float _DeltaTime);
+	void Break(float _DeltaTime);
+	void Block(float _DeltaTime);
+
+private:
+	UImageRenderer* Renderer = nullptr;
+	UCollision* BodyCollision = nullptr;
+
+	EBoxState State = EBoxState::None;
+	EMArioSizeState MarioState = EMArioSizeState::None;
+
+	int HitCount = 3;
+	bool IsBreak = false;
+	float MaxHitUpSize = 20.0f;
+	float HitUpSpeed = 300.0f;
+	FVector FirstPos = FVector::Zero;
 };
 
