@@ -8,6 +8,8 @@ public:
 	ABrick();
 	~ABrick();
 
+	friend AActor;
+
 	ABrick(const ABrick& _Other) = delete;
 	ABrick(ABrick&& _Other) noexcept = delete;
 	ABrick& operator=(const ABrick& _Other) = delete;
@@ -41,8 +43,10 @@ private:
 
 	int HitCount = 3;
 	bool IsBreak = false;
-	float MaxHitUpSize = 20.0f;
+	float MaxHitUpSize = 30.0f;
 	float HitUpSpeed = 300.0f;
 	FVector FirstPos = FVector::Zero;
+	FVector MoveUpPos = FVector::Zero;
+	FVector MoveDownPos = FVector::Zero;
 };
 

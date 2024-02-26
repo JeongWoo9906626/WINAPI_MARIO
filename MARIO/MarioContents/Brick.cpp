@@ -12,7 +12,7 @@ ABrick::~ABrick()
 void ABrick::BeginPlay()
 {
 	AActor::BeginPlay();
-	
+
 	Renderer = CreateImageRenderer(ERenderOrder::Brick);
 	Renderer->SetImage("OpenWorldBrick.png");
 	Renderer->SetTransform({ { 0, 0 }, { 256 * 4.0f, 256 * 4.0f } });
@@ -114,6 +114,8 @@ void ABrick::StateUpdate(float _DeltaTime)
 
 void ABrick::IdleStart()
 {
+	MoveUpPos = FVector::Zero;
+	MoveDownPos = FVector::Zero;
 	Renderer->ChangeAnimation("BrickIdle");
 }
 
@@ -139,8 +141,6 @@ void ABrick::Idle(float _DeltaTime)
 
 void ABrick::Hit(float _DeltaTime)
 {
-	
-
 	if (true == IsBreak && (MarioState == EMArioSizeState::Big || MarioState == EMArioSizeState::Red))
 	{
 		StateChange(EBoxState::Break);
@@ -153,21 +153,26 @@ void ABrick::Hit(float _DeltaTime)
 		return;
 	}
 
-	// 박스 위로 이동
-	FVector HitUpPos = GetActorLocation();
-	if (FirstPos.Y - HitUpPos.Y >= MaxHitUpSize)
+	if (abs(MoveUpPos.Y) >= MaxHitUpSize)
 	{
-		--HitCount;
-		SetActorLocation(FirstPos);
-		StateChange(EBoxState::Idle);
-		return;
+		if (abs(MoveDownPos.Y) >= MaxHitUpSize)
+		{
+			--HitCount;
+			SetActorLocation(FirstPos);
+			StateChange(EBoxState::Idle);
+			return;
+		}
+		else
+		{
+			MoveDownPos += FVector::Down * HitUpSpeed * _DeltaTime;
+			AddActorLocation(FVector::Down * HitUpSpeed * _DeltaTime);
+		}
 	}
 	else
 	{
+		MoveUpPos += FVector::Up * HitUpSpeed * _DeltaTime;
 		AddActorLocation(FVector::Up * HitUpSpeed * _DeltaTime);
 	}
-
-
 }
 
 void ABrick::Break(float _DeltaTime)
