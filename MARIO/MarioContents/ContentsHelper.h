@@ -44,6 +44,8 @@ enum class EPlayState
 	Die,
 	Kill,
 	FinishMove,
+	FinishReverse,
+	FinishWalk,
 	None,
 };
 

@@ -30,16 +30,19 @@ void AMario::BeginPlay()
 	{
 		Renderer->CreateAnimation("Idle_Right", "Mario_Right.png", 0, 0, 0.1f, true);
 		Renderer->CreateAnimation("Move_Right", "Mario_Right.png", 1, 3, 0.1f, true);
+		Renderer->CreateAnimation("MoveFast_Right", "Mario_Right.png", 1, 3, 0.05f, true);
 		Renderer->CreateAnimation("Reverse_Right", "Mario_Right.png", 4, 4, 0.1f, true);
 		Renderer->CreateAnimation("Jump_Right", "Mario_Right.png", 5, 5, 0.1f, true);
 	
 		Renderer->CreateAnimation("Idle_Left", "Mario_Left.png", 0, 0, 0.1f, true);
 		Renderer->CreateAnimation("Move_Left", "Mario_Left.png", 1, 3, 0.1f, true);
+		Renderer->CreateAnimation("MoveFast_Left", "Mario_Left.png", 1, 3, 0.05f, true);
 		Renderer->CreateAnimation("Reverse_Left", "Mario_Left.png", 4, 4, 0.1f, true);
 		Renderer->CreateAnimation("Jump_Left", "Mario_Left.png", 5, 5, 0.1f, true);
 
 		Renderer->CreateAnimation("Die", "Mario_Left.png", 6, 6, 0.1f, true);
-		Renderer->CreateAnimation("Down", "Mario_Right.png", 7, 7, 0.1f, true);
+		Renderer->CreateAnimation("Down", "Mario_Right.png", 7, 8, 0.1f, true);
+		Renderer->CreateAnimation("DownReverse", "Mario_Left.png", 7, 7, 0.1f, true);
 	}
 
 	{
@@ -50,7 +53,7 @@ void AMario::BeginPlay()
 	}
 
 	CurDieTime = 0.0f;
-
+	CurDownTime = 0.0f;
 	StateChange(EPlayState::Idle);
 }
 
@@ -164,6 +167,12 @@ void AMario::StateChange(EPlayState _State)
 		case EPlayState::FinishMove:
 			FinishMoveStart();
 			break;
+		case EPlayState::FinishReverse:
+			FinishReverseStart();
+			break;
+		case EPlayState::FinishWalk:
+			FinishWalkStart();
+			break;
 		default:
 			break;
 		}
@@ -202,6 +211,12 @@ void AMario::StateUpdate(float _DeltaTime)
 		break;
 	case EPlayState::FinishMove:
 		FinishMove(_DeltaTime);
+		break;
+	case EPlayState::FinishReverse:
+		FinishReverse(_DeltaTime);
+		break;
+	case EPlayState::FinishWalk:
+		FinishWalk(_DeltaTime);
 		break;
 	default:
 		break;
@@ -313,6 +328,17 @@ void AMario::FinishMoveStart()
  	Renderer->ChangeAnimation("Down");
 }
 
+void AMario::FinishReverseStart()
+{
+	AddActorLocation(FVector::Right * 12.0f);
+	Renderer->ChangeAnimation("DownReverse");
+}
+
+void AMario::FinishWalkStart()
+{
+	Renderer->ChangeAnimation("Move_Right");
+}
+
 void AMario::Idle(float _DeltaTime)
 {
 	MoveUpdate(_DeltaTime);
@@ -418,11 +444,13 @@ void AMario::Run(float _DeltaTime)
 	{
 		MaxRunSpeed = ShiftRunSpeed;
 		CurBreakSpeed = ShiftBreakSpeed;
+		Renderer->ChangeAnimation(GetAnimationName("MoveFast"));
 	}
 	if (true == UEngineInput::IsFree(VK_LSHIFT))
 	{
 		MaxRunSpeed = NoramlRunSpeed;
 		CurBreakSpeed = NormalBreakSpeed;
+		Renderer->ChangeAnimation(GetAnimationName("Move"));
 	}
 
 	if (true == UEngineInput::IsPress(VK_LEFT))
@@ -599,18 +627,37 @@ void AMario::Kill(float _DeltaTime)
 
 void AMario::FinishMove(float _DeltaTime)
 {
-	int a = 0;
 	Color8Bit Color = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
-		Renderer->ChangeAnimation("Move_Right");
-		AddActorLocation(FVector::Right * FinishMoveSpeed * _DeltaTime);
+		StateChange(EPlayState::FinishReverse);
 		return;
 	}
 	else
 	{
-		AddActorLocation(FVector::Down * GravityAcc * _DeltaTime);
+		AddActorLocation(FVector::Down * FinishDownSpeed * _DeltaTime);
 	}
+}
+
+void AMario::FinishReverse(float _DeltaTime)
+{
+	if (DownTime <= CurDownTime)
+	{
+		StateChange(EPlayState::FinishWalk);
+		return;
+	}
+	else
+	{
+		CurDownTime += _DeltaTime;
+	}
+}
+
+void AMario::FinishWalk(float _DeltaTime)
+{
+	JumpVector = FVector::Zero;
+	GroundUp();
+	AddRunVector(FVector::Right * _DeltaTime);
+	MoveUpdate(_DeltaTime);
 }
 
 void AMario::ReverseDir()
@@ -677,6 +724,11 @@ void AMario::RunVectorUpdate(float _DeltaTime)
 	if (MaxRunSpeed <= RunVector.Size2D())
 	{
 		RunVector = RunVector.Normalize2DReturn() * MaxRunSpeed;
+	}
+
+	if (State == EPlayState::FinishWalk)
+	{
+		RunVector = RunVector.Normalize2DReturn() * FinishMoveSpeed;
 	}
 
 	float CamerPos = GetWorld()->GetCameraPos().X;

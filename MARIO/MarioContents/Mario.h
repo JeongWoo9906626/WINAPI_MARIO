@@ -48,6 +48,8 @@ protected:
 	void DieStart();
 	void KillStart();
 	void FinishMoveStart();
+	void FinishReverseStart();
+	void FinishWalkStart();
 
 	void CameraFreeMove(float _DeltaTime);
 	void FreeMove(float _DeltaTime);
@@ -59,6 +61,8 @@ protected:
 	void Die(float _DeltaTime);
 	void Kill(float _DeltaTime);
 	void FinishMove(float _DeltaTime);
+	void FinishReverse(float _DeltaTime);
+	void FinishWalk(float _DeltaTime);
 	void DieAnimationStart(float _DeltaTime);
 
 	void ReverseDir();
@@ -91,6 +95,7 @@ private:
 	float ShiftRunSpeed = 700.0f;
 
 	float FinishMoveSpeed = 100.0f;
+	float FinishDownSpeed = 300.0f;
 
 	float ShiftBreakSpeed = 1800.0f;
 	float NormalBreakSpeed = 1000.0f;
@@ -101,6 +106,9 @@ private:
 
 	float DieTime = 1.0f;
 	float CurDieTime = 0.0f;
+
+	float DownTime = 1.0f;
+	float CurDownTime = 0.0f;
 
 	void AddRunVector(const FVector& _DirDelta);
 	void SubtractRunVector(const FVector& _DirDelta);

@@ -25,6 +25,9 @@
     <Filter Include="PlayLevel\Actor\Monster">
       <UniqueIdentifier>{33549f06-0602-4354-910e-8655c4b6ddf8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PlayLevel\Actor\Box">
+      <UniqueIdentifier>{ad69e73f-f88d-41db-8672-5168217395b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TitleLevel.h">
@@ -60,6 +63,9 @@
     <ClInclude Include="Flag.h">
       <Filter>PlayLevel\Actor</Filter>
     </ClInclude>
+    <ClInclude Include="Brick.h">
+      <Filter>PlayLevel\Actor\Box</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -94,6 +100,9 @@
     </ClCompile>
     <ClCompile Include="Flag.cpp">
       <Filter>PlayLevel\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Brick.cpp">
+      <Filter>PlayLevel\Actor\Box</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
