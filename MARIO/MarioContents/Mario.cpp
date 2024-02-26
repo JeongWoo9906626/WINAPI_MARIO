@@ -753,7 +753,8 @@ void AMario::GroundUp()
 	while (true)
 	{
 		FVector Location = GetActorLocation();
-		Color8Bit Color = UContentsHelper::MapColImage->GetColor(Location.iX(), Location.iY() - 1.0f, Color8Bit::MagentaA);
+		Location.Y -= 1.0f;
+		Color8Bit Color = UContentsHelper::MapColImage->GetColor(Location.iX(), Location.iY(), Color8Bit::MagentaA);
 		if (Color == Color8Bit(255, 0, 255, 0))
 		{
 			AddActorLocation(FVector::Up);

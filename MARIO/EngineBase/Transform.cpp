@@ -1,6 +1,7 @@
 #include "Transform.h"
 #include "EngineDebug.h"
 
+
 bool (*FTransform::CollisionFunction[static_cast<int>(ECollisionType::Max)][static_cast<int>(ECollisionType::Max)])(const FTransform& _Left, const FTransform& _Right);
 
 class CollisionFunctionInit
@@ -15,6 +16,7 @@ public:
 	}
 	~CollisionFunctionInit()
 	{
+
 	}
 };
 
@@ -32,10 +34,10 @@ bool FTransform::CircleToRect(const FTransform& _Left, const FTransform& _Right)
 {
 	FTransform CirCleTransform = _Left;
 
-	FTransform WRect = _Right;
+	FTransform WRect = _Right; // 가로가 커진 Rect
 	WRect.Scale.X += CirCleTransform.GetRadius() * 2.0f;
-	FTransform HRect = _Right;
-	HRect.Scale.Y += CirCleTransform.GetRadius() * 2.0f;
+	FTransform HRect = _Right; // 세로가 커진 Rect
+	HRect.Scale.Y += CirCleTransform.GetRadius() * 2.0f; // 세로가 커진 Rect
 
 	if (true == PointToRect(_Left, WRect))
 	{
@@ -159,6 +161,8 @@ bool FTransform::RectToPoint(const FTransform& _Left, const FTransform& _Right)
 
 	return  true;
 }
+
+
 
 FTransform::FTransform() 
 {

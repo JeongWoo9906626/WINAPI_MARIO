@@ -1,11 +1,11 @@
 #include "Actor.h"
 #include "ImageRenderer.h"
 
-AActor::AActor() 
+AActor::AActor()
 {
 }
 
-AActor::~AActor() 
+AActor::~AActor()
 {
 	for (UImageRenderer* ImageRenderer : Renderers)
 	{
@@ -33,6 +33,14 @@ AActor::~AActor()
 
 	Collisions.clear();
 
+}
+
+void AActor::ChildTick(float _DeltaTime)
+{
+	for (UImageRenderer* Renderer : Renderers)
+	{
+		Renderer->Tick(_DeltaTime);
+	}
 }
 
 void AActor::Tick(float _DeltaTime)
@@ -65,8 +73,10 @@ UCollision* AActor::CreateCollision(int _Order /*= 0*/)
 
 void AActor::Destroy(float _DestroyTime /*= 0.0f*/)
 {
+	// 액터는 자신을 죽이면서
 	UTickObject::Destroy(_DestroyTime);
-	
+
+	// 자신이 관리하고 있는 랜더러들도 다 죽여야 한다.
 	for (UImageRenderer* Renderer : Renderers)
 	{
 		Renderer->Destroy(_DestroyTime);
@@ -81,6 +91,7 @@ void AActor::Destroy(float _DestroyTime /*= 0.0f*/)
 
 void AActor::CheckReleaseChild()
 {
+
 	{
 		std::list<UImageRenderer*>::iterator StartIter = Renderers.begin();
 		std::list<UImageRenderer*>::iterator EndIter = Renderers.end();
@@ -136,6 +147,7 @@ void AActor::CheckReleaseChild()
 
 void AActor::DestroyUpdate(float _DeltaTime)
 {
+	// 부모의 함수를 호출하는게 기본이다.
 	UTickObject::DestroyUpdate(_DeltaTime);
 
 	for (UImageRenderer* Renderer : Renderers)
@@ -151,6 +163,7 @@ void AActor::DestroyUpdate(float _DeltaTime)
 
 void AActor::ActiveUpdate(float _DeltaTime)
 {
+	// 부모의 함수를 호출하는게 기본이다.
 	UTickObject::ActiveUpdate(_DeltaTime);
 
 	for (UImageRenderer* Renderer : Renderers)

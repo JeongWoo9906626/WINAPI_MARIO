@@ -26,7 +26,7 @@ public:
 		IsActiveValue = false;
 	}
 
-	void SetActive(bool _Active, float _ActiveTime = 0.0f)
+	virtual void SetActive(bool _Active, float _ActiveTime = 0.0f)
 	{
 		ActiveTime = _ActiveTime;
 
@@ -45,6 +45,7 @@ public:
 
 	bool IsActive()
 	{
+		// 내가 켜져있고         죽지도 않았다면
 		return IsActiveValue && IsDestroyValue == false;
 	}
 
@@ -53,7 +54,7 @@ public:
 	{
 		IsDestroyUpdate = true;
 		DestroyTime = _DestroyTime;
-		if (0.0f >= _DestroyTime)
+		if (0.0f>= _DestroyTime)
 		{
 			this->IsDestroyValue = true;
 		}
@@ -112,11 +113,11 @@ private:
 	int Order = 0;
 
 	bool IsDestroyUpdate = false;
-	bool IsDestroyValue = false;
 	float DestroyTime = 0.0f;
+	bool IsDestroyValue = false;
 
 	bool IsActiveUpdate = false;
-	bool IsActiveValue = true;
 	float ActiveTime = 0.0f;
+	bool IsActiveValue = true;
 };
 

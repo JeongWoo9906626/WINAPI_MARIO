@@ -72,23 +72,27 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\;</IncludePath>
-    <OutDir>$(SolutionDir)Bin\$(Platfrom)\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)Bin\$(Platfrom)\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(SolutionDir)Bin\$(Platform)\$(Configuration)\</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\;</IncludePath>
-    <OutDir>$(SolutionDir)Bin\$(Platfrom)\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)Bin\$(Platfrom)\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(SolutionDir)Bin\$(Platform)\$(Configuration)\</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\;</IncludePath>
-    <OutDir>$(SolutionDir)Bin\$(Platfrom)\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)Bin\$(Platfrom)\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(SolutionDir)Bin\$(Platform)\$(Configuration)\</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\;</IncludePath>
-    <OutDir>$(SolutionDir)Bin\$(Platfrom)\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)Bin\$(Platfrom)\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(SolutionDir)Bin\$(Platform)\$(Configuration)\</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -163,13 +167,13 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EngineBase\EngineBase.vcxproj">
-      <Project>{04874e07-be18-4063-93f3-91c0f1256e2f}</Project>
+      <Project>{ea197215-13bb-4729-9573-db483a0ee1a3}</Project>
     </ProjectReference>
     <ProjectReference Include="..\EngineCore\EngineCore.vcxproj">
-      <Project>{ebb5d161-2c68-4928-845f-5199b29b7b96}</Project>
+      <Project>{35fa176c-16bb-4c2a-a672-f4ff30c1bea5}</Project>
     </ProjectReference>
     <ProjectReference Include="..\EnginePlatform\EnginePlatform.vcxproj">
-      <Project>{2615b017-9689-475a-8504-e8391753a8ff}</Project>
+      <Project>{f0716ec2-0bc5-43ea-9046-b203e0985a67}</Project>
     </ProjectReference>
     <ProjectReference Include="..\MarioContents\MarioContents.vcxproj">
       <Project>{0c4854a2-ce10-4b45-b2bf-e62267446c69}</Project>

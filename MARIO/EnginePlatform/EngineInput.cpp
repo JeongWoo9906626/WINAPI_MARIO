@@ -9,11 +9,17 @@ bool UEngineInput::AnykeyFree = true;
 
 void UEngineInput::EngineKey::KeyCheck(float _DeltaTime)
 {
+
+	// 이 키가 눌렸다는 거죠?
+	// if (0 != GetAsyncKeyState('A'))
+	// A키가 눌렸다면
 	if (0 != GetAsyncKeyState(Key))
 	{
 		if (true == Free)
 		{
+			UpTime;
 			PressTime = 0.0f;
+			// 이전까지 이 키는 눌리고 있지 않았다
 			Down = true;
 			Press = true;
 			Up = false;
@@ -21,7 +27,9 @@ void UEngineInput::EngineKey::KeyCheck(float _DeltaTime)
 		}
 		else if(true == Down)
 		{
+			UpTime = 0.0f;
 			PressTime += _DeltaTime;
+			// 이전까지 이 키는 눌리고 있었다.
 			Down = false;
 			Press = true;
 			Up = false;
@@ -30,9 +38,11 @@ void UEngineInput::EngineKey::KeyCheck(float _DeltaTime)
 	}
 	else
 	{
+		UpTime += _DeltaTime;
 		if (true == Press)
 		{
 			PressTime = 0.0f;
+			// 이전까지 이 키는 눌리고 있었다.
 			Down = false;
 			Press = false;
 			Up = true;
@@ -41,11 +51,13 @@ void UEngineInput::EngineKey::KeyCheck(float _DeltaTime)
 		else if(true == Up)
 		{
 			PressTime = 0.0f;
+			// 이전까지 이 키는 안눌리고 있었고 앞으로도 안눌릴거다.
 			Down = false;
 			Press = false;
 			Up = false;
 			Free = true;
 		}
+
 	}
 }
 
@@ -179,10 +191,12 @@ void UEngineInput::KeyCheckTick(float _DeltaTime)
 		}
 	}
 
+	// 어떤키든 눌렸다는 이야기
 	if (true == KeyCheck)
 	{
 		if (true == AnykeyFree)
 		{
+			// 이전까지 이 키는 눌리고 있지 않았다
 			AnykeyDown = true;
 			AnykeyPress = true;
 			AnykeyUp = false;
@@ -190,6 +204,7 @@ void UEngineInput::KeyCheckTick(float _DeltaTime)
 		}
 		else if (true == AnykeyDown)
 		{
+			// 이전까지 이 키는 눌리고 있었다.
 			AnykeyDown = false;
 			AnykeyPress = true;
 			AnykeyUp = false;
@@ -200,6 +215,7 @@ void UEngineInput::KeyCheckTick(float _DeltaTime)
 	{
 		if (true == AnykeyPress)
 		{
+			// 이전까지 이 키는 눌리고 있었다.
 			AnykeyDown = false;
 			AnykeyPress = false;
 			AnykeyUp = true;
@@ -207,11 +223,13 @@ void UEngineInput::KeyCheckTick(float _DeltaTime)
 		}
 		else if (true == AnykeyUp)
 		{
+			// 이전까지 이 키는 안눌리고 있었고 앞으로도 안눌릴거다.
 			AnykeyDown = false;
 			AnykeyPress = false;
 			AnykeyUp = false;
 			AnykeyFree = true;
 		}
+
 	}
 }
 

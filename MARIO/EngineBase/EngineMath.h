@@ -1,9 +1,43 @@
 #pragma once
 #include <string>
 #include <cmath>
+#include <Windows.h>
+
+
+// 설명 :
+class UEngineMath
+{
+public:
+	// constrcuter destructer
+	UEngineMath();
+	~UEngineMath();
+
+	// delete Function
+	UEngineMath(const UEngineMath& _Other) = delete;
+	UEngineMath(UEngineMath&& _Other) noexcept = delete;
+	UEngineMath& operator=(const UEngineMath& _Other) = delete;
+	UEngineMath& operator=(UEngineMath&& _Other) noexcept = delete;
+
+	static const float PI;
+	static const float PI2;
+
+	// 디그리가 => 라디안
+	static const float DToR;
+	// 라디안이 => 디그리로
+	static const float RToD;
+
+protected:
+
+private:
+
+};
+
+
 
 struct float4
 {
+	// F구조체의 
+
 public:
 	static const float4 Zero;
 	static const float4 Left;
@@ -30,6 +64,8 @@ public:
 		};
 	};
 
+	// 생성자를 한번 만들게 되면 리스트 이니셜라이저가 동작하지 않아서
+	// 내가 생성하는 방식을 다 정의해야 합니다.
 	float4()
 		: X(0.0f), Y(0.0f), Z(0.0f), W(1.0f)
 	{
@@ -69,20 +105,82 @@ public:
 
 
 public:
+	static float4 VectorRotationZToDeg(float4 _OriginVector, float _Angle)
+	{
+		return VectorRotationZToRad(_OriginVector, _Angle * UEngineMath::DToR);
+	}
+
+	static float4 VectorRotationZToRad(float4 _OriginVector, float _Angle)
+	{
+		float4 Result;
+		Result.X = (_OriginVector.X * cosf(_Angle)) - (_OriginVector.Y * sinf(_Angle));
+		Result.Y = (_OriginVector.X * sinf(_Angle)) + (_OriginVector.Y * cosf(_Angle));
+		return Result;
+	}
+
+	static float4 DegToDir(float _Angle)
+	{
+		return RadToDir(_Angle * UEngineMath::DToR);
+	}
+	static float4 RadToDir(float _Angle)
+	{
+		// 특정 각도에 빗변의 길이가 1인 방향 벡터를 구해줍니다.
+		return float4(cosf(_Angle), sinf(_Angle));
+	}
+
+	static float4 LerpClamp(float4 p1, float4 p2, float d1)
+	{
+		if (0.0f >= d1)
+		{
+			d1 = 0.0f;
+		}
+
+		if (1.0f <= d1)
+		{
+			d1 = 1.0f;
+		}
+
+		return Lerp(p1, p2, d1);
+	}
+
+	// p1 p2          d1의 비율로 간다.
+	static float4 Lerp(float4 p1, float4 p2, float d1) 
+	{
+		return (p1 * (1.0f - d1)) + (p2 * d1);
+	}
+
+
 	float Size2D()
 	{
+		// sqrtf 제곱근 구해주는 함수
 		return std::sqrtf((X * X) + (Y * Y));
 	}
 
+	void RotationZToDeg(float _Angle)
+	{
+		RotationZToRad(_Angle * UEngineMath::DToR);
+	}
+
+	void RotationZToRad(float _Angle)
+	{
+		*this = VectorRotationZToRad(*this, _Angle);
+		return;
+	}
+
+	// 나 자신이 길이 1짜리로 변경되는 것.
 	void Normalize2D()
 	{
 		float Size = Size2D();
-		X /= Size;
-		Y /= Size;
-		Z = 0.0f;
-		W = 0.0f;
+		if (0.0f < Size && false == isnan(Size))
+		{
+			X /= Size;
+			Y /= Size;
+			Z = 0.0f;
+			W = 0.0f;
+		}
 	}
 
+	// 나는 변화하지 않고 길이 1짜리로 변한 나와 방향이 같은 벡터를 리턴하는 함수
 	float4 Normalize2DReturn()
 	{
 		float4 Result = *this;
@@ -127,6 +225,7 @@ public:
 		return Y * 0.5f;
 	}
 
+
 	int ihY() const
 	{
 		return std::lround(hY());
@@ -145,6 +244,7 @@ public:
 		W = _Other.W;
 		return *this;
 	}
+
 
 	float4 operator+(const float4& _Other) const
 	{
@@ -226,6 +326,11 @@ public:
 
 		return *this;
 	}
+
+	POINT ConvertToWinApiPOINT()
+	{
+		return { iX(),iY() };
+	}
 };
 
 using FVector = float4;
@@ -233,20 +338,29 @@ using FColor = float4;
 
 class Color8Bit
 {
+	// 현실에서의 색상은
+	// 물감으로 치면 다섞으면 어두운색
+	// 빛으로 치면 다섞으면 흰색
+	// 컴퓨터는 빛의 삼원색을 사용합니다.
 public:
 	static const Color8Bit Black;
 	static const Color8Bit Red;
 	static const Color8Bit Green;
 	static const Color8Bit Blue;
+	static const Color8Bit Yellow;
 	static const Color8Bit White;
 	static const Color8Bit Magenta;
+	static const Color8Bit Orange;
 
 	static const Color8Bit BlackA;
 	static const Color8Bit RedA;
 	static const Color8Bit GreenA;
 	static const Color8Bit BlueA;
+	static const Color8Bit YellowA;
 	static const Color8Bit WhiteA;
 	static const Color8Bit MagentaA;
+	static const Color8Bit OrangeA;
+
 
 	union
 	{
@@ -264,6 +378,7 @@ public:
 
 	Color8Bit()
 	{
+
 	}
 
 	Color8Bit(
@@ -274,6 +389,7 @@ public:
 	)
 		:R(_R), G(_G), B(_B), A(_A)
 	{
+
 	}
 
 
@@ -287,24 +403,3 @@ public:
 		return Color8Bit{ R,G,B,0 };
 	}
 };
-
-// 설명 :
-class EngineMath
-{
-public:
-	// constrcuter destructer
-	EngineMath();
-	~EngineMath();
-
-	// delete Function
-	EngineMath(const EngineMath& _Other) = delete;
-	EngineMath(EngineMath&& _Other) noexcept = delete;
-	EngineMath& operator=(const EngineMath& _Other) = delete;
-	EngineMath& operator=(EngineMath&& _Other) noexcept = delete;
-
-protected:
-
-private:
-
-};
-

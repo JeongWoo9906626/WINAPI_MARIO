@@ -90,7 +90,7 @@ private:
 	float NoramlRunSpeed = 400.0f;
 	float ShiftRunSpeed = 700.0f;
 
-	float FinishMoveSpeed = 300.0f;
+	float FinishMoveSpeed = 100.0f;
 
 	float ShiftBreakSpeed = 1800.0f;
 	float NormalBreakSpeed = 1000.0f;
