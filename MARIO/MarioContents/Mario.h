@@ -83,7 +83,7 @@ private:
 
 	float FreeMoveSpeed = 1000.0f;
 
-	FVector RunAcc = FVector::Right * 500.0f;
+	FVector RunAcc = FVector::Right * 700.0f;
 	FVector RunVector = FVector::Zero;
 	
 	float MaxRunSpeed = 400.0f;
@@ -92,11 +92,11 @@ private:
 
 	float FinishMoveSpeed = 300.0f;
 
-	float ShiftBreakSpeed = 2000.0f;
+	float ShiftBreakSpeed = 1800.0f;
 	float NormalBreakSpeed = 1000.0f;
 	float CurBreakSpeed = 0.0f;
 
-	float JumpUpSpeed = 1200.0f;
+	float JumpUpSpeed = 4500.0f;
 	float MaxJumpSpeed = 1500.0f;
 
 	float DieTime = 1.0f;
@@ -106,14 +106,12 @@ private:
 	void SubtractRunVector(const FVector& _DirDelta);
 	void AddJumpVector(const FVector& _DirDelta);
 
-	FVector GravityAcc = FVector::Down * 2000.0f;
-	FVector GravityVector = FVector::Zero;
+	FVector GravityAcc = FVector::Down * 3000.0f;
+	FVector GravityPower = FVector::Zero;
 
-	FVector DieJumpVector = FVector::Up * 700.0f;
-	FVector JumpPower = FVector::Up * 700.0f;
+	FVector DieJumpPower = FVector::Up * 700.0f;
+	FVector JumpPower = FVector::Up * 500.0f;
 	FVector KillJumpPower = FVector::Up * 500.0f;
-	FVector NoramlJumpPower = FVector::Up * 700.0f;
-	FVector RunJumpPower = FVector::Up * 1100.0f;
 
 	FVector JumpVector = FVector::Zero;
 

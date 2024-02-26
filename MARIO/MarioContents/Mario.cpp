@@ -295,7 +295,7 @@ void AMario::ReverseStart()
 
 void AMario::DieStart()
 {
-	JumpVector = DieJumpVector;
+	JumpVector = DieJumpPower;
 	BodyCollision->ActiveOff();
 	Renderer->ChangeAnimation("Die");
 }
@@ -303,7 +303,7 @@ void AMario::DieStart()
 void AMario::KillStart()
 {
 	DirCheck();
-	GravityVector = FVector::Zero;
+	GravityPower = FVector::Zero;
 	JumpVector = KillJumpPower;
 	Renderer->ChangeAnimation(GetAnimationName("Jump"));
 }
@@ -457,6 +457,7 @@ void AMario::Run(float _DeltaTime)
 void AMario::Jump(float _DeltaTime)
 {
 	IsJump = true;
+	
 	if (UEngineInput::IsPress(VK_LEFT))
 	{
 		AddRunVector(FVector::Left * _DeltaTime);
@@ -477,11 +478,11 @@ void AMario::Jump(float _DeltaTime)
 	FVector Location = GetActorLocation();
 
 	Color8Bit Color = UContentsHelper::MapColImage->GetColor(Location.iX(), Location.iY(), Color8Bit::MagentaA);
-   	int a = 0;
+
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
 		JumpVector = FVector::Zero;
-		GravityVector = FVector::Zero;
+		GravityPower = FVector::Zero;
 
 		if (RunVector.X > 0.0f)
 		{
@@ -696,13 +697,11 @@ void AMario::JumpVectorUpdate(float _DeltaTime)
 
 void AMario::GravityVectorUpdate(float _DeltaTime)
 {
-	GravityVector += GravityAcc * _DeltaTime;
-
-
+	GravityPower += GravityAcc * _DeltaTime;
 	Color8Bit Color = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
-		GravityVector = FVector::Zero;
+		GravityPower = FVector::Zero;
 	} 
 }
 
@@ -710,7 +709,7 @@ void AMario::MoveVectorUpdate(float _DeltaTime)
 {
 	TotalForceVector = FVector::Zero;
 	TotalForceVector = TotalForceVector + RunVector;
-	TotalForceVector = TotalForceVector + GravityVector;
+	TotalForceVector = TotalForceVector + GravityPower;
 	TotalForceVector = TotalForceVector + JumpVector;
 }
 
