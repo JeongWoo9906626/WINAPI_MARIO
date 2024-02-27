@@ -18,8 +18,6 @@ class AMario : public AActor
 	friend ABrick;
 	friend AGate;
 
-private:
-	//static AMario* MainPlayer;
 
 public:
 	//static AMario* GetMainPlayer();
@@ -82,6 +80,7 @@ private:
 	UCollision* HeadCollision = nullptr;
 	UCollision* BottomCollision = nullptr;
 
+	bool IsCollision = false;
 	bool IsJump = false;
 	bool IsGround = false;
 

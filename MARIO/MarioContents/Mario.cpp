@@ -35,7 +35,7 @@ void AMario::BeginPlay()
 		Renderer->CreateAnimation("MoveFast_Right", "Mario_Right.png", 1, 3, 0.05f, true);
 		Renderer->CreateAnimation("Reverse_Right", "Mario_Right.png", 4, 4, 0.1f, true);
 		Renderer->CreateAnimation("Jump_Right", "Mario_Right.png", 5, 5, 0.1f, true);
-	
+
 		Renderer->CreateAnimation("Idle_Left", "Mario_Left.png", 0, 0, 0.1f, true);
 		Renderer->CreateAnimation("Move_Left", "Mario_Left.png", 1, 3, 0.1f, true);
 		Renderer->CreateAnimation("MoveFast_Left", "Mario_Left.png", 1, 3, 0.05f, true);
@@ -77,24 +77,24 @@ void AMario::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 
-	std::vector<UCollision*> TopResult;
-	if (true == BottomCollision->CollisionCheck(ECollisionOrder::BoxTop, TopResult))
-	{
-		UCollision* BoxPosition = TopResult[0];
-		ABrick* Player = (ABrick*)BoxPosition->GetOwner();
+	//std::vector<UCollision*> TopResult;
+	//if (true == BottomCollision->CollisionCheck(ECollisionOrder::BoxTop, TopResult))
+	//{
+	//	UCollision* BoxPosition = TopResult[0];
+	//	ABrick* Player = (ABrick*)BoxPosition->GetOwner();
 
-		FTransform BoxCollision = BoxPosition->GetActorBaseTransform();
-		FTransform MyTransform = BottomCollision->GetActorBaseTransform();
+	//	FTransform BoxCollision = BoxPosition->GetActorBaseTransform();
+	//	FTransform MyTransform = BottomCollision->GetActorBaseTransform();
 
-		// TODO : Block Player Move
+	//	// TODO : Block Player Move
 
-		GravityPower = FVector::Zero;
-		JumpVector = FVector::Zero;
+	//	GravityPower = FVector::Zero;
+	//	JumpVector = FVector::Zero;
 
-		AddActorLocation(FVector::Up);
-		/*Player->GravityPower = FVector::Zero;
-		Player->JumpVector = FVector::Zero;*/
-	}
+	//	AddActorLocation(FVector::Up);
+	//	/*Player->GravityPower = FVector::Zero;
+	//	Player->JumpVector = FVector::Zero;*/
+	//}
 
 	StateUpdate(_DeltaTime);
 }
@@ -360,7 +360,7 @@ void AMario::KillStart()
 
 void AMario::FinishMoveStart()
 {
- 	Renderer->ChangeAnimation("Down");
+	Renderer->ChangeAnimation("Down");
 }
 
 void AMario::FinishReverseStart()
@@ -520,7 +520,7 @@ void AMario::Run(float _DeltaTime)
 void AMario::Jump(float _DeltaTime)
 {
 	IsJump = true;
-	
+
 	if (UEngineInput::IsPress(VK_LEFT))
 	{
 		AddRunVector(FVector::Left * _DeltaTime);
@@ -566,6 +566,29 @@ void AMario::Jump(float _DeltaTime)
 			}
 		}
 	}
+	IsCollision = false;
+	std::vector<UCollision*> TopResult;
+	if (true == BottomCollision->CollisionCheck(ECollisionOrder::BoxTop, TopResult))
+	{
+		for (UCollision* BoxPosition : TopResult)
+		{
+			ABrick* Player = (ABrick*)BoxPosition->GetOwner();
+
+			FTransform BoxCollision = BoxPosition->GetActorBaseTransform();
+			FTransform MyTransform = BottomCollision->GetActorBaseTransform();
+
+			// TODO : Block Player Move
+
+			GravityPower = FVector::Zero;
+			JumpVector = FVector::Zero;
+
+			AddActorLocation(FVector::Up);
+			/*Player->GravityPower = FVector::Zero;
+			Player->JumpVector = FVector::Zero;*/
+			IsJump = false;
+			IsCollision = true;
+		}
+	}
 
 	if (JumpVector.Y == 0.0f && GravityPower.Y == 0.0f)
 	{
@@ -573,6 +596,8 @@ void AMario::Jump(float _DeltaTime)
 		GroundUp();
 		return;
 	}
+
+
 }
 
 void AMario::Reverse(float _DeltaTime)
@@ -773,13 +798,15 @@ void AMario::RunVectorUpdate(float _DeltaTime)
 
 void AMario::GravityVectorUpdate(float _DeltaTime)
 {
-	GravityPower += GravityAcc * _DeltaTime;
+	if (!IsCollision) {
+		GravityPower += GravityAcc * _DeltaTime;
+	}
 	Color8Bit Color = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
 		IsJump = false;
- 		GravityPower = FVector::Zero;
-	} 
+		GravityPower = FVector::Zero;
+	}
 }
 
 void AMario::MoveVectorUpdate(float _DeltaTime)
