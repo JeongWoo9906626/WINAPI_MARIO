@@ -68,7 +68,6 @@ protected:
 	void FinishMove(float _DeltaTime);
 	void FinishReverse(float _DeltaTime);
 	void FinishWalk(float _DeltaTime);
-	void DieAnimationStart(float _DeltaTime);
 
 	void ReverseDir();
 	
@@ -106,9 +105,6 @@ private:
 	float NormalBreakSpeed = 1000.0f;
 	float CurBreakSpeed = 0.0f;
 
-	float JumpUpSpeed = 4500.0f;
-	float MaxJumpSpeed = 1500.0f;
-
 	float DieTime = 1.0f;
 	float CurDieTime = 0.0f;
 
@@ -119,20 +115,19 @@ private:
 	void SubtractRunVector(const FVector& _DirDelta);
 	void AddJumpVector(const FVector& _DirDelta);
 
-	FVector GravityAcc = FVector::Down * 3000.0f;
+	FVector GravityAcc = FVector::Down * 1000.0f;
 	FVector GravityPower = FVector::Zero;
 
-	FVector DieJumpPower = FVector::Up * 700.0f;
-	FVector JumpPower = FVector::Up * 500.0f;
-	FVector KillJumpPower = FVector::Up * 500.0f;
-
 	FVector JumpVector = FVector::Zero;
+	FVector JumpPower = FVector::Up * 700.0f;
+	float JumpUpSpeed = 1000.0f;
+	FVector DieJumpPower = FVector::Up * 500.0f;
+	FVector KillJumpPower = FVector::Up * 300.0f;
 
 	FVector TotalForceVector = FVector::Zero;
 
 	// 움직임 벡터 업데이트
 	void RunVectorUpdate(float _DeltaTime);
-	void JumpVectorUpdate(float _DeltaTime);
 	void GravityVectorUpdate(float _DeltaTime);
 
 	// 모든 이동 벡터 더하기

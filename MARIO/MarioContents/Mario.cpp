@@ -379,7 +379,7 @@ void AMario::Idle(float _DeltaTime)
 		return;
 	}
 
-	if (true == UEngineInput::IsPress(VK_SPACE))
+	if (true == UEngineInput::IsDown(VK_SPACE) && false == IsJump)
 	{
 		StateChange(EPlayState::Jump);
 		GroundUp();
@@ -390,7 +390,7 @@ void AMario::Idle(float _DeltaTime)
 void AMario::Run(float _DeltaTime)
 {
 	GroundUp();
-	if (true == UEngineInput::IsPress(VK_SPACE))
+	if (true == UEngineInput::IsDown(VK_SPACE))
 	{
 		StateChange(EPlayState::Jump);
 		GroundUp();
@@ -497,12 +497,11 @@ void AMario::Jump(float _DeltaTime)
 		AddRunVector(FVector::Right * _DeltaTime);
 	}
 
-	if (UEngineInput::IsPress(VK_SPACE))
+	if (UEngineInput::IsUp(VK_SPACE))
 	{
-		AddJumpVector(FVector::Up * _DeltaTime);
+		JumpVector = FVector::Zero;
 	}
 
-	JumpVectorUpdate(_DeltaTime);
 	MoveUpdate(_DeltaTime);
 
 	FVector Location = GetActorLocation();
@@ -741,21 +740,14 @@ void AMario::RunVectorUpdate(float _DeltaTime)
 	}
 }
 
-void AMario::JumpVectorUpdate(float _DeltaTime)
-{
-	if (JumpVector.Size2D() >= MaxJumpSpeed)
-	{
-		JumpVector = JumpVector.Normalize2DReturn() * MaxJumpSpeed;
-	}
-}
-
 void AMario::GravityVectorUpdate(float _DeltaTime)
 {
 	GravityPower += GravityAcc * _DeltaTime;
 	Color8Bit Color = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
-		GravityPower = FVector::Zero;
+		IsJump = false;
+ 		GravityPower = FVector::Zero;
 	} 
 }
 
