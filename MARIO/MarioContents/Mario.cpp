@@ -77,6 +77,25 @@ void AMario::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 
+	std::vector<UCollision*> TopResult;
+	if (true == BottomCollision->CollisionCheck(ECollisionOrder::BoxTop, TopResult))
+	{
+		UCollision* BoxPosition = TopResult[0];
+		ABrick* Player = (ABrick*)BoxPosition->GetOwner();
+
+		FTransform BoxCollision = BoxPosition->GetActorBaseTransform();
+		FTransform MyTransform = BottomCollision->GetActorBaseTransform();
+
+		// TODO : Block Player Move
+
+		GravityPower = FVector::Zero;
+		JumpVector = FVector::Zero;
+
+		AddActorLocation(FVector::Up);
+		/*Player->GravityPower = FVector::Zero;
+		Player->JumpVector = FVector::Zero;*/
+	}
+
 	StateUpdate(_DeltaTime);
 }
 
@@ -546,7 +565,10 @@ void AMario::Jump(float _DeltaTime)
 				return;
 			}
 		}
+	}
 
+	if (JumpVector.Y == 0.0f && GravityPower.Y == 0.0f)
+	{
 		StateChange(EPlayState::Idle);
 		GroundUp();
 		return;

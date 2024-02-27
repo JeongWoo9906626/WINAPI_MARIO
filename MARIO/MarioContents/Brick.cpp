@@ -22,7 +22,7 @@ void ABrick::BeginPlay()
 	Renderer->CreateAnimation("Brickbreak", "OpenWorldBrick.png", 2, 2, 0.1f, true);
 	Renderer->CreateAnimation("BrickBlock", "OpenWorldBrick.png", 3, 3, 0.1f, true);
 
-	TopCollision = CreateCollision(ECollisionOrder::Box);
+	TopCollision = CreateCollision(ECollisionOrder::BoxTop);
 	TopCollision->SetColType(ECollisionType::Rect);
 	TopCollision->SetPosition({ 0, -55 });
 	TopCollision->SetScale({ 62, 10 });
