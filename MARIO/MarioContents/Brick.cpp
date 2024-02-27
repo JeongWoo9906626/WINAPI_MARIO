@@ -15,17 +15,32 @@ void ABrick::BeginPlay()
 
 	Renderer = CreateImageRenderer(ERenderOrder::Brick);
 	Renderer->SetImage("OpenWorldBrick.png");
-	Renderer->SetTransform({ { 0, 0 }, { 256 * 4.0f, 256 * 4.0f } });
+	Renderer->SetTransform({ { 0, 0 }, { 256 * 3.8f, 256 * 3.8f } });
 
 	Renderer->CreateAnimation("BrickIdle", "OpenWorldBrick.png", 0, 0, 0.1f, true);
 	Renderer->CreateAnimation("BrickHit", "OpenWorldBrick.png", 0, 0, 0.1f, true);
 	Renderer->CreateAnimation("Brickbreak", "OpenWorldBrick.png", 2, 2, 0.1f, true);
 	Renderer->CreateAnimation("BrickBlock", "OpenWorldBrick.png", 3, 3, 0.1f, true);
 
-	BodyCollision = CreateCollision(ECollisionOrder::Box);
-	BodyCollision->SetColType(ECollisionType::Rect);
-	BodyCollision->SetPosition({ 0, -30 });
-	BodyCollision->SetScale({ 65, 70 });
+	TopCollision = CreateCollision(ECollisionOrder::Box);
+	TopCollision->SetColType(ECollisionType::Rect);
+	TopCollision->SetPosition({ 0, -55 });
+	TopCollision->SetScale({ 62, 10 });
+
+	BottomCollision = CreateCollision(ECollisionOrder::Box);
+	BottomCollision->SetColType(ECollisionType::Rect);
+	BottomCollision->SetPosition({ 0, -5 });
+	BottomCollision->SetScale({ 50, 10 });
+
+	LeftCollision = CreateCollision(ECollisionOrder::Box);
+	LeftCollision->SetColType(ECollisionType::Rect);
+	LeftCollision->SetPosition({ -26, -25 });
+	LeftCollision->SetScale({ 10, 50 });
+
+	RightCollision = CreateCollision(ECollisionOrder::Box);
+	RightCollision->SetColType(ECollisionType::Rect);
+	RightCollision->SetPosition({ +26, -25 });
+	RightCollision->SetScale({ 10, 50 });
 
 	StateChange(EBoxState::Idle);
 }
@@ -34,34 +49,59 @@ void ABrick::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 
-	std::vector<UCollision*> Result;
-	if (true == BodyCollision->CollisionCheck(ECollisionOrder::Player, Result))
+	std::vector<UCollision*> BottomResult;
+	if (true == BottomCollision->CollisionCheck(ECollisionOrder::PlayerHead, BottomResult))
 	{
-		UCollision* MarioPosition = Result[0];
+		UCollision* MarioPosition = BottomResult[0];
 		AMario* Player = (AMario*)MarioPosition->GetOwner();
-
-		FTransform MarioCollision = MarioPosition->GetActorBaseTransform();
-		FTransform MyTransform = BodyCollision->GetActorBaseTransform();
 
 		if (EBoxState::Idle == State)
 		{
-			if (MarioCollision.GetPosition().Y - 32.0f > MyTransform.GetPosition().Y + 32.0f)
-			{
-				Player->GravityPower = FVector::Zero;
-				Player->JumpVector = FVector::Zero;
-				StateChange(EBoxState::Hit);
-				return;
-			}
+			Player->JumpVector = FVector::Zero;
+			StateChange(EBoxState::Hit);
+			return;
 		}
 		if (EBoxState::Block == State)
 		{
-			if (MarioCollision.GetPosition().Y - 32.0f > MyTransform.GetPosition().Y + 32.0f)
-			{
-				Player->JumpVector = FVector::Zero;
-				return;
-			}
+			Player->JumpVector = FVector::Zero;
+			return;
 		}
 	}
+
+	std::vector<UCollision*> LeftResult;
+	if (true == LeftCollision->CollisionCheck(ECollisionOrder::Player, LeftResult))
+	{
+		UCollision* MarioPosition = LeftResult[0];
+		AMario* Player = (AMario*)MarioPosition->GetOwner();
+
+		Player->RunVector.X = 0.0f;
+		return;
+	}
+
+	std::vector<UCollision*> RightResult;
+	if (true == RightCollision->CollisionCheck(ECollisionOrder::Player, RightResult))
+	{
+		UCollision* MarioPosition = RightResult[0];
+		AMario* Player = (AMario*)MarioPosition->GetOwner();
+
+		Player->RunVector.X = 0.0f;
+		return;
+	}
+
+	std::vector<UCollision*> TopResult;
+	if (true == TopCollision->CollisionCheck(ECollisionOrder::PlayerBottom, TopResult))
+	{
+		UCollision* MarioPosition = TopResult[0];
+		AMario* Player = (AMario*)MarioPosition->GetOwner();
+
+		FTransform MarioCollision = MarioPosition->GetActorBaseTransform();
+		FTransform MyTransform = TopCollision->GetActorBaseTransform();
+
+		// TODO : Block Player Move
+		/*Player->GravityPower = FVector::Zero;
+		Player->JumpVector = FVector::Zero;*/
+	}
+
 	StateUpdate(_DeltaTime);
 }
 

@@ -36,12 +36,15 @@ protected:
 
 private:
 	UImageRenderer* Renderer = nullptr;
-	UCollision* BodyCollision = nullptr;
+	UCollision* TopCollision = nullptr;
+	UCollision* BottomCollision = nullptr;
+	UCollision* LeftCollision = nullptr;
+	UCollision* RightCollision = nullptr;
 
 	EBoxState State = EBoxState::None;
 	EMArioSizeState MarioState = EMArioSizeState::None;
 
-	int HitCount = 3;
+	int HitCount = 10;
 	bool IsBreak = false;
 	float MaxHitUpSize = 30.0f;
 	float HitUpSpeed = 300.0f;

@@ -51,7 +51,21 @@ void AMario::BeginPlay()
 		BodyCollision = CreateCollision(ECollisionOrder::Player);
 		BodyCollision->SetColType(ECollisionType::Rect);
 		BodyCollision->SetPosition({ 0, -35 });
-		BodyCollision->SetScale({ 50, 65 });
+		BodyCollision->SetScale({ 50, 64 });
+	}
+
+	{
+		HeadCollision = CreateCollision(ECollisionOrder::PlayerHead);
+		HeadCollision->SetColType(ECollisionType::Rect);
+		HeadCollision->SetPosition({ 0, -62 });
+		HeadCollision->SetScale({ 10, 10 });
+	}
+
+	{
+		BottomCollision = CreateCollision(ECollisionOrder::PlayerBottom);
+		BottomCollision->SetColType(ECollisionType::Rect);
+		BottomCollision->SetPosition({ 0, -5 });
+		BottomCollision->SetScale({ 10, 10 });
 	}
 
 	CurDieTime = 0.0f;
@@ -681,11 +695,6 @@ void AMario::AddRunVector(const FVector& _DirDelta)
 void AMario::SubtractRunVector(const FVector& _DirDelta)
 {
 	RunVector += _DirDelta * CurBreakSpeed;
-}
-
-void AMario::AddJumpVector(const FVector& _DirDelta)
-{
-	JumpVector += _DirDelta * JumpUpSpeed;
 }
 
 void AMario::RunVectorUpdate(float _DeltaTime)

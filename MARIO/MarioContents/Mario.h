@@ -79,6 +79,8 @@ protected:
 private:
 	UImageRenderer* Renderer = nullptr;
 	UCollision* BodyCollision = nullptr;
+	UCollision* HeadCollision = nullptr;
+	UCollision* BottomCollision = nullptr;
 
 	bool IsJump = false;
 	bool IsGround = false;
@@ -113,14 +115,13 @@ private:
 
 	void AddRunVector(const FVector& _DirDelta);
 	void SubtractRunVector(const FVector& _DirDelta);
-	void AddJumpVector(const FVector& _DirDelta);
 
 	FVector GravityAcc = FVector::Down * 1000.0f;
 	FVector GravityPower = FVector::Zero;
 
 	FVector JumpVector = FVector::Zero;
-	FVector JumpPower = FVector::Up * 700.0f;
-	float JumpUpSpeed = 1000.0f;
+	FVector JumpPower = FVector::Up * 710.0f;
+
 	FVector DieJumpPower = FVector::Up * 500.0f;
 	FVector KillJumpPower = FVector::Up * 300.0f;
 

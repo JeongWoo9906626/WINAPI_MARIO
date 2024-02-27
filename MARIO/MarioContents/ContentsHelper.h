@@ -16,6 +16,8 @@ enum ERenderOrder
 enum class ECollisionOrder
 {
 	Player,
+	PlayerHead,
+	PlayerBottom,
 	Goomba,
 	Troopa,
 	Box,
