@@ -88,20 +88,6 @@ void ABrick::Tick(float _DeltaTime)
 		return;
 	}
 
-	std::vector<UCollision*> TopResult;
-	if (true == TopCollision->CollisionCheck(ECollisionOrder::PlayerBottom, TopResult))
-	{
-		UCollision* MarioPosition = TopResult[0];
-		AMario* Player = (AMario*)MarioPosition->GetOwner();
-
-		FTransform MarioCollision = MarioPosition->GetActorBaseTransform();
-		FTransform MyTransform = TopCollision->GetActorBaseTransform();
-
-		// TODO : Block Player Move
-		/*Player->GravityPower = FVector::Zero;
-		Player->JumpVector = FVector::Zero;*/
-	}
-
 	StateUpdate(_DeltaTime);
 }
 
