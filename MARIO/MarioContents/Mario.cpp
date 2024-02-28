@@ -33,17 +33,29 @@ void AMario::BeginPlay()
 	}
 
 	{
-		Renderer->CreateAnimation("Idle_Right", "Mario_Right.png", 0, 0, 0.1f, true);
-		Renderer->CreateAnimation("Move_Right", "Mario_Right.png", 1, 3, 0.1f, true);
-		Renderer->CreateAnimation("MoveFast_Right", "Mario_Right.png", 1, 3, 0.05f, true);
-		Renderer->CreateAnimation("Reverse_Right", "Mario_Right.png", 4, 4, 0.1f, true);
-		Renderer->CreateAnimation("Jump_Right", "Mario_Right.png", 5, 5, 0.1f, true);
+		Renderer->CreateAnimation("Idle_Small_Right", "Mario_Right.png", 0, 0, 0.1f, true);
+		Renderer->CreateAnimation("Move_Small_Right", "Mario_Right.png", 1, 3, 0.1f, true);
+		Renderer->CreateAnimation("MoveFast_Small_Right", "Mario_Right.png", 1, 3, 0.05f, true);
+		Renderer->CreateAnimation("Reverse_Small_Right", "Mario_Right.png", 4, 4, 0.1f, true);
+		Renderer->CreateAnimation("Jump_Small_Right", "Mario_Right.png", 5, 5, 0.1f, true);
 
-		Renderer->CreateAnimation("Idle_Left", "Mario_Left.png", 0, 0, 0.1f, true);
-		Renderer->CreateAnimation("Move_Left", "Mario_Left.png", 1, 3, 0.1f, true);
-		Renderer->CreateAnimation("MoveFast_Left", "Mario_Left.png", 1, 3, 0.05f, true);
-		Renderer->CreateAnimation("Reverse_Left", "Mario_Left.png", 4, 4, 0.1f, true);
-		Renderer->CreateAnimation("Jump_Left", "Mario_Left.png", 5, 5, 0.1f, true);
+		Renderer->CreateAnimation("Idle_Big_Right", "Mario_Right.png", 14, 14, 0.1f, true);
+		Renderer->CreateAnimation("Move_Big_Right", "Mario_Right.png", 15, 17, 0.1f, true);
+		Renderer->CreateAnimation("MoveFast_Big_Right", "Mario_Right.png", 15, 17, 0.05f, true);
+		Renderer->CreateAnimation("Reverse_Big_Right", "Mario_Right.png", 18, 18, 0.1f, true);
+		Renderer->CreateAnimation("Jump_Big_Right", "Mario_Right.png", 19, 19, 0.1f, true);
+
+		Renderer->CreateAnimation("Idle_Small_Left", "Mario_Left.png", 0, 0, 0.1f, true);
+		Renderer->CreateAnimation("Move_Small_Left", "Mario_Left.png", 1, 3, 0.1f, true);
+		Renderer->CreateAnimation("MoveFast_Small_Left", "Mario_Left.png", 1, 3, 0.05f, true);
+		Renderer->CreateAnimation("Reverse_Small_Left", "Mario_Left.png", 4, 4, 0.1f, true);
+		Renderer->CreateAnimation("Jump_Small_Left", "Mario_Left.png", 5, 5, 0.1f, true);
+
+		Renderer->CreateAnimation("Idle_Big_Left", "Mario_Left.png", 14, 14, 0.1f, true);
+		Renderer->CreateAnimation("Move_Big_Left", "Mario_Left.png", 15, 17, 0.1f, true);
+		Renderer->CreateAnimation("MoveFast_Big_Left", "Mario_Left.png", 15, 17, 0.05f, true);
+		Renderer->CreateAnimation("Reverse_Big_Left", "Mario_Left.png", 18, 18, 0.1f, true);
+		Renderer->CreateAnimation("Jump_Big_Left", "Mario_Left.png", 19, 19, 0.1f, true);
 
 		Renderer->CreateAnimation("Die", "Mario_Left.png", 6, 6, 0.1f, true);
 		Renderer->CreateAnimation("Down", "Mario_Right.png", 7, 8, 0.1f, true);
@@ -73,6 +85,7 @@ void AMario::BeginPlay()
 
 	CurDieTime = 0.0f;
 	CurDownTime = 0.0f;
+	SizeState = EMarioSizeState::Small;
 	StateChange(EPlayState::Idle);
 }
 
@@ -145,7 +158,24 @@ void AMario::AnimationCheck(EActorDir _Dir)
 
 std::string AMario::GetAnimationName(std::string _Name)
 {
+	std::string SizeName = "";
 	std::string DirName = "";
+
+	switch (SizeState)
+	{
+	case EMarioSizeState::Small:
+		SizeName = "_Small";
+		break;
+	case EMarioSizeState::Big:
+		SizeName = "_Big";
+		break;
+	case EMarioSizeState::Red:
+		break;
+	case EMarioSizeState::Star:
+		break;
+	default:
+		break;
+	}
 
 	switch (DirState)
 	{
@@ -161,12 +191,29 @@ std::string AMario::GetAnimationName(std::string _Name)
 
 	CurAnimationName = _Name;
 
-	return _Name + DirName;
+	return _Name + SizeName + DirName;
 }
 
 std::string AMario::GetReverseAnimationName(std::string _Name)
 {
+	std::string SizeName = "";
 	std::string DirName = "";
+
+	switch (SizeState)
+	{
+	case EMarioSizeState::Small:
+		SizeName = "_Small";
+		break;
+	case EMarioSizeState::Big:
+		SizeName = "_Big";
+		break;
+	case EMarioSizeState::Red:
+		break;
+	case EMarioSizeState::Star:
+		break;
+	default:
+		break;
+	}
 
 	switch (DirState)
 	{
@@ -182,7 +229,7 @@ std::string AMario::GetReverseAnimationName(std::string _Name)
 
 	CurAnimationName = _Name;
 
-	return _Name + DirName;
+	return _Name + SizeName + DirName;
 }
 
 void AMario::StateChange(EPlayState _State)

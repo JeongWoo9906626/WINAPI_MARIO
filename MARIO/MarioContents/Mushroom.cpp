@@ -50,15 +50,9 @@ void AMushroom::Tick(float _DeltaTime)
 		UCollision* MarioPosition = MarioResult[0];
 		AMario* Player = (AMario*)MarioPosition->GetOwner();
 
-		/*FTransform MarioCollision = MarioPosition->GetActorBaseTransform();
-		FTransform MyTransform = BodyCollision->GetActorBaseTransform();
-
-		if (MarioCollision.GetPosition().Y + 32.0f < MyTransform.GetPosition().Y)
-		{*/
-			Player->SizeState = EMarioSizeState::Big;
-			StateChange(EItemState::Eat);
-			return;
-		//}
+		Player->SizeState = EMarioSizeState::Big;
+		StateChange(EItemState::Eat);
+		return;
 	}
 
 	std::vector<UCollision*> BoxTopResult;
