@@ -77,24 +77,31 @@ void AMario::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 
-	//std::vector<UCollision*> TopResult;
-	//if (true == BottomCollision->CollisionCheck(ECollisionOrder::BoxTop, TopResult))
-	//{
-	//	UCollision* BoxPosition = TopResult[0];
-	//	ABrick* Player = (ABrick*)BoxPosition->GetOwner();
+	std::vector<UCollision*> BoxTopResult;
+	if (true == BottomCollision->CollisionCheck(ECollisionOrder::BoxTop, BoxTopResult))
+	{
+		for (UCollision* BoxPosition : BoxTopResult)
+		{
+			ABrick* Player = (ABrick*)BoxPosition->GetOwner();
 
-	//	FTransform BoxCollision = BoxPosition->GetActorBaseTransform();
-	//	FTransform MyTransform = BottomCollision->GetActorBaseTransform();
+			FTransform BoxCollision = BoxPosition->GetActorBaseTransform();
+			FTransform MyTransform = BottomCollision->GetActorBaseTransform();
 
-	//	// TODO : Block Player Move
+			// TODO : Block Player Move
 
-	//	GravityPower = FVector::Zero;
-	//	JumpVector = FVector::Zero;
+			GravityPower = FVector::Zero;
+			JumpVector = FVector::Zero;
 
-	//	AddActorLocation(FVector::Up);
-	//	/*Player->GravityPower = FVector::Zero;
-	//	Player->JumpVector = FVector::Zero;*/
-	//}
+			AddActorLocation(FVector::Up);
+			IsJump = false;
+			IsCollision = true;
+		}
+	}
+	else 
+	{
+		IsCollision = false;
+	}
+
 
 	StateUpdate(_DeltaTime);
 }
@@ -564,29 +571,6 @@ void AMario::Jump(float _DeltaTime)
 				GroundUp();
 				return;
 			}
-		}
-	}
-	IsCollision = false;
-	std::vector<UCollision*> TopResult;
-	if (true == BottomCollision->CollisionCheck(ECollisionOrder::BoxTop, TopResult))
-	{
-		for (UCollision* BoxPosition : TopResult)
-		{
-			ABrick* Player = (ABrick*)BoxPosition->GetOwner();
-
-			FTransform BoxCollision = BoxPosition->GetActorBaseTransform();
-			FTransform MyTransform = BottomCollision->GetActorBaseTransform();
-
-			// TODO : Block Player Move
-
-			GravityPower = FVector::Zero;
-			JumpVector = FVector::Zero;
-
-			AddActorLocation(FVector::Up);
-			/*Player->GravityPower = FVector::Zero;
-			Player->JumpVector = FVector::Zero;*/
-			IsJump = false;
-			IsCollision = true;
 		}
 	}
 
