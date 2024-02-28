@@ -1,27 +1,25 @@
-#include "Brick.h"
+#include "ItemBox.h"
 #include "Mario.h"
-#include "Coin.h"
 
-ABrick::ABrick()
+AItemBox::AItemBox()
 {
 }
 
-ABrick::~ABrick()
+AItemBox::~AItemBox()
 {
 }
 
-void ABrick::BeginPlay()
+void AItemBox::BeginPlay()
 {
 	AActor::BeginPlay();
 
 	Renderer = CreateImageRenderer(ERenderOrder::Brick);
-	Renderer->SetImage("OpenWorldBrick.png");
+	Renderer->SetImage("OpenWorldBox.png");
 	Renderer->SetTransform({ { 0, 0 }, { 256 * 3.8f, 256 * 3.8f } });
 
-	Renderer->CreateAnimation("BrickIdle", "OpenWorldBrick.png", 0, 0, 0.1f, true);
-	Renderer->CreateAnimation("BrickHit", "OpenWorldBrick.png", 0, 0, 0.1f, true);
-	Renderer->CreateAnimation("Brickbreak", "OpenWorldBrick.png", 2, 2, 0.1f, true);
-	Renderer->CreateAnimation("BrickBlock", "OpenWorldBrick.png", 3, 3, 0.1f, true);
+	Renderer->CreateAnimation("BrickIdle", "OpenWorldBox.png", 0, 3, 0.2f, true);
+	Renderer->CreateAnimation("BrickHit", "OpenWorldBox.png", 4, 4, 0.1f, true);
+	Renderer->CreateAnimation("BrickBlock", "OpenWorldBox.png", 5, 5, 0.1f, true);
 
 	TopCollision = CreateCollision(ECollisionOrder::BoxTop);
 	TopCollision->SetColType(ECollisionType::Rect);
@@ -46,7 +44,7 @@ void ABrick::BeginPlay()
 	StateChange(EBoxState::Idle);
 }
 
-void ABrick::Tick(float _DeltaTime)
+void AItemBox::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 
@@ -92,12 +90,7 @@ void ABrick::Tick(float _DeltaTime)
 	StateUpdate(_DeltaTime);
 }
 
-void ABrick::SetHitCount(int _HitCount)
-{
-	HitCount = _HitCount;
-}
-
-void ABrick::StateChange(EBoxState _State)
+void AItemBox::StateChange(EBoxState _State)
 {
 	if (State != _State)
 	{
@@ -116,10 +109,11 @@ void ABrick::StateChange(EBoxState _State)
 			break;
 		}
 	}
+
 	State = _State;
 }
 
-void ABrick::StateUpdate(float _DeltaTime)
+void AItemBox::StateUpdate(float _DeltaTime)
 {
 	switch (State)
 	{
@@ -137,48 +131,34 @@ void ABrick::StateUpdate(float _DeltaTime)
 	}
 }
 
-void ABrick::IdleStart()
+void AItemBox::IdleStart()
 {
-	MoveUpPos = FVector::Zero;
-	MoveDownPos = FVector::Zero;
 	Renderer->ChangeAnimation("BrickIdle");
 }
 
-void ABrick::HitStart()
+void AItemBox::HitStart()
 {
-	ACoin* Coin = GetWorld()->SpawnActor<ACoin>(ERenderOrder::Coin);
-	Coin->SetName("Coin");
-	Coin->SetActorLocation(GetActorLocation());
-	Coin->StateChange(ECoinState::CoinSpawn);
-
 	FirstPos = GetActorLocation();
 	Renderer->ChangeAnimation("BrickHit");
 }
 
-void ABrick::BlockStart()
+void AItemBox::BlockStart()
 {
 	Renderer->ChangeAnimation("BrickBlock");
 }
 
-void ABrick::Idle(float _DeltaTime)
+void AItemBox::Idle(float _DeltaTime)
 {
 }
 
-void ABrick::Hit(float _DeltaTime)
+void AItemBox::Hit(float _DeltaTime)
 {
-	if (0 == HitCount)
-	{
-		StateChange(EBoxState::Block);
-		return;
-	}
-
 	if (abs(MoveUpPos.Y) >= MaxHitUpSize)
 	{
 		if (abs(MoveDownPos.Y) >= MaxHitUpSize)
 		{
-			--HitCount;
 			SetActorLocation(FirstPos);
-			StateChange(EBoxState::Idle);
+			StateChange(EBoxState::Block);
 			return;
 		}
 		else
@@ -194,6 +174,7 @@ void ABrick::Hit(float _DeltaTime)
 	}
 }
 
-void ABrick::Block(float _DeltaTime)
+void AItemBox::Block(float _DeltaTime)
 {
 }
+

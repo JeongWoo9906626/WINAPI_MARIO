@@ -81,6 +81,9 @@
     <ClInclude Include="BreakBrick.h">
       <Filter>PlayLevel\Actor\Box</Filter>
     </ClInclude>
+    <ClInclude Include="ItemBox.h">
+      <Filter>PlayLevel\Actor\Box</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -126,6 +129,9 @@
       <Filter>PlayLevel\Actor\Item</Filter>
     </ClCompile>
     <ClCompile Include="BreakBrick.cpp">
+      <Filter>PlayLevel\Actor\Box</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemBox.cpp">
       <Filter>PlayLevel\Actor\Box</Filter>
     </ClCompile>
   </ItemGroup>

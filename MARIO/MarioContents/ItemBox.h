@@ -2,21 +2,20 @@
 #include <EngineCore/Actor.h>
 #include "ContentsHelper.h"
 
-class ABrick : public AActor
+class AItemBox : public AActor
 {
 public:
-	ABrick();
-	~ABrick();
+	AItemBox();
+	~AItemBox();
 
-	ABrick(const ABrick& _Other) = delete;
-	ABrick(ABrick&& _Other) noexcept = delete;
-	ABrick& operator=(const ABrick& _Other) = delete;
-	ABrick& operator=(ABrick&& _Other) noexcept = delete;
+	AItemBox(const AItemBox& _Other) = delete;
+	AItemBox(AItemBox&& _Other) noexcept = delete;
+	AItemBox& operator=(const AItemBox& _Other) = delete;
+	AItemBox& operator=(AItemBox&& _Other) noexcept = delete;
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
-
-	void SetHitCount(int _HitCount);
 
 	void StateChange(EBoxState _State);
 	void StateUpdate(float _DeltaTime);
@@ -37,9 +36,8 @@ private:
 	UCollision* RightCollision = nullptr;
 
 	EBoxState State = EBoxState::None;
+	EMarioSizeState MarioState = EMarioSizeState::None;
 
-	int HitCount = 10;
-	bool IsBreak = false;
 	float MaxHitUpSize = 30.0f;
 	float HitUpSpeed = 300.0f;
 	FVector FirstPos = FVector::Zero;

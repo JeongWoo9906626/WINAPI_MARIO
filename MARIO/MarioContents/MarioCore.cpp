@@ -40,6 +40,7 @@ void UMarioCore::BeginPlay()
 	ResoucreManager.CuttingImage("Plant.png", 2, 1);
 	ResoucreManager.CuttingImage("OpenWorldBrick.png", 5, 1);
 	ResoucreManager.CuttingImage("OpenWorldBrokenBrick.png", 2, 2);
+	ResoucreManager.CuttingImage("OpenWorldBox.png", 6, 1);
 	ResoucreManager.CuttingImage("Coin.png", 4, 1);
 
 	// TODO

@@ -8,6 +8,7 @@
 #include "Flag.h"
 #include "Brick.h"
 #include "BreakBrick.h"
+#include "ItemBox.h"
 #include "Gate.h"
 
 UPlayLevel::UPlayLevel()
@@ -79,10 +80,15 @@ void UPlayLevel::BeginPlay()
 	Gate->SetName("Gate1");
 	Gate->SetActorLocation({ 13140, 800 });*/
 
-	ABreakBrick* OWBreakBrick;
+	/*ABreakBrick* OWBreakBrick;
 	OWBreakBrick = SpawnActor<ABreakBrick>(ERenderOrder::Brick);
 	OWBreakBrick->SetName("Brick1");
-	OWBreakBrick->SetActorLocation({ 800, 640 });
+	OWBreakBrick->SetActorLocation({ 800, 640 });*/
+
+	AItemBox* ItemBrick;
+	ItemBrick = SpawnActor<AItemBox>(ERenderOrder::Brick);
+	ItemBrick->SetName("Item1");
+	ItemBrick->SetActorLocation({ 800, 640 });
 }
 
 void UPlayLevel::Tick(float _DeltaTime)

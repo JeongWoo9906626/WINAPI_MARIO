@@ -11,6 +11,7 @@
 #include "Brick.h"
 #include "Gate.h"
 #include "BreakBrick.h"
+#include "ItemBox.h"
 
 AMario::AMario()
 {

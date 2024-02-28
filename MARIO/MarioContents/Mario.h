@@ -8,6 +8,7 @@ class APlant;
 class AFlag;
 class ABrick;
 class ABreakBrick;
+class AItemBox;
 class AGate;
 // Ό³Έν :
 class AMario : public AActor
@@ -19,6 +20,7 @@ class AMario : public AActor
 	friend ABrick;
 	friend AGate;
 	friend ABreakBrick;
+	friend AItemBox;
 
 public:
 	//static AMario* GetMainPlayer();
