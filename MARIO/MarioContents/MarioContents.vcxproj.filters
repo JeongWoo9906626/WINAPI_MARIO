@@ -78,6 +78,9 @@
     <ClInclude Include="Coin.h">
       <Filter>PlayLevel\Actor\Item</Filter>
     </ClInclude>
+    <ClInclude Include="BreakBrick.h">
+      <Filter>PlayLevel\Actor\Box</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -121,6 +124,9 @@
     </ClCompile>
     <ClCompile Include="Coin.cpp">
       <Filter>PlayLevel\Actor\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="BreakBrick.cpp">
+      <Filter>PlayLevel\Actor\Box</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

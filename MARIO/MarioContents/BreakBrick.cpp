@@ -1,16 +1,15 @@
-#include "Brick.h"
+#include "BreakBrick.h"
 #include "Mario.h"
-#include "Coin.h"
 
-ABrick::ABrick()
+ABreakBrick::ABreakBrick()
 {
 }
 
-ABrick::~ABrick()
+ABreakBrick::~ABreakBrick()
 {
 }
 
-void ABrick::BeginPlay()
+void ABreakBrick::BeginPlay()
 {
 	AActor::BeginPlay();
 
@@ -20,9 +19,31 @@ void ABrick::BeginPlay()
 
 	Renderer->CreateAnimation("BrickIdle", "OpenWorldBrick.png", 0, 0, 0.1f, true);
 	Renderer->CreateAnimation("BrickHit", "OpenWorldBrick.png", 0, 0, 0.1f, true);
-	Renderer->CreateAnimation("Brickbreak", "OpenWorldBrick.png", 2, 2, 0.1f, true);
-	Renderer->CreateAnimation("BrickBlock", "OpenWorldBrick.png", 3, 3, 0.1f, true);
 
+	LeftTop = CreateImageRenderer(ERenderOrder::Brick);
+	LeftTop->SetImage("OpenWorldBrokenBrick.png");
+	LeftTop->SetTransform({ { -16, -44 }, { 32, 32} });
+
+	LeftTop->CreateAnimation("BrokenBrickLeftTop", "OpenWorldBrokenBrick.png", 0, 0, 0.1f, true);
+
+	LeftBottom = CreateImageRenderer(ERenderOrder::Brick);
+	LeftBottom->SetImage("OpenWorldBrokenBrick.png");
+	LeftBottom->SetTransform({ { -16, -12 }, { 32, 32 } });
+
+	LeftBottom->CreateAnimation("BrokenBrickLeftBottom", "OpenWorldBrokenBrick.png", 2, 2, 0.1f, true);
+
+	RightTop = CreateImageRenderer(ERenderOrder::Brick);
+	RightTop->SetImage("OpenWorldBrokenBrick.png");
+	RightTop->SetTransform({ { 16, -44 }, { 32, 32 } });
+
+	RightTop->CreateAnimation("BrokenBrickRightTop", "OpenWorldBrokenBrick.png", 1, 1, 0.1f, true);
+
+	RightBottom = CreateImageRenderer(ERenderOrder::Brick);
+	RightBottom->SetImage("OpenWorldBrokenBrick.png");
+	RightBottom->SetTransform({ { 16, -12 }, { 32, 32 } });
+
+	RightBottom->CreateAnimation("BrokenBrickRightBottom", "OpenWorldBrokenBrick.png", 3, 3, 0.1f, true);
+	 
 	TopCollision = CreateCollision(ECollisionOrder::BoxTop);
 	TopCollision->SetColType(ECollisionType::Rect);
 	TopCollision->SetPosition({ 0, -55 });
@@ -46,7 +67,7 @@ void ABrick::BeginPlay()
 	StateChange(EBoxState::Idle);
 }
 
-void ABrick::Tick(float _DeltaTime)
+void ABreakBrick::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 
@@ -55,16 +76,13 @@ void ABrick::Tick(float _DeltaTime)
 	{
 		UCollision* MarioPosition = BottomResult[0];
 		AMario* Player = (AMario*)MarioPosition->GetOwner();
+		MarioState = Player->SizeState;
 
 		if (EBoxState::Idle == State)
 		{
 			Player->JumpVector = FVector::Zero;
-			StateChange(EBoxState::Hit);
-			return;
-		}
-		if (EBoxState::Block == State)
-		{
-			Player->JumpVector = FVector::Zero;
+			Player->AddActorLocation(FVector::Down * 10);
+  			StateChange(EBoxState::Hit);
 			return;
 		}
 	}
@@ -92,17 +110,7 @@ void ABrick::Tick(float _DeltaTime)
 	StateUpdate(_DeltaTime);
 }
 
-void ABrick::SetHitCount(int _HitCount)
-{
-	HitCount = _HitCount;
-}
-
-void ABrick::SetIsBreak(bool _IsBreak)
-{
-	IsBreak = _IsBreak;
-}
-
-void ABrick::StateChange(EBoxState _State)
+void ABreakBrick::StateChange(EBoxState _State)
 {
 	if (State != _State)
 	{
@@ -117,17 +125,15 @@ void ABrick::StateChange(EBoxState _State)
 		case EBoxState::Break:
 			BreakStart();
 			break;
-		case EBoxState::Block:
-			BlockStart();
-			break;
 		default:
 			break;
 		}
 	}
+
 	State = _State;
 }
 
-void ABrick::StateUpdate(float _DeltaTime)
+void ABreakBrick::StateUpdate(float _DeltaTime)
 {
 	switch (State)
 	{
@@ -140,57 +146,58 @@ void ABrick::StateUpdate(float _DeltaTime)
 	case EBoxState::Break:
 		Break(_DeltaTime);
 		break;
-	case EBoxState::Block:
-		Block(_DeltaTime);
-		break;
 	default:
 		break;
 	}
 }
 
-void ABrick::IdleStart()
+void ABreakBrick::IdleStart()
 {
+	LeftTop->ActiveOff();
+	LeftBottom->ActiveOff();
+	RightTop->ActiveOff();
+	RightBottom->ActiveOff();
+
 	MoveUpPos = FVector::Zero;
 	MoveDownPos = FVector::Zero;
 	Renderer->ChangeAnimation("BrickIdle");
 }
 
-void ABrick::HitStart()
+void ABreakBrick::HitStart()
 {
-	ACoin* Coin = GetWorld()->SpawnActor<ACoin>(ERenderOrder::Coin);
-	Coin->SetName("Coin");
-	Coin->SetActorLocation(GetActorLocation());
-	Coin->StateChange(ECoinState::CoinSpawn);
-
 	FirstPos = GetActorLocation();
 	Renderer->ChangeAnimation("BrickHit");
 }
 
-void ABrick::BreakStart()
+void ABreakBrick::BreakStart()
 {
-	Renderer->ChangeAnimation("BrickBreak");
+	Renderer->ActiveOff();
+
+	TopCollision->ActiveOff();
+	BottomCollision->ActiveOff();
+	LeftCollision->ActiveOff();
+	RightCollision->ActiveOff();
+
+	LeftTop->ActiveOn();
+	LeftBottom->ActiveOn();
+	RightTop->ActiveOn();
+	RightBottom->ActiveOn();
+
+	LeftTop->ChangeAnimation("BrokenBrickLeftTop");
+	LeftBottom->ChangeAnimation("BrokenBrickLeftBottom");
+	RightTop->ChangeAnimation("BrokenBrickRightTop");
+	RightBottom->ChangeAnimation("BrokenBrickRightBottom");
 }
 
-void ABrick::BlockStart()
-{
-	Renderer->ChangeAnimation("BrickBlock");
-}
-
-void ABrick::Idle(float _DeltaTime)
+void ABreakBrick::Idle(float _DeltaTime)
 {
 }
 
-void ABrick::Hit(float _DeltaTime)
+void ABreakBrick::Hit(float _DeltaTime)
 {
-	if (true == IsBreak && (MarioState == EMarioSizeState::Big || MarioState == EMarioSizeState::Red))
+	if (EMarioSizeState::Small != MarioState)
 	{
 		StateChange(EBoxState::Break);
-		return;
-	}
-
-	if (0 == HitCount && false == IsBreak)
-	{
-		StateChange(EBoxState::Block);
 		return;
 	}
 
@@ -198,7 +205,6 @@ void ABrick::Hit(float _DeltaTime)
 	{
 		if (abs(MoveDownPos.Y) >= MaxHitUpSize)
 		{
-			--HitCount;
 			SetActorLocation(FirstPos);
 			StateChange(EBoxState::Idle);
 			return;
@@ -216,10 +222,7 @@ void ABrick::Hit(float _DeltaTime)
 	}
 }
 
-void ABrick::Break(float _DeltaTime)
+void ABreakBrick::Break(float _DeltaTime)
 {
-}
-
-void ABrick::Block(float _DeltaTime)
-{
+	//Destroy();
 }

@@ -7,6 +7,7 @@ class ATroopa;
 class APlant;
 class AFlag;
 class ABrick;
+class ABreakBrick;
 class AGate;
 // Ό³Έν :
 class AMario : public AActor
@@ -17,7 +18,7 @@ class AMario : public AActor
 	friend AFlag;
 	friend ABrick;
 	friend AGate;
-
+	friend ABreakBrick;
 
 public:
 	//static AMario* GetMainPlayer();
@@ -71,6 +72,7 @@ protected:
 	
 
 	EPlayState State = EPlayState::None;
+	EMarioSizeState SizeState = EMarioSizeState::None;
 	EActorDir DirState = EActorDir::Right;
 	std::string CurAnimationName = "";
 

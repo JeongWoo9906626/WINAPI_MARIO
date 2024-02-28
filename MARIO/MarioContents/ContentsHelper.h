@@ -55,7 +55,7 @@ enum class EPlayState
 	None,
 };
 
-enum class EMArioSizeState
+enum class EMarioSizeState
 {
 	Small,
 	Big,

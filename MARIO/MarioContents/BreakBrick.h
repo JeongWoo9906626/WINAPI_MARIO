@@ -2,22 +2,19 @@
 #include <EngineCore/Actor.h>
 #include "ContentsHelper.h"
 
-class ABrick : public AActor
+class ABreakBrick : public AActor
 {
 public:
-	ABrick();
-	~ABrick();
+	ABreakBrick();
+	~ABreakBrick();
 
-	ABrick(const ABrick& _Other) = delete;
-	ABrick(ABrick&& _Other) noexcept = delete;
-	ABrick& operator=(const ABrick& _Other) = delete;
-	ABrick& operator=(ABrick&& _Other) noexcept = delete;
+	ABreakBrick(const ABreakBrick& _Other) = delete;
+	ABreakBrick(ABreakBrick&& _Other) noexcept = delete;
+	ABreakBrick& operator=(const ABreakBrick& _Other) = delete;
+	ABreakBrick& operator=(ABreakBrick&& _Other) noexcept = delete;
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
-
-	void SetHitCount(int _HitCount);
-	void SetIsBreak(bool _IsBreak);
 
 	void StateChange(EBoxState _State);
 	void StateUpdate(float _DeltaTime);
@@ -25,15 +22,18 @@ protected:
 	void IdleStart();
 	void HitStart();
 	void BreakStart();
-	void BlockStart();
 
 	void Idle(float _DeltaTime);
 	void Hit(float _DeltaTime);
 	void Break(float _DeltaTime);
-	void Block(float _DeltaTime);
 
 private:
 	UImageRenderer* Renderer = nullptr;
+	UImageRenderer* LeftTop = nullptr;
+	UImageRenderer* LeftBottom = nullptr;
+	UImageRenderer* RightTop = nullptr;
+	UImageRenderer* RightBottom = nullptr;
+
 	UCollision* TopCollision = nullptr;
 	UCollision* BottomCollision = nullptr;
 	UCollision* LeftCollision = nullptr;
@@ -50,4 +50,3 @@ private:
 	FVector MoveUpPos = FVector::Zero;
 	FVector MoveDownPos = FVector::Zero;
 };
-

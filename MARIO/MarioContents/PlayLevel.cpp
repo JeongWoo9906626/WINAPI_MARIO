@@ -7,6 +7,7 @@
 #include "Plant.h"
 #include "Flag.h"
 #include "Brick.h"
+#include "BreakBrick.h"
 #include "Gate.h"
 
 UPlayLevel::UPlayLevel()
@@ -54,12 +55,12 @@ void UPlayLevel::BeginPlay()
 	//// 800 MaxBottom
 	//Plant->SetActorLocation({ 1855, 800 });
 
-	ABrick* OWBrick;
+	/*ABrick* OWBrick;
 	OWBrick = SpawnActor<ABrick>(ERenderOrder::Brick);
 	OWBrick->SetName("Brick1");
-	OWBrick->SetActorLocation({ 800, 640 });
+	OWBrick->SetActorLocation({ 800, 640 });*/
 	
-	ABrick* OWBrick1;
+	/*ABrick* OWBrick1;
 	OWBrick1 = SpawnActor<ABrick>(ERenderOrder::Brick);
 	OWBrick1->SetName("Brick2");
 	OWBrick1->SetActorLocation({ 861, 640 });
@@ -76,7 +77,12 @@ void UPlayLevel::BeginPlay()
 
 	AGate* Gate = SpawnActor<AGate>(ERenderOrder::Gate);
 	Gate->SetName("Gate1");
-	Gate->SetActorLocation({ 13140, 800 });
+	Gate->SetActorLocation({ 13140, 800 });*/
+
+	ABreakBrick* OWBreakBrick;
+	OWBreakBrick = SpawnActor<ABreakBrick>(ERenderOrder::Brick);
+	OWBreakBrick->SetName("Brick1");
+	OWBreakBrick->SetActorLocation({ 800, 640 });
 }
 
 void UPlayLevel::Tick(float _DeltaTime)

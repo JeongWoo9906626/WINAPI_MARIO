@@ -10,6 +10,7 @@
 #include "Flag.h"
 #include "Brick.h"
 #include "Gate.h"
+#include "BreakBrick.h"
 
 AMario::AMario()
 {
