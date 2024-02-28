@@ -1,5 +1,6 @@
 #include "Brick.h"
 #include "Mario.h"
+#include "Coin.h"
 
 ABrick::ABrick()
 {
@@ -156,6 +157,11 @@ void ABrick::IdleStart()
 
 void ABrick::HitStart()
 {
+	ACoin* Coin = GetWorld()->SpawnActor<ACoin>(ERenderOrder::Coin);
+	Coin->SetName("Coin");
+	Coin->SetActorLocation(GetActorLocation());
+	Coin->StateChange(ECoinState::CoinSpawn);
+
 	FirstPos = GetActorLocation();
 	Renderer->ChangeAnimation("BrickHit");
 }
@@ -207,6 +213,8 @@ void ABrick::Hit(float _DeltaTime)
 	{
 		MoveUpPos += FVector::Up * HitUpSpeed * _DeltaTime;
 		AddActorLocation(FVector::Up * HitUpSpeed * _DeltaTime);
+
+		
 	}
 }
 

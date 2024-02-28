@@ -31,6 +31,9 @@
     <Filter Include="PlayLevel\Actor\Gate">
       <UniqueIdentifier>{60cd6cf8-d1fc-495f-a722-5660a69f494f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PlayLevel\Actor\Item">
+      <UniqueIdentifier>{671bea04-206e-495a-a738-c4f0a7c1b941}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TitleLevel.h">
@@ -72,6 +75,9 @@
     <ClInclude Include="Gate.h">
       <Filter>PlayLevel\Actor\Gate</Filter>
     </ClInclude>
+    <ClInclude Include="Coin.h">
+      <Filter>PlayLevel\Actor\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -112,6 +118,9 @@
     </ClCompile>
     <ClCompile Include="Gate.cpp">
       <Filter>PlayLevel\Actor\Gate</Filter>
+    </ClCompile>
+    <ClCompile Include="Coin.cpp">
+      <Filter>PlayLevel\Actor\Item</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

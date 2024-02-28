@@ -9,6 +9,7 @@ enum ERenderOrder
 	Map,
 	Gate,
 	Brick,
+	Coin,
 	Monster,
 	Player,
 };
@@ -87,6 +88,13 @@ enum class EBoxState
 	Hit,
 	Break,
 	Block,
+	None,
+};
+
+enum class ECoinState
+{
+	CoinSpawn,
+	CoinDestroy,
 	None,
 };
 
