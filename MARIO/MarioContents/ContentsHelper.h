@@ -67,6 +67,7 @@ enum class EMarioSizeState
 enum class EMonsterState
 {
 	Move,
+	CollisionMove,
 	Dead,
 	Touch,
 	Shoot,

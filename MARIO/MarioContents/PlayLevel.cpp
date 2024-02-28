@@ -36,9 +36,9 @@ void UPlayLevel::BeginPlay()
 	Mario->SetName("Player");
 	Mario->SetActorLocation({ 200, 500 });
 
-	//AGoomba* Goomba = SpawnActor<AGoomba>(ERenderOrder::Monster);
-	//Goomba->SetName("OpenWorldGoomba1");
-	//Goomba->SetActorLocation({ 1200, 600 });
+	AGoomba* Goomba = SpawnActor<AGoomba>(ERenderOrder::Monster);
+	Goomba->SetName("OpenWorldGoomba1");
+	Goomba->SetActorLocation({ 750, 300 });
 	//AGoomba* Goomba2 = SpawnActor<AGoomba>(ERenderOrder::Monster);
 	//Goomba2->SetName("OpenWorldGoomba2");
 	//Goomba2->SetActorLocation({ 1260, 600 });
@@ -59,9 +59,9 @@ void UPlayLevel::BeginPlay()
 	/*ABrick* OWBrick;
 	OWBrick = SpawnActor<ABrick>(ERenderOrder::Brick);
 	OWBrick->SetName("Brick1");
-	OWBrick->SetActorLocation({ 800, 640 });*/
+	OWBrick->SetActorLocation({ 800, 640 });
 	
-	/*ABrick* OWBrick1;
+	ABrick* OWBrick1;
 	OWBrick1 = SpawnActor<ABrick>(ERenderOrder::Brick);
 	OWBrick1->SetName("Brick2");
 	OWBrick1->SetActorLocation({ 861, 640 });
@@ -74,9 +74,9 @@ void UPlayLevel::BeginPlay()
 	ABrick* OWBrick3;
 	OWBrick3 = SpawnActor<ABrick>(ERenderOrder::Brick);
 	OWBrick3->SetName("Brick4");
-	OWBrick3->SetActorLocation({ 983, 640 });
+	OWBrick3->SetActorLocation({ 983, 640 });*/
 
-	AGate* Gate = SpawnActor<AGate>(ERenderOrder::Gate);
+	/*AGate* Gate = SpawnActor<AGate>(ERenderOrder::Gate);
 	Gate->SetName("Gate1");
 	Gate->SetActorLocation({ 13140, 800 });*/
 

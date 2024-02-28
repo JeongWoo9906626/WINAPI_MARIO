@@ -20,11 +20,13 @@ protected:
 	void StateChange(EMonsterState _State);
 
 	void MoveStart();
+	void CollisionMoveStart();
 	void DeadStart();
 
 	void StateUpdate(float _DelatTime);
 
 	void Move(float _DeltaTime);
+	void CollisionMove(float _DeltaTime);
 	void GravityMove(float _DeltaTime);
 
 	void ChangeDir(EActorDir _State);
@@ -33,11 +35,13 @@ protected:
 private:
 	UImageRenderer* Renderer = nullptr;
 	UCollision* BodyCollision = nullptr;
+	UCollision* BottomCollision = nullptr;
 
 	EMonsterState State = EMonsterState::None;
 	EActorDir DirState = EActorDir::Left;
 
 	bool DestroyValue = false;
+	bool IsBoxCollision = false;
 
 	float MoveSpeed = 100.0f;
 	float GravitySpeed = 500.0f;
