@@ -209,6 +209,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Sunflower.h" />
     <ClInclude Include="TitleLevel.h">
       <SubType>
       </SubType>
@@ -273,6 +274,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Sunflower.cpp" />
     <ClCompile Include="TitleLevel.cpp">
       <SubType>
       </SubType>

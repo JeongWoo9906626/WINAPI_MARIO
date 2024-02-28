@@ -11,6 +11,7 @@ class ABreakBrick;
 class AItemBox;
 class AGate;
 class AMushroom;
+class ASunflower;
 // Ό³Έν :
 class AMario : public AActor
 {
@@ -23,6 +24,7 @@ class AMario : public AActor
 	friend ABreakBrick;
 	friend AItemBox;
 	friend AMushroom;
+	friend ASunflower;
 
 public:
 	//static AMario* GetMainPlayer();

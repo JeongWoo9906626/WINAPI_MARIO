@@ -13,6 +13,7 @@
 #include "BreakBrick.h"
 #include "ItemBox.h"
 #include "Mushroom.h"
+#include "Sunflower.h"
 
 AMario::AMario()
 {
