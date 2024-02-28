@@ -12,6 +12,7 @@
 #include "Gate.h"
 #include "BreakBrick.h"
 #include "ItemBox.h"
+#include "Mushroom.h"
 
 AMario::AMario()
 {

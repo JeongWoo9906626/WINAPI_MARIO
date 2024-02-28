@@ -10,6 +10,7 @@
 #include "BreakBrick.h"
 #include "ItemBox.h"
 #include "Gate.h"
+#include "Mushroom.h"
 
 UPlayLevel::UPlayLevel()
 {
@@ -89,6 +90,11 @@ void UPlayLevel::BeginPlay()
 	ItemBrick = SpawnActor<AItemBox>(ERenderOrder::Brick);
 	ItemBrick->SetName("Item1");
 	ItemBrick->SetActorLocation({ 800, 640 });
+
+	AMushroom* Mushroom;
+	Mushroom = SpawnActor<AMushroom>(ERenderOrder::Item);
+	Mushroom->SetName("Item1");
+	Mushroom->SetActorLocation({ 800, 700 });
 }
 
 void UPlayLevel::Tick(float _DeltaTime)

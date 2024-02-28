@@ -84,6 +84,9 @@
     <ClInclude Include="ItemBox.h">
       <Filter>PlayLevel\Actor\Box</Filter>
     </ClInclude>
+    <ClInclude Include="Mushroom.h">
+      <Filter>PlayLevel\Actor\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -133,6 +136,9 @@
     </ClCompile>
     <ClCompile Include="ItemBox.cpp">
       <Filter>PlayLevel\Actor\Box</Filter>
+    </ClCompile>
+    <ClCompile Include="Mushroom.cpp">
+      <Filter>PlayLevel\Actor\Item</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

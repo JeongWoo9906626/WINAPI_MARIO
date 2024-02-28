@@ -8,9 +8,10 @@ enum ERenderOrder
 	Plant,
 	Map,
 	Gate,
-	Brick,
 	Coin,
 	Monster,
+	Brick,
+	Item,
 	Player,
 };
 
@@ -69,7 +70,6 @@ enum class EMonsterState
 	Move,
 	CollisionMove,
 	Dead,
-	Touch,
 	Shoot,
 	Wake,
 	None
@@ -96,6 +96,15 @@ enum class ECoinState
 {
 	CoinSpawn,
 	CoinDestroy,
+	None,
+};
+
+enum class EItemState
+{
+	Spawn,
+	Move,
+	CollisionMove,
+	Eat,
 	None,
 };
 
