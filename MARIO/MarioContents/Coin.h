@@ -32,10 +32,15 @@ private:
 
 	ECoinState State = ECoinState::None;
 
+	FVector FirstPos = FVector::Zero;
+
+	bool IsDown = false;
+
 	float MoveTime = 0.5f;
 	float CurUpTime = 0.0f;
 	float CurDownTime = 0.0f;
 
-	float MoveUpSpeed = 200.0f;
+	float MoveUpPos = -150.0f;
+	float MoveUpSpeed = 300.0f;
 };
 

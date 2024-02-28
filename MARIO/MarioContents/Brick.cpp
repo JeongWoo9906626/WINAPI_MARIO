@@ -213,8 +213,6 @@ void ABrick::Hit(float _DeltaTime)
 	{
 		MoveUpPos += FVector::Up * HitUpSpeed * _DeltaTime;
 		AddActorLocation(FVector::Up * HitUpSpeed * _DeltaTime);
-
-		
 	}
 }
 

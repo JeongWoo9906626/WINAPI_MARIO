@@ -87,12 +87,12 @@ void AMario::Tick(float _DeltaTime)
 			FTransform BoxCollision = BoxPosition->GetActorBaseTransform();
 			FTransform MyTransform = BottomCollision->GetActorBaseTransform();
 
-			// TODO : Block Player Move
-
 			GravityPower = FVector::Zero;
 			JumpVector = FVector::Zero;
-
-			AddActorLocation(FVector::Up);
+			if (false == IsCollision)
+			{
+				AddActorLocation(FVector::Up);
+			}
 			IsJump = false;
 			IsCollision = true;
 		}

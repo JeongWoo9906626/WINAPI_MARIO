@@ -17,7 +17,7 @@ void ACoin::BeginPlay()
 	Renderer->SetImage("Coin.png");
 	Renderer->SetTransform({ { 0, 0 }, { 64 * 1.5f, 64 * 1.5f } });
 
-	Renderer->CreateAnimation("CoinSpawn", "Coin.png", 0, 3, 0.05f, true);
+	Renderer->CreateAnimation("CoinSpawn", "Coin.png", 0, 3, 0.03f, true);
 }
 
 void ACoin::Tick(float _DeltaTime)
@@ -64,6 +64,7 @@ void ACoin::StateUpdate(float _DeltaTime)
 
 void ACoin::CoinSpawnStart()
 {
+	FirstPos = GetActorLocation();
 	AddActorLocation({ 0.0f, -60.0f });
 	Renderer->ChangeAnimation("CoinSpawn");
 }
@@ -75,20 +76,31 @@ void ACoin::CoinDestroyStart()
 
 void ACoin::CoinSpawn(float _DeltaTime)
 {
-	if (CurUpTime < MoveTime)
+	if (false == IsDown)
 	{
-		AddActorLocation(FVector::Up * MoveUpSpeed * _DeltaTime);
-		CurUpTime += _DeltaTime;
-	}
-	else if (CurDownTime < MoveTime)
-	{
-		AddActorLocation(FVector::Down * MoveUpSpeed * _DeltaTime);
-		CurDownTime += _DeltaTime;
+		FVector CurPos = GetActorLocation();
+		if (CurPos.Y - FirstPos.Y > MoveUpPos)
+		{
+			AddActorLocation(FVector::Up * MoveUpSpeed * _DeltaTime);
+		}
+		else
+		{
+			IsDown = true;
+		}
 	}
 	else
 	{
-		StateChange(ECoinState::CoinDestroy);
-		return;
+		FVector CurPos = GetActorLocation();
+		if (CurPos.Y - (FirstPos.Y - 40.0f) < 0.0f)
+		{
+			AddActorLocation(FVector::Down * MoveUpSpeed * _DeltaTime);
+		}
+		else
+		{
+			float MoveDownPos = 100.0f;
+			StateChange(ECoinState::CoinDestroy);
+			return;
+		}
 	}
 }
 
