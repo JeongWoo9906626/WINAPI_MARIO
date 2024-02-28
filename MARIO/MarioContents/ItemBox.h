@@ -36,7 +36,7 @@ private:
 	UCollision* RightCollision = nullptr;
 
 	EBoxState State = EBoxState::None;
-	EMarioSizeState MarioState = EMarioSizeState::None;
+	EMarioSizeState MarioSizeState = EMarioSizeState::None;
 
 	float MaxHitUpSize = 30.0f;
 	float HitUpSpeed = 300.0f;

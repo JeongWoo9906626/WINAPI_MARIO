@@ -1,5 +1,6 @@
 #include "ItemBox.h"
 #include "Mario.h"
+#include "Mushroom.h"
 
 AItemBox::AItemBox()
 {
@@ -56,6 +57,7 @@ void AItemBox::Tick(float _DeltaTime)
 
 		if (EBoxState::Idle == State)
 		{
+			MarioSizeState = Player->SizeState;
 			Player->JumpVector = FVector::Zero;
 			StateChange(EBoxState::Hit);
 			return;
@@ -138,6 +140,26 @@ void AItemBox::IdleStart()
 
 void AItemBox::HitStart()
 {
+	switch (MarioSizeState)
+	{
+	case EMarioSizeState::Small:
+	{
+		AMushroom* Mushroom = GetWorld()->SpawnActor<AMushroom>(ERenderOrder::Coin);
+		Mushroom->SetName("Mushroom");
+		FVector BoxLocation = GetActorLocation();
+		Mushroom->SetActorLocation({ BoxLocation.X, BoxLocation.Y - 15.0f });
+		break;
+	}
+	case EMarioSizeState::Big:
+		break;
+	case EMarioSizeState::Red:
+		break;
+	case EMarioSizeState::Star:
+		break;
+	default:
+		break;
+	}
+	
 	FirstPos = GetActorLocation();
 	Renderer->ChangeAnimation("BrickHit");
 }
