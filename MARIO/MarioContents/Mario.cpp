@@ -88,6 +88,7 @@ void AMario::BeginPlay()
 	CurDownTime = 0.0f;
 	SizeState = EMarioSizeState::Small;
 	StateChange(EPlayState::Idle);
+	// TODO : Big상태일때 콜리전 변환
 }
 
 void AMario::Tick(float _DeltaTime)

@@ -89,6 +89,11 @@ void UPlayLevel::BeginPlay()
 	ItemBrick = SpawnActor<AItemBox>(ERenderOrder::Brick);
 	ItemBrick->SetName("Item1");
 	ItemBrick->SetActorLocation({ 800, 640 });
+
+	AItemBox* ItemBrick1;
+	ItemBrick1 = SpawnActor<AItemBox>(ERenderOrder::Brick);
+	ItemBrick1->SetName("Item1");
+	ItemBrick1->SetActorLocation({ 1000, 640 });
 }
 
 void UPlayLevel::Tick(float _DeltaTime)

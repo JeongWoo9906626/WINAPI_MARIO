@@ -20,6 +20,10 @@ void ASunflower::BeginPlay()
 	}
 
 	{
+		Renderer->CreateAnimation("Sunflower", "MarioItem.png", 2, 2, 0.1f, true);
+	}
+
+	{
 		BodyCollision = CreateCollision(ECollisionOrder::Goomba);
 		BodyCollision->SetColType(ECollisionType::Rect);
 		BodyCollision->SetPosition({ 0, -30 });
@@ -29,10 +33,11 @@ void ASunflower::BeginPlay()
 	{
 		BottomCollision = CreateCollision(ECollisionOrder::Goomba);
 		BottomCollision->SetColType(ECollisionType::Rect);
-		BottomCollision->SetPosition({ 0, 10 });
+		BottomCollision->SetPosition({ 0, 0 });
 		BottomCollision->SetScale({ 30, 3 });
 	}
 
+	Renderer->ChangeAnimation("Sunflower");
 	StateChange(EItemState::Spawn);
 }
 
@@ -69,20 +74,53 @@ void ASunflower::Tick(float _DeltaTime)
 
 void ASunflower::StateChange(EItemState _State)
 {
+	if (State != _State)
+	{
+		switch (_State)
+		{
+		case EItemState::Spawn:
+			SpawnStart();
+			break;
+		case EItemState::Eat:
+			EatStart();
+			break;
+		default:
+			break;
+		}
+	}
+
+	State = _State;
 }
 
 void ASunflower::StateUpdate(float _DeltaTime)
 {
+	switch (State)
+	{
+	case EItemState::Spawn:
+		Spawn(_DeltaTime);
+		break;
+	default:
+		break;
+	}
 }
 
 void ASunflower::SpawnStart()
 {
+	DestroyValue = false;
 }
 
 void ASunflower::EatStart()
 {
+	Renderer->ActiveOff();
+	BodyCollision->ActiveOff();
+	Destroy();
 }
 
 void ASunflower::Spawn(float _DeltaTime)
 {
+
+	if (false == IsBoxCollision)
+	{
+		AddActorLocation(FVector::Up * SpawnUpSpeed * _DeltaTime);
+	}
 }

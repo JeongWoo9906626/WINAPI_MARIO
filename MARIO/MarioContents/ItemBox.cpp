@@ -1,6 +1,7 @@
 #include "ItemBox.h"
 #include "Mario.h"
 #include "Mushroom.h"
+#include "Sunflower.h"
 
 AItemBox::AItemBox()
 {
@@ -144,14 +145,20 @@ void AItemBox::HitStart()
 	{
 	case EMarioSizeState::Small:
 	{
-		AMushroom* Mushroom = GetWorld()->SpawnActor<AMushroom>(ERenderOrder::Coin);
+		AMushroom* Mushroom = GetWorld()->SpawnActor<AMushroom>(ERenderOrder::Item);
 		Mushroom->SetName("Mushroom");
 		FVector BoxLocation = GetActorLocation();
 		Mushroom->SetActorLocation({ BoxLocation.X, BoxLocation.Y - 15.0f });
 		break;
 	}
 	case EMarioSizeState::Big:
+	{
+		ASunflower* Sunflower = GetWorld()->SpawnActor<ASunflower>(ERenderOrder::Item);
+		Sunflower->SetName("Sunflower");
+		FVector BoxLocation = GetActorLocation();
+		Sunflower->SetActorLocation({ BoxLocation.X, BoxLocation.Y - 15.0f });
 		break;
+	}
 	case EMarioSizeState::Red:
 		break;
 	case EMarioSizeState::Star:
