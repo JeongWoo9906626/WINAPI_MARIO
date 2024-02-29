@@ -38,25 +38,25 @@ void UPlayLevel::BeginPlay()
 
 	AGoomba* Goomba = SpawnActor<AGoomba>(ERenderOrder::Monster);
 	Goomba->SetName("OpenWorldGoomba1");
-	Goomba->SetActorLocation({ 750, 300 });
-	//AGoomba* Goomba2 = SpawnActor<AGoomba>(ERenderOrder::Monster);
-	//Goomba2->SetName("OpenWorldGoomba2");
-	//Goomba2->SetActorLocation({ 1260, 600 });
+	Goomba->SetActorLocation({ 750, 600 });
+	AGoomba* Goomba2 = SpawnActor<AGoomba>(ERenderOrder::Monster);
+	Goomba2->SetName("OpenWorldGoomba2");
+	Goomba2->SetActorLocation({ 1260, 600 });
 
-	//ATroopa* Turtle = SpawnActor<ATroopa>(ERenderOrder::Monster);
-	//Turtle->SetName("OpenWorldTroopa");
-	//Turtle->SetActorLocation({ 1600, 700 });
-	//ATroopa* Turtle2 = SpawnActor<ATroopa>(ERenderOrder::Monster);
-	//Turtle2->SetName("OpenWorldTroopa2");
-	//Turtle2->SetActorLocation({ 1000, 700 });
+	ATroopa* Turtle = SpawnActor<ATroopa>(ERenderOrder::Monster);
+	Turtle->SetName("OpenWorldTroopa");
+	Turtle->SetActorLocation({ 1600, 700 });
+	ATroopa* Turtle2 = SpawnActor<ATroopa>(ERenderOrder::Monster);
+	Turtle2->SetName("OpenWorldTroopa2");
+	Turtle2->SetActorLocation({ 1000, 700 });
 
-	//APlant* Plant = SpawnActor<APlant>(ERenderOrder::Plant);
-	//Plant->SetName("Plant");
-	//// 710 MaxTop 
-	//// 800 MaxBottom
-	//Plant->SetActorLocation({ 1855, 800 });
+	APlant* Plant = SpawnActor<APlant>(ERenderOrder::Plant);
+	Plant->SetName("Plant");
+	// 710 MaxTop 
+	// 800 MaxBottom
+	Plant->SetActorLocation({ 1855, 800 });
 
-	/*ABrick* OWBrick;
+	ABrick* OWBrick;
 	OWBrick = SpawnActor<ABrick>(ERenderOrder::Brick);
 	OWBrick->SetName("Brick1");
 	OWBrick->SetActorLocation({ 800, 640 });
@@ -74,16 +74,16 @@ void UPlayLevel::BeginPlay()
 	ABrick* OWBrick3;
 	OWBrick3 = SpawnActor<ABrick>(ERenderOrder::Brick);
 	OWBrick3->SetName("Brick4");
-	OWBrick3->SetActorLocation({ 983, 640 });*/
+	OWBrick3->SetActorLocation({ 983, 640 });
 
-	/*AGate* Gate = SpawnActor<AGate>(ERenderOrder::Gate);
+	AGate* Gate = SpawnActor<AGate>(ERenderOrder::Gate);
 	Gate->SetName("Gate1");
-	Gate->SetActorLocation({ 13140, 800 });*/
+	Gate->SetActorLocation({ 13140, 800 });
 
-	/*ABreakBrick* OWBreakBrick;
+	ABreakBrick* OWBreakBrick;
 	OWBreakBrick = SpawnActor<ABreakBrick>(ERenderOrder::Brick);
 	OWBreakBrick->SetName("Brick1");
-	OWBreakBrick->SetActorLocation({ 800, 640 });*/
+	OWBreakBrick->SetActorLocation({ 700, 640 });
 
 	AItemBox* ItemBrick;
 	ItemBrick = SpawnActor<AItemBox>(ERenderOrder::Brick);
@@ -93,7 +93,7 @@ void UPlayLevel::BeginPlay()
 	AItemBox* ItemBrick1;
 	ItemBrick1 = SpawnActor<AItemBox>(ERenderOrder::Brick);
 	ItemBrick1->SetName("Item1");
-	ItemBrick1->SetActorLocation({ 1000, 640 });
+	ItemBrick1->SetActorLocation({ 1044, 640 });
 }
 
 void UPlayLevel::Tick(float _DeltaTime)
