@@ -12,10 +12,10 @@ void AHiddenGate::BeginPlay()
 {
 	AActor::BeginPlay();
 
-	BodyCollision = CreateCollision(ECollisionOrder::Box);
+	BodyCollision = CreateCollision(ECollisionOrder::Gate);
 	BodyCollision->SetColType(ECollisionType::Rect);
 	BodyCollision->SetPosition({ 0, 0 });
-	BodyCollision->SetScale({ 60, 10 });
+	BodyCollision->SetScale({ 120, 10 });
 }
 
 void AHiddenGate::Tick(float _DeltaTime)

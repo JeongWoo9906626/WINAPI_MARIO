@@ -24,6 +24,7 @@ enum class ECollisionOrder
 	Troopa,
 	Box,
 	BoxTop,
+	Gate,
 	Flag,
 	Step,
 };

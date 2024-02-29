@@ -112,6 +112,17 @@ void AMario::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 
+	std::vector<UCollision*> HiddenGateResult;
+	if (true == BottomCollision->CollisionCheck(ECollisionOrder::Gate, HiddenGateResult))
+	{
+		int a = 0;
+		if (true == UEngineInput::IsDown(VK_DOWN))
+		{
+			StateChange(EPlayState::Idle);
+			return;
+		}
+	}
+
 	std::vector<UCollision*> BoxTopResult;
 	if (true == BottomCollision->CollisionCheck(ECollisionOrder::BoxTop, BoxTopResult))
 	{
