@@ -10,6 +10,7 @@
 #include "BreakBrick.h"
 #include "ItemBox.h"
 #include "Gate.h"
+#include "HiddenGate.h"
 
 UPlayLevel::UPlayLevel()
 {
@@ -56,9 +57,15 @@ void UPlayLevel::BeginPlay()
 	// 800 MaxBottom
 	Plant->SetActorLocation({ 1855, 800 });
 
+	// Level Change Gate
 	AGate* Gate = SpawnActor<AGate>(ERenderOrder::Gate);
 	Gate->SetName("Gate1");
 	Gate->SetActorLocation({ 13140, 800 });
+
+	// Hidden Gate
+	AHiddenGate* HiddenGate = SpawnActor<AHiddenGate>(ERenderOrder::Gate);
+	HiddenGate->SetName("HiddenGate1");
+	HiddenGate->SetActorLocation({ 800, 800 });
 
 	// 아이템 박스
 	AItemBox* ItemBrick0;

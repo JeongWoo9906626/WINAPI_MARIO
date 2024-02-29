@@ -90,6 +90,9 @@
     <ClInclude Include="Sunflower.h">
       <Filter>PlayLevel\Actor\Item</Filter>
     </ClInclude>
+    <ClInclude Include="HiddenGate.h">
+      <Filter>PlayLevel\Actor\Gate</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -145,6 +148,9 @@
     </ClCompile>
     <ClCompile Include="Sunflower.cpp">
       <Filter>PlayLevel\Actor\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="HiddenGate.cpp">
+      <Filter>PlayLevel\Actor\Gate</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
