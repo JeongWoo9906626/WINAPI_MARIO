@@ -35,7 +35,7 @@ void AGate::Tick(float _DeltaTime)
 		Player->Renderer->ActiveOff();
 		if (CurChangeLevelTime >= ChangeLevelTime)
 		{
-			GEngine->ChangeLevel("Title");
+			GEngine->ChangeLevel(StageName);
 		}
 		CurChangeLevelTime += _DeltaTime;
 	}
