@@ -40,11 +40,11 @@ void AMario::BeginPlay()
 		Renderer->CreateAnimation("Reverse_Small_Right", "Mario_Right.png", 4, 4, 0.1f, true);
 		Renderer->CreateAnimation("Jump_Small_Right", "Mario_Right.png", 5, 5, 0.1f, true);
 
-		Renderer->CreateAnimation("Idle_Big_Right", "Mario_Right.png", 14, 14, 0.1f, true);
-		Renderer->CreateAnimation("Move_Big_Right", "Mario_Right.png", 15, 17, 0.1f, true);
-		Renderer->CreateAnimation("MoveFast_Big_Right", "Mario_Right.png", 15, 17, 0.05f, true);
-		Renderer->CreateAnimation("Reverse_Big_Right", "Mario_Right.png", 18, 18, 0.1f, true);
-		Renderer->CreateAnimation("Jump_Big_Right", "Mario_Right.png", 19, 19, 0.1f, true);
+		Renderer->CreateAnimation("Idle_Big_Right", "Mario_Right.png", 9, 9, 0.1f, true);
+		Renderer->CreateAnimation("Move_Big_Right", "Mario_Right.png", 10, 12, 0.1f, true);
+		Renderer->CreateAnimation("MoveFast_Big_Right", "Mario_Right.png", 10, 12, 0.05f, true);
+		Renderer->CreateAnimation("Reverse_Big_Right", "Mario_Right.png", 13, 13, 0.1f, true);
+		Renderer->CreateAnimation("Jump_Big_Right", "Mario_Right.png", 14, 14, 0.1f, true);
 
 		Renderer->CreateAnimation("Idle_Small_Left", "Mario_Left.png", 0, 0, 0.1f, true);
 		Renderer->CreateAnimation("Move_Small_Left", "Mario_Left.png", 1, 3, 0.1f, true);
@@ -52,11 +52,11 @@ void AMario::BeginPlay()
 		Renderer->CreateAnimation("Reverse_Small_Left", "Mario_Left.png", 4, 4, 0.1f, true);
 		Renderer->CreateAnimation("Jump_Small_Left", "Mario_Left.png", 5, 5, 0.1f, true);
 
-		Renderer->CreateAnimation("Idle_Big_Left", "Mario_Left.png", 14, 14, 0.1f, true);
-		Renderer->CreateAnimation("Move_Big_Left", "Mario_Left.png", 15, 17, 0.1f, true);
-		Renderer->CreateAnimation("MoveFast_Big_Left", "Mario_Left.png", 15, 17, 0.05f, true);
-		Renderer->CreateAnimation("Reverse_Big_Left", "Mario_Left.png", 18, 18, 0.1f, true);
-		Renderer->CreateAnimation("Jump_Big_Left", "Mario_Left.png", 19, 19, 0.1f, true);
+		Renderer->CreateAnimation("Idle_Big_Left", "Mario_Left.png", 9, 9, 0.1f, true);
+		Renderer->CreateAnimation("Move_Big_Left", "Mario_Left.png", 10, 12, 0.1f, true);
+		Renderer->CreateAnimation("MoveFast_Big_Left", "Mario_Left.png", 10, 12, 0.05f, true);
+		Renderer->CreateAnimation("Reverse_Big_Left", "Mario_Left.png", 13, 13, 0.1f, true);
+		Renderer->CreateAnimation("Jump_Big_Left", "Mario_Left.png", 14, 14, 0.1f, true);
 
 		Renderer->CreateAnimation("Die", "Mario_Left.png", 6, 6, 0.1f, true);
 		Renderer->CreateAnimation("Down", "Mario_Right.png", 7, 8, 0.1f, true);
@@ -98,22 +98,21 @@ void AMario::Tick(float _DeltaTime)
 	std::vector<UCollision*> BoxTopResult;
 	if (true == BottomCollision->CollisionCheck(ECollisionOrder::BoxTop, BoxTopResult))
 	{
-		for (UCollision* BoxPosition : BoxTopResult)
-		{
-			ABrick* Player = (ABrick*)BoxPosition->GetOwner();
+		GravityPower = FVector::Zero;
+		JumpVector = FVector::Zero;
 
-			FTransform BoxCollision = BoxPosition->GetActorBaseTransform();
-			FTransform MyTransform = BottomCollision->GetActorBaseTransform();
+		// BottomCollision 마리오 바닥의 위치
+		FVector MarioBottomCollisionPos = BottomCollision->GetActorBaseTransform().GetPosition();
+		FVector MarioBottomCollisionScale = BottomCollision->GetActorBaseTransform().GetScale();
 
-			GravityPower = FVector::Zero;
-			JumpVector = FVector::Zero;
-			if (false == IsCollision)
-			{
-				AddActorLocation(FVector::Up);
-			}
-			IsJump = false;
-			IsCollision = true;
-		}
+		// BoxPosition 박스콜리전의 위치
+		FVector BoxCollisionPos = BoxTopResult[0]->GetActorBaseTransform().GetPosition();
+		FVector BoxCollisionScale = BoxTopResult[0]->GetActorBaseTransform().GetScale();
+
+		SetActorLocation({ MarioBottomCollisionPos.X, BoxCollisionPos.Y - 3.0f });
+
+		IsJump = false;
+		IsCollision = true;
 	}
 	else 
 	{

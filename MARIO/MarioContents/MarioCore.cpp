@@ -32,8 +32,8 @@ void UMarioCore::BeginPlay()
 		ResoucreManager.LoadImg(File.GetFullPath());
 	}
 
-	ResoucreManager.CuttingImage("Mario_Right.png", 5, 8);
-	ResoucreManager.CuttingImage("Mario_Left.png", 5, 8);
+	ResoucreManager.CuttingImage("Mario_Right.png", 5, 7);
+	ResoucreManager.CuttingImage("Mario_Left.png", 5, 7);
 	
 	ResoucreManager.CuttingImage("OpenWorldGoomba.png", 3, 1);
 	ResoucreManager.CuttingImage("OpenWorldTroopa_Left.png", 5, 2);
