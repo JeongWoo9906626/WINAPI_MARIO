@@ -430,7 +430,7 @@ void AMario::FinishReverseStart()
 
 void AMario::FinishWalkStart()
 {
-	Renderer->ChangeAnimation("Move_Right");
+	Renderer->ChangeAnimation("Move_Small_Right");
 }
 
 void AMario::Idle(float _DeltaTime)
