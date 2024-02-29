@@ -17,7 +17,7 @@ void AItemBox::BeginPlay()
 
 	Renderer = CreateImageRenderer(ERenderOrder::Brick);
 	Renderer->SetImage("OpenWorldBox.png");
-	Renderer->SetTransform({ { 0, 0 }, { 256 * 3.8f, 256 * 3.8f } });
+	Renderer->SetTransform({ { 0, 0 }, { 1024, 1024 } });
 
 	Renderer->CreateAnimation("BrickIdle", "OpenWorldBox.png", 0, 3, 0.2f, true);
 	Renderer->CreateAnimation("BrickHit", "OpenWorldBox.png", 4, 4, 0.1f, true);
@@ -25,8 +25,8 @@ void AItemBox::BeginPlay()
 
 	TopCollision = CreateCollision(ECollisionOrder::BoxTop);
 	TopCollision->SetColType(ECollisionType::Rect);
-	TopCollision->SetPosition({ 0, -55 });
-	TopCollision->SetScale({ 62, 10 });
+	TopCollision->SetPosition({ 0, -60 });
+	TopCollision->SetScale({ 64, 10 });
 
 	BottomCollision = CreateCollision(ECollisionOrder::Box);
 	BottomCollision->SetColType(ECollisionType::Rect);
@@ -35,13 +35,13 @@ void AItemBox::BeginPlay()
 
 	LeftCollision = CreateCollision(ECollisionOrder::Box);
 	LeftCollision->SetColType(ECollisionType::Rect);
-	LeftCollision->SetPosition({ -26, -25 });
-	LeftCollision->SetScale({ 10, 50 });
+	LeftCollision->SetPosition({ -28, -28 });
+	LeftCollision->SetScale({ 10, 55 });
 
 	RightCollision = CreateCollision(ECollisionOrder::Box);
 	RightCollision->SetColType(ECollisionType::Rect);
-	RightCollision->SetPosition({ +26, -25 });
-	RightCollision->SetScale({ 10, 50 });
+	RightCollision->SetPosition({ +28, -28 });
+	RightCollision->SetScale({ 10, 55 });
 
 	StateChange(EBoxState::Idle);
 }
