@@ -21,7 +21,6 @@ protected:
 	void StateUpdate(float _DeltaTime);
 
 	void SpawnStart();
-	void EatStart();
 
 	void Spawn(float _DeltaTime);
 

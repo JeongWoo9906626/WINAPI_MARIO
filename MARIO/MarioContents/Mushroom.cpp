@@ -50,8 +50,12 @@ void AMushroom::Tick(float _DeltaTime)
 		UCollision* MarioPosition = MarioResult[0];
 		AMario* Player = (AMario*)MarioPosition->GetOwner();
 
+		Renderer->ActiveOff();
+		BodyCollision->ActiveOff();
+		Destroy();
+
 		Player->SizeState = EMarioSizeState::Big;
-		StateChange(EItemState::Eat);
+		Player->StateChange(EPlayState::Change);
 		return;
 	}
 
@@ -85,9 +89,6 @@ void AMushroom::StateChange(EItemState _State)
 			break;
 		case EItemState::CollisionMove:
 			CollisionMoveStart();
-			break;
-		case EItemState::Eat:
-			EatStart();
 			break;
 		default:
 			break;
@@ -128,13 +129,6 @@ void AMushroom::MoveStart()
 void AMushroom::CollisionMoveStart()
 {
 	DestroyValue = false;
-}
-
-void AMushroom::EatStart()
-{
-	Renderer->ActiveOff();
-	BodyCollision->ActiveOff();
-	Destroy();
 }
 
 void AMushroom::Spawn(float _DeltaTime)

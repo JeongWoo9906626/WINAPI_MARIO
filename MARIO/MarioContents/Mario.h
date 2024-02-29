@@ -54,6 +54,7 @@ protected:
 	void IdleStart();
 	void RunStart();
 	void JumpStart();
+	void ChangeStart();
 	void ReverseStart();
 	void DieStart();
 	void KillStart();
@@ -67,6 +68,7 @@ protected:
 	void Idle(float _DeltaTime);
 	void Run(float _DeltaTime);
 	void Jump(float _DeltaTime);
+	void Change(float _DeltaTime);
 	void Reverse(float _DeltaTime);
 	void Die(float _DeltaTime);
 	void Kill(float _DeltaTime);
@@ -75,7 +77,6 @@ protected:
 	void FinishWalk(float _DeltaTime);
 
 	void ReverseDir();
-	
 
 	EPlayState State = EPlayState::None;
 	EMarioSizeState SizeState = EMarioSizeState::None;
@@ -119,6 +120,9 @@ private:
 
 	float DownTime = 1.0f;
 	float CurDownTime = 0.0f;
+
+	float ChangeTime = 0.3f;
+	float CurChangeTime = 0.0f;
 
 	void AddRunVector(const FVector& _DirDelta);
 	void SubtractRunVector(const FVector& _DirDelta);

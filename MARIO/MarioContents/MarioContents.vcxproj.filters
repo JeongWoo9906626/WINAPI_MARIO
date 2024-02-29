@@ -87,7 +87,9 @@
     <ClInclude Include="Mushroom.h">
       <Filter>PlayLevel\Actor\Item</Filter>
     </ClInclude>
-    <ClInclude Include="Sunflower.h" />
+    <ClInclude Include="Sunflower.h">
+      <Filter>PlayLevel\Actor\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -141,6 +143,8 @@
     <ClCompile Include="Mushroom.cpp">
       <Filter>PlayLevel\Actor\Item</Filter>
     </ClCompile>
-    <ClCompile Include="Sunflower.cpp" />
+    <ClCompile Include="Sunflower.cpp">
+      <Filter>PlayLevel\Actor\Item</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -48,6 +48,7 @@ enum class EPlayState
 	Run,
 	Reverse,
 	Jump,
+	Change,
 	Die,
 	Kill,
 	FinishMove,

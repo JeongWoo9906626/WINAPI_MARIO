@@ -51,8 +51,12 @@ void ASunflower::Tick(float _DeltaTime)
 		UCollision* MarioPosition = MarioResult[0];
 		AMario* Player = (AMario*)MarioPosition->GetOwner();
 
+		Renderer->ActiveOff();
+		BodyCollision->ActiveOff();
+		Destroy();
+
 		Player->SizeState = EMarioSizeState::Red;
-		StateChange(EItemState::Eat);
+		Player->StateChange(EPlayState::Change);
 		return;
 	}
 
@@ -81,9 +85,6 @@ void ASunflower::StateChange(EItemState _State)
 		case EItemState::Spawn:
 			SpawnStart();
 			break;
-		case EItemState::Eat:
-			EatStart();
-			break;
 		default:
 			break;
 		}
@@ -107,13 +108,6 @@ void ASunflower::StateUpdate(float _DeltaTime)
 void ASunflower::SpawnStart()
 {
 	DestroyValue = false;
-}
-
-void ASunflower::EatStart()
-{
-	Renderer->ActiveOff();
-	BodyCollision->ActiveOff();
-	Destroy();
 }
 
 void ASunflower::Spawn(float _DeltaTime)

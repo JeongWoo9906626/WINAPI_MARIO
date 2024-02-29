@@ -23,7 +23,6 @@ protected:
 	void SpawnStart();
 	void MoveStart();
 	void CollisionMoveStart();
-	void EatStart();
 
 	void Spawn(float _DeltaTime);
 	void Move(float _DeltaTime);

@@ -74,11 +74,9 @@ void AMario::BeginPlay()
 		Renderer->CreateAnimation("Down_Small", "Mario_Right.png", 7, 8, 0.1f, true);
 		Renderer->CreateAnimation("DownReverse_Small", "Mario_Left.png", 8, 8, 0.1f, true);
 
-		Renderer->CreateAnimation("Die", "Mario_Left.png", 6, 6, 0.1f, true);
 		Renderer->CreateAnimation("Down_Big", "Mario_Right.png", 11, 12, 0.1f, true);
 		Renderer->CreateAnimation("DownReverse_Big", "Mario_Left.png", 12, 12, 0.1f, true);
 		
-		Renderer->CreateAnimation("Die", "Mario_Left.png", 6, 6, 0.1f, true);
 		Renderer->CreateAnimation("Down_Fire", "Mario_Right.png", 27, 28, 0.1f, true);
 		Renderer->CreateAnimation("DownReverse_Fire", "Mario_Left.png", 28, 28, 0.1f, true);
 	}
@@ -103,7 +101,7 @@ void AMario::BeginPlay()
 		BottomCollision->SetPosition({ 0, -5 });
 		BottomCollision->SetScale({ 10, 10 });
 	}
-
+	
 	CurDieTime = 0.0f;
 	CurDownTime = 0.0f;
 	SizeState = EMarioSizeState::Small;
@@ -269,6 +267,9 @@ void AMario::StateChange(EPlayState _State)
 		case EPlayState::Jump:
 			JumpStart();
 			break;
+		case EPlayState::Change:
+			ChangeStart();
+			break;
 		case EPlayState::Reverse:
 			ReverseStart();
 			break;
@@ -313,6 +314,9 @@ void AMario::StateUpdate(float _DeltaTime)
 		break;
 	case EPlayState::Jump:
 		Jump(_DeltaTime);
+		break;
+	case EPlayState::Change:
+		Change(_DeltaTime);
 		break;
 	case EPlayState::Reverse:
 		Reverse(_DeltaTime);
@@ -417,6 +421,54 @@ void AMario::JumpStart()
 	Renderer->ChangeAnimation(GetAnimationName("Jump"));
 }
 
+void AMario::ChangeStart()
+{
+	switch (SizeState)
+	{
+	case EMarioSizeState::Small:
+	{
+		{
+			BodyCollision->SetPosition({ 0, -35 });
+			BodyCollision->SetScale({ 50, 64 });
+		}
+
+		{
+			HeadCollision->SetPosition({ 0, -62 });
+			HeadCollision->SetScale({ 10, 10 });
+		}
+
+		{
+			BottomCollision->SetPosition({ 0, -5 });
+			BottomCollision->SetScale({ 10, 10 });
+		}
+		break;
+	}
+	case EMarioSizeState::Big:
+	case EMarioSizeState::Red:
+	{
+		{
+			BodyCollision->SetPosition({ 0, -70 });
+			BodyCollision->SetScale({ 50, 130 });
+		}
+
+		{
+			HeadCollision->SetPosition({ 0, -130 });
+			HeadCollision->SetScale({ 10, 10 });
+		}
+
+		{
+			BottomCollision->SetPosition({ 0, -5 });
+			BottomCollision->SetScale({ 10, 10 });
+		}
+		break;
+	}
+	case EMarioSizeState::Star:
+		break;
+	default:
+		break;
+	}
+}
+
 void AMario::ReverseStart()
 {
 	Renderer->ChangeAnimation(GetReverseAnimationName("Reverse"));
@@ -426,6 +478,8 @@ void AMario::DieStart()
 {
 	JumpVector = DieJumpPower;
 	BodyCollision->ActiveOff();
+	HeadCollision->ActiveOff();
+	BottomCollision->ActiveOff();
 	Renderer->ChangeAnimation("Die");
 }
 
@@ -709,8 +763,19 @@ void AMario::Jump(float _DeltaTime)
 		GroundUp();
 		return;
 	}
+}
 
-
+void AMario::Change(float _DeltaTime)
+{
+	if (CurChangeTime > ChangeTime)
+	{
+		JumpVector.Y = 0.0f;
+		GravityPower.Y = 0.0f;
+		CurChangeTime = 0.0f;
+		StateChange(EPlayState::Idle);
+		return;
+	}
+	CurChangeTime += _DeltaTime;
 }
 
 void AMario::Reverse(float _DeltaTime)
