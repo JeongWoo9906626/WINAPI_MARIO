@@ -46,6 +46,12 @@ void AMario::BeginPlay()
 		Renderer->CreateAnimation("Reverse_Big_Right", "Mario_Right.png", 13, 13, 0.1f, true);
 		Renderer->CreateAnimation("Jump_Big_Right", "Mario_Right.png", 14, 14, 0.1f, true);
 
+		Renderer->CreateAnimation("Idle_Fire_Right", "Mario_Right.png", 20, 20, 0.1f, true);
+		Renderer->CreateAnimation("Move_Fire_Right", "Mario_Right.png", 21, 23, 0.1f, true);
+		Renderer->CreateAnimation("MoveFast_Fire_Right", "Mario_Right.png", 21, 23, 0.05f, true);
+		Renderer->CreateAnimation("Reverse_Fire_Right", "Mario_Right.png", 24, 24, 0.1f, true);
+		Renderer->CreateAnimation("Jump_Fire_Right", "Mario_Right.png", 25, 25, 0.1f, true);
+
 		Renderer->CreateAnimation("Idle_Small_Left", "Mario_Left.png", 0, 0, 0.1f, true);
 		Renderer->CreateAnimation("Move_Small_Left", "Mario_Left.png", 1, 3, 0.1f, true);
 		Renderer->CreateAnimation("MoveFast_Small_Left", "Mario_Left.png", 1, 3, 0.05f, true);
@@ -58,9 +64,23 @@ void AMario::BeginPlay()
 		Renderer->CreateAnimation("Reverse_Big_Left", "Mario_Left.png", 13, 13, 0.1f, true);
 		Renderer->CreateAnimation("Jump_Big_Left", "Mario_Left.png", 14, 14, 0.1f, true);
 
+		Renderer->CreateAnimation("Idle_Fire_Left", "Mario_Right.png", 20, 20, 0.1f, true);
+		Renderer->CreateAnimation("Move_Fire_Left", "Mario_Right.png", 21, 23, 0.1f, true);
+		Renderer->CreateAnimation("MoveFast_Fire_Left", "Mario_Right.png", 21, 23, 0.05f, true);
+		Renderer->CreateAnimation("Reverse_Fire_Left", "Mario_Right.png", 24, 24, 0.1f, true);
+		Renderer->CreateAnimation("Jump_Fire_Left", "Mario_Right.png", 25, 25, 0.1f, true);
+
 		Renderer->CreateAnimation("Die", "Mario_Left.png", 6, 6, 0.1f, true);
-		Renderer->CreateAnimation("Down", "Mario_Right.png", 7, 8, 0.1f, true);
-		Renderer->CreateAnimation("DownReverse", "Mario_Left.png", 7, 7, 0.1f, true);
+		Renderer->CreateAnimation("Down_Small", "Mario_Right.png", 7, 8, 0.1f, true);
+		Renderer->CreateAnimation("DownReverse_Small", "Mario_Left.png", 8, 8, 0.1f, true);
+
+		Renderer->CreateAnimation("Die", "Mario_Left.png", 6, 6, 0.1f, true);
+		Renderer->CreateAnimation("Down_Big", "Mario_Right.png", 11, 12, 0.1f, true);
+		Renderer->CreateAnimation("DownReverse_Big", "Mario_Left.png", 12, 12, 0.1f, true);
+		
+		Renderer->CreateAnimation("Die", "Mario_Left.png", 6, 6, 0.1f, true);
+		Renderer->CreateAnimation("Down_Fire", "Mario_Right.png", 27, 28, 0.1f, true);
+		Renderer->CreateAnimation("DownReverse_Fire", "Mario_Left.png", 28, 28, 0.1f, true);
 	}
 
 	{
@@ -88,7 +108,6 @@ void AMario::BeginPlay()
 	CurDownTime = 0.0f;
 	SizeState = EMarioSizeState::Small;
 	StateChange(EPlayState::Idle);
-	// TODO : Big상태일때 콜리전 변환
 }
 
 void AMario::Tick(float _DeltaTime)
@@ -171,6 +190,7 @@ std::string AMario::GetAnimationName(std::string _Name)
 		SizeName = "_Big";
 		break;
 	case EMarioSizeState::Red:
+		SizeName = "_Fire";
 		break;
 	case EMarioSizeState::Star:
 		break;
@@ -209,6 +229,7 @@ std::string AMario::GetReverseAnimationName(std::string _Name)
 		SizeName = "_Big";
 		break;
 	case EMarioSizeState::Red:
+		SizeName = "_Fire";
 		break;
 	case EMarioSizeState::Star:
 		break;
@@ -418,18 +439,75 @@ void AMario::KillStart()
 
 void AMario::FinishMoveStart()
 {
-	Renderer->ChangeAnimation("Down");
+	std::string FinishMoveName = "";
+
+	switch (SizeState)
+	{
+	case EMarioSizeState::Small:
+		FinishMoveName = "_Small";
+		break;
+	case EMarioSizeState::Big:
+		FinishMoveName = "_Big";
+		break;
+	case EMarioSizeState::Red:
+		FinishMoveName = "_Fire";
+		break;
+	case EMarioSizeState::Star:
+		break;
+	default:
+		break;
+	}
+	Renderer->ChangeAnimation("Down" + FinishMoveName);
 }
 
 void AMario::FinishReverseStart()
 {
 	AddActorLocation(FVector::Right * 12.0f);
-	Renderer->ChangeAnimation("DownReverse");
+
+	std::string FinishMoveName = "";
+
+	switch (SizeState)
+	{
+	case EMarioSizeState::Small:
+		FinishMoveName = "_Small";
+		break;
+	case EMarioSizeState::Big:
+		FinishMoveName = "_Big";
+		break;
+	case EMarioSizeState::Red:
+		FinishMoveName = "_Fire";
+		break;
+	case EMarioSizeState::Star:
+		break;
+	default:
+		break;
+	}
+
+	Renderer->ChangeAnimation("DownReverse" + FinishMoveName);
 }
 
 void AMario::FinishWalkStart()
 {
-	Renderer->ChangeAnimation("Move_Small_Right");
+	std::string FinishMoveName = "";
+
+	switch (SizeState)
+	{
+	case EMarioSizeState::Small:
+		FinishMoveName = "_Small";
+		break;
+	case EMarioSizeState::Big:
+		FinishMoveName = "_Big";
+		break;
+	case EMarioSizeState::Red:
+		FinishMoveName = "_Fire";
+		break;
+	case EMarioSizeState::Star:
+		break;
+	default:
+		break;
+	}
+
+	Renderer->ChangeAnimation("Move" + FinishMoveName + "_Right");
 }
 
 void AMario::Idle(float _DeltaTime)

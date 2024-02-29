@@ -51,7 +51,7 @@ void ASunflower::Tick(float _DeltaTime)
 		UCollision* MarioPosition = MarioResult[0];
 		AMario* Player = (AMario*)MarioPosition->GetOwner();
 
-		Player->SizeState = EMarioSizeState::Big;
+		Player->SizeState = EMarioSizeState::Red;
 		StateChange(EItemState::Eat);
 		return;
 	}
@@ -118,7 +118,6 @@ void ASunflower::EatStart()
 
 void ASunflower::Spawn(float _DeltaTime)
 {
-
 	if (false == IsBoxCollision)
 	{
 		AddActorLocation(FVector::Up * SpawnUpSpeed * _DeltaTime);
