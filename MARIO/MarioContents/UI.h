@@ -19,11 +19,12 @@ protected:
 	void Tick(float _DeltaTime) override;
 
 	void CoinsUpdate();
+	void ScroeUpdate();
 
 private:
 	UImageRenderer* ScoreRenderer = nullptr;
 	UImageRenderer* Coins[2] = { nullptr, };
-	
+	UImageRenderer* ScoreArray[6] = { nullptr, };
 	UImageRenderer* CoinImage = nullptr;
 
 };

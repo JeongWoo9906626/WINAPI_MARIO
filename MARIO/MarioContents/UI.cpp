@@ -38,7 +38,14 @@ void AUI::BeginPlay()
 		Coins[i]->CameraEffectOff();
 	}
 
-	
+	for (int i = 0; i < 6; i++)
+	{
+		ScoreArray[i] = CreateImageRenderer(ERenderOrder::UI);
+		ScoreArray[i]->SetImage("0.png");
+		ScoreArray[i]->SetTransform({ { -110 + (i * 35), -95}, {20, 20} });
+		ScoreArray[i]->CameraEffectOff();
+	}
+
 	CoinImage->CreateAnimation("Idle", "UICoin.png", 0, 5, 0.2f, true);
 	CoinImage->ChangeAnimation("Idle");
 }
@@ -60,5 +67,12 @@ void AUI::CoinsUpdate()
 	}
 }
 
-
-
+void AUI::ScroeUpdate()
+{
+	std::string Count = std::to_string(UContentsHelper::CoinCount);
+	std::string NumberImage;
+	for (int i = 0; i < 6; ++i) {
+		NumberImage = Count.substr(i + 1, 1) + ".png";
+		Coins[i]->SetImage(NumberImage);
+	}
+}
