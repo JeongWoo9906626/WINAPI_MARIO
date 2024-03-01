@@ -64,11 +64,11 @@ void AMario::BeginPlay()
 		Renderer->CreateAnimation("Reverse_Big_Left", "Mario_Left.png", 13, 13, 0.1f, true);
 		Renderer->CreateAnimation("Jump_Big_Left", "Mario_Left.png", 14, 14, 0.1f, true);
 
-		Renderer->CreateAnimation("Idle_Fire_Left", "Mario_Right.png", 20, 20, 0.1f, true);
-		Renderer->CreateAnimation("Move_Fire_Left", "Mario_Right.png", 21, 23, 0.1f, true);
-		Renderer->CreateAnimation("MoveFast_Fire_Left", "Mario_Right.png", 21, 23, 0.05f, true);
-		Renderer->CreateAnimation("Reverse_Fire_Left", "Mario_Right.png", 24, 24, 0.1f, true);
-		Renderer->CreateAnimation("Jump_Fire_Left", "Mario_Right.png", 25, 25, 0.1f, true);
+		Renderer->CreateAnimation("Idle_Fire_Left", "Mario_Left.png", 20, 20, 0.1f, true);
+		Renderer->CreateAnimation("Move_Fire_Left", "Mario_Left.png", 21, 23, 0.1f, true);
+		Renderer->CreateAnimation("MoveFast_Fire_Left", "Mario_Left.png", 21, 23, 0.05f, true);
+		Renderer->CreateAnimation("Reverse_Fire_Left", "Mario_Left.png", 24, 24, 0.1f, true);
+		Renderer->CreateAnimation("Jump_Fire_Left", "Mario_Left.png", 25, 25, 0.1f, true);
 
 		Renderer->CreateAnimation("Die", "Mario_Left.png", 6, 6, 0.1f, true);
 		Renderer->CreateAnimation("Down_Small", "Mario_Right.png", 7, 8, 0.1f, true);
