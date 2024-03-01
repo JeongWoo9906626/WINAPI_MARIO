@@ -47,6 +47,8 @@ void UMarioCore::BeginPlay()
 	ResoucreManager.CuttingImage("Coin.png", 4, 1);
 	ResoucreManager.CuttingImage("MarioItem.png", 5, 2);
 
+	ResoucreManager.CuttingImage("UICoin.png", 6, 1);
+
 	// TODO
 	// 생성할 모든 레벨 Core에서 생성
 	CreateLevel<UTitleLevel>("Title");

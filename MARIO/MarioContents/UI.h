@@ -18,7 +18,12 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
+	void CoinsUpdate();
+
 private:
-	UImageRenderer* Renderer = nullptr;
+	UImageRenderer* ScoreRenderer = nullptr;
+	UImageRenderer* Coins[2] = { nullptr, };
+	
+	UImageRenderer* CoinImage = nullptr;
 
 };

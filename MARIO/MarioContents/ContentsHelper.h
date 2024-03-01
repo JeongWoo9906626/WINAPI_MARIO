@@ -117,7 +117,9 @@ class UContentsHelper
 public:
 	static class AMario* MainPlayer;
 	static UWindowImage* MapColImage;
-
+	
+	static int CoinCount;
+	static int Score;
 protected:
 
 private:
