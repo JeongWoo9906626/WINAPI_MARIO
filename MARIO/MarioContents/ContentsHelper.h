@@ -120,6 +120,9 @@ public:
 	
 	static int CoinCount;
 	static int Score;
+	static int Time;
+	static int MainStage;
+	static int SubStage;
 protected:
 
 private:

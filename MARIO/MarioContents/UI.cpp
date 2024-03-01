@@ -46,6 +46,16 @@ void AUI::BeginPlay()
 		ScoreArray[i]->CameraEffectOff();
 	}
 
+	for (int i = 0; i < 3; i++)
+	{
+		TimeArray[i] = CreateImageRenderer(ERenderOrder::UI);
+		TimeArray[i]->SetImage("0.png");
+		TimeArray[i]->SetTransform({ { 640 + (i * 35), -95 }, { 20, 20 } });
+		TimeArray[i]->CameraEffectOff();
+	}
+
+	
+
 	CoinImage->CreateAnimation("Idle", "UICoin.png", 0, 5, 0.2f, true);
 	CoinImage->ChangeAnimation("Idle");
 }
@@ -55,24 +65,39 @@ void AUI::Tick(float _DeltaTime)
 	AActor::Tick(_DeltaTime);
 
 	CoinsUpdate();
+	ScoreUpdate();
+	TimeUpdate();
 }
 
 void AUI::CoinsUpdate()
 {
 	std::string Count = std::to_string(UContentsHelper::CoinCount);
 	std::string NumberImage;
-	for (int i = 0; i < 2; ++i) {
+	for (int i = 0; i < 2; ++i) 
+	{
 		NumberImage = Count.substr(i + 1, 1) + ".png";
 		Coins[i]->SetImage(NumberImage);
 	}
 }
 
-void AUI::ScroeUpdate()
+void AUI::ScoreUpdate()
 {
-	std::string Count = std::to_string(UContentsHelper::CoinCount);
+	std::string Count = std::to_string(UContentsHelper::Score);
 	std::string NumberImage;
-	for (int i = 0; i < 6; ++i) {
+	for (int i = 0; i < 6; ++i) 
+	{
 		NumberImage = Count.substr(i + 1, 1) + ".png";
-		Coins[i]->SetImage(NumberImage);
+		ScoreArray[i]->SetImage(NumberImage);
+	}
+}
+
+void AUI::TimeUpdate()
+{
+	std::string Count = std::to_string(UContentsHelper::Time);
+	std::string NumberImage;
+	for (int i = 0; i < 3; ++i) 
+	{
+		NumberImage = Count.substr(i + 1, 1) + ".png";
+		TimeArray[i]->SetImage(NumberImage);
 	}
 }
