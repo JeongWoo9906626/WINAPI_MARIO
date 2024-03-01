@@ -21,12 +21,16 @@ protected:
 	void CoinsUpdate();
 	void ScoreUpdate();
 	void TimeUpdate();
+	void StageUIUpdate();
 
 private:
 	UImageRenderer* ScoreRenderer = nullptr;
 	UImageRenderer* Coins[2] = { nullptr, };
 	UImageRenderer* ScoreArray[6] = { nullptr, };
 	UImageRenderer* TimeArray[3] = { nullptr, };
+	UImageRenderer* MainStageImage = nullptr;
+	UImageRenderer* SubStageImage = nullptr;
+
 	UImageRenderer* CoinImage = nullptr;
 
 };

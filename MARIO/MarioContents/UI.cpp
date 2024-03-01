@@ -54,7 +54,15 @@ void AUI::BeginPlay()
 		TimeArray[i]->CameraEffectOff();
 	}
 
-	
+	MainStageImage = CreateImageRenderer(ERenderOrder::UI);
+	MainStageImage->SetImage("0.png");
+	MainStageImage->SetTransform({ {430, -95}, {20, 20} });
+	MainStageImage->CameraEffectOff();
+
+	SubStageImage = CreateImageRenderer(ERenderOrder::UI);
+	SubStageImage->SetImage("0.png");
+	SubStageImage->SetTransform({ {485, -95}, {20, 20} });
+	SubStageImage->CameraEffectOff();
 
 	CoinImage->CreateAnimation("Idle", "UICoin.png", 0, 5, 0.2f, true);
 	CoinImage->ChangeAnimation("Idle");
@@ -67,6 +75,7 @@ void AUI::Tick(float _DeltaTime)
 	CoinsUpdate();
 	ScoreUpdate();
 	TimeUpdate();
+	StageUIUpdate();
 }
 
 void AUI::CoinsUpdate()
@@ -100,4 +109,13 @@ void AUI::TimeUpdate()
 		NumberImage = Count.substr(i + 1, 1) + ".png";
 		TimeArray[i]->SetImage(NumberImage);
 	}
+}
+
+void AUI::StageUIUpdate()
+{
+	std::string MainStageNum = std::to_string(UContentsHelper::MainStage);
+	std::string SubStageNum = std::to_string(UContentsHelper::SubStage);
+
+	MainStageImage->SetImage(MainStageNum + ".png");
+	SubStageImage->SetImage(SubStageNum + ".png");
 }
