@@ -11,6 +11,7 @@
 #include "ItemBox.h"
 #include "Gate.h"
 #include "HiddenGate.h"
+#include "UI.h"
 
 UPlayLevel::UPlayLevel()
 {
@@ -29,13 +30,16 @@ void UPlayLevel::BeginPlay()
 	BackGroundMap->SetCollisionMapImage("Stage01_Col.png");
 	BackGroundMap->SwitchDebug();
 
-	AFlag* Flag = SpawnActor<AFlag>(ERenderOrder::Map);
-	//Flag->SetActorLocation({ 705, 700 });
-	Flag->SetActorLocation({ 12705, 700 });
+	AUI* UI = SpawnActor<AUI>(ERenderOrder::UI);
+	UI->SetActorLocation({ 200, 200 });
 
 	AMario* Mario = SpawnActor<AMario>(ERenderOrder::Player);
 	Mario->SetName("Player");
 	Mario->SetActorLocation({ 200, 500 });
+
+	AFlag* Flag = SpawnActor<AFlag>(ERenderOrder::Map);
+	//Flag->SetActorLocation({ 705, 700 });
+	Flag->SetActorLocation({ 12705, 700 });
 
 	AGoomba* Goomba = SpawnActor<AGoomba>(ERenderOrder::Monster);
 	Goomba->SetName("OpenWorldGoomba1");

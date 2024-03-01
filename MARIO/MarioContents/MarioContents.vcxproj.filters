@@ -34,6 +34,9 @@
     <Filter Include="PlayLevel\Actor\Item">
       <UniqueIdentifier>{671bea04-206e-495a-a738-c4f0a7c1b941}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{3ae4fd92-dba5-4ccb-9eee-04b03f357342}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TitleLevel.h">
@@ -93,6 +96,7 @@
     <ClInclude Include="HiddenGate.h">
       <Filter>PlayLevel\Actor\Gate</Filter>
     </ClInclude>
+    <ClInclude Include="UI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -152,5 +156,6 @@
     <ClCompile Include="HiddenGate.cpp">
       <Filter>PlayLevel\Actor\Gate</Filter>
     </ClCompile>
+    <ClCompile Include="UI.cpp" />
   </ItemGroup>
 </Project>
