@@ -125,12 +125,14 @@ void AMario::Tick(float _DeltaTime)
 	{
 		if (CurNoCollisionTime >= NoCollisionTime)
 		{
+			Renderer->SetAlpha(1.0f);
 			BodyCollision->ActiveOn();
 			BottomCollision->ActiveOn();
 			HeadCollision->ActiveOn();
 			IsChange = false;
 		}
 		CurNoCollisionTime += _DeltaTime;
+		
 	}
 
 	std::vector<UCollision*> HiddenGateResult;
@@ -521,7 +523,7 @@ void AMario::GrowDownStart()
 	default:
 		break;
 	}
-
+	Renderer->SetAlpha(0.5f);
 	{
 		BodyCollision->SetPosition({ 0, -35 });
 		BodyCollision->SetScale({ 50, 64 });
