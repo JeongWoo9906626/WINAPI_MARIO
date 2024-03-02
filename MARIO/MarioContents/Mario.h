@@ -96,6 +96,10 @@ private:
 	bool IsCollision = false;
 	bool IsJump = false;
 	bool IsGround = false;
+	bool IsChange = false;
+
+	float NoCollisionTime = 3.0f;
+	float CurNoCollisionTime = 0.0f;
 
 	float AnimationTime = 0.0f;
 	int AnimationFrame = 0;

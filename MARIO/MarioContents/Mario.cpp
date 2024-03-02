@@ -85,6 +85,9 @@ void AMario::BeginPlay()
 
 		Renderer->CreateAnimation("GrowDown_Right", "Mario_Right.png", { 18, 19, 18, 19, 0 }, 0.1f, false);
 		Renderer->CreateAnimation("GrowDown_Left", "Mario_Left.png", { 18, 19, 18, 19, 0 }, 0.1f, false);
+
+		Renderer->CreateAnimation("ChangeRed_Right", "Mario_Right.png", { 33, 32, 33, 32, 33 }, 0.1f, false);
+		Renderer->CreateAnimation("ChangeRed_Left", "Mario_Left.png", { 33, 32, 33, 32, 33 }, 0.1f, false);
 	}
 
 	{
@@ -117,6 +120,18 @@ void AMario::BeginPlay()
 void AMario::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
+
+	if (true == IsChange)
+	{
+		if (CurNoCollisionTime >= NoCollisionTime)
+		{
+			BodyCollision->ActiveOn();
+			BottomCollision->ActiveOn();
+			HeadCollision->ActiveOn();
+			IsChange = false;
+		}
+		CurNoCollisionTime += _DeltaTime;
+	}
 
 	std::vector<UCollision*> HiddenGateResult;
 	if (true == BottomCollision->CollisionCheck(ECollisionOrder::Gate, HiddenGateResult))
@@ -152,6 +167,7 @@ void AMario::Tick(float _DeltaTime)
 	{
 		IsCollision = false;
 	}
+
 
 
 	StateUpdate(_DeltaTime);
@@ -491,6 +507,7 @@ void AMario::GrowUpStart()
 
 void AMario::GrowDownStart()
 {
+	IsChange = true;
 	DirCheck();
 	std::string DirName = "";
 	switch (DirState)
@@ -557,6 +574,8 @@ void AMario::ChangeRedStart()
 		BottomCollision->SetPosition({ 0, -5 });
 		BottomCollision->SetScale({ 10, 10 });
 	}
+
+	Renderer->ChangeAnimation("ChangeRed" + DirName);
 }
 
 void AMario::DieStart()
@@ -930,10 +949,6 @@ void AMario::GrowDown(float _DeltaTime)
 		JumpVector.Y = 0.0f;
 		GravityPower.Y = 0.0f;
 		CurChangeTime = 0.0f;
-
-		BodyCollision->ActiveOn();
-		BottomCollision->ActiveOn();
-		HeadCollision->ActiveOn();
 
 		StateChange(EPlayState::Idle);
 		return;
