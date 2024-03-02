@@ -167,6 +167,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="BreakOne.h" />
     <ClInclude Include="Brick.h">
       <SubType>
       </SubType>
@@ -237,6 +238,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="BreakOne.cpp" />
     <ClCompile Include="Brick.cpp">
       <SubType>
       </SubType>

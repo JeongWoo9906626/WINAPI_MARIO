@@ -97,6 +97,7 @@
       <Filter>PlayLevel\Actor\Gate</Filter>
     </ClInclude>
     <ClInclude Include="UI.h" />
+    <ClInclude Include="BreakOne.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -157,5 +158,6 @@
       <Filter>PlayLevel\Actor\Gate</Filter>
     </ClCompile>
     <ClCompile Include="UI.cpp" />
+    <ClCompile Include="BreakOne.cpp" />
   </ItemGroup>
 </Project>

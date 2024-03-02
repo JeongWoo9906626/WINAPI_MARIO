@@ -1,5 +1,6 @@
 #include "BreakBrick.h"
 #include "Mario.h"
+#include "BreakOne.h"
 
 ABreakBrick::ABreakBrick()
 {
@@ -7,6 +8,19 @@ ABreakBrick::ABreakBrick()
 
 ABreakBrick::~ABreakBrick()
 {
+	FVector Pos = GetActorLocation();
+
+   	ABreakOne* LeftTop = GetWorld()->SpawnActor<ABreakOne>(ERenderOrder::Brick);
+	LeftTop->SetBoxImage(0);
+
+	ABreakOne* RightTop = GetWorld()->SpawnActor<ABreakOne>(ERenderOrder::Brick);
+	RightTop->SetBoxImage(1);
+
+	ABreakOne* LeftBottom = GetWorld()->SpawnActor<ABreakOne>(ERenderOrder::Brick);
+	LeftBottom->SetBoxImage(2);
+
+	ABreakOne* RightBottom = GetWorld()->SpawnActor<ABreakOne>(ERenderOrder::Brick);
+	RightBottom->SetBoxImage(3);
 }
 
 void ABreakBrick::BeginPlay()
@@ -197,7 +211,7 @@ void ABreakBrick::Hit(float _DeltaTime)
 {
 	if (EMarioSizeState::Small != MarioState)
 	{
-		StateChange(EBoxState::Break);
+		Destroy();
 		return;
 	}
 
