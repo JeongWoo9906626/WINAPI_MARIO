@@ -56,7 +56,7 @@ void ASunflower::Tick(float _DeltaTime)
 		Destroy();
 
 		Player->SizeState = EMarioSizeState::Red;
-		Player->StateChange(EPlayState::Change);
+		Player->StateChange(EPlayState::ChangeRed);
 		return;
 	}
 

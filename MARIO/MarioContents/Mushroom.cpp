@@ -55,7 +55,7 @@ void AMushroom::Tick(float _DeltaTime)
 		Destroy();
 
 		Player->SizeState = EMarioSizeState::Big;
-		Player->StateChange(EPlayState::Change);
+		Player->StateChange(EPlayState::GrowUp);
 		return;
 	}
 

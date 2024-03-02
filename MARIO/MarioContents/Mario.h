@@ -54,8 +54,10 @@ protected:
 	void IdleStart();
 	void RunStart();
 	void JumpStart();
-	void ChangeStart();
 	void ReverseStart();
+	void GrowUpStart();
+	void GrowDownStart();
+	void ChangeRedStart();
 	void DieStart();
 	void KillStart();
 	void FinishMoveStart();
@@ -68,8 +70,10 @@ protected:
 	void Idle(float _DeltaTime);
 	void Run(float _DeltaTime);
 	void Jump(float _DeltaTime);
-	void Change(float _DeltaTime);
 	void Reverse(float _DeltaTime);
+	void GrowUp(float _DeltaTime);
+	void GrowDown(float _DeltaTime);
+	void ChangeRed(float _DeltaTime);
 	void Die(float _DeltaTime);
 	void Kill(float _DeltaTime);
 	void FinishMove(float _DeltaTime);
@@ -111,8 +115,8 @@ private:
 	float FinishMoveSpeed = 100.0f;
 	float FinishDownSpeed = 300.0f;
 
-	float ShiftBreakSpeed = 1800.0f;
-	float NormalBreakSpeed = 1000.0f;
+	float ShiftBreakSpeed = 1000.0f;
+	float NormalBreakSpeed = 500.0f;
 	float CurBreakSpeed = 0.0f;
 
 	float DieTime = 1.0f;
@@ -121,7 +125,7 @@ private:
 	float DownTime = 1.0f;
 	float CurDownTime = 0.0f;
 
-	float ChangeTime = 0.3f;
+	float ChangeTime = 0.5f;
 	float CurChangeTime = 0.0f;
 
 	void AddRunVector(const FVector& _DirDelta);

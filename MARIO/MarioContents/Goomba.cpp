@@ -64,8 +64,16 @@ void AGoomba::Tick(float _DeltaTime)
 		}
 		else
 		{
-			Player->StateChange(EPlayState::Die);
-			return;
+			if (Player->SizeState != EMarioSizeState::Small)
+			{
+				Player->StateChange(EPlayState::GrowDown);
+				return;
+			}
+			else
+			{
+				Player->StateChange(EPlayState::Die);
+				return;
+			}
 		}
 	}
 
