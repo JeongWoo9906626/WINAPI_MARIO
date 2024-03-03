@@ -2,6 +2,7 @@
 
 #include <EnginePlatform\EngineInput.h>
 #include <EngineBase\EngineDebug.h>
+#include <EngineCore/EngineDebug.h>
 
 #include "ContentsHelper.h"
 #include "Goomba.h"
@@ -121,6 +122,9 @@ void AMario::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 
+	FVector PlayerPos = GetActorLocation();
+	UEngineDebug::DebugTextPrint("X : " + std::to_string(PlayerPos.X) + ", Y : " + std::to_string(PlayerPos.Y), 30.0f);
+
 	if (true == IsChange)
 	{
 		if (CurNoCollisionTime >= NoCollisionTime)
@@ -141,7 +145,17 @@ void AMario::Tick(float _DeltaTime)
 		int a = 0;
 		if (true == UEngineInput::IsDown(VK_DOWN))
 		{
-			StateChange(EPlayState::Idle);
+			// Idle
+			// 캐릭터 파이프 안으로 내려가
+			// 검정색 화면
+			//GetWorld()->Camera
+			// 히든스테이지 이동
+			float XPos = 3064.0f;
+			float YPos = GEngine->MainWindow.GetWindowScale().Y;
+
+			FVector ChangePos = { XPos, YPos, 0.0f, 0.0f };
+
+			GetWorld()->SetCameraPos(ChangePos);
 			return;
 		}
 	}
