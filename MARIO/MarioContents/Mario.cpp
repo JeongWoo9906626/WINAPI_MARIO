@@ -77,8 +77,8 @@ void AMario::BeginPlay()
 		Renderer->CreateAnimation("Down_Small", "Mario_Right.png", 7, 8, 0.1f, true);
 		Renderer->CreateAnimation("DownReverse_Small", "Mario_Left.png", 8, 8, 0.1f, true);
 
-		Renderer->CreateAnimation("Down_Big", "Mario_Right.png", 11, 12, 0.1f, true);
-		Renderer->CreateAnimation("DownReverse_Big", "Mario_Left.png", 12, 12, 0.1f, true);
+		Renderer->CreateAnimation("Down_Big", "Mario_Right.png", 16, 17, 0.1f, true);
+		Renderer->CreateAnimation("DownReverse_Big", "Mario_Left.png", 16, 16, 0.1f, true);
 
 		Renderer->CreateAnimation("Down_Fire", "Mario_Right.png", 27, 28, 0.1f, true);
 		Renderer->CreateAnimation("DownReverse_Fire", "Mario_Left.png", 28, 28, 0.1f, true);
@@ -1040,9 +1040,22 @@ void AMario::ChangeRed(float _DeltaTime)
 
 void AMario::HiddenStageEnter(float _DeltaTime)
 {
+	float DownSpeed = 0.0f;
+	switch (SizeState)
+	{
+	case EMarioSizeState::Small:
+		DownSpeed = 32.0f;
+		break;
+	case EMarioSizeState::Big:
+	case EMarioSizeState::Red:
+		DownSpeed = 70.0f;
+		break;
+	default:
+		break;
+	}
 	if (CurPortalTime <= PortalTime)
 	{
-		AddActorLocation(FVector::Down * _DeltaTime * 32.f);
+		AddActorLocation(FVector::Down * _DeltaTime * DownSpeed);
 		CurPortalTime += _DeltaTime;
 	}
 	else
