@@ -1048,7 +1048,7 @@ void AMario::HiddenStageEnter(float _DeltaTime)
 		break;
 	case EMarioSizeState::Big:
 	case EMarioSizeState::Red:
-		DownSpeed = 70.0f;
+		DownSpeed = 63.0f;
 		break;
 	default:
 		break;
