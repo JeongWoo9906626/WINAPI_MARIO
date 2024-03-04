@@ -98,6 +98,7 @@
     </ClInclude>
     <ClInclude Include="UI.h" />
     <ClInclude Include="BreakOne.h" />
+    <ClInclude Include="HiddenCoin.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -159,5 +160,6 @@
     </ClCompile>
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="BreakOne.cpp" />
+    <ClCompile Include="HiddenCoin.cpp" />
   </ItemGroup>
 </Project>

@@ -67,6 +67,8 @@ void ACoin::CoinSpawnStart()
 	FirstPos = GetActorLocation();
 	AddActorLocation({ 0.0f, -60.0f });
 	Renderer->ChangeAnimation("CoinSpawn");
+	UContentsHelper::CoinCount++;
+	UContentsHelper::Score += 100;
 }
 
 void ACoin::CoinDestroyStart()

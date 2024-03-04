@@ -189,6 +189,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="HiddenCoin.h" />
     <ClInclude Include="HiddenGate.h">
       <SubType>
       </SubType>
@@ -260,6 +261,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="HiddenCoin.cpp" />
     <ClCompile Include="HiddenGate.cpp">
       <SubType>
       </SubType>

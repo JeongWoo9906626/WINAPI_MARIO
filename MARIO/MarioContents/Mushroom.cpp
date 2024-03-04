@@ -54,6 +54,8 @@ void AMushroom::Tick(float _DeltaTime)
 		BodyCollision->ActiveOff();
 		Destroy();
 
+		UContentsHelper::Score += 1000;
+
 		Player->SizeState = EMarioSizeState::Big;
 		Player->StateChange(EPlayState::GrowUp);
 		return;

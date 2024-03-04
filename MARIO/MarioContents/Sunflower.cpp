@@ -55,6 +55,8 @@ void ASunflower::Tick(float _DeltaTime)
 		BodyCollision->ActiveOff();
 		Destroy();
 
+		UContentsHelper::Score += 1000;
+
 		Player->SizeState = EMarioSizeState::Red;
 		Player->StateChange(EPlayState::ChangeRed);
 		return;
