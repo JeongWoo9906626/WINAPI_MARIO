@@ -58,6 +58,7 @@ protected:
 	void GrowUpStart();
 	void GrowDownStart();
 	void ChangeRedStart();
+	void HiddenStageEnterStart();
 	void DieStart();
 	void KillStart();
 	void FinishMoveStart();
@@ -74,6 +75,7 @@ protected:
 	void GrowUp(float _DeltaTime);
 	void GrowDown(float _DeltaTime);
 	void ChangeRed(float _DeltaTime);
+	void HiddenStageEnter(float _DeltaTime);
 	void Die(float _DeltaTime);
 	void Kill(float _DeltaTime);
 	void FinishMove(float _DeltaTime);
@@ -97,12 +99,19 @@ private:
 	bool IsJump = false;
 	bool IsGround = false;
 	bool IsChange = false;
+	bool IsHiddenStage = false;
 
 	float NoCollisionTime = 3.0f;
 	float CurNoCollisionTime = 0.0f;
 
 	float AnimationTime = 0.0f;
 	int AnimationFrame = 0;
+
+	float PortalTime = 2.0f;
+	float CurPortalTime = 0.0f;
+
+	float CurScreenChangeTime = 0.0f;
+	float ScreenChangeTime = 0.5f;
 
 	float AlphaTime = 0.0f;
 	bool Dir = false;

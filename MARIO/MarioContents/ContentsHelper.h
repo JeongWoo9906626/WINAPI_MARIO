@@ -54,6 +54,8 @@ enum class EPlayState
 	GrowUp,
 	GrowDown,
 	ChangeRed,
+	HiddenStageEnter,
+	HiddenStageOut,
 	Die,
 	Kill,
 	FinishMove,
@@ -111,6 +113,13 @@ enum class EItemState
 	Move,
 	CollisionMove,
 	Eat,
+	None,
+};
+
+enum class EGateState
+{
+	In,
+	Out,
 	None,
 };
 
