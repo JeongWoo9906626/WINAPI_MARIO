@@ -67,9 +67,15 @@ void UPlayLevel::BeginPlay()
 	Gate->SetActorLocation({ 13140, 800 });
 
 	// Hidden Gate
-	AHiddenGate* HiddenGate = SpawnActor<AHiddenGate>(ERenderOrder::Gate);
-	HiddenGate->SetName("HiddenGate1");
-	HiddenGate->SetActorLocation({ 3710, 580 });
+	AHiddenGate* HiddenGateIn = SpawnActor<AHiddenGate>(ERenderOrder::Gate);
+	HiddenGateIn->SetName("HiddenGate1");
+	HiddenGateIn->SetGateState(EGateState::In);
+	HiddenGateIn->SetActorLocation({ 3710, 580 });
+
+	AHiddenGate* HiddenGateOut = SpawnActor<AHiddenGate>(ERenderOrder::Gate);
+	HiddenGateOut->SetName("HiddenGate2");
+	HiddenGateOut->SetGateState(EGateState::Out);
+	HiddenGateOut->SetActorLocation({ 3963, 1670 });
 
 	// 아이템 박스
 	AItemBox* ItemBrick0;

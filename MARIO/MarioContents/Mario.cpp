@@ -15,6 +15,7 @@
 #include "ItemBox.h"
 #include "Mushroom.h"
 #include "Sunflower.h"
+#include "HiddenGate.h"
 
 AMario::AMario()
 {
@@ -140,14 +141,28 @@ void AMario::Tick(float _DeltaTime)
 		
 	}
 
-	std::vector<UCollision*> HiddenGateResult;
-	if (true == BottomCollision->CollisionCheck(ECollisionOrder::Gate, HiddenGateResult))
+	std::vector<UCollision*> HiddenGateInResult;
+	if (true == BottomCollision->CollisionCheck(ECollisionOrder::Gate, HiddenGateInResult))
 	{
-		int a = 0;
-		if (true == UEngineInput::IsDown(VK_DOWN))
+		AHiddenGate* HiddenGate = (AHiddenGate*)HiddenGateInResult[0]->GetOwner();
+  		EGateState GateState = HiddenGate->GetGateState();
+		if (GateState == EGateState::In && true == UEngineInput::IsDown(VK_DOWN))
 		{
 			BottomCollision->ActiveOff();
 			StateChange(EPlayState::HiddenStageEnter);
+			return;
+		}
+	}
+
+	std::vector<UCollision*> HiddenGateOutResult;
+	if (true == BodyCollision->CollisionCheck(ECollisionOrder::Gate, HiddenGateOutResult))
+	{
+		AHiddenGate* HiddenGate = (AHiddenGate*)HiddenGateOutResult[0]->GetOwner();
+		EGateState GateState = HiddenGate->GetGateState();
+		if (GateState == EGateState::Out && true == UEngineInput::IsDown(VK_RIGHT))
+		{
+			BottomCollision->ActiveOn();
+			StateChange(EPlayState::HiddenStageOut);
 			return;
 		}
 	}
@@ -323,6 +338,12 @@ void AMario::StateChange(EPlayState _State)
 		case EPlayState::HiddenStageEnter:
 			HiddenStageEnterStart();
 			break;
+		case EPlayState::HiddenStageOut:
+			HiddenStageOutStart();
+			break;
+		case EPlayState::HiddenStageOutUp:
+			HiddenStageOutUpStart();
+			break;
 		case EPlayState::Die:
 			DieStart();
 			break;
@@ -379,6 +400,12 @@ void AMario::StateUpdate(float _DeltaTime)
 		break;
 	case EPlayState::HiddenStageEnter:
 		HiddenStageEnter(_DeltaTime);
+		break;
+	case EPlayState::HiddenStageOut:
+		HiddenStageOut(_DeltaTime);
+		break;
+	case EPlayState::HiddenStageOutUp:
+		HiddenStageOutUp(_DeltaTime);
 		break;
 	case EPlayState::Die:
 		Die(_DeltaTime);
@@ -598,8 +625,24 @@ void AMario::HiddenStageEnterStart()
 	CurPortalTime = 0.0f;
 	CurScreenChangeTime = 0.0f;
 
+	Renderer->ChangeAnimation(GetAnimationName("Idle"));
 	FVector PortalPos = { 3708.0f, 578.0f, 0.0f, 0.0f };
 	SetActorLocation(PortalPos);
+}
+
+void AMario::HiddenStageOutStart()
+{
+	IsHiddenStage = false;
+	CurPortalTime = 0.0f;
+	CurScreenChangeTime = 0.0f;
+
+	Renderer->ChangeAnimation(GetAnimationName("Idle"));
+}
+
+void AMario::HiddenStageOutUpStart()
+{
+	CurPortalTime = 0.0f;
+	CurScreenChangeTime = 0.0f;
 }
 
 void AMario::DieStart()
@@ -1004,9 +1047,6 @@ void AMario::HiddenStageEnter(float _DeltaTime)
 	{
 		if (CurScreenChangeTime <= ScreenChangeTime)
 		{
-			Color8Bit HiddenClear = { 0, 0, 0, 0 };
-			GEngine->MainWindow.SetClearColor(HiddenClear);
-			GEngine->MainWindow.ScreenClear();
 			CurScreenChangeTime += _DeltaTime;
 		}
 		else
@@ -1022,6 +1062,49 @@ void AMario::HiddenStageEnter(float _DeltaTime)
 			StateChange(EPlayState::Idle);
 			return;
 		}
+	}
+}
+
+void AMario::HiddenStageOut(float _DeltaTime)
+{
+	if (CurPortalTime <= PortalTime)
+	{
+		AddActorLocation(FVector::Right * _DeltaTime * 100.f);
+		CurPortalTime += _DeltaTime;
+	}
+	else
+	{
+		if (CurScreenChangeTime <= ScreenChangeTime)
+		{
+			CurScreenChangeTime += _DeltaTime;
+		}
+		else
+		{
+			float XPos = 11186.0f;
+			float YPos = 0.0f;
+
+			FVector ChangePos = { XPos, YPos, 0.0f, 0.0f };
+			GetWorld()->SetCameraPos(ChangePos);
+
+			FVector SpawnPos = { 11522.0f, 803.0f, 0.0f, 0.0f };
+			SetActorLocation(SpawnPos);
+			StateChange(EPlayState::HiddenStageOutUp);
+			return;
+		}
+	}
+}
+
+void AMario::HiddenStageOutUp(float _DeltaTime)
+{
+	if (CurPortalTime < PortalTime)
+	{
+		AddActorLocation(FVector::Up * _DeltaTime * 50.0f);
+		CurPortalTime += _DeltaTime;
+	}
+	else
+	{
+		StateChange(EPlayState::Idle);
+		return;
 	}
 }
 

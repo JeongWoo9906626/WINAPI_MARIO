@@ -59,6 +59,8 @@ protected:
 	void GrowDownStart();
 	void ChangeRedStart();
 	void HiddenStageEnterStart();
+	void HiddenStageOutStart();
+	void HiddenStageOutUpStart();
 	void DieStart();
 	void KillStart();
 	void FinishMoveStart();
@@ -76,6 +78,8 @@ protected:
 	void GrowDown(float _DeltaTime);
 	void ChangeRed(float _DeltaTime);
 	void HiddenStageEnter(float _DeltaTime);
+	void HiddenStageOut(float _DeltaTime);
+	void HiddenStageOutUp(float _DeltaTime);
 	void Die(float _DeltaTime);
 	void Kill(float _DeltaTime);
 	void FinishMove(float _DeltaTime);
@@ -111,7 +115,7 @@ private:
 	float CurPortalTime = 0.0f;
 
 	float CurScreenChangeTime = 0.0f;
-	float ScreenChangeTime = 0.5f;
+	float ScreenChangeTime = 1.0f;
 
 	float AlphaTime = 0.0f;
 	bool Dir = false;

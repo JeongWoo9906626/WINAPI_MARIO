@@ -56,6 +56,7 @@ enum class EPlayState
 	ChangeRed,
 	HiddenStageEnter,
 	HiddenStageOut,
+	HiddenStageOutUp,
 	Die,
 	Kill,
 	FinishMove,

@@ -14,28 +14,21 @@ void AHiddenGate::BeginPlay()
 
 	BodyCollision = CreateCollision(ECollisionOrder::Gate);
 	BodyCollision->SetColType(ECollisionType::Rect);
-	BodyCollision->SetPosition({ 0, 0 });
-	BodyCollision->SetScale({ 120, 10 });
+	BodyCollision->SetPosition({ 0, 55 });
+	BodyCollision->SetScale({ 120, 120 });
 }
 
 void AHiddenGate::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
+}
 
-	/*std::vector<UCollision*> Result;
-	if (true == BodyCollision->CollisionCheck(ECollisionOrder::Player, Result))
-	{
-		UCollision* MarioPosition = Result[0];
-		AMario* Player = (AMario*)MarioPosition->GetOwner();
+void AHiddenGate::SetGateState(EGateState _State)
+{
+	State = _State;
+}
 
-		FTransform MarioCollision = MarioPosition->GetActorBaseTransform();
-		FTransform MyTransform = BodyCollision->GetActorBaseTransform();
-
-		Player->Renderer->ActiveOff();
-		if (CurChangeLevelTime >= ChangeLevelTime)
-		{
-			GEngine->ChangeLevel(StageName);
-		}
-		CurChangeLevelTime += _DeltaTime;
-	}*/
+EGateState AHiddenGate::GetGateState()
+{
+	return State;
 }
