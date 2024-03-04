@@ -77,6 +77,7 @@ void AUI::Tick(float _DeltaTime)
 	CoinsUpdate();
 	ScoreUpdate();
 	TimeUpdate();
+	MinusTimeUpdate(_DeltaTime);
 	StageUIUpdate();
 }
 
@@ -111,6 +112,16 @@ void AUI::TimeUpdate()
 		NumberImage = Count.substr(i + 1, 1) + ".png";
 		TimeArray[i]->SetImage(NumberImage);
 	}
+}
+
+void AUI::MinusTimeUpdate(float _DeltaTime)
+{
+	if (Time >= 1.0f)
+	{
+		Time = 0.0f;
+		UContentsHelper::Time--;
+	}
+	Time += _DeltaTime;
 }
 
 void AUI::StageUIUpdate()

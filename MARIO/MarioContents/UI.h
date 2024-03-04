@@ -21,6 +21,7 @@ protected:
 	void CoinsUpdate();
 	void ScoreUpdate();
 	void TimeUpdate();
+	void MinusTimeUpdate(float _DeltaTime);
 	void StageUIUpdate();
 
 private:
@@ -32,5 +33,7 @@ private:
 	UImageRenderer* SubStageImage = nullptr;
 
 	UImageRenderer* CoinImage = nullptr;
+
+	float Time = 0.0f;
 
 };
