@@ -64,7 +64,9 @@ void AUI::BeginPlay()
 	SubStageImage->SetTransform({ {485, -95}, {20, 20} });
 	SubStageImage->CameraEffectOff();
 
-	CoinImage->CreateAnimation("Idle", "UICoin.png", 0, 5, 0.2f, true);
+	CoinImage->CreateAnimation("Idle", "UICoin.png", 0, 2, 0.2f, true);
+	CoinImage->SetScale({ 256 * 1.5f, 256 * 1.5f });
+	CoinImage->SetPosition({ 165.0f, -85.0f });
 	CoinImage->ChangeAnimation("Idle");
 }
 
