@@ -13,6 +13,8 @@
 #include "HiddenGate.h"
 #include "HiddenCoin.h"
 #include "UI.h"
+#include "Pipe.h"
+#include "TiltedPipe.h"
 
 UPlayLevel::UPlayLevel()
 {
@@ -66,6 +68,20 @@ void UPlayLevel::BeginPlay()
 	AGate* Gate = SpawnActor<AGate>(ERenderOrder::Gate);
 	Gate->SetName("Gate1");
 	Gate->SetActorLocation({ 13140, 800 });
+
+	// Pipe
+	APipe* Pipe1 = SpawnActor<APipe>(ERenderOrder::Pipe);
+	Pipe1->SetName("Pipe1");
+	Pipe1->SetActorLocation({ 3712, 640 });
+
+	APipe* Pipe2 = SpawnActor<APipe>(ERenderOrder::Pipe);
+	Pipe2->SetName("Pipe1");
+	Pipe2->SetActorLocation({ 10495, 769 });
+
+	// TiltedPipe
+	ATiltedPipe* TiltedPipe1 = SpawnActor<ATiltedPipe>(ERenderOrder::Pipe);
+	TiltedPipe1->SetName("TiltedPipe1");
+	TiltedPipe1->SetActorLocation({ 3970, 1728 });
 
 	// Hidden Gate
 	AHiddenGate* HiddenGateIn = SpawnActor<AHiddenGate>(ERenderOrder::Gate);

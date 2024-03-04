@@ -14,6 +14,7 @@ enum ERenderOrder
 	Brick,
 	Item,
 	Player,
+	Pipe,
 };
 
 enum class ECollisionOrder

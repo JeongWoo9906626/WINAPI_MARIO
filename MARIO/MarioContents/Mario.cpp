@@ -738,6 +738,7 @@ void AMario::FinishWalkStart()
 
 void AMario::Idle(float _DeltaTime)
 {
+	GroundUp();
 	MoveUpdate(_DeltaTime);
 	if (true == UEngineInput::IsDown('1'))
 	{
@@ -1041,7 +1042,7 @@ void AMario::HiddenStageEnter(float _DeltaTime)
 {
 	if (CurPortalTime <= PortalTime)
 	{
-		AddActorLocation(FVector::Down * _DeltaTime * 100.f);
+		AddActorLocation(FVector::Down * _DeltaTime * 32.f);
 		CurPortalTime += _DeltaTime;
 	}
 	else
@@ -1070,7 +1071,7 @@ void AMario::HiddenStageOut(float _DeltaTime)
 {
 	if (CurPortalTime <= PortalTime)
 	{
-		AddActorLocation(FVector::Right * _DeltaTime * 100.f);
+		AddActorLocation(FVector::Right * _DeltaTime * 30.f);
 		CurPortalTime += _DeltaTime;
 	}
 	else

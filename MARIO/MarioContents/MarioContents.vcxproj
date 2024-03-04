@@ -210,6 +210,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Mushroom.h" />
+    <ClInclude Include="Pipe.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Plant.h">
       <SubType>
       </SubType>
@@ -219,6 +223,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Sunflower.h" />
+    <ClInclude Include="TiltedPipe.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="TitleLevel.h">
       <SubType>
       </SubType>
@@ -285,6 +293,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Mushroom.cpp" />
+    <ClCompile Include="Pipe.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Plant.cpp">
       <SubType>
       </SubType>
@@ -294,6 +306,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Sunflower.cpp" />
+    <ClCompile Include="TiltedPipe.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="TitleLevel.cpp">
       <SubType>
       </SubType>
