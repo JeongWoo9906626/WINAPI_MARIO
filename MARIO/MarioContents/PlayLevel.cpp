@@ -11,6 +11,7 @@
 #include "ItemBox.h"
 #include "Gate.h"
 #include "HiddenGate.h"
+#include "HiddenCoin.h"
 #include "UI.h"
 
 UPlayLevel::UPlayLevel()
@@ -76,6 +77,83 @@ void UPlayLevel::BeginPlay()
 	HiddenGateOut->SetName("HiddenGate2");
 	HiddenGateOut->SetGateState(EGateState::Out);
 	HiddenGateOut->SetActorLocation({ 3963, 1670 });
+
+	// HiddenCoin
+	AHiddenCoin* HiddenCoin1 = SpawnActor<AHiddenCoin>(ERenderOrder::Coin);
+	HiddenCoin1->SetName("HiddenCoin1");
+	HiddenCoin1->SetActorLocation({ 3360, 1600 });
+
+	AHiddenCoin* HiddenCoin2 = SpawnActor<AHiddenCoin>(ERenderOrder::Coin);
+	HiddenCoin2->SetName("HiddenCoin2");
+	HiddenCoin2->SetActorLocation({ 3423, 1600 });
+
+	AHiddenCoin* HiddenCoin3 = SpawnActor<AHiddenCoin>(ERenderOrder::Coin);
+	HiddenCoin3->SetName("HiddenCoin3");
+	HiddenCoin3->SetActorLocation({ 3486, 1600 });
+
+	AHiddenCoin* HiddenCoin4 = SpawnActor<AHiddenCoin>(ERenderOrder::Coin);
+	HiddenCoin4->SetName("HiddenCoin4");
+	HiddenCoin4->SetActorLocation({ 3549, 1600 });
+
+	AHiddenCoin* HiddenCoin5 = SpawnActor<AHiddenCoin>(ERenderOrder::Coin);
+	HiddenCoin5->SetName("HiddenCoin5");
+	HiddenCoin5->SetActorLocation({ 3612, 1600 });
+
+	AHiddenCoin* HiddenCoin6 = SpawnActor<AHiddenCoin>(ERenderOrder::Coin);
+	HiddenCoin6->SetName("HiddenCoin6");
+	HiddenCoin6->SetActorLocation({ 3675, 1600 });
+
+	AHiddenCoin* HiddenCoin7 = SpawnActor<AHiddenCoin>(ERenderOrder::Coin);
+	HiddenCoin7->SetName("HiddenCoin7");
+	HiddenCoin7->SetActorLocation({ 3738, 1600 });
+
+	AHiddenCoin* HiddenCoin8 = SpawnActor<AHiddenCoin>(ERenderOrder::Coin);
+	HiddenCoin8->SetName("HiddenCoin8");
+	HiddenCoin8->SetActorLocation({ 3360, 1500 });
+
+	AHiddenCoin* HiddenCoin9 = SpawnActor<AHiddenCoin>(ERenderOrder::Coin);
+	HiddenCoin9->SetName("HiddenCoin9");
+	HiddenCoin9->SetActorLocation({ 3423, 1500 });
+
+	AHiddenCoin* HiddenCoin10 = SpawnActor<AHiddenCoin>(ERenderOrder::Coin);
+	HiddenCoin10->SetName("HiddenCoin10");
+	HiddenCoin10->SetActorLocation({ 3486, 1500 });
+
+	AHiddenCoin* HiddenCoin11 = SpawnActor<AHiddenCoin>(ERenderOrder::Coin);
+	HiddenCoin11->SetName("HiddenCoin11");
+	HiddenCoin11->SetActorLocation({ 3549, 1500 });
+
+	AHiddenCoin* HiddenCoin12 = SpawnActor<AHiddenCoin>(ERenderOrder::Coin);
+	HiddenCoin12->SetName("HiddenCoin12");
+	HiddenCoin12->SetActorLocation({ 3612, 1500 });
+
+	AHiddenCoin* HiddenCoin13 = SpawnActor<AHiddenCoin>(ERenderOrder::Coin);
+	HiddenCoin13->SetName("HiddenCoin13");
+	HiddenCoin13->SetActorLocation({ 3675, 1500 });
+
+	AHiddenCoin* HiddenCoin14 = SpawnActor<AHiddenCoin>(ERenderOrder::Coin);
+	HiddenCoin14->SetName("HiddenCoin14");
+	HiddenCoin14->SetActorLocation({ 3738, 1500 });
+
+	AHiddenCoin* HiddenCoin15 = SpawnActor<AHiddenCoin>(ERenderOrder::Coin);
+	HiddenCoin15->SetName("HiddenCoin15");
+	HiddenCoin15->SetActorLocation({ 3423, 1400 });
+
+	AHiddenCoin* HiddenCoin16 = SpawnActor<AHiddenCoin>(ERenderOrder::Coin);
+	HiddenCoin16->SetName("HiddenCoin16");
+	HiddenCoin16->SetActorLocation({ 3486, 1400 });
+
+	AHiddenCoin* HiddenCoin17 = SpawnActor<AHiddenCoin>(ERenderOrder::Coin);
+	HiddenCoin17->SetName("HiddenCoin17");
+	HiddenCoin17->SetActorLocation({ 3549, 1400 });
+
+	AHiddenCoin* HiddenCoin18 = SpawnActor<AHiddenCoin>(ERenderOrder::Coin);
+	HiddenCoin18->SetName("HiddenCoin18");
+	HiddenCoin18->SetActorLocation({ 3612, 1400 });
+
+	AHiddenCoin* HiddenCoin19 = SpawnActor<AHiddenCoin>(ERenderOrder::Coin);
+	HiddenCoin19->SetName("HiddenCoin19");
+	HiddenCoin19->SetActorLocation({ 3675, 1400 });
 
 	// 아이템 박스
 	AItemBox* ItemBrick0;

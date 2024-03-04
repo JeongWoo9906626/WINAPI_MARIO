@@ -16,6 +16,7 @@
 #include "Mushroom.h"
 #include "Sunflower.h"
 #include "HiddenGate.h"
+#include "HiddenCoin.h"
 
 AMario::AMario()
 {
@@ -1080,13 +1081,13 @@ void AMario::HiddenStageOut(float _DeltaTime)
 		}
 		else
 		{
-			float XPos = 11186.0f;
+			float XPos = 10260.0f;
 			float YPos = 0.0f;
 
 			FVector ChangePos = { XPos, YPos, 0.0f, 0.0f };
 			GetWorld()->SetCameraPos(ChangePos);
 
-			FVector SpawnPos = { 11522.0f, 803.0f, 0.0f, 0.0f };
+			FVector SpawnPos = { 10492.0f, 803.0f, 0.0f, 0.0f };
 			SetActorLocation(SpawnPos);
 			StateChange(EPlayState::HiddenStageOutUp);
 			return;

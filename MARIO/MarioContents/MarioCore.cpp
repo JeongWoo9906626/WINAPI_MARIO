@@ -45,6 +45,7 @@ void UMarioCore::BeginPlay()
 	ResoucreManager.CuttingImage("OpenWorldBox.png", 6, 1);
 	
 	ResoucreManager.CuttingImage("Coin.png", 4, 1);
+	ResoucreManager.CuttingImage("HiddenCoin.png", 3, 1);
 	ResoucreManager.CuttingImage("MarioItem.png", 5, 2);
 
 	ResoucreManager.CuttingImage("UICoin.png", 6, 1);

@@ -28,6 +28,7 @@ enum class ECollisionOrder
 	Gate,
 	Flag,
 	Step,
+	HiddenCoin,
 };
 
 enum class EActorDir
