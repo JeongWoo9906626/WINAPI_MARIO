@@ -12,6 +12,7 @@ class AItemBox;
 class AGate;
 class AMushroom;
 class ASunflower;
+class AKoopa;
 // Ό³Έν :
 class AMario : public AActor
 {
@@ -25,9 +26,11 @@ class AMario : public AActor
 	friend AItemBox;
 	friend AMushroom;
 	friend ASunflower;
+	friend AKoopa;
 
 public:
 	//static AMario* GetMainPlayer();
+	static AMario* MainPlayer;
 
 	// constrcuter destructer
 	AMario();
@@ -86,6 +89,7 @@ protected:
 	void FinishMove(float _DeltaTime);
 	void FinishReverse(float _DeltaTime);
 	void FinishWalk(float _DeltaTime);
+	void MarioInit(AMario* _Mario);
 
 	void ReverseDir();
 

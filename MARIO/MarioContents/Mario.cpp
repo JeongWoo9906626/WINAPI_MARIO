@@ -17,6 +17,9 @@
 #include "Sunflower.h"
 #include "HiddenGate.h"
 #include "HiddenCoin.h"
+#include "Koopa.h"
+
+AMario* AMario::MainPlayer = nullptr;
 
 AMario::AMario()
 {
@@ -29,6 +32,8 @@ AMario::~AMario()
 void AMario::BeginPlay()
 {
 	AActor::BeginPlay();
+
+	AMario::MainPlayer = this;
 
 	{
 		Renderer = CreateImageRenderer(ERenderOrder::Player);
@@ -1215,6 +1220,16 @@ void AMario::FinishWalk(float _DeltaTime)
 	GroundUp();
 	AddRunVector(FVector::Right * _DeltaTime);
 	MoveUpdate(_DeltaTime);
+}
+
+void AMario::MarioInit(AMario* _Mario)
+{
+	if (AMario::MainPlayer == nullptr) {
+		AMario::MainPlayer = _Mario;
+	}
+	else {
+		return;
+	}
 }
 
 void AMario::ReverseDir()

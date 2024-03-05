@@ -15,6 +15,7 @@
 #include "UI.h"
 #include "Pipe.h"
 #include "TiltedPipe.h"
+#include "Koopa.h"
 
 UPlayLevel::UPlayLevel()
 {
@@ -43,6 +44,9 @@ void UPlayLevel::BeginPlay()
 	AFlag* Flag = SpawnActor<AFlag>(ERenderOrder::Map);
 	Flag->SetActorLocation({ 705, 700 });
 	Flag->SetActorLocation({ 12705, 700 });
+
+	AKoopa* Koopa = SpawnActor<AKoopa>(ERenderOrder::Monster);
+	Koopa->SetActorLocation({ 750, 600 });
 
 	//AGoomba* Goomba = SpawnActor<AGoomba>(ERenderOrder::Monster);
 	//Goomba->SetName("OpenWorldGoomba1");

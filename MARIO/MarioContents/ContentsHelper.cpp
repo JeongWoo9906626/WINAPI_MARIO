@@ -1,4 +1,5 @@
 #include "ContentsHelper.h"
+#include "Mario.h"
 
 UWindowImage* UContentsHelper::MapColImage = nullptr;
 EMarioSizeState UContentsHelper::MSizeState = EMarioSizeState::Small;

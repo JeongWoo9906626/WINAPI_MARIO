@@ -2,6 +2,7 @@
 #include <EngineBase\EngineMath.h>
 #include <EngineCore\EngineCore.h>
 #include <EngineCore\ImageRenderer.h>
+//#include "Mario.h"
 
 enum ERenderOrder
 {
@@ -77,6 +78,14 @@ enum class EMarioSizeState
 	None
 };
 
+enum class EKoopaState
+{
+	Walk,
+	Jump,
+	Dead,
+	None,
+};
+
 enum class EMonsterState
 {
 	Move,
@@ -131,7 +140,6 @@ enum class EGateState
 class UContentsHelper
 {
 public:
-	static class AMario* MainPlayer;
 	static UWindowImage* MapColImage;
 
 	static enum EMarioSizeState MSizeState;
