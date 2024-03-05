@@ -21,4 +21,11 @@ void ABirdgeHandle::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 
+	std::vector<UCollision*> MarioResult;
+	if (true == Collision->CollisionCheck(ECollisionOrder::Player, MarioResult))
+	{
+		// TODO : 다리 부서지게 만들기
+		int a = 0;
+	}
+
 }
