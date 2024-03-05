@@ -315,6 +315,9 @@ void AMario::StateChange(EPlayState _State)
 	{
 		switch (_State)
 		{
+		case EPlayState::FreeMove:
+			FreeMoveStart();
+			break;
 		case EPlayState::Idle:
 			IdleStart();
 			break;
@@ -488,8 +491,20 @@ void AMario::FreeMove(float _DeltaTime)
 	}
 }
 
+void AMario::FreeMoveStart()
+{
+	BodyCollision->ActiveOff();
+	BottomCollision->ActiveOff();
+	HeadCollision->ActiveOff();
+	Renderer->SetAlpha(0.5f);
+}
+
 void AMario::IdleStart()
 {
+	BodyCollision->ActiveOn();
+	BottomCollision->ActiveOn();
+	HeadCollision->ActiveOn();
+	Renderer->SetAlpha(1.0f);
 	DirCheck();
 	SizeState = UContentsHelper::MSizeState;
 	Renderer->ChangeAnimation(GetAnimationName("Idle"));

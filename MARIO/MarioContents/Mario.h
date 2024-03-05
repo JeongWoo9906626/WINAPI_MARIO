@@ -51,6 +51,7 @@ protected:
 	void StateChange(EPlayState _State);
 	void StateUpdate(float _DeltaTime);
 
+	void FreeMoveStart();
 	void IdleStart();
 	void RunStart();
 	void JumpStart();
@@ -68,8 +69,8 @@ protected:
 	void FinishWalkStart();
 
 	void CameraFreeMove(float _DeltaTime);
-	void FreeMove(float _DeltaTime);
 
+	void FreeMove(float _DeltaTime);
 	void Idle(float _DeltaTime);
 	void Run(float _DeltaTime);
 	void Jump(float _DeltaTime);

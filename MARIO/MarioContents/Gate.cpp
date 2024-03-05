@@ -38,10 +38,9 @@ void AGate::Tick(float _DeltaTime)
 
 		if (CurChangeLevelTime >= ChangeLevelTime)
 		{
-			//Player->Destroy();
+			UContentsHelper::Time = 1400;
 			GEngine->CreateLevel<UFinalLevel>("Final");
 			GEngine->ChangeLevel("Final");
-			
 			return;
 		}
 		CurChangeLevelTime += _DeltaTime;
