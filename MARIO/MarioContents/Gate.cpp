@@ -33,12 +33,12 @@ void AGate::Tick(float _DeltaTime)
 		FTransform MarioCollision = MarioPosition->GetActorBaseTransform();
 		FTransform MyTransform = BodyCollision->GetActorBaseTransform();
 
-		Player->Renderer->ActiveOff();
+		//Player->Renderer->ActiveOff();
 
 
 		if (CurChangeLevelTime >= ChangeLevelTime)
 		{
-			Player->BodyCollision->ActiveOff();
+			GEngine->DestroyLevel("Play");
 			GEngine->CreateLevel<UFinalLevel>("Final");
 			GEngine->ChangeLevel("Final");
 			
