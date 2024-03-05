@@ -96,8 +96,6 @@
     <ClInclude Include="HiddenGate.h">
       <Filter>PlayLevel\Actor\Gate</Filter>
     </ClInclude>
-    <ClInclude Include="UI.h" />
-    <ClInclude Include="BreakOne.h" />
     <ClInclude Include="HiddenCoin.h">
       <Filter>PlayLevel\Actor\Item</Filter>
     </ClInclude>
@@ -109,6 +107,12 @@
     </ClInclude>
     <ClInclude Include="FinalLevel.h">
       <Filter>PlayLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="BreakOne.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -169,8 +173,6 @@
     <ClCompile Include="HiddenGate.cpp">
       <Filter>PlayLevel\Actor\Gate</Filter>
     </ClCompile>
-    <ClCompile Include="UI.cpp" />
-    <ClCompile Include="BreakOne.cpp" />
     <ClCompile Include="HiddenCoin.cpp">
       <Filter>PlayLevel\Actor\Item</Filter>
     </ClCompile>
@@ -182,6 +184,12 @@
     </ClCompile>
     <ClCompile Include="FinalLevel.cpp">
       <Filter>PlayLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="BreakOne.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

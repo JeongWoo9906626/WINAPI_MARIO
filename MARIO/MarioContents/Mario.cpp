@@ -752,6 +752,19 @@ void AMario::Idle(float _DeltaTime)
 		return;
 	}
 
+	if (true == UEngineInput::IsDown('E'))
+	{
+		float XPos = 10260.0f;
+		float YPos = 0.0f;
+
+		FVector ChangePos = { XPos, YPos, 0.0f, 0.0f };
+		GetWorld()->SetCameraPos(ChangePos);
+
+		FVector SpawnPos = { 10492.0f, 833.0f, 0.0f, 0.0f };
+		SetActorLocation(SpawnPos);
+	}
+
+
 	if (true == UEngineInput::IsPress(VK_LEFT) && true == UEngineInput::IsPress(VK_RIGHT))
 	{
 		return;
