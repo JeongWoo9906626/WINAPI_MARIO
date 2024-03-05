@@ -140,33 +140,7 @@ void AItemBox::IdleStart()
 }
 
 void AItemBox::HitStart()
-{
-	switch (MarioSizeState)
-	{
-	case EMarioSizeState::Small:
-	{
-		AMushroom* Mushroom = GetWorld()->SpawnActor<AMushroom>(ERenderOrder::Item);
-		Mushroom->SetName("Mushroom");
-		FVector BoxLocation = GetActorLocation();
-		Mushroom->SetActorLocation({ BoxLocation.X, BoxLocation.Y - 15.0f });
-		break;
-	}
-	case EMarioSizeState::Big:
-	{
-		ASunflower* Sunflower = GetWorld()->SpawnActor<ASunflower>(ERenderOrder::Item);
-		Sunflower->SetName("Sunflower");
-		FVector BoxLocation = GetActorLocation();
-		Sunflower->SetActorLocation({ BoxLocation.X, BoxLocation.Y - 15.0f });
-		break;
-	}
-	case EMarioSizeState::Red:
-		break;
-	case EMarioSizeState::Star:
-		break;
-	default:
-		break;
-	}
-	
+{	
 	FirstPos = GetActorLocation();
 	Renderer->ChangeAnimation("BrickHit");
 }
@@ -186,6 +160,32 @@ void AItemBox::Hit(float _DeltaTime)
 	{
 		if (abs(MoveDownPos.Y) >= MaxHitUpSize)
 		{
+			switch (MarioSizeState)
+			{
+			case EMarioSizeState::Small:
+			{
+				AMushroom* Mushroom = GetWorld()->SpawnActor<AMushroom>(ERenderOrder::Item);
+				Mushroom->SetName("Mushroom");
+				FVector BoxLocation = GetActorLocation();
+				Mushroom->SetActorLocation({ BoxLocation.X, BoxLocation.Y - 15.0f });
+				break;
+			}
+			case EMarioSizeState::Big:
+			{
+				ASunflower* Sunflower = GetWorld()->SpawnActor<ASunflower>(ERenderOrder::Item);
+				Sunflower->SetName("Sunflower");
+				FVector BoxLocation = GetActorLocation();
+				Sunflower->SetActorLocation({ BoxLocation.X, BoxLocation.Y - 15.0f });
+				break;
+			}
+			case EMarioSizeState::Red:
+				break;
+			case EMarioSizeState::Star:
+				break;
+			default:
+				break;
+			}
+
 			SetActorLocation(FirstPos);
 			StateChange(EBoxState::Block);
 			return;
