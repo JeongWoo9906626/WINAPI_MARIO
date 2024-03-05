@@ -1,5 +1,6 @@
 #include "Gate.h"
 #include "Mario.h"
+#include "FinalLevel.h"
 
 AGate::AGate()
 {
@@ -33,9 +34,15 @@ void AGate::Tick(float _DeltaTime)
 		FTransform MyTransform = BodyCollision->GetActorBaseTransform();
 
 		Player->Renderer->ActiveOff();
+
+
 		if (CurChangeLevelTime >= ChangeLevelTime)
 		{
-			GEngine->ChangeLevel(StageName);
+			Player->BodyCollision->ActiveOff();
+			GEngine->CreateLevel<UFinalLevel>("Final");
+			GEngine->ChangeLevel("Final");
+			
+			return;
 		}
 		CurChangeLevelTime += _DeltaTime;
 	}

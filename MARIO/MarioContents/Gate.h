@@ -25,6 +25,5 @@ private:
 	float ChangeLevelTime = 1.0f;
 	float CurChangeLevelTime = 0.0f;
 
-	std::string StageName = "Title";
 };
 

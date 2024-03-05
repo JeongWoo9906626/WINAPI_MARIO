@@ -107,6 +107,9 @@
     <ClInclude Include="TiltedPipe.h">
       <Filter>PlayLevel\Actor\Gate</Filter>
     </ClInclude>
+    <ClInclude Include="FinalLevel.h">
+      <Filter>PlayLevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -176,6 +179,9 @@
     </ClCompile>
     <ClCompile Include="TiltedPipe.cpp">
       <Filter>PlayLevel\Actor\Gate</Filter>
+    </ClCompile>
+    <ClCompile Include="FinalLevel.cpp">
+      <Filter>PlayLevel</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

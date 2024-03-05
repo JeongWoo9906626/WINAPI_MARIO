@@ -68,6 +68,7 @@ void UPlayLevel::BeginPlay()
 	AGate* Gate = SpawnActor<AGate>(ERenderOrder::Gate);
 	Gate->SetName("Gate1");
 	Gate->SetActorLocation({ 13140, 800 });
+	//Gate->SetActorLocation({ 800, 800 });
 
 	// Pipe
 	APipe* Pipe1 = SpawnActor<APipe>(ERenderOrder::Pipe);
@@ -363,4 +364,5 @@ void UPlayLevel::LevelStart(ULevel* _PrevLevel)
 void UPlayLevel::LevelEnd(ULevel* _NextLevel)
 {
 	ULevel::LevelEnd(_NextLevel);
+	int a = 0;
 }
