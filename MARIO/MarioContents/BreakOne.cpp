@@ -25,42 +25,42 @@ void ABreakOne::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 
-	int Move = 0;
+	//int Move = 0;
 
-	switch (BoxPos)
-	{
-	case 0:
-	case 2:
-		Move = -1;
-		break;
-	case 1:
-	case 3:
-		Move = 1;
-		break;
-	default:
-		break;
-	}
-	
-	if (CurUpTime >= UpTime)
-	{
-		FVector Up = FVector::Up * 200.0f * _DeltaTime;
-		AddActorLocation(Up);
-	}
-	else
-	{
-		FVector Down = FVector::Down * 200.0f * _DeltaTime;
-		AddActorLocation(Down);
-	}
+	//switch (BoxPos)
+	//{
+	//case 0:
+	//case 2:
+	//	Move = -1;
+	//	break;
+	//case 1:
+	//case 3:
+	//	Move = 1;
+	//	break;
+	//default:
+	//	break;
+	//}
+	//
+	//if (CurUpTime >= UpTime)
+	//{
+	//	FVector Up = FVector::Up * 200.0f * _DeltaTime;
+	//	AddActorLocation(Up);
+	//}
+	//else
+	//{
+	//	FVector Down = FVector::Down * 200.0f * _DeltaTime;
+	//	AddActorLocation(Down);
+	//}
 
-	if (CurMoveTime >= MoveTime)
-	{
-		FVector MoveX = { (200.0f * Move * _DeltaTime), 0.0f, 0.0f, 0.0f };
-		AddActorLocation(MoveX);
-	}
-	else
-	{
-		Destroy();
-	}
+	//if (CurMoveTime >= MoveTime)
+	//{
+	//	FVector MoveX = { (200.0f * Move * _DeltaTime), 0.0f, 0.0f, 0.0f };
+	//	AddActorLocation(MoveX);
+	//}
+	//else
+	//{
+	//	Destroy();
+	//}
 }
 
 void ABreakOne::SetStartLocation(FVector _Position)

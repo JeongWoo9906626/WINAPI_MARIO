@@ -8,6 +8,14 @@ ABreakBrick::ABreakBrick()
 
 ABreakBrick::~ABreakBrick()
 {
+	//ABreakOne* LeftTop = GetWorld()->SpawnActor<ABreakOne>(ERenderOrder::BreakOne);
+	//LeftTop->SetActorLocation(GetActorLocation() + (FVector::Up * 20.0f) + (FVector::Left * 20.0f));
+	//ABreakOne* LeftBottom = GetWorld()->SpawnActor<ABreakOne>(ERenderOrder::BreakOne);
+	//LeftBottom->SetActorLocation(GetActorLocation() + (FVector::Down * 20.0f) + (FVector::Left * 20.0f));
+	//ABreakOne* RightTop = GetWorld()->SpawnActor<ABreakOne>(ERenderOrder::BreakOne);
+	//RightTop->SetActorLocation(GetActorLocation() + (FVector::Up * 20.0f) + (FVector::Right * 20.0f));
+	//ABreakOne* RightBottom = GetWorld()->SpawnActor<ABreakOne>(ERenderOrder::BreakOne);
+	//RightBottom->SetActorLocation(GetActorLocation() + (FVector::Down * 20.0f) + (FVector::Right * 20.0f));
 }
 
 void ABreakBrick::BeginPlay()
@@ -187,8 +195,4 @@ void ABreakBrick::Hit(float _DeltaTime)
 void ABreakBrick::Break(float _DeltaTime)
 {
 	Destroy();
-	ABreakOne* LeftTop = GetWorld()->SpawnActor<ABreakOne>(ERenderOrder::BreakOne);
-	ABreakOne* LeftBottom = GetWorld()->SpawnActor<ABreakOne>(ERenderOrder::BreakOne);
-	ABreakOne* RightTop = GetWorld()->SpawnActor<ABreakOne>(ERenderOrder::BreakOne);
-	ABreakOne* RightBottom = GetWorld()->SpawnActor<ABreakOne>(ERenderOrder::BreakOne);
 }
