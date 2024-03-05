@@ -31,7 +31,7 @@ void UFinalLevel::BeginPlay()
 
 	AMario* Mario = SpawnActor<AMario>(ERenderOrder::Player);
 	Mario->SetName("Player");
-	Mario->SetActorLocation({ 200, 500 });
+	Mario->SetActorLocation({ 600, 700 });
 }
 
 void UFinalLevel::Tick(float _DeltaTime)

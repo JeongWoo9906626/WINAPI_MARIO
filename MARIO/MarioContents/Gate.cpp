@@ -14,7 +14,7 @@ void AGate::BeginPlay()
 {
 	AActor::BeginPlay();
 
-	BodyCollision = CreateCollision(ECollisionOrder::Box);
+	BodyCollision = CreateCollision(ECollisionOrder::HiddenCoin);
 	BodyCollision->SetColType(ECollisionType::Rect);
 	BodyCollision->SetPosition({ 0, -30 });
 	BodyCollision->SetScale({ 65, 70 });
@@ -34,11 +34,11 @@ void AGate::Tick(float _DeltaTime)
 		FTransform MyTransform = BodyCollision->GetActorBaseTransform();
 
 		Player->Renderer->ActiveOff();
-
+		Player->IsStageEnd = true;
 
 		if (CurChangeLevelTime >= ChangeLevelTime)
 		{
-			GEngine->DestroyLevel("Play");
+			//Player->Destroy();
 			GEngine->CreateLevel<UFinalLevel>("Final");
 			GEngine->ChangeLevel("Final");
 			

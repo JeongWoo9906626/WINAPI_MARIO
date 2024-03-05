@@ -132,6 +132,8 @@ class UContentsHelper
 public:
 	static class AMario* MainPlayer;
 	static UWindowImage* MapColImage;
+
+	static enum EMarioSizeState MSizeState;
 	
 	static int CoinCount;
 	static int Score;

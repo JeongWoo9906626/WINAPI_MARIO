@@ -41,7 +41,7 @@ void UPlayLevel::BeginPlay()
 	Mario->SetActorLocation({ 200, 500 });
 
 	AFlag* Flag = SpawnActor<AFlag>(ERenderOrder::Map);
-	//Flag->SetActorLocation({ 705, 700 });
+	Flag->SetActorLocation({ 705, 700 });
 	Flag->SetActorLocation({ 12705, 700 });
 
 	AGoomba* Goomba = SpawnActor<AGoomba>(ERenderOrder::Monster);
@@ -68,7 +68,10 @@ void UPlayLevel::BeginPlay()
 	AGate* Gate = SpawnActor<AGate>(ERenderOrder::Gate);
 	Gate->SetName("Gate1");
 	Gate->SetActorLocation({ 13140, 800 });
-	//Gate->SetActorLocation({ 800, 800 });
+
+	AGate* Gate1 = SpawnActor<AGate>(ERenderOrder::Gate);
+	Gate1->SetName("Gate2");
+	Gate1->SetActorLocation({ 800, 800 });
 
 	// Pipe
 	APipe* Pipe1 = SpawnActor<APipe>(ERenderOrder::Pipe);
@@ -364,5 +367,5 @@ void UPlayLevel::LevelStart(ULevel* _PrevLevel)
 void UPlayLevel::LevelEnd(ULevel* _NextLevel)
 {
 	ULevel::LevelEnd(_NextLevel);
-	int a = 0;
+	GEngine->DestroyLevel("Play");
 }

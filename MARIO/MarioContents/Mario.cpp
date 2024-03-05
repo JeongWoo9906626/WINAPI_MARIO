@@ -491,6 +491,7 @@ void AMario::FreeMove(float _DeltaTime)
 void AMario::IdleStart()
 {
 	DirCheck();
+	SizeState = UContentsHelper::MSizeState;
 	Renderer->ChangeAnimation(GetAnimationName("Idle"));
 }
 
@@ -515,6 +516,7 @@ void AMario::ReverseStart()
 
 void AMario::GrowUpStart()
 {
+	UContentsHelper::MSizeState = SizeState;
 	DirCheck();
 	std::string DirName = "";
 	switch (DirState)
@@ -549,6 +551,7 @@ void AMario::GrowUpStart()
 
 void AMario::GrowDownStart()
 {
+	UContentsHelper::MSizeState = SizeState;
 	IsChange = true;
 	DirCheck();
 	std::string DirName = "";
@@ -588,6 +591,7 @@ void AMario::GrowDownStart()
 
 void AMario::ChangeRedStart()
 {
+	UContentsHelper::MSizeState = SizeState;
 	DirCheck();
 	std::string DirName = "";
 	switch (DirState)
@@ -754,13 +758,13 @@ void AMario::Idle(float _DeltaTime)
 
 	if (true == UEngineInput::IsDown('E'))
 	{
-		float XPos = 10260.0f;
+		float XPos = 12460.0f;
 		float YPos = 0.0f;
 
 		FVector ChangePos = { XPos, YPos, 0.0f, 0.0f };
 		GetWorld()->SetCameraPos(ChangePos);
 
-		FVector SpawnPos = { 10492.0f, 833.0f, 0.0f, 0.0f };
+		FVector SpawnPos = { 12900.0f, 833.0f, 0.0f, 0.0f };
 		SetActorLocation(SpawnPos);
 	}
 
@@ -1331,18 +1335,21 @@ void AMario::MoveUpdate(float _DeltaTime)
 
 void AMario::GroundUp()
 {
-	while (true)
+	if (false == IsStageEnd)
 	{
-		FVector Location = GetActorLocation();
-		Location.Y -= 1.0f;
-		Color8Bit Color = UContentsHelper::MapColImage->GetColor(Location.iX(), Location.iY(), Color8Bit::MagentaA);
-		if (Color == Color8Bit(255, 0, 255, 0))
+		while (true)
 		{
-			AddActorLocation(FVector::Up);
-		}
-		else
-		{
-			break;
+			FVector Location = GetActorLocation();
+			Location.Y -= 1.0f;
+			Color8Bit Color = UContentsHelper::MapColImage->GetColor(Location.iX(), Location.iY(), Color8Bit::MagentaA);
+			if (Color == Color8Bit(255, 0, 255, 0))
+			{
+				AddActorLocation(FVector::Up);
+			}
+			else
+			{
+				break;
+			}
 		}
 	}
 }

@@ -104,6 +104,7 @@ private:
 	bool IsGround = false;
 	bool IsChange = false;
 	bool IsHiddenStage = false;
+	bool IsStageEnd = false;
 
 	float NoCollisionTime = 3.0f;
 	float CurNoCollisionTime = 0.0f;
