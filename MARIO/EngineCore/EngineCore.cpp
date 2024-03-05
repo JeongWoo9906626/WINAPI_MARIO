@@ -73,12 +73,10 @@ void UEngineCore::CoreTick()
 	// 구조를 바꾸지 않는다.
 	if (nullptr != NextLevel)
 	{
-		int a = 0;
 		// 최초에는 현재 레벨이 존재하지 않을 것이다.
 		// 바꿀 레벨이 있다는 이야기입니다.
 		if (nullptr != CurLevel)
 		{
-			int a = 0;
 			// 레베링 끝났음을 알립니다.
 			CurLevel->LevelEnd(NextLevel);
 		}
@@ -91,6 +89,20 @@ void UEngineCore::CoreTick()
 		CurFrameTime = 0.0f;
 	}
 
+	for (size_t i = 0; i < DestroyLevelName.size(); i++)
+	{
+		std::string UpperName = UEngineString::ToUpper(DestroyLevelName[i]);
+
+		ULevel* Level = AllLevel[UpperName];
+		if (nullptr != Level)
+		{
+			delete Level;
+			Level = nullptr;
+		}
+
+		AllLevel.erase(DestroyLevelName[i]);
+	}
+	DestroyLevelName.clear();
 
 	if (nullptr == CurLevel)
 	{
@@ -200,11 +212,22 @@ void UEngineCore::ChangeLevel(std::string_view _Name)
 
 	// 눈에 보여야할 레벨이죠?
 	NextLevel = AllLevel[UpperName];
-	int a = 0;
 }
 
 void UEngineCore::LevelInit(ULevel* _Level, std::string_view _Name)
 {
 	_Level->SetName(_Name);
 	_Level->BeginPlay();
+}
+
+void UEngineCore::DestroyLevel(std::string_view _Name)
+{
+	std::string UpperName = UEngineString::ToUpper(_Name);
+
+	if (false == AllLevel.contains(UpperName))
+	{
+		MsgBoxAssert(std::string(_Name) + "존재하지 않는 레벨을 파괴할수는 없습니다");
+	}
+
+	DestroyLevelName.push_back(UpperName);
 }
