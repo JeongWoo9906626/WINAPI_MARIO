@@ -16,59 +16,29 @@ void ABreakOne::BeginPlay()
 	Renderer->SetImage("OpenWorldBrokenBrick.png");
 	Renderer->SetTransform({ {0,0}, {32, 32} });
 
-	Renderer->CreateAnimation("Spin", "OpenWorldBrokenBrick.png", 0, 4, 0.1f, true);
+	Renderer->CreateAnimation("Spin", "OpenWorldBrokenBrick.png", 0, 3, 0.2f, true);
 	
 	Renderer->ChangeAnimation("Spin");
+	Destroy(2.0f);
 }
 
 void ABreakOne::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 
-	//int Move = 0;
+	float XSpeed = 0.0f;
+	UpSpeed += GravitySpeed * _DeltaTime;
+	
+	std::string DirName = GetName();
+	if (DirName._Equal("LEFT"))
+	{
+		XSpeed = -30.0f;
+	}
+	else
+	{
+		XSpeed = 30.0f;
+	}
+	
 
-	//switch (BoxPos)
-	//{
-	//case 0:
-	//case 2:
-	//	Move = -1;
-	//	break;
-	//case 1:
-	//case 3:
-	//	Move = 1;
-	//	break;
-	//default:
-	//	break;
-	//}
-	//
-	//if (CurUpTime >= UpTime)
-	//{
-	//	FVector Up = FVector::Up * 200.0f * _DeltaTime;
-	//	AddActorLocation(Up);
-	//}
-	//else
-	//{
-	//	FVector Down = FVector::Down * 200.0f * _DeltaTime;
-	//	AddActorLocation(Down);
-	//}
-
-	//if (CurMoveTime >= MoveTime)
-	//{
-	//	FVector MoveX = { (200.0f * Move * _DeltaTime), 0.0f, 0.0f, 0.0f };
-	//	AddActorLocation(MoveX);
-	//}
-	//else
-	//{
-	//	Destroy();
-	//}
-}
-
-void ABreakOne::SetStartLocation(FVector _Position)
-{
-	Position = _Position;
-}
-
-void ABreakOne::SetBoxImage(int _BoxPos)
-{
-	BoxPos = _BoxPos;
+	AddActorLocation({ XSpeed * _DeltaTime, UpSpeed * _DeltaTime });
 }

@@ -62,8 +62,8 @@ void UMarioCore::BeginPlay()
 
 	// TODO
 	// 처음 시작할 레벨 설정
-	//ChangeLevel("Play");
-	ChangeLevel("Title");
+	ChangeLevel("Play");
+	//ChangeLevel("Title");
 }
 
 void UMarioCore::Tick(float _DeltaTime)

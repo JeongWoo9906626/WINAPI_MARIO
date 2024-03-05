@@ -44,19 +44,19 @@ void UPlayLevel::BeginPlay()
 	Flag->SetActorLocation({ 705, 700 });
 	Flag->SetActorLocation({ 12705, 700 });
 
-	AGoomba* Goomba = SpawnActor<AGoomba>(ERenderOrder::Monster);
-	Goomba->SetName("OpenWorldGoomba1");
-	Goomba->SetActorLocation({ 750, 600 });
-	AGoomba* Goomba2 = SpawnActor<AGoomba>(ERenderOrder::Monster);
-	Goomba2->SetName("OpenWorldGoomba2");
-	Goomba2->SetActorLocation({ 1260, 600 });
+	//AGoomba* Goomba = SpawnActor<AGoomba>(ERenderOrder::Monster);
+	//Goomba->SetName("OpenWorldGoomba1");
+	//Goomba->SetActorLocation({ 750, 600 });
+	//AGoomba* Goomba2 = SpawnActor<AGoomba>(ERenderOrder::Monster);
+	//Goomba2->SetName("OpenWorldGoomba2");
+	//Goomba2->SetActorLocation({ 1260, 600 });
 
-	ATroopa* Turtle = SpawnActor<ATroopa>(ERenderOrder::Monster);
-	Turtle->SetName("OpenWorldTroopa");
-	Turtle->SetActorLocation({ 1600, 700 });
-	ATroopa* Turtle2 = SpawnActor<ATroopa>(ERenderOrder::Monster);
-	Turtle2->SetName("OpenWorldTroopa2");
-	Turtle2->SetActorLocation({ 1000, 700 });
+	//ATroopa* Turtle = SpawnActor<ATroopa>(ERenderOrder::Monster);
+	//Turtle->SetName("OpenWorldTroopa");
+	//Turtle->SetActorLocation({ 1600, 700 });
+	//ATroopa* Turtle2 = SpawnActor<ATroopa>(ERenderOrder::Monster);
+	//Turtle2->SetName("OpenWorldTroopa2");
+	//Turtle2->SetActorLocation({ 1000, 700 });
 
 	APlant* Plant = SpawnActor<APlant>(ERenderOrder::Plant);
 	Plant->SetName("Plant");
@@ -68,10 +68,6 @@ void UPlayLevel::BeginPlay()
 	AGate* Gate = SpawnActor<AGate>(ERenderOrder::Gate);
 	Gate->SetName("Gate1");
 	Gate->SetActorLocation({ 13140, 800 });
-
-	AGate* Gate1 = SpawnActor<AGate>(ERenderOrder::Gate);
-	Gate1->SetName("Gate2");
-	Gate1->SetActorLocation({ 800, 800 });
 
 	// Pipe
 	APipe* Pipe1 = SpawnActor<APipe>(ERenderOrder::Pipe);

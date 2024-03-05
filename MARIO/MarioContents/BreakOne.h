@@ -21,19 +21,10 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-	void SetStartLocation(FVector _Position);
-	void SetBoxImage(int _BoxPos);
-
 private:
 	UImageRenderer* Renderer = nullptr;
 
-	FVector Position = FVector::Zero;
-
-	int BoxPos = 0;
-
-	float UpTime = 1.0f;
-	float CurUpTime = 0.0f;
-	float MoveTime = 3.0f;
-	float CurMoveTime = 0.0f;
+	float UpSpeed = -300.0f;
+	float GravitySpeed = 600.0f;
 };
 
