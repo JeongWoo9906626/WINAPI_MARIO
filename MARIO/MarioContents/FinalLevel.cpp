@@ -8,6 +8,7 @@
 #include "BreakBrick.h"
 #include "ItemBox.h"
 #include "UI.h"
+#include "BirdgeHandle.h"
 
 UFinalLevel::UFinalLevel()
 {
@@ -31,7 +32,11 @@ void UFinalLevel::BeginPlay()
 
 	AMario* Mario = SpawnActor<AMario>(ERenderOrder::Player);
 	Mario->SetName("Player");
-	Mario->SetActorLocation({ 600, 700 });
+	Mario->SetActorLocation({ 100, 700 });
+
+	ABirdgeHandle* BirdgeHandle = SpawnActor<ABirdgeHandle>(ERenderOrder::Brick);
+	BirdgeHandle->SetName("Handle");
+	BirdgeHandle->SetActorLocation({ 9050, 540 });
 }
 
 void UFinalLevel::Tick(float _DeltaTime)

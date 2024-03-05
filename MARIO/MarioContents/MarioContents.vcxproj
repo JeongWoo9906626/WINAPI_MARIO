@@ -163,6 +163,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="BirdgeHandle.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="BreakBrick.h">
       <SubType>
       </SubType>
@@ -202,6 +206,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ItemBox.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Koopa.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -250,6 +258,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="BirdgeHandle.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="BreakBrick.cpp">
       <SubType>
       </SubType>
@@ -289,6 +301,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="ItemBox.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Koopa.cpp">
       <SubType>
       </SubType>
     </ClCompile>

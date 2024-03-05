@@ -96,7 +96,7 @@ void UPlayLevel::BeginPlay()
 	AHiddenGate* HiddenGateOut = SpawnActor<AHiddenGate>(ERenderOrder::Gate);
 	HiddenGateOut->SetName("HiddenGate2");
 	HiddenGateOut->SetGateState(EGateState::Out);
-	HiddenGateOut->SetActorLocation({ 3963, 1670 });
+	HiddenGateOut->SetActorLocation({ 3963, 1700 });
 
 	// HiddenCoin
 	AHiddenCoin* HiddenCoin1 = SpawnActor<AHiddenCoin>(ERenderOrder::Coin);

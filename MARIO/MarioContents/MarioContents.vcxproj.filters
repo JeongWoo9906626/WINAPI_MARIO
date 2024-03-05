@@ -114,6 +114,12 @@
     <ClInclude Include="UI.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="Koopa.h">
+      <Filter>PlayLevel\Actor\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="BirdgeHandle.h">
+      <Filter>PlayLevel\Actor\Gate</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -190,6 +196,12 @@
     </ClCompile>
     <ClCompile Include="UI.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Koopa.cpp">
+      <Filter>PlayLevel\Actor\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="BirdgeHandle.cpp">
+      <Filter>PlayLevel\Actor\Gate</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
