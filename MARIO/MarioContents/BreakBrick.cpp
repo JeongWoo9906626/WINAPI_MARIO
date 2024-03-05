@@ -8,19 +8,6 @@ ABreakBrick::ABreakBrick()
 
 ABreakBrick::~ABreakBrick()
 {
-	FVector Pos = GetActorLocation();
-
-   	ABreakOne* LeftTop = GetWorld()->SpawnActor<ABreakOne>(ERenderOrder::Brick);
-	LeftTop->SetBoxImage(0);
-
-	ABreakOne* RightTop = GetWorld()->SpawnActor<ABreakOne>(ERenderOrder::Brick);
-	RightTop->SetBoxImage(1);
-
-	ABreakOne* LeftBottom = GetWorld()->SpawnActor<ABreakOne>(ERenderOrder::Brick);
-	LeftBottom->SetBoxImage(2);
-
-	ABreakOne* RightBottom = GetWorld()->SpawnActor<ABreakOne>(ERenderOrder::Brick);
-	RightBottom->SetBoxImage(3);
 }
 
 void ABreakBrick::BeginPlay()
@@ -34,30 +21,6 @@ void ABreakBrick::BeginPlay()
 	Renderer->CreateAnimation("BrickIdle", "OpenWorldBrick.png", 0, 0, 0.1f, true);
 	Renderer->CreateAnimation("BrickHit", "OpenWorldBrick.png", 0, 0, 0.1f, true);
 
-	LeftTop = CreateImageRenderer(ERenderOrder::Brick);
-	LeftTop->SetImage("OpenWorldBrokenBrick.png");
-	LeftTop->SetTransform({ { -16, -44 }, { 32, 32} });
-
-	LeftTop->CreateAnimation("BrokenBrickLeftTop", "OpenWorldBrokenBrick.png", 0, 0, 0.1f, true);
-
-	LeftBottom = CreateImageRenderer(ERenderOrder::Brick);
-	LeftBottom->SetImage("OpenWorldBrokenBrick.png");
-	LeftBottom->SetTransform({ { -16, -12 }, { 32, 32 } });
-
-	LeftBottom->CreateAnimation("BrokenBrickLeftBottom", "OpenWorldBrokenBrick.png", 2, 2, 0.1f, true);
-
-	RightTop = CreateImageRenderer(ERenderOrder::Brick);
-	RightTop->SetImage("OpenWorldBrokenBrick.png");
-	RightTop->SetTransform({ { 16, -44 }, { 32, 32 } });
-
-	RightTop->CreateAnimation("BrokenBrickRightTop", "OpenWorldBrokenBrick.png", 1, 1, 0.1f, true);
-
-	RightBottom = CreateImageRenderer(ERenderOrder::Brick);
-	RightBottom->SetImage("OpenWorldBrokenBrick.png");
-	RightBottom->SetTransform({ { 16, -12 }, { 32, 32 } });
-
-	RightBottom->CreateAnimation("BrokenBrickRightBottom", "OpenWorldBrokenBrick.png", 3, 3, 0.1f, true);
-	 
 	TopCollision = CreateCollision(ECollisionOrder::BoxTop);
 	TopCollision->SetColType(ECollisionType::Rect);
 	TopCollision->SetPosition({ 0, -60 });
@@ -167,11 +130,6 @@ void ABreakBrick::StateUpdate(float _DeltaTime)
 
 void ABreakBrick::IdleStart()
 {
-	LeftTop->ActiveOff();
-	LeftBottom->ActiveOff();
-	RightTop->ActiveOff();
-	RightBottom->ActiveOff();
-
 	MoveUpPos = FVector::Zero;
 	MoveDownPos = FVector::Zero;
 	Renderer->ChangeAnimation("BrickIdle");
@@ -191,16 +149,6 @@ void ABreakBrick::BreakStart()
 	BottomCollision->ActiveOff();
 	LeftCollision->ActiveOff();
 	RightCollision->ActiveOff();
-
-	LeftTop->ActiveOn();
-	LeftBottom->ActiveOn();
-	RightTop->ActiveOn();
-	RightBottom->ActiveOn();
-
-	LeftTop->ChangeAnimation("BrokenBrickLeftTop");
-	LeftBottom->ChangeAnimation("BrokenBrickLeftBottom");
-	RightTop->ChangeAnimation("BrokenBrickRightTop");
-	RightBottom->ChangeAnimation("BrokenBrickRightBottom");
 }
 
 void ABreakBrick::Idle(float _DeltaTime)
@@ -211,7 +159,7 @@ void ABreakBrick::Hit(float _DeltaTime)
 {
 	if (EMarioSizeState::Small != MarioState)
 	{
-		Destroy();
+		StateChange(EBoxState::Break);
 		return;
 	}
 
@@ -238,5 +186,9 @@ void ABreakBrick::Hit(float _DeltaTime)
 
 void ABreakBrick::Break(float _DeltaTime)
 {
-	//Destroy();
+	Destroy();
+	ABreakOne* LeftTop = GetWorld()->SpawnActor<ABreakOne>(ERenderOrder::BreakOne);
+	ABreakOne* LeftBottom = GetWorld()->SpawnActor<ABreakOne>(ERenderOrder::BreakOne);
+	ABreakOne* RightTop = GetWorld()->SpawnActor<ABreakOne>(ERenderOrder::BreakOne);
+	ABreakOne* RightBottom = GetWorld()->SpawnActor<ABreakOne>(ERenderOrder::BreakOne);
 }

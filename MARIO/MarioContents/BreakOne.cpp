@@ -16,7 +16,7 @@ void ABreakOne::BeginPlay()
 	Renderer->SetImage("OpenWorldBrokenBrick.png");
 	Renderer->SetTransform({ {0,0}, {32, 32} });
 
-	Renderer->CreateAnimation("Spin", "OpenWorldBrokenBrick.png", 0, 0, 0.1f, true);
+	Renderer->CreateAnimation("Spin", "OpenWorldBrokenBrick.png", 0, 4, 0.1f, true);
 	
 	Renderer->ChangeAnimation("Spin");
 }

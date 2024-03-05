@@ -14,6 +14,7 @@ enum ERenderOrder
 	Brick,
 	Item,
 	Player,
+	BreakOne,
 	Pipe,
 };
 

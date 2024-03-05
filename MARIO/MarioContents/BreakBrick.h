@@ -29,10 +29,10 @@ protected:
 
 private:
 	UImageRenderer* Renderer = nullptr;
-	UImageRenderer* LeftTop = nullptr;
+	/*UImageRenderer* LeftTop = nullptr;
 	UImageRenderer* LeftBottom = nullptr;
 	UImageRenderer* RightTop = nullptr;
-	UImageRenderer* RightBottom = nullptr;
+	UImageRenderer* RightBottom = nullptr;*/
 
 	UCollision* TopCollision = nullptr;
 	UCollision* BottomCollision = nullptr;

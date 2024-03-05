@@ -108,9 +108,6 @@
     <ClInclude Include="FinalLevel.h">
       <Filter>PlayLevel</Filter>
     </ClInclude>
-    <ClInclude Include="BreakOne.h">
-      <Filter>UI</Filter>
-    </ClInclude>
     <ClInclude Include="UI.h">
       <Filter>UI</Filter>
     </ClInclude>
@@ -119,6 +116,9 @@
     </ClInclude>
     <ClInclude Include="BirdgeHandle.h">
       <Filter>PlayLevel\Actor\Gate</Filter>
+    </ClInclude>
+    <ClInclude Include="BreakOne.h">
+      <Filter>PlayLevel\Actor\Box</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -191,9 +191,6 @@
     <ClCompile Include="FinalLevel.cpp">
       <Filter>PlayLevel</Filter>
     </ClCompile>
-    <ClCompile Include="BreakOne.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
     <ClCompile Include="UI.cpp">
       <Filter>UI</Filter>
     </ClCompile>
@@ -202,6 +199,9 @@
     </ClCompile>
     <ClCompile Include="BirdgeHandle.cpp">
       <Filter>PlayLevel\Actor\Gate</Filter>
+    </ClCompile>
+    <ClCompile Include="BreakOne.cpp">
+      <Filter>PlayLevel\Actor\Box</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
