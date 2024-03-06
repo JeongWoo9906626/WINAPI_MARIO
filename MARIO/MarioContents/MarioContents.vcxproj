@@ -176,6 +176,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Bridge.h" />
     <ClInclude Include="Coin.h">
       <SubType>
       </SubType>
@@ -271,6 +272,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Bridge.cpp" />
     <ClCompile Include="Coin.cpp">
       <SubType>
       </SubType>
