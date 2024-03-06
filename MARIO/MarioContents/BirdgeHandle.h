@@ -18,6 +18,6 @@ protected:
 
 private:
 	UCollision* Collision = nullptr;
-
+	UImageRenderer* Renderer = nullptr;
 };
 

@@ -15,6 +15,10 @@ void ABirdgeHandle::BeginPlay()
 	Collision = CreateCollision(ECollisionOrder::Box);
 	Collision->SetColType(ECollisionType::Rect);
 	Collision->SetTransform({ { 0,0 }, { 50, 50 } });
+
+	Renderer = CreateImageRenderer(ERenderOrder::Item);
+	Renderer->SetImage("Axe.png");
+	Renderer->SetTransform({ { 0, 0 }, { 64, 64 } });
 }
 
 void ABirdgeHandle::Tick(float _DeltaTime)
@@ -25,7 +29,7 @@ void ABirdgeHandle::Tick(float _DeltaTime)
 	if (true == Collision->CollisionCheck(ECollisionOrder::Player, MarioResult))
 	{
 		// TODO : 다리 부서지게 만들기
-		int a = 0;
+		Destroy();
 	}
 
 }
