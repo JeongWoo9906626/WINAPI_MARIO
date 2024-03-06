@@ -123,6 +123,9 @@
     <ClInclude Include="Bridge.h">
       <Filter>PlayLevel\Actor\Box</Filter>
     </ClInclude>
+    <ClInclude Include="SpinFire.h">
+      <Filter>PlayLevel\Actor\Box</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -207,6 +210,9 @@
       <Filter>PlayLevel\Actor\Box</Filter>
     </ClCompile>
     <ClCompile Include="Bridge.cpp">
+      <Filter>PlayLevel\Actor\Box</Filter>
+    </ClCompile>
+    <ClCompile Include="SpinFire.cpp">
       <Filter>PlayLevel\Actor\Box</Filter>
     </ClCompile>
   </ItemGroup>
