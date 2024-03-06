@@ -27,6 +27,9 @@ protected:
 private:
 	UImageRenderer* Renderer[6] = { nullptr, };
 	UCollision* Collision[6] = { nullptr, };
-	EActorDir Dir = EActorDir::Right;
+	EActorDir Dir = EActorDir::Left;
+
+	float Degree = 0.0f;
+	float SpinDir = 0.0f;
 };
 

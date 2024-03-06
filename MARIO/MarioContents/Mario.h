@@ -13,6 +13,7 @@ class AGate;
 class AMushroom;
 class ASunflower;
 class AKoopa;
+class ASpinFire;
 // Ό³Έν :
 class AMario : public AActor
 {
@@ -27,6 +28,7 @@ class AMario : public AActor
 	friend AMushroom;
 	friend ASunflower;
 	friend AKoopa;
+	friend ASpinFire;
 
 public:
 	//static AMario* GetMainPlayer();
