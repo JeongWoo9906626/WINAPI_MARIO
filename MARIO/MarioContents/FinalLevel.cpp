@@ -2,15 +2,12 @@
 #include "BackGround.h"
 #include "ContentsHelper.h"
 #include "Mario.h"
-#include "Plant.h"
-#include "Flag.h"
-#include "Brick.h"
-#include "BreakBrick.h"
 #include "ItemBox.h"
 #include "UI.h"
 #include "BirdgeHandle.h"
 #include "Bridge.h"
 #include "Koopa.h"
+#include "SpinFire.h"
 
 UFinalLevel::UFinalLevel()
 {
@@ -46,6 +43,10 @@ void UFinalLevel::BeginPlay()
 
 	AKoopa* Koopa = SpawnActor<AKoopa>(ERenderOrder::Monster);
 	Koopa->SetActorLocation({ 8862, 600 });
+
+	// SpinFire
+	ASpinFire* SpinFire1 = SpawnActor<ASpinFire>(ERenderOrder::Monster);
+	SpinFire1->SetActorLocation({ 300, 700 });
 
 	// Bridge
 	{

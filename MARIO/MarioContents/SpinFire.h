@@ -3,18 +3,20 @@
 #include "ContentsHelper.h"
 
 // Ό³Έν :
-class SpinFire : public AActor
+class ASpinFire : public AActor
 {
 public:
 	// constrcuter destructer
-	SpinFire();
-	~SpinFire();
+	ASpinFire();
+	~ASpinFire();
 
 	// delete Function
-	SpinFire(const SpinFire& _Other) = delete;
-	SpinFire(SpinFire&& _Other) noexcept = delete;
-	SpinFire& operator=(const SpinFire& _Other) = delete;
-	SpinFire& operator=(SpinFire&& _Other) noexcept = delete;
+	ASpinFire(const ASpinFire& _Other) = delete;
+	ASpinFire(ASpinFire&& _Other) noexcept = delete;
+	ASpinFire& operator=(const ASpinFire& _Other) = delete;
+	ASpinFire& operator=(ASpinFire&& _Other) noexcept = delete;
+
+	void SetSpinDir(EActorDir _Dir);
 
 protected:
 	void BeginPlay() override;
@@ -23,8 +25,8 @@ protected:
 	void FireSpin(float _DeltaTime);
 
 private:
-	UImageRenderer* Renderer = nullptr;
-	UCollision* Collision = nullptr;
-
+	UImageRenderer* Renderer[6] = { nullptr, };
+	UCollision* Collision[6] = { nullptr, };
+	EActorDir Dir = EActorDir::Right;
 };
 
