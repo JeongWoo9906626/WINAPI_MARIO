@@ -149,6 +149,8 @@ public:
 	static int Time;
 	static int MainStage;
 	static int SubStage;
+
+	static std::string MapName;
 protected:
 
 private:

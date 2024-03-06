@@ -781,14 +781,28 @@ void AMario::Idle(float _DeltaTime)
 
 	if (true == UEngineInput::IsDown('E'))
 	{
-		float XPos = 12460.0f;
-		float YPos = 0.0f;
+		if (UContentsHelper::MapName._Equal("FinalStage"))
+		{
+			float XPos = 7700.0f;
+			float YPos = 0.0f;
 
-		FVector ChangePos = { XPos, YPos, 0.0f, 0.0f };
-		GetWorld()->SetCameraPos(ChangePos);
+			FVector ChangePos = { XPos, YPos, 0.0f, 0.0f };
+			GetWorld()->SetCameraPos(ChangePos);
 
-		FVector SpawnPos = { 12900.0f, 833.0f, 0.0f, 0.0f };
-		SetActorLocation(SpawnPos);
+			FVector SpawnPos = { 7945.0f, 641.0f, 0.0f, 0.0f };
+			SetActorLocation(SpawnPos);
+		}
+		if (UContentsHelper::MapName._Equal("FirstStage"))
+		{
+			float XPos = 12460.0f;
+			float YPos = 0.0f;
+
+			FVector ChangePos = { XPos, YPos, 0.0f, 0.0f };
+			GetWorld()->SetCameraPos(ChangePos);
+
+			FVector SpawnPos = { 12900.0f, 833.0f, 0.0f, 0.0f };
+			SetActorLocation(SpawnPos);
+		}
 	}
 
 
