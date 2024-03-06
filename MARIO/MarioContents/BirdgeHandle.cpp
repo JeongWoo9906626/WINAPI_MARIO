@@ -1,4 +1,5 @@
 #include "BirdgeHandle.h"
+#include "Bridge.h"
 
 ABirdgeHandle::ABirdgeHandle()
 {
@@ -6,6 +7,11 @@ ABirdgeHandle::ABirdgeHandle()
 
 ABirdgeHandle::~ABirdgeHandle()
 {
+}
+
+void ABirdgeHandle::AddBridge(ABridge* _Bridge)
+{
+	BridgeList.push_front(_Bridge);
 }
 
 void ABirdgeHandle::BeginPlay()
@@ -24,12 +30,37 @@ void ABirdgeHandle::BeginPlay()
 void ABirdgeHandle::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
-
 	std::vector<UCollision*> MarioResult;
 	if (true == Collision->CollisionCheck(ECollisionOrder::Player, MarioResult))
 	{
-		// TODO : 다리 부서지게 만들기
-		Destroy();
+		IsCollision = true;
+		Renderer->ActiveOff();
 	}
 
+	if (IsCollision == true)
+	{
+		DestroyBridge(_DeltaTime);
+	}
+}
+
+void ABirdgeHandle::DestroyBridge(float _DeltaTime)
+{
+	if (Count >= 13)
+	{
+		IsCollision = false;
+		Destroy();
+		return;
+	}
+	if (CurDestroyTime >= DestroyTime)
+	{
+		++Count;
+		CurDestroyTime = 0.0f;
+		BridgeList.front()->Destroy();
+		BridgeList.pop_front();
+	}
+	else 
+	{
+		CurDestroyTime += _DeltaTime;
+		
+	}
 }

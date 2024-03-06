@@ -51,42 +51,55 @@ void UFinalLevel::BeginPlay()
 	{
 		ABridge* Bridge1 = SpawnActor<ABridge>(ERenderOrder::Brick);
 		Bridge1->SetActorLocation({ 8222, 672 });
+		BirdgeHandle->AddBridge(Bridge1);
 
 		ABridge* Bridge2 = SpawnActor<ABridge>(ERenderOrder::Brick);
 		Bridge2->SetActorLocation({ 8286, 672 });
+		BirdgeHandle->AddBridge(Bridge2);
 
 		ABridge* Bridge3 = SpawnActor<ABridge>(ERenderOrder::Brick);
 		Bridge3->SetActorLocation({ 8350, 672 });
+		BirdgeHandle->AddBridge(Bridge3);
 
 		ABridge* Bridge4 = SpawnActor<ABridge>(ERenderOrder::Brick);
 		Bridge4->SetActorLocation({ 8414, 672 });
+		BirdgeHandle->AddBridge(Bridge4);
 
 		ABridge* Bridge5 = SpawnActor<ABridge>(ERenderOrder::Brick);
 		Bridge5->SetActorLocation({ 8478, 672 });
+		BirdgeHandle->AddBridge(Bridge5);
 
 		ABridge* Bridge6 = SpawnActor<ABridge>(ERenderOrder::Brick);
 		Bridge6->SetActorLocation({ 8542, 672 });
+		BirdgeHandle->AddBridge(Bridge6);
 
 		ABridge* Bridge7 = SpawnActor<ABridge>(ERenderOrder::Brick);
 		Bridge7->SetActorLocation({ 8606, 672 });
+		BirdgeHandle->AddBridge(Bridge7);
 
 		ABridge* Bridge8 = SpawnActor<ABridge>(ERenderOrder::Brick);
 		Bridge8->SetActorLocation({ 8670, 672 });
-
+		BirdgeHandle->AddBridge(Bridge8);
+		
 		ABridge* Bridge9 = SpawnActor<ABridge>(ERenderOrder::Brick);
 		Bridge9->SetActorLocation({ 8734, 672 });
+		BirdgeHandle->AddBridge(Bridge9);
 
 		ABridge* Bridge10 = SpawnActor<ABridge>(ERenderOrder::Brick);
 		Bridge10->SetActorLocation({ 8798, 672 });
+		BirdgeHandle->AddBridge(Bridge10);
 
 		ABridge* Bridge11 = SpawnActor<ABridge>(ERenderOrder::Brick);
 		Bridge11->SetActorLocation({ 8862, 672 });
+		BirdgeHandle->AddBridge(Bridge11);
 
 		ABridge* Bridge12 = SpawnActor<ABridge>(ERenderOrder::Brick);
 		Bridge12->SetActorLocation({ 8926, 672 });
+		BirdgeHandle->AddBridge(Bridge12);
 
 		ABridge* Bridge13 = SpawnActor<ABridge>(ERenderOrder::Brick);
 		Bridge13->SetActorLocation({ 8990, 672 });
+		BirdgeHandle->AddBridge(Bridge13);
 	}
 }
 
