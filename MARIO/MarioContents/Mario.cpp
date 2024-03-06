@@ -506,10 +506,13 @@ void AMario::FreeMoveStart()
 
 void AMario::IdleStart()
 {
-	BodyCollision->ActiveOn();
-	BottomCollision->ActiveOn();
-	HeadCollision->ActiveOn();
-	Renderer->SetAlpha(1.0f);
+	if (false == IsChange)
+	{
+		BodyCollision->ActiveOn();
+		BottomCollision->ActiveOn();
+		HeadCollision->ActiveOn();
+		Renderer->SetAlpha(1.0f);
+	}
 	DirCheck();
 	SizeState = UContentsHelper::MSizeState;
 	Renderer->ChangeAnimation(GetAnimationName("Idle"));
