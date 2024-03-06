@@ -101,10 +101,11 @@ void AKoopa::Walk(float _DeltaTime)
 	{
 		if (CurJumpTime >= JumpTime)
 		{
+			AddActorLocation(FVector::Up * 10);
 			CurJumpTime = 0.0f;
-			AddActorLocation(FVector::Up * 100.0f);
+			JumpSpeed = -150.0f;
 		}
-		else
+		if (IsCollision == true)
 		{
 			CurJumpTime += _DeltaTime;
 		}
@@ -114,14 +115,9 @@ void AKoopa::Walk(float _DeltaTime)
 
 	if (false == IsCollision)
 	{
-		GravityMove(_DeltaTime);
+		JumpSpeed += GravitySpeed * _DeltaTime;
+		AddActorLocation({ 0.0f, JumpSpeed * _DeltaTime });
 	}
-}
-
-void AKoopa::GravityMove(float _DeltaTime)
-{
-	FVector GravityVector = { 0.0f, 1.0f, 0.0f, 0.0f };
-	AddActorLocation(GravityVector * GravitySpeed * _DeltaTime);
 }
 
 std::string AKoopa::GetAnimationName()

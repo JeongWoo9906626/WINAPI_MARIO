@@ -18,7 +18,6 @@ protected:
 
 	void DirCheck();
 	void Walk(float _DeltaTime);
-	void GravityMove(float _DeltaTime);
 
 	std::string GetAnimationName();
 
@@ -30,11 +29,11 @@ private:
 	EKoopaState State = EKoopaState::None;
 	EActorDir DirState = EActorDir::Left;
 
-	float JumpSpeed = 300.0f;
-	float GravitySpeed = 100.0f;
+	float JumpSpeed = 0.0f;
+	float GravitySpeed = 150.0f;
 	float WalkSpeed = 100.0f;
 
-	float JumpTime = 3.0f;
+	float JumpTime = 2.0f;
 	float CurJumpTime = 0.0f;
 
 	int Dir = -1;
