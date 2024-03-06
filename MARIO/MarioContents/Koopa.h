@@ -40,6 +40,7 @@ private:
 
 	bool IsCollision = false;
 	bool IsJump = true;
+	bool IsMarioDie = false;
 
 	FVector JumpVector = FVector::Zero;
 };

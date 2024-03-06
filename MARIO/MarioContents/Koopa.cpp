@@ -58,6 +58,26 @@ void AKoopa::Tick(float _DeltaTime)
 		IsCollision = false;
 	}
 
+	std::vector<UCollision*> MarioResult;
+	if (true == Collision->CollisionCheck(ECollisionOrder::Player, MarioResult))
+	{
+		UCollision* MarioCollision = MarioResult[0];
+		AMario* Mario = (AMario*)MarioCollision->GetOwner();
+
+		if (Mario->SizeState != EMarioSizeState::Small)
+		{
+			Mario->SizeState = EMarioSizeState::Small;
+			Mario->StateChange(EPlayState::GrowDown);
+			return;
+		}
+		else
+		{
+			IsMarioDie = true;
+			Mario->StateChange(EPlayState::Die);
+			return;
+		}
+	}
+
 	Walk(_DeltaTime);
 }
 
@@ -85,7 +105,10 @@ void AKoopa::DirCheck()
 
 void AKoopa::Walk(float _DeltaTime)
 {
-	DirCheck();
+	if (false == IsMarioDie)
+	{
+		DirCheck();
+	}
 
 	switch (DirState)
 	{
