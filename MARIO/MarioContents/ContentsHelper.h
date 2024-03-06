@@ -152,6 +152,8 @@ public:
 	static int SubStage;
 
 	static std::string MapName;
+
+	static bool KoopaDie;
 protected:
 
 private:

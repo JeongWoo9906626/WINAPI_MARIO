@@ -16,21 +16,8 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-	void StateChange(EKoopaState _State);
-	void StateUpdate(float _DeltaTime);
-
 	void DirCheck();
-
-	void IdleStart();
-	void WalkStart();
-	void JumpStart();
-	void DeadStart();
-
-	void Idle(float _DeltaTime);
 	void Walk(float _DeltaTime);
-	void Dead(float _DeltaTime);
-	void Jump(float _DeltaTime);
-
 	void GravityMove(float _DeltaTime);
 
 	std::string GetAnimationName();

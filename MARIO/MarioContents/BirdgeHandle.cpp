@@ -34,6 +34,7 @@ void ABirdgeHandle::Tick(float _DeltaTime)
 	if (true == Collision->CollisionCheck(ECollisionOrder::Player, MarioResult))
 	{
 		IsCollision = true;
+		UContentsHelper::KoopaDie = true;
 		Renderer->ActiveOff();
 	}
 

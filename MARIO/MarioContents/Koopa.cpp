@@ -34,7 +34,6 @@ void AKoopa::BeginPlay()
 	BottomCollision->SetScale({ 10, 10 });
 
 	Renderer->ChangeAnimation("Walk_Left");
-	StateChange(EKoopaState::Walk);
 }
 
 void AKoopa::Tick(float _DeltaTime)
@@ -59,51 +58,7 @@ void AKoopa::Tick(float _DeltaTime)
 		IsCollision = false;
 	}
 
-	StateUpdate(_DeltaTime);
-}
-
-void AKoopa::StateChange(EKoopaState _State)
-{
-	switch (_State)
-	{
-	case EKoopaState::Idle:
-		IdleStart();
-		break;
-	case EKoopaState::Walk:
-		WalkStart();
-		break;
-	case EKoopaState::Jump:
-		JumpStart();
-		break;
-	case EKoopaState::Dead:
-		DeadStart();
-		break;
-	default:
-		break;
-	}
-
-	State = _State;
-}
-
-void AKoopa::StateUpdate(float _DeltaTime)
-{
-	switch (State)
-	{
-	case EKoopaState::Idle:
-		Idle(_DeltaTime);
-		break;
-	case EKoopaState::Walk:
-		Walk(_DeltaTime);
-		break;
-	case EKoopaState::Jump:
-		Jump(_DeltaTime);
-		break;
-	case EKoopaState::Dead:
-		Dead(_DeltaTime);
-		break;
-	default:
-		break;
-	}
+	Walk(_DeltaTime);
 }
 
 void AKoopa::DirCheck()
@@ -128,29 +83,6 @@ void AKoopa::DirCheck()
 	}
 }
 
-void AKoopa::IdleStart()
-{
-}
-
-void AKoopa::WalkStart()
-{
-	DirCheck();
-	Renderer->ChangeAnimation(GetAnimationName());
-}
-
-void AKoopa::JumpStart()
-{
-	JumpVector.Y += JumpSpeed;
-}
-
-void AKoopa::DeadStart()
-{
-}
-
-void AKoopa::Idle(float _DeltaTime)
-{
-}
-
 void AKoopa::Walk(float _DeltaTime)
 {
 	DirCheck();
@@ -165,30 +97,25 @@ void AKoopa::Walk(float _DeltaTime)
 		break;
 	}
 
-	if (CurJumpTime >= JumpTime)
+	if (false == UContentsHelper::KoopaDie)
 	{
-		CurJumpTime = 0.0f;
-		AddActorLocation(FVector::Up * 100.0f);
-	}
-	else
-	{
-		CurJumpTime += _DeltaTime;
-	}
+		if (CurJumpTime >= JumpTime)
+		{
+			CurJumpTime = 0.0f;
+			AddActorLocation(FVector::Up * 100.0f);
+		}
+		else
+		{
+			CurJumpTime += _DeltaTime;
+		}
 
-	AddActorLocation({ Dir * WalkSpeed * _DeltaTime, 0.0f });
+		AddActorLocation({ Dir * WalkSpeed * _DeltaTime, 0.0f });
+	}
 
 	if (false == IsCollision)
 	{
 		GravityMove(_DeltaTime);
 	}
-}
-
-void AKoopa::Dead(float _DeltaTime)
-{
-}
-
-void AKoopa::Jump(float _DeltaTime)
-{
 }
 
 void AKoopa::GravityMove(float _DeltaTime)
