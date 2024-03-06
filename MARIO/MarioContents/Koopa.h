@@ -29,23 +29,29 @@ protected:
 	void Dead(float _DeltaTime);
 	void Jump(float _DeltaTime);
 
+	void GravityMove(float _DeltaTime);
+
 	std::string GetAnimationName();
 
 private:
 	UImageRenderer* Renderer = nullptr;
 	UCollision* Collision = nullptr;
+	UCollision* BottomCollision = nullptr;
 
 	EKoopaState State = EKoopaState::None;
 	EActorDir DirState = EActorDir::Left;
 
-	float JumpSpeed = 300.0f;
-	float GravitySpeed = 600.0f;
+	float JumpSpeed = 100.0f;
+	float GravitySpeed = 10.0f;
 	float WalkSpeed = 100.0f;
 
 	float JumpTime = 3.0f;
 	float CurJumpTime = 0.0f;
 
 	int Dir = -1;
+
+	bool IsCollision = false;
+	bool IsJump = true;
 
 	FVector JumpVector = FVector::Zero;
 };
