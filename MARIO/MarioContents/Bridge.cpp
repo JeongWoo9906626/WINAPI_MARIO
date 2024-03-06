@@ -16,9 +16,9 @@ void ABridge::BeginPlay()
 	Renderer->SetImage("Bridge.png");
 	Renderer->SetTransform({ {0, 0}, {64, 64} });
 
-	TopCollision = CreateCollision(ECollisionOrder::Step);
+	TopCollision = CreateCollision(ECollisionOrder::BoxTop);
 	TopCollision->SetColType(ECollisionType::Rect);
-	TopCollision->SetTransform({ {0, -23}, {65, 20} });
+	TopCollision->SetTransform({ {0, -30}, {65, 10} });
 }
 
 void ABridge::Tick(float _DeltaTime)

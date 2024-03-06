@@ -21,10 +21,12 @@ protected:
 
 	void DirCheck();
 
+	void IdleStart();
 	void WalkStart();
 	void JumpStart();
 	void DeadStart();
 
+	void Idle(float _DeltaTime);
 	void Walk(float _DeltaTime);
 	void Dead(float _DeltaTime);
 	void Jump(float _DeltaTime);
@@ -41,8 +43,8 @@ private:
 	EKoopaState State = EKoopaState::None;
 	EActorDir DirState = EActorDir::Left;
 
-	float JumpSpeed = 100.0f;
-	float GravitySpeed = 10.0f;
+	float JumpSpeed = 300.0f;
+	float GravitySpeed = 100.0f;
 	float WalkSpeed = 100.0f;
 
 	float JumpTime = 3.0f;

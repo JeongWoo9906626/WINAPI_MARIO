@@ -80,6 +80,7 @@ enum class EMarioSizeState
 
 enum class EKoopaState
 {
+	Idle,
 	Walk,
 	Jump,
 	Dead,

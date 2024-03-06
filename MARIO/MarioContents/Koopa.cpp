@@ -17,8 +17,11 @@ void AKoopa::BeginPlay()
 	Renderer->SetImage("Koopa_Left.png");
 	Renderer->SetTransform({ {0, 0}, {256 * 2.0f, 256 * 2.0f} });
 
+	Renderer->CreateAnimation("Idle_Left", "Koopa_Left.png", 0, 0, 0.1f, true);
 	Renderer->CreateAnimation("Walk_Left", "Koopa_Left.png", 0, 3, 0.1f, true);
+	
 	Renderer->CreateAnimation("Walk_Right", "Koopa_Right.png", 0, 3, 0.1f, true);
+	Renderer->CreateAnimation("Idle_Right", "Koopa_Right.png", 0, 0, 0.1f, true);
 
 	Collision = CreateCollision(ECollisionOrder::Goomba);
 	Collision->SetColType(ECollisionType::Rect);
@@ -27,11 +30,10 @@ void AKoopa::BeginPlay()
 
 	BottomCollision = CreateCollision(ECollisionOrder::Goomba);
 	BottomCollision->SetColType(ECollisionType::Rect);
-	BottomCollision->SetPosition({ 0, -5 });
+	BottomCollision->SetPosition({ 0, 0 });
 	BottomCollision->SetScale({ 10, 10 });
 
 	Renderer->ChangeAnimation("Walk_Left");
-
 	StateChange(EKoopaState::Walk);
 }
 
@@ -40,7 +42,7 @@ void AKoopa::Tick(float _DeltaTime)
 	AActor::Tick(_DeltaTime);
 
 	std::vector<UCollision*> BridgeTopResult;
-	if (true == BottomCollision->CollisionCheck(ECollisionOrder::Step, BridgeTopResult))
+	if (true == BottomCollision->CollisionCheck(ECollisionOrder::BoxTop, BridgeTopResult))
 	{
 		IsCollision = true;
 
@@ -50,7 +52,7 @@ void AKoopa::Tick(float _DeltaTime)
 		FVector BridgeCollisionPos = BridgeTopResult[0]->GetActorBaseTransform().GetPosition();
 		FVector BridgeCollisionScale = BridgeTopResult[0]->GetActorBaseTransform().GetScale();
 
-		SetActorLocation({ KoopaCollisionPos.X, BridgeCollisionPos.Y - 6.0f });
+		SetActorLocation({ KoopaCollisionPos.X, BridgeCollisionPos.Y - 3.0f });
 	}
 	else
 	{
@@ -64,6 +66,9 @@ void AKoopa::StateChange(EKoopaState _State)
 {
 	switch (_State)
 	{
+	case EKoopaState::Idle:
+		IdleStart();
+		break;
 	case EKoopaState::Walk:
 		WalkStart();
 		break;
@@ -84,6 +89,9 @@ void AKoopa::StateUpdate(float _DeltaTime)
 {
 	switch (State)
 	{
+	case EKoopaState::Idle:
+		Idle(_DeltaTime);
+		break;
 	case EKoopaState::Walk:
 		Walk(_DeltaTime);
 		break;
@@ -120,6 +128,10 @@ void AKoopa::DirCheck()
 	}
 }
 
+void AKoopa::IdleStart()
+{
+}
+
 void AKoopa::WalkStart()
 {
 	DirCheck();
@@ -135,6 +147,10 @@ void AKoopa::DeadStart()
 {
 }
 
+void AKoopa::Idle(float _DeltaTime)
+{
+}
+
 void AKoopa::Walk(float _DeltaTime)
 {
 	DirCheck();
@@ -147,6 +163,16 @@ void AKoopa::Walk(float _DeltaTime)
 	case EActorDir::Right:
 		Dir = 1;
 		break;
+	}
+
+	if (CurJumpTime >= JumpTime)
+	{
+		CurJumpTime = 0.0f;
+		AddActorLocation(FVector::Up * 100.0f);
+	}
+	else
+	{
+		CurJumpTime += _DeltaTime;
 	}
 
 	AddActorLocation({ Dir * WalkSpeed * _DeltaTime, 0.0f });
@@ -168,14 +194,7 @@ void AKoopa::Jump(float _DeltaTime)
 void AKoopa::GravityMove(float _DeltaTime)
 {
 	FVector GravityVector = { 0.0f, 1.0f, 0.0f, 0.0f };
-	if (true == IsCollision)
-	{
-		GravityVector = FVector::Zero;
-	}
-	else
-	{
-		AddActorLocation(GravityVector * GravitySpeed * _DeltaTime);
-	}
+	AddActorLocation(GravityVector * GravitySpeed * _DeltaTime);
 }
 
 std::string AKoopa::GetAnimationName()
