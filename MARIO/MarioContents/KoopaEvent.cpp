@@ -18,7 +18,7 @@ void AKoopaEvent::BeginPlay()
 
 	FireCollision = CreateCollision(ECollisionOrder::Gate);
 	FireCollision->SetColType(ECollisionType::Rect);
-	FireCollision->SetTransform({ {-2100, -180}, {40, 440} });
+	FireCollision->SetTransform({ {-2070, -180}, {40, 440} });
 }
 
 void AKoopaEvent::Tick(float _DeltaTime)
