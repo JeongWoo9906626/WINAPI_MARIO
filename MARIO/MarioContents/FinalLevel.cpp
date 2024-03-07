@@ -49,27 +49,34 @@ void UFinalLevel::BeginPlay()
 	AKoopaEvent* KoopaEvent = SpawnActor<AKoopaEvent>(ERenderOrder::Gate);
 	KoopaEvent->SetActorLocation({ 8000, 600 });
 
+	AItemBox* ItemBrick;
+	ItemBrick = SpawnActor<AItemBox>(ERenderOrder::Brick);
+	ItemBrick->SetName("Item");
+	ItemBrick->SetActorLocation({ 1950, 448 });
+
 	// SpinFire
-	ASpinFire* SpinFire1 = SpawnActor<ASpinFire>(ERenderOrder::Monster);
-	SpinFire1->SetActorLocation({ 1950, 690 });
+	{
+		ASpinFire* SpinFire1 = SpawnActor<ASpinFire>(ERenderOrder::Monster);
+		SpinFire1->SetActorLocation({ 1950, 690 });
 
-	ASpinFire* SpinFire2 = SpawnActor<ASpinFire>(ERenderOrder::Monster);
-	SpinFire2->SetActorLocation({ 3165, 440 });
+		ASpinFire* SpinFire2 = SpawnActor<ASpinFire>(ERenderOrder::Monster);
+		SpinFire2->SetActorLocation({ 3165, 440 });
 
-	ASpinFire* SpinFire3 = SpawnActor<ASpinFire>(ERenderOrder::Monster);
-	SpinFire3->SetActorLocation({ 3870, 440 });
+		ASpinFire* SpinFire3 = SpawnActor<ASpinFire>(ERenderOrder::Monster);
+		SpinFire3->SetActorLocation({ 3870, 440 });
 
-	ASpinFire* SpinFire4 = SpawnActor<ASpinFire>(ERenderOrder::Monster);
-	SpinFire4->SetActorLocation({ 4324, 440 });
+		ASpinFire* SpinFire4 = SpawnActor<ASpinFire>(ERenderOrder::Monster);
+		SpinFire4->SetActorLocation({ 4324, 440 });
 
-	ASpinFire* SpinFire5 = SpawnActor<ASpinFire>(ERenderOrder::Monster);
-	SpinFire5->SetActorLocation({ 4890, 630 });
+		ASpinFire* SpinFire5 = SpawnActor<ASpinFire>(ERenderOrder::Monster);
+		SpinFire5->SetActorLocation({ 4890, 630 });
 
-	ASpinFire* SpinFire6 = SpawnActor<ASpinFire>(ERenderOrder::Monster);
-	SpinFire6->SetActorLocation({ 5410, 630 });
+		ASpinFire* SpinFire6 = SpawnActor<ASpinFire>(ERenderOrder::Monster);
+		SpinFire6->SetActorLocation({ 5410, 630 });
 
-	ASpinFire* SpinFire7 = SpawnActor<ASpinFire>(ERenderOrder::Monster);
-	SpinFire7->SetActorLocation({ 5660, 315 });
+		ASpinFire* SpinFire7 = SpawnActor<ASpinFire>(ERenderOrder::Monster);
+		SpinFire7->SetActorLocation({ 5660, 315 });
+	}
 
 	// Bridge
 	{
@@ -104,7 +111,7 @@ void UFinalLevel::BeginPlay()
 		ABridge* Bridge8 = SpawnActor<ABridge>(ERenderOrder::Brick);
 		Bridge8->SetActorLocation({ 8670, 672 });
 		BirdgeHandle->AddBridge(Bridge8);
-		
+
 		ABridge* Bridge9 = SpawnActor<ABridge>(ERenderOrder::Brick);
 		Bridge9->SetActorLocation({ 8734, 672 });
 		BirdgeHandle->AddBridge(Bridge9);
