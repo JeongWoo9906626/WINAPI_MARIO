@@ -132,6 +132,9 @@
     <ClInclude Include="KoopaFire.h">
       <Filter>PlayLevel\Actor\Monster</Filter>
     </ClInclude>
+    <ClInclude Include="MarioFire.h">
+      <Filter>PlayLevel\Actor\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -226,6 +229,9 @@
     </ClCompile>
     <ClCompile Include="KoopaFire.cpp">
       <Filter>PlayLevel\Actor\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="MarioFire.cpp">
+      <Filter>PlayLevel\Actor\Player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

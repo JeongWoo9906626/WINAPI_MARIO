@@ -58,6 +58,7 @@ void UMarioCore::BeginPlay()
 	ResoucreManager.CuttingImage("Koopa_Right.png", 6, 2);
 
 	ResoucreManager.CuttingImage("Fire.png", 4, 1);
+	ResoucreManager.CuttingImage("FireBomb.png", 3, 1);
 
 	// TODO
 	// 생성할 모든 레벨 Core에서 생성

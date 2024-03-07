@@ -98,6 +98,9 @@ void AMario::BeginPlay()
 
 		Renderer->CreateAnimation("ChangeRed_Right", "Mario_Right.png", { 33, 32, 33, 32, 33 }, 0.1f, false);
 		Renderer->CreateAnimation("ChangeRed_Left", "Mario_Left.png", { 33, 32, 33, 32, 33 }, 0.1f, false);
+
+		Renderer->CreateAnimation("FireShoot_Left", "Mario_Left.png", 31, 31, 0.1f, false);
+		Renderer->CreateAnimation("FireShoot_Right", "Mario_Right.png", 31, 31, 0.1f, false);
 	}
 
 	{
