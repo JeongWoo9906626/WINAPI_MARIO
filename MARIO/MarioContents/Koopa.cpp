@@ -120,7 +120,7 @@ void AKoopa::Walk(float _DeltaTime)
 		break;
 	}
 
-	if (false == UContentsHelper::KoopaDie)
+	if (true == UContentsHelper::KoopaWake && false == UContentsHelper::KoopaDie)
 	{
 		if (CurJumpTime >= JumpTime)
 		{

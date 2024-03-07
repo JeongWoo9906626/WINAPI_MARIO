@@ -10,6 +10,7 @@ int UContentsHelper::Time = 1400;
 int UContentsHelper::MainStage = 1;
 int UContentsHelper::SubStage = 1;
 bool UContentsHelper::KoopaDie = false;
+bool UContentsHelper::KoopaWake = false;
 
 UContentsHelper::UContentsHelper() 
 {

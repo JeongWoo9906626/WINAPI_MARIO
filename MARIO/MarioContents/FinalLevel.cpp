@@ -8,6 +8,7 @@
 #include "Bridge.h"
 #include "Koopa.h"
 #include "SpinFire.h"
+#include "KoopaEvent.h"
 
 UFinalLevel::UFinalLevel()
 {
@@ -43,6 +44,9 @@ void UFinalLevel::BeginPlay()
 
 	AKoopa* Koopa = SpawnActor<AKoopa>(ERenderOrder::Monster);
 	Koopa->SetActorLocation({ 8862, 600 });
+
+	AKoopaEvent* KoopaEvent = SpawnActor<AKoopaEvent>(ERenderOrder::Gate);
+	KoopaEvent->SetActorLocation({ 8000, 600 });
 
 	// SpinFire
 	ASpinFire* SpinFire1 = SpawnActor<ASpinFire>(ERenderOrder::Monster);

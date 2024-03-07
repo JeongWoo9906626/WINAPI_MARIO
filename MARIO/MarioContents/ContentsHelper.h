@@ -154,6 +154,8 @@ public:
 	static std::string MapName;
 
 	static bool KoopaDie;
+	static bool KoopaWake;
+
 protected:
 
 private:
