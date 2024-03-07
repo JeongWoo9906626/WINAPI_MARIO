@@ -49,5 +49,23 @@ void AKoopaFire::Tick(float _DeltaTime)
 		}
 	}
 
-	AddActorLocation(FVector::Left * 100.0f * _DeltaTime);
+	if (true == CheckWindowPosition())
+	{
+		Destroy();
+		return;
+	}
+	else
+	{
+		AddActorLocation(FVector::Left * 100.0f * _DeltaTime);
+	}
+}
+
+bool AKoopaFire::CheckWindowPosition()
+{
+	FVector CurPosition = GetActorLocation();
+	FVector CameraPos = GetWorld()->GetCameraPos();
+	if (CameraPos.X >= CurPosition.X)
+	{
+		return true;
+	}
 }

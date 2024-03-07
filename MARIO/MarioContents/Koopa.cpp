@@ -1,5 +1,6 @@
 #include "Koopa.h"
 #include "Mario.h"
+#include "KoopaFire.h"
 
 AKoopa::AKoopa()
 {
@@ -134,6 +135,11 @@ void AKoopa::Walk(float _DeltaTime)
 		}
 
 		AddActorLocation({ Dir * WalkSpeed * _DeltaTime, 0.0f });
+	}
+
+	if (true == UContentsHelper::KoopaIsFire && false == UContentsHelper::KoopaDie)
+	{
+		
 	}
 
 	if (false == IsCollision)

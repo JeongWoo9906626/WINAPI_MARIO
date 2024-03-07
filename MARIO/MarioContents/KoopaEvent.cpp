@@ -12,18 +12,28 @@ void AKoopaEvent::BeginPlay()
 {
 	AActor::BeginPlay();
 
-	Collision = CreateCollision(ECollisionOrder::Gate);
-	Collision->SetColType(ECollisionType::Rect);
-	Collision->SetTransform({ {0, -120}, {40, 320} });
+	MoveCollision = CreateCollision(ECollisionOrder::Gate);
+	MoveCollision->SetColType(ECollisionType::Rect);
+	MoveCollision->SetTransform({ {0, -120}, {40, 320} });
+
+	FireCollision = CreateCollision(ECollisionOrder::Gate);
+	FireCollision->SetColType(ECollisionType::Rect);
+	FireCollision->SetTransform({ {-2100, -180}, {40, 440} });
 }
 
 void AKoopaEvent::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 
-	std::vector<UCollision*> MarioResult;
-	if (true == Collision->CollisionCheck(ECollisionOrder::Player, MarioResult))
+	std::vector<UCollision*> MarioKoopaGateResult;
+	if (true == MoveCollision->CollisionCheck(ECollisionOrder::Player, MarioKoopaGateResult))
 	{
 		UContentsHelper::KoopaWake = true;
+	}
+
+	std::vector<UCollision*> MarioKoopaFireResult;
+	if (true == MoveCollision->CollisionCheck(ECollisionOrder::Player, MarioKoopaFireResult))
+	{
+		UContentsHelper::KoopaIsFire = true;
 	}
 }

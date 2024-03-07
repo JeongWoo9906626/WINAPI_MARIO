@@ -156,6 +156,7 @@ public:
 
 	static bool KoopaDie;
 	static bool KoopaWake;
+	static bool KoopaIsFire;
 	static bool MarioDie;
 
 protected:

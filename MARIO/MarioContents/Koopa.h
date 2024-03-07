@@ -35,6 +35,8 @@ private:
 
 	float JumpTime = 2.0f;
 	float CurJumpTime = 0.0f;
+	float FireTime = 3.0f;
+	float CurFireTime = 0.0f;
 
 	int Dir = -1;
 

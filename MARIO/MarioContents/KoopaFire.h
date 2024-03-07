@@ -16,6 +16,8 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
+	bool CheckWindowPosition();
+
 private:
 	UImageRenderer* Renderer = nullptr;
 	UCollision* Collision = nullptr;

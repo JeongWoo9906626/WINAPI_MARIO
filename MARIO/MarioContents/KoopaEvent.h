@@ -17,7 +17,8 @@ protected:
 	void Tick(float _DeltaTime);
 
 private:
-	UCollision* Collision = nullptr;
+	UCollision* MoveCollision = nullptr;
+	UCollision* FireCollision = nullptr;
 
 };
 

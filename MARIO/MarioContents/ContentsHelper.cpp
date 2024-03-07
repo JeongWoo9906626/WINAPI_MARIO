@@ -12,6 +12,7 @@ int UContentsHelper::SubStage = 1;
 
 bool UContentsHelper::KoopaDie = false;
 bool UContentsHelper::KoopaWake = false;
+bool UContentsHelper::KoopaIsFire = false;
 bool UContentsHelper::MarioDie = false;
 
 UContentsHelper::UContentsHelper() 
