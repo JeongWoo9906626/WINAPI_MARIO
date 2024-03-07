@@ -154,15 +154,16 @@ void AKoopa::Walk(float _DeltaTime)
 		if (false == FirstShot)
 		{
 			AKoopaFire* KoopaFire = GetWorld()->SpawnActor<AKoopaFire>(ERenderOrder::Fire);
+			KoopaFire->SetFireDir(EActorDir::Left);
 			KoopaFire->SetActorLocation({ 6550.0f, KoopaPos.Y + FirePos });
 			FirstShot = true;
 		}
 
 		if (CurFireTime >= FireTime)
 		{
-			
 			CurFireTime = 0.0f;
 			AKoopaFire* KoopaFire = GetWorld()->SpawnActor<AKoopaFire>(ERenderOrder::Fire);
+			KoopaFire->SetFireDir(DirState);
 			KoopaFire->SetActorLocation({ KoopaPos.X, KoopaPos.Y + FirePos });
 		}
 		CurFireTime += _DeltaTime;
