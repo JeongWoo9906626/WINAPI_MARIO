@@ -141,18 +141,26 @@ void AKoopa::Walk(float _DeltaTime)
 	{
 		float FirePos = 0.0f;
 		FVector KoopaPos = GetActorLocation();
+		int RandomValue = rand() % 10 + 1;
+		if (RandomValue > 5)
+		{
+			FirePos = -10.0f;
+		}
+		else
+		{
+			FirePos = -100.0f;
+		}
+
+		if (false == FirstShot)
+		{
+			AKoopaFire* KoopaFire = GetWorld()->SpawnActor<AKoopaFire>(ERenderOrder::Fire);
+			KoopaFire->SetActorLocation({ 6550.0f, KoopaPos.Y + FirePos });
+			FirstShot = true;
+		}
 
 		if (CurFireTime >= FireTime)
 		{
-			int RandomValue = rand() % 10 + 1;
-			if (RandomValue > 5)
-			{
-				FirePos = -10.0f;
-			}
-			else
-			{
-				FirePos = -70.0f;
-			}
+			
 			CurFireTime = 0.0f;
 			AKoopaFire* KoopaFire = GetWorld()->SpawnActor<AKoopaFire>(ERenderOrder::Fire);
 			KoopaFire->SetActorLocation({ KoopaPos.X, KoopaPos.Y + FirePos });
