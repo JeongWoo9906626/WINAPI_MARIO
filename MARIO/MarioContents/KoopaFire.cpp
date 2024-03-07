@@ -56,7 +56,7 @@ void AKoopaFire::Tick(float _DeltaTime)
 	}
 	else
 	{
-		AddActorLocation(FVector::Left * 100.0f * _DeltaTime);
+		AddActorLocation(FVector::Left * Speed * _DeltaTime);
 	}
 }
 

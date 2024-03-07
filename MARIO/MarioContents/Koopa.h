@@ -33,9 +33,9 @@ private:
 	float GravitySpeed = 150.0f;
 	float WalkSpeed = 100.0f;
 
-	float JumpTime = 2.0f;
+	float JumpTime = 1.0f;
 	float CurJumpTime = 0.0f;
-	float FireTime = 3.0f;
+	float FireTime = 3.5f;
 	float CurFireTime = 0.0f;
 
 	int Dir = -1;

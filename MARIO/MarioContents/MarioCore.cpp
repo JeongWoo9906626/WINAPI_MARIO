@@ -1,4 +1,7 @@
 #include "MarioCore.h"
+
+#include <time.h>
+
 #include <EngineBase/EngineDirectory.h>
 #include <EngineBase/EngineFile.h>	
 #include <EngineCore/EngineResourcesManager.h>
@@ -17,7 +20,7 @@ UMarioCore::~UMarioCore()
 void UMarioCore::BeginPlay()
 {
 	UEngineCore::BeginPlay();
-
+	srand(time(NULL));
 	MainWindow.SetWindowScale({ 256 * 4, 240 * 4 });
 	MainWindow.SetWindowPosition({ 0, 0 });
 

@@ -16,6 +16,8 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
+	float Speed = 300.0f;
+
 	bool CheckWindowPosition();
 
 private:
