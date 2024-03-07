@@ -179,7 +179,13 @@ void AItemBox::Hit(float _DeltaTime)
 				break;
 			}
 			case EMarioSizeState::Red:
+			{
+				ASunflower* Sunflower = GetWorld()->SpawnActor<ASunflower>(ERenderOrder::Item);
+				Sunflower->SetName("Sunflower");
+				FVector BoxLocation = GetActorLocation();
+				Sunflower->SetActorLocation({ BoxLocation.X, BoxLocation.Y - 15.0f });
 				break;
+			}
 			case EMarioSizeState::Star:
 				break;
 			default:
