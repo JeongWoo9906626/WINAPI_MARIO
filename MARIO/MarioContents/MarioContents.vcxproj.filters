@@ -129,6 +129,9 @@
     <ClInclude Include="KoopaEvent.h">
       <Filter>PlayLevel\Actor\Gate</Filter>
     </ClInclude>
+    <ClInclude Include="KoopaFire.h">
+      <Filter>PlayLevel\Actor\Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -220,6 +223,9 @@
     </ClCompile>
     <ClCompile Include="KoopaEvent.cpp">
       <Filter>PlayLevel\Actor\Gate</Filter>
+    </ClCompile>
+    <ClCompile Include="KoopaFire.cpp">
+      <Filter>PlayLevel\Actor\Monster</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

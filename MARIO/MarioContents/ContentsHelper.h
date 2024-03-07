@@ -6,9 +6,9 @@
 
 enum ERenderOrder
 {
-	Plant,
 	Map,
 	UI,
+	Plant,
 	Gate,
 	Coin,
 	Monster,
@@ -16,6 +16,7 @@ enum ERenderOrder
 	Item,
 	Player,
 	BreakOne,
+	Fire,
 	Pipe,
 };
 
