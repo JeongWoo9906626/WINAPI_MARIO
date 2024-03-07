@@ -29,6 +29,7 @@ void ASpinFire::BeginPlay()
 
 	for (int i = 0; i < 6; ++i) {
 		Collision[i] = CreateCollision(ERenderOrder::Monster);
+		Collision[i]->SetColType(ECollisionType::CirCle);
 		Collision[i]->SetTransform({ { 16.0f * i, 16.0f}, {32.0f , 32.0f} });
 	}
 }

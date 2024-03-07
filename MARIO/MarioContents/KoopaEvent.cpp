@@ -29,6 +29,7 @@ void AKoopaEvent::Tick(float _DeltaTime)
 	if (true == MoveCollision->CollisionCheck(ECollisionOrder::Player, MarioKoopaGateResult))
 	{
 		UContentsHelper::KoopaWake = true;
+		UContentsHelper::KoopaIsFire = true;
 	}
 
 	std::vector<UCollision*> MarioKoopaFireResult;

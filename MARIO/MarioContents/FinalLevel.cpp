@@ -51,7 +51,25 @@ void UFinalLevel::BeginPlay()
 
 	// SpinFire
 	ASpinFire* SpinFire1 = SpawnActor<ASpinFire>(ERenderOrder::Monster);
-	SpinFire1->SetActorLocation({ 300, 700 });
+	SpinFire1->SetActorLocation({ 1950, 690 });
+
+	ASpinFire* SpinFire2 = SpawnActor<ASpinFire>(ERenderOrder::Monster);
+	SpinFire2->SetActorLocation({ 3165, 440 });
+
+	ASpinFire* SpinFire3 = SpawnActor<ASpinFire>(ERenderOrder::Monster);
+	SpinFire3->SetActorLocation({ 3870, 440 });
+
+	ASpinFire* SpinFire4 = SpawnActor<ASpinFire>(ERenderOrder::Monster);
+	SpinFire4->SetActorLocation({ 4324, 440 });
+
+	ASpinFire* SpinFire5 = SpawnActor<ASpinFire>(ERenderOrder::Monster);
+	SpinFire5->SetActorLocation({ 4890, 630 });
+
+	ASpinFire* SpinFire6 = SpawnActor<ASpinFire>(ERenderOrder::Monster);
+	SpinFire6->SetActorLocation({ 5410, 630 });
+
+	ASpinFire* SpinFire7 = SpawnActor<ASpinFire>(ERenderOrder::Monster);
+	SpinFire7->SetActorLocation({ 5660, 315 });
 
 	// Bridge
 	{
