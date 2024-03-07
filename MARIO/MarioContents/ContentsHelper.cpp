@@ -9,8 +9,10 @@ int UContentsHelper::Score = 1000000;
 int UContentsHelper::Time = 1400;
 int UContentsHelper::MainStage = 1;
 int UContentsHelper::SubStage = 1;
+
 bool UContentsHelper::KoopaDie = false;
 bool UContentsHelper::KoopaWake = false;
+bool UContentsHelper::MarioDie = false;
 
 UContentsHelper::UContentsHelper() 
 {

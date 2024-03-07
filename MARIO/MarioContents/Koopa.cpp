@@ -72,7 +72,7 @@ void AKoopa::Tick(float _DeltaTime)
 		}
 		else
 		{
-			IsMarioDie = true;
+			UContentsHelper::MarioDie = true;
 			Mario->StateChange(EPlayState::Die);
 			return;
 		}
@@ -105,7 +105,7 @@ void AKoopa::DirCheck()
 
 void AKoopa::Walk(float _DeltaTime)
 {
-	if (false == IsMarioDie)
+	if (false == UContentsHelper::MarioDie)
 	{
 		DirCheck();
 	}

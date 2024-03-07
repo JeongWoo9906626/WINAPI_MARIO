@@ -1,4 +1,5 @@
 #include "KoopaFire.h"
+#include "Mario.h"
 
 AKoopaFire::AKoopaFire()
 {
@@ -27,4 +28,26 @@ void AKoopaFire::BeginPlay()
 void AKoopaFire::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
+
+	std::vector<UCollision*> MarioResult;
+	if (true == Collision->CollisionCheck(ECollisionOrder::Player, MarioResult))
+	{
+		UCollision* MarioCollision = MarioResult[0];
+		AMario* Mario = (AMario*)MarioCollision->GetOwner();
+
+		if (Mario->SizeState != EMarioSizeState::Small)
+		{
+			Mario->SizeState = EMarioSizeState::Small;
+			Mario->StateChange(EPlayState::GrowDown);
+			return;
+		}
+		else
+		{
+			UContentsHelper::MarioDie = true;
+			Mario->StateChange(EPlayState::Die);
+			return;
+		}
+	}
+
+	AddActorLocation(FVector::Left * 100.0f * _DeltaTime);
 }

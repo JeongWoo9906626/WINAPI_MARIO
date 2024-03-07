@@ -19,6 +19,7 @@
 #include "HiddenCoin.h"
 #include "Koopa.h"
 #include "SpinFire.h"
+#include "KoopaFire.h"
 
 AMario* AMario::MainPlayer = nullptr;
 
