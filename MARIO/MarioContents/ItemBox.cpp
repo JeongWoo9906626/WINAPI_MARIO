@@ -17,7 +17,7 @@ void AItemBox::BeginPlay()
 
 	Renderer = CreateImageRenderer(ERenderOrder::Brick);
 	Renderer->SetImage("OpenWorldBox.png");
-	Renderer->SetTransform({ { 0, 0 }, { 1024, 1024 } });
+	Renderer->SetTransform({ { 0, 0 }, { 256, 256 } });
 
 	Renderer->CreateAnimation("BrickIdle", "OpenWorldBox.png", 0, 3, 0.2f, true);
 	Renderer->CreateAnimation("BrickHit", "OpenWorldBox.png", 4, 4, 0.1f, true);

@@ -63,14 +63,14 @@ void UMarioCore::BeginPlay()
 	// TODO
 	// 생성할 모든 레벨 Core에서 생성
 	CreateLevel<UTitleLevel>("Title");
-	//CreateLevel<UPlayLevel>("Play");
-	CreateLevel<UFinalLevel>("Final");
+	CreateLevel<UPlayLevel>("Play");
+	//CreateLevel<UFinalLevel>("Final");
 
 	// TODO
 	// 처음 시작할 레벨 설정
 	//ChangeLevel("Title");
-	//ChangeLevel("Play");
-	ChangeLevel("Final");
+	ChangeLevel("Play");
+	//ChangeLevel("Final");
 }
 
 void UMarioCore::Tick(float _DeltaTime)

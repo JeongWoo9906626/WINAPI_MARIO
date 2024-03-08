@@ -25,6 +25,6 @@ private:
 	UImageRenderer* Renderer = nullptr;
 
 	float UpSpeed = -300.0f;
-	float GravitySpeed = 600.0f;
+	float GravitySpeed = 900.0f;
 };
 

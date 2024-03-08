@@ -16,7 +16,7 @@ void ABrick::BeginPlay()
 
 	Renderer = CreateImageRenderer(ERenderOrder::Brick);
 	Renderer->SetImage("OpenWorldBrick.png");
-	Renderer->SetTransform({ { 0, 0 }, { 1024, 1024 } });
+	Renderer->SetTransform({ { 0, 0 }, { 256, 256 } });
 
 	Renderer->CreateAnimation("BrickIdle", "OpenWorldBrick.png", 0, 0, 0.1f, true);
 	Renderer->CreateAnimation("BrickHit", "OpenWorldBrick.png", 0, 0, 0.1f, true);
