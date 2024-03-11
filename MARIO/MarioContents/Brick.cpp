@@ -23,16 +23,6 @@ void ABrick::BeginPlay()
 	Renderer->CreateAnimation("Brickbreak", "OpenWorldBrick.png", 2, 2, 0.1f, true);
 	Renderer->CreateAnimation("BrickBlock", "OpenWorldBrick.png", 3, 3, 0.1f, true);
 
-	TopCollision = CreateCollision(ECollisionOrder::BoxTop);
-	TopCollision->SetColType(ECollisionType::Rect);
-	TopCollision->SetPosition({ 0, -60 });
-	TopCollision->SetScale({ 64, 10 });
-
-	BottomCollision = CreateCollision(ECollisionOrder::Box);
-	BottomCollision->SetColType(ECollisionType::Rect);
-	BottomCollision->SetPosition({ 0, -5 });
-	BottomCollision->SetScale({ 50, 10 });
-
 	LeftCollision = CreateCollision(ECollisionOrder::Box);
 	LeftCollision->SetColType(ECollisionType::Rect);
 	LeftCollision->SetPosition({ -28, -28 });
@@ -42,6 +32,17 @@ void ABrick::BeginPlay()
 	RightCollision->SetColType(ECollisionType::Rect);
 	RightCollision->SetPosition({ +28, -28 });
 	RightCollision->SetScale({ 10, 55 });
+
+	TopCollision = CreateCollision(ECollisionOrder::BoxTop);
+	TopCollision->SetColType(ECollisionType::Rect);
+	TopCollision->SetPosition({ 0, -60 });
+	TopCollision->SetScale({ 64, 10 });
+
+	BottomCollision = CreateCollision(ECollisionOrder::Box);
+	BottomCollision->SetColType(ECollisionType::Rect);
+	BottomCollision->SetPosition({ 0, -5 });
+	BottomCollision->SetScale({ 60, 10 });
+
 
 	StateChange(EBoxState::Idle);
 }
@@ -75,7 +76,7 @@ void ABrick::Tick(float _DeltaTime)
 		UCollision* MarioPosition = LeftResult[0];
 		AMario* Player = (AMario*)MarioPosition->GetOwner();
 
-		Player->RunVector.X = 0.0f;
+		Player->MoveVector.X = 0.0f;
 		return;
 	}
 
@@ -85,7 +86,7 @@ void ABrick::Tick(float _DeltaTime)
 		UCollision* MarioPosition = RightResult[0];
 		AMario* Player = (AMario*)MarioPosition->GetOwner();
 
-		Player->RunVector.X = 0.0f;
+		Player->MoveVector.X = 0.0f;
 		return;
 	}
 

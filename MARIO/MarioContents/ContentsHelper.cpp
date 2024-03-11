@@ -15,11 +15,18 @@ bool UContentsHelper::KoopaWake = false;
 bool UContentsHelper::KoopaIsFire = false;
 bool UContentsHelper::MarioDie = false;
 
-UContentsHelper::UContentsHelper() 
+FVector UContentsHelper::PortalPos1 = { 3708.0f, 578.0f, 0.0f, 0.0f };
+FVector UContentsHelper::HiddenStageSpawnPos = { 3218.0f, 1262.0f, 0.0f, 0.0f };
+FVector UContentsHelper::HiddenStageOutSpawnPos = { 10492.0f, 803.0f, 0.0f, 0.0f };
+
+float UContentsHelper::HiddenStageCameraPosX = 3064.0f;
+float UContentsHelper::HiddenStageOutCameraPosX = 10260.0f;
+
+UContentsHelper::UContentsHelper()
 {
 }
 
-UContentsHelper::~UContentsHelper() 
+UContentsHelper::~UContentsHelper()
 {
 }
 

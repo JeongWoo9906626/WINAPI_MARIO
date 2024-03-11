@@ -40,6 +40,7 @@ void APlant::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 
+
 	std::vector<UCollision*> MarioResult;
 	if (true == BodyCollision->CollisionCheck(ECollisionOrder::Player, MarioResult))
 	{
@@ -56,6 +57,7 @@ void APlant::Tick(float _DeltaTime)
 			Mario->StateChange(EPlayState::Die);
 			return;
 		}
+		
 	}
 
 	StateUpdate(_DeltaTime);

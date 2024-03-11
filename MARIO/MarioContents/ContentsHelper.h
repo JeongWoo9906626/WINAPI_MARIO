@@ -49,21 +49,22 @@ enum class EMonsterShootDir
 
 enum class EPlayState
 {
-	CameraFreeMove,
 	FreeMove,
+	CameraFreeMove,
 	Idle,
-	Run,
-	Reverse,
+	Move,
 	Jump,
-	Change,
+	Crouch,
+	CrouchMove,
+	Reverse,
+	Kill,
+	Die,
 	GrowUp,
 	GrowDown,
 	ChangeRed,
 	HiddenStageEnter,
 	HiddenStageOut,
 	HiddenStageOutUp,
-	Die,
-	Kill,
 	FinishMove,
 	FinishReverse,
 	FinishWalk,
@@ -145,7 +146,7 @@ public:
 	static UWindowImage* MapColImage;
 
 	static enum EMarioSizeState MSizeState;
-	
+
 	static int CoinCount;
 	static int Score;
 	static int Time;
@@ -158,6 +159,12 @@ public:
 	static bool KoopaWake;
 	static bool KoopaIsFire;
 	static bool MarioDie;
+
+	static FVector PortalPos1;
+	static float HiddenStageCameraPosX;
+	static float HiddenStageOutCameraPosX;
+	static FVector HiddenStageSpawnPos;
+	static FVector HiddenStageOutSpawnPos;
 
 protected:
 

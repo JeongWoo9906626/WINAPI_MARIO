@@ -27,7 +27,7 @@ void ASunflower::BeginPlay()
 		BodyCollision = CreateCollision(ECollisionOrder::Goomba);
 		BodyCollision->SetColType(ECollisionType::Rect);
 		BodyCollision->SetPosition({ 0, -30 });
-		BodyCollision->SetScale({ 55, 55 });
+		BodyCollision->SetScale({ 30, 55 });
 	}
 
 	{
@@ -56,10 +56,12 @@ void ASunflower::Tick(float _DeltaTime)
 		Destroy();
 
 		UContentsHelper::Score += 1000;
-
-		Player->SizeState = EMarioSizeState::Red;
-		Player->StateChange(EPlayState::ChangeRed);
-		return;
+		if (EMarioSizeState::Red != Player->SizeState)
+		{
+			Player->SizeState = EMarioSizeState::Red;
+			Player->StateChange(EPlayState::ChangeRed);
+			return;
+		}
 	}
 
 	std::vector<UCollision*> BoxTopResult;
@@ -101,8 +103,6 @@ void ASunflower::StateUpdate(float _DeltaTime)
 	{
 	case EItemState::Spawn:
 		Spawn(_DeltaTime);
-		break;
-	default:
 		break;
 	}
 }
