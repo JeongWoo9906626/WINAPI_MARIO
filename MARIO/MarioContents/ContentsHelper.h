@@ -7,7 +7,6 @@
 enum ERenderOrder
 {
 	Map,
-	UI,
 	Plant,
 	Gate,
 	Coin,
@@ -18,6 +17,7 @@ enum ERenderOrder
 	BreakOne,
 	Fire,
 	Pipe,
+	UI,
 };
 
 enum class ECollisionOrder

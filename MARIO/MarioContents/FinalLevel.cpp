@@ -51,7 +51,7 @@ void UFinalLevel::BeginPlay()
 	KoopaEvent->SetActorLocation({ 8000, 600 });
 
 	AEndingGate* EndingGate = SpawnActor<AEndingGate>(ERenderOrder::Gate);
-	EndingGate->SetActorLocation({ 9750, 800 });
+	EndingGate->SetActorLocation({ 9800, 800 });
 
 	AItemBox* ItemBrick;
 	ItemBrick = SpawnActor<AItemBox>(ERenderOrder::Brick);

@@ -20,9 +20,13 @@ protected:
 	void Tick(float _DeltaTime) override;
 
 private:
+	UImageRenderer* Text = nullptr;
+	UImageRenderer* UIBox = nullptr;
+
 	UCollision* Collision = nullptr;
 
-	float ChangeLevelTime = 1.0f;
-	float CurChangeLevelTime = 0.0f;
+	bool IsEndingMessage = false;
+	float CurTime = 0.0f;
+	float Time = 1.0f;
 };
 

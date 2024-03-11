@@ -13,15 +13,37 @@ void AEndingGate::BeginPlay()
 {
 	AActor::BeginPlay();
 
-	Collision = CreateCollision(ECollisionOrder::HiddenCoin);
+	Text = CreateImageRenderer(ERenderOrder::UI);
+	Text->SetImage("UIEndingText.png");
+	Text->SetTransform({ { -50, -360 }, { 768, 320 } });
+
+	UIBox = CreateImageRenderer(ERenderOrder::UI);
+	UIBox->SetImage("UIBlackBox.png");
+	UIBox->SetTransform({ { -50, -360 }, { 768, 320 } });
+
+
+	Collision = CreateCollision(ECollisionOrder::Gate);
 	Collision->SetColType(ECollisionType::Rect);
-	Collision->SetPosition({ 0, -30 });
-	Collision->SetScale({ 65, 70 });
+	Collision->SetTransform({ { 0, -30 }, { 65, 70 } });
 }
 
 void AEndingGate::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
+
+	if (true == IsEndingMessage)
+	{
+		if (CurTime >= Time) 
+		{
+			CurTime = 0.0f;
+			FVector Pos = UIBox->GetTransform().GetPosition();
+			FVector Scale = UIBox->GetTransform().GetScale();
+			Pos.Y += 32.f;
+			Scale.Y -= 64.f;
+			UIBox->SetTransform({ Pos, Scale });
+		}
+		CurTime += _DeltaTime;
+	}
 
 	std::vector<UCollision*> Result;
 	if (true == Collision->CollisionCheck(ECollisionOrder::Player, Result))
@@ -31,12 +53,7 @@ void AEndingGate::Tick(float _DeltaTime)
 		
 		Player->StateChange(EPlayState::Ending);
 
-
-		if (CurChangeLevelTime >= ChangeLevelTime)
-		{
-			GEngine->ChangeLevel("Title");
-			return;
-		}
-		CurChangeLevelTime += _DeltaTime;
+		IsEndingMessage = true;
+		Collision->Destroy();
 	}
 }
