@@ -8,8 +8,6 @@ public:
 	AGate();
 	~AGate();
 
-	friend AActor;
-
 	AGate(const AGate& _Other) = delete;
 	AGate(AGate&& _Other) noexcept = delete;
 	AGate& operator=(const AGate& _Other) = delete;
@@ -19,8 +17,7 @@ protected:
 	void Tick(float _DeltaTime) override;
 
 private:
-	UImageRenderer* Renderer = nullptr;
-	UCollision* BodyCollision = nullptr;
+	UCollision* Collision = nullptr;
 
 	float ChangeLevelTime = 1.0f;
 	float CurChangeLevelTime = 0.0f;

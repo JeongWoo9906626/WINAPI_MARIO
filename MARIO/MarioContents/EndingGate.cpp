@@ -1,16 +1,15 @@
-#include "Gate.h"
+#include "EndingGate.h"
 #include "Mario.h"
-#include "FinalLevel.h"
 
-AGate::AGate()
+AEndingGate::AEndingGate()
 {
 }
 
-AGate::~AGate()
+AEndingGate::~AEndingGate()
 {
 }
 
-void AGate::BeginPlay()
+void AEndingGate::BeginPlay()
 {
 	AActor::BeginPlay();
 
@@ -20,7 +19,7 @@ void AGate::BeginPlay()
 	Collision->SetScale({ 65, 70 });
 }
 
-void AGate::Tick(float _DeltaTime)
+void AEndingGate::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 
@@ -29,19 +28,13 @@ void AGate::Tick(float _DeltaTime)
 	{
 		UCollision* MarioPosition = Result[0];
 		AMario* Player = (AMario*)MarioPosition->GetOwner();
-
-		FTransform MarioCollision = MarioPosition->GetActorBaseTransform();
-		FTransform MyTransform = Collision->GetActorBaseTransform();
-
-		Player->Renderer->ActiveOff();
-		Player->IsStageEnd = true;
+		
 		Player->StateChange(EPlayState::Ending);
+
 
 		if (CurChangeLevelTime >= ChangeLevelTime)
 		{
-			UContentsHelper::Time = 1400;
-			GEngine->CreateLevel<UFinalLevel>("Final");
-			GEngine->ChangeLevel("Final");
+			GEngine->ChangeLevel("Title");
 			return;
 		}
 		CurChangeLevelTime += _DeltaTime;

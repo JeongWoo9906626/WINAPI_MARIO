@@ -135,6 +135,9 @@
     <ClInclude Include="MarioFire.h">
       <Filter>PlayLevel\Actor\Player</Filter>
     </ClInclude>
+    <ClInclude Include="EndingGate.h">
+      <Filter>PlayLevel\Actor\Gate</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -232,6 +235,9 @@
     </ClCompile>
     <ClCompile Include="MarioFire.cpp">
       <Filter>PlayLevel\Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="EndingGate.cpp">
+      <Filter>PlayLevel\Actor\Gate</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

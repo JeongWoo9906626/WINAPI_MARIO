@@ -15,6 +15,8 @@ class ASunflower;
 class AKoopa;
 class ASpinFire;
 class AKoopaFire;
+class ABirdgeHandle;
+class AEndingGate;
 // Ό³Έν :
 class AMario : public AActor
 {
@@ -31,6 +33,8 @@ class AMario : public AActor
 	friend AKoopa;
 	friend ASpinFire;
 	friend AKoopaFire;
+	friend ABirdgeHandle;
+	friend AEndingGate;
 
 public:
 	//static AMario* GetMainPlayer();
@@ -74,6 +78,9 @@ protected:
 	void FinishMoveStart();
 	void FinishReverseStart();
 	void FinishWalkStart();
+	void BossFinishStart();
+	void BossFinishWalkStart();
+	void EndingStart();
 
 	void CameraFreeMove(float _DeltaTime);
 	void FreeMove(float _DeltaTime);
@@ -94,6 +101,8 @@ protected:
 	void FinishMove(float _DeltaTime);
 	void FinishReverse(float _DeltaTime);
 	void FinishWalk(float _DeltaTime);
+	void BossFinish(float _DeltaTime);
+	void BossFinishWalk(float _DeltaTime);
 
 private:
 	UImageRenderer* Renderer = nullptr;
@@ -108,6 +117,7 @@ private:
 	float FreeMoveSpeed = 1000.0f;
 
 	bool IsHiddenStage = false;
+	bool IsRun = false;
 	bool IsChange = false;
 	bool IsGround = false;
 	bool IsDown = false;
@@ -118,7 +128,9 @@ private:
 
 	FVector MoveVector = FVector::Zero;
 	float MoveAcc = 400.0f;
+	float CurMaxSpeed = 0.0f;
 	float MaxMoveSpeed = 400.0f;
+	float MaxRunSpeed = 800.0f;
 	float BreakSpeed = 600.0f;
 
 	float FinsihWalkSpeed = 100.0f;
@@ -129,7 +141,9 @@ private:
 
 	FVector JumpVector = FVector::Zero;
 	float JumpForce = 0.0f;
-	float JumpPower = 560.0f;
+	float CurJumpPower = 0.0f;
+	float MoveJumpPower = 560.0f;
+	float RunJumpPower = 600.0f;
 	float KillJumpPower = 250.0f;
 	float DieJumpPower = 100.0f;
 
@@ -152,6 +166,9 @@ private:
 
 	float CurNoCollisionTime = 0.0f;
 	float NoCollisionTime = 2.0f;
+
+	float CurBossFinishTime = 0.0f;
+	float BossFinishTime = 4.0f;
 
 	void MoveUpdate(float _DeltaTime);
 	void GroundUp();

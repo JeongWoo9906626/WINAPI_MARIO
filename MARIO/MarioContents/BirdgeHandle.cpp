@@ -1,5 +1,6 @@
 #include "BirdgeHandle.h"
 #include "Bridge.h"
+#include "Mario.h"
 
 ABirdgeHandle::ABirdgeHandle()
 {
@@ -36,6 +37,11 @@ void ABirdgeHandle::Tick(float _DeltaTime)
 		IsCollision = true;
 		UContentsHelper::KoopaDie = true;
 		Renderer->ActiveOff();
+
+		UCollision* MarioCollision = MarioResult[0];
+		AMario* Mario = (AMario*)MarioCollision->GetOwner();
+		Mario->StateChange(EPlayState::BossFinish);
+		return;
 	}
 
 	if (IsCollision == true)
@@ -52,6 +58,7 @@ void ABirdgeHandle::DestroyBridge(float _DeltaTime)
 		Destroy();
 		return;
 	}
+
 	if (CurDestroyTime >= DestroyTime)
 	{
 		++Count;
@@ -62,6 +69,5 @@ void ABirdgeHandle::DestroyBridge(float _DeltaTime)
 	else 
 	{
 		CurDestroyTime += _DeltaTime;
-		
 	}
 }

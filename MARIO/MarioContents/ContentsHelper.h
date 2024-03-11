@@ -68,6 +68,9 @@ enum class EPlayState
 	FinishMove,
 	FinishReverse,
 	FinishWalk,
+	BossFinish,
+	BossFinishWalk,
+	Ending,
 	None,
 };
 

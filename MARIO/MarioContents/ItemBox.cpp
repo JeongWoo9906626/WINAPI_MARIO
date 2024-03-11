@@ -78,6 +78,7 @@ void AItemBox::Tick(float _DeltaTime)
 		AMario* Player = (AMario*)MarioPosition->GetOwner();
 
 		Player->MoveVector.X = 0.0f;
+		Player->AddActorLocation(FVector::Left);
 		return;
 	}
 
@@ -88,6 +89,7 @@ void AItemBox::Tick(float _DeltaTime)
 		AMario* Player = (AMario*)MarioPosition->GetOwner();
 
 		Player->MoveVector.X = 0.0f;
+		Player->AddActorLocation(FVector::Right);
 		return;
 	}
 

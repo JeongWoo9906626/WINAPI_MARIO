@@ -10,6 +10,7 @@
 #include "SpinFire.h"
 #include "KoopaEvent.h"
 #include "KoopaFire.h"
+#include "EndingGate.h"
 
 UFinalLevel::UFinalLevel()
 {
@@ -48,6 +49,9 @@ void UFinalLevel::BeginPlay()
 
 	AKoopaEvent* KoopaEvent = SpawnActor<AKoopaEvent>(ERenderOrder::Gate);
 	KoopaEvent->SetActorLocation({ 8000, 600 });
+
+	AEndingGate* EndingGate = SpawnActor<AEndingGate>(ERenderOrder::Gate);
+	EndingGate->SetActorLocation({ 9600, 800 });
 
 	AItemBox* ItemBrick;
 	ItemBrick = SpawnActor<AItemBox>(ERenderOrder::Brick);

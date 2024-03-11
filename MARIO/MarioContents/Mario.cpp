@@ -20,6 +20,8 @@
 #include "Koopa.h"
 #include "SpinFire.h"
 #include "KoopaFire.h"
+#include "BirdgeHandle.h"
+#include "EndingGate.h"
 
 AMario* AMario::MainPlayer = nullptr;
 
@@ -130,6 +132,8 @@ void AMario::BeginPlay()
 
 	CurDieTime = 0.0f;
 	CurDownTime = 0.0f;
+	CurMaxSpeed = MaxMoveSpeed;
+	CurJumpPower = MoveJumpPower;
 	SizeState = EMarioSizeState::Small;
 	StateChange(EPlayState::Idle);
 }
@@ -268,6 +272,15 @@ void AMario::StateChange(EPlayState _State)
 		case EPlayState::FinishWalk:
 			FinishWalkStart();
 			break;
+		case EPlayState::BossFinish:
+			BossFinishStart();
+			break;
+		case EPlayState::BossFinishWalk:
+			BossFinishWalkStart();
+			break;
+		case EPlayState::Ending:
+			EndingStart();
+			break;
 		}
 	}
 
@@ -334,6 +347,12 @@ void AMario::StateUpdate(float _DeltaTime)
 		break;
 	case EPlayState::FinishWalk:
 		FinishWalk(_DeltaTime);
+		break;
+	case EPlayState::BossFinish:
+		BossFinish(_DeltaTime);
+		break;
+	case EPlayState::BossFinishWalk:
+		BossFinishWalk(_DeltaTime);
 		break;
 	}
 }
@@ -425,7 +444,7 @@ void AMario::FreeMoveStart()
 
 void AMario::IdleStart()
 {
-	if (false == IsChange)
+	if (false == IsChange && false == IsInvincibility)
 	{
 		BodyCollision->ActiveOn();
 		BottomCollision->ActiveOn();
@@ -479,7 +498,7 @@ void AMario::MoveStart()
 void AMario::JumpStart()
 {
 	IsGround = false;
-	JumpForce = JumpPower;
+	JumpForce = CurJumpPower;
 	DirCheck();
 	AddActorLocation(FVector::Up * 5);
 	JumpVector = FVector::Up * JumpForce;
@@ -713,6 +732,27 @@ void AMario::FinishWalkStart()
 	Renderer->ChangeAnimation("Move" + FinishMoveName + "_Right");
 }
 
+void AMario::BossFinishStart()
+{
+	DirState = EActorDir::Left;
+	BodyCollision->SetActive(false);
+	Renderer->ChangeAnimation(GetAnimationName("Idle"));
+}
+
+void AMario::BossFinishWalkStart()
+{
+	DirState = EActorDir::Right;
+	BodyCollision->SetActive(true);
+	Renderer->ChangeAnimation(GetAnimationName("Move"));
+}
+
+void AMario::EndingStart()
+{
+	DirState = EActorDir::Right;
+	MoveVector = FVector::Zero;
+	Renderer->ChangeAnimation(GetAnimationName("Idle"));
+}
+
 void AMario::CameraFreeMove(float _DeltaTime)
 {
 	if (UEngineInput::IsPress(VK_LEFT))
@@ -775,18 +815,29 @@ void AMario::FreeMove(float _DeltaTime)
 
 void AMario::Idle(float _DeltaTime)
 {
+	if (true == UEngineInput::IsPress(VK_LSHIFT))
+	{
+		CurMaxSpeed = MaxRunSpeed;
+		CurJumpPower = MoveJumpPower;
+	}
+	if (true == UEngineInput::IsFree(VK_LSHIFT))
+	{
+		CurMaxSpeed = MaxMoveSpeed;
+		CurJumpPower = RunJumpPower;
+	}
+
 	if (true == IsInvincibility && false == IsChange)
 	{
 		BodyCollision->SetActive(false);
 		HeadCollision->SetActive(false);
-		BottomCollision->SetActive(false);
+		//BottomCollision->SetActive(false);
 		Renderer->SetAlpha(0.5f);
 	}
-	if (false == IsInvincibility && false == IsChange)
+	else if (false == IsInvincibility && false == IsChange)
 	{
 		BodyCollision->SetActive(true);
 		HeadCollision->SetActive(true);
-		BottomCollision->SetActive(true);
+		//BottomCollision->SetActive(true);
 		Renderer->SetAlpha(1.0f);
 	}
 
@@ -873,6 +924,19 @@ void AMario::Move(float _DeltaTime)
 {
 	GroundUp();
 	
+	if (true == UEngineInput::IsPress(VK_LSHIFT))
+	{
+		CurMaxSpeed = MaxRunSpeed;
+		CurJumpPower = RunJumpPower;
+		Renderer->ChangeAnimation(GetAnimationName("MoveFast"));
+	}
+	if (true == UEngineInput::IsFree(VK_LSHIFT))
+	{
+		CurMaxSpeed = MaxMoveSpeed;
+		CurJumpPower = MoveJumpPower;
+		Renderer->ChangeAnimation(GetAnimationName("Move"));
+	}
+
 	if (EMarioSizeState::Small != SizeState && abs(MoveVector.X) > 10.0f && true == UEngineInput::IsDown(VK_DOWN))
 	{
 		StateChange(EPlayState::CrouchMove);
@@ -923,13 +987,13 @@ void AMario::Move(float _DeltaTime)
 			return;
 		}
 
-		if (MoveVector.X <= MaxMoveSpeed)
+		if (MoveVector.X <= CurMaxSpeed)
 		{
 			MoveVector += FVector::Right * MoveAcc * _DeltaTime;
 		}
 		else
 		{
-			MoveVector.X = MaxMoveSpeed;
+			MoveVector.X = CurMaxSpeed;
 		}
 	}
 
@@ -941,13 +1005,13 @@ void AMario::Move(float _DeltaTime)
 			return;
 		}
 
-		if (MoveVector.X >= -MaxMoveSpeed)
+		if (MoveVector.X >= -CurMaxSpeed)
 		{
 			MoveVector += FVector::Left * MoveAcc * _DeltaTime;
 		}
 		else
 		{
-			MoveVector.X = -MaxMoveSpeed;
+			MoveVector.X = -CurMaxSpeed;
 		}
 	}
 
@@ -993,25 +1057,25 @@ void AMario::Jump(float _DeltaTime)
 
 	if (false == IsDown && true == UEngineInput::IsPress(VK_RIGHT))
 	{
-		if (MoveVector.X <= MaxMoveSpeed)
+		if (MoveVector.X <= CurMaxSpeed)
 		{
 			MoveVector += FVector::Right * MoveAcc * 0.5f * _DeltaTime;
 		}
 		else
 		{
-			MoveVector.X = MaxMoveSpeed;
+			MoveVector.X = CurMaxSpeed;
 		}
 	}
 
 	if (false == IsDown && true == UEngineInput::IsPress(VK_LEFT))
 	{
-		if (MoveVector.X >= -MaxMoveSpeed)
+		if (MoveVector.X >= -CurMaxSpeed)
 		{
 			MoveVector += FVector::Left * MoveAcc * 0.5f * _DeltaTime;
 		}
 		else
 		{
-			MoveVector.X = MaxMoveSpeed;
+			MoveVector.X = CurMaxSpeed;
 		}
 	}
 
@@ -1315,6 +1379,28 @@ void AMario::FinishWalk(float _DeltaTime)
 	MoveUpdate(_DeltaTime);
 	JumpVector = FVector::Zero;
 	MoveVector = FVector::Right * FinsihWalkSpeed;
+}
+
+void AMario::BossFinish(float _DeltaTime)
+{
+	if (CurBossFinishTime >= BossFinishTime)
+	{
+		MoveVector.X = 0.0f;
+		JumpVector.Y = 0.0f;
+		GravityVector.Y = 0.0f;
+		StateChange(EPlayState::BossFinishWalk);
+		return;
+	}
+	else
+	{
+		CurBossFinishTime += _DeltaTime;
+	}
+}
+
+void AMario::BossFinishWalk(float _DeltaTime)
+{
+	MoveVector = FVector::Right * 200.0f;
+	MoveUpdate(_DeltaTime);
 }
 
 void AMario::MoveUpdate(float _DeltaTime)
