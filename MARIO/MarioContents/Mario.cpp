@@ -148,6 +148,25 @@ void AMario::Tick(float _DeltaTime)
 	UEngineDebug::DebugTextPrint("X : " + std::to_string(PlayerPos.X) + ", Y : " + std::to_string(PlayerPos.Y), 30.0f);
 	UEngineDebug::DebugTextPrint("\nDeltaTime : " + std::to_string(_DeltaTime), 30.0f);
 
+	if (true == UEngineInput::IsDown(VK_LSHIFT))
+	{
+		IsRun = true;
+		CurMaxSpeed = MaxRunSpeed;
+		CurJumpPower = MoveJumpPower;
+		if (EMarioSizeState::Red == SizeState && UContentsHelper::MarioFireCount < 2)
+		{
+				AMarioFire* MarioFire = GetWorld()->SpawnActor<AMarioFire>(ERenderOrder::Fire);
+				MarioFire->SetActorLocation({ GetActorLocation().X, GetActorLocation().Y - 80 });
+				MarioFire->SetDir(DirState);
+		}
+	}
+	if (true == UEngineInput::IsUp(VK_LSHIFT))
+	{
+		IsRun = false;
+		CurMaxSpeed = MaxMoveSpeed;
+		CurJumpPower = RunJumpPower;
+	}
+
 	if (true == IsChange)
 	{
 		if (CurNoCollisionTime > NoCollisionTime)
@@ -594,9 +613,6 @@ void AMario::GrowDownStart()
 	Renderer->SetAlpha(0.5f);
 
 	BodyCollision->ActiveOff();
-	BottomCollision->ActiveOff();
-	HeadCollision->ActiveOff();
-
 	Renderer->ChangeAnimation("GrowDown" + DirName);
 }
 
@@ -817,7 +833,7 @@ void AMario::FreeMove(float _DeltaTime)
 
 void AMario::Idle(float _DeltaTime)
 {
-	if (true == UEngineInput::IsPress(VK_LSHIFT))
+	/*if (true == UEngineInput::IsPress(VK_LSHIFT))
 	{
 		CurMaxSpeed = MaxRunSpeed;
 		CurJumpPower = MoveJumpPower;
@@ -842,7 +858,7 @@ void AMario::Idle(float _DeltaTime)
 		CurMaxSpeed = MaxMoveSpeed;
 		CurJumpPower = RunJumpPower;
 		CurFireSpawnTime = 0.0f;
-	}
+	}*/
 
 	if (true == IsInvincibility && false == IsChange)
 	{
@@ -942,24 +958,14 @@ void AMario::Move(float _DeltaTime)
 {
 	GroundUp();
 	
-	if (true == UEngineInput::IsPress(VK_LSHIFT))
+	if (true == IsRun)
 	{
-		CurMaxSpeed = MaxRunSpeed;
-		CurJumpPower = RunJumpPower;
 		Renderer->ChangeAnimation(GetAnimationName("MoveFast"));
-		if (UContentsHelper::MarioFireCount < 2 && EMarioSizeState::Red == SizeState)
-		{
-			AMarioFire* MarioFire = GetWorld()->SpawnActor<AMarioFire>(ERenderOrder::Fire);
-			MarioFire->SetActorLocation({ GetActorLocation().X, GetActorLocation().Y - 80 });
-			MarioFire->SetDir(DirState);
-		}
 	}
-	if (true == UEngineInput::IsFree(VK_LSHIFT))
+	
+	if (false == IsRun)
 	{
-		CurMaxSpeed = MaxMoveSpeed;
-		CurJumpPower = MoveJumpPower;
 		Renderer->ChangeAnimation(GetAnimationName("Move"));
-		CurFireSpawnTime = 0.0f;
 	}
 
 	if (EMarioSizeState::Small != SizeState && abs(MoveVector.X) > 10.0f && true == UEngineInput::IsDown(VK_DOWN))
@@ -1047,7 +1053,7 @@ void AMario::Jump(float _DeltaTime)
 {
 	MoveUpdate(_DeltaTime);
 
-	if (true == UEngineInput::IsPress(VK_LSHIFT))
+	/*if (true == UEngineInput::IsPress(VK_LSHIFT))
 	{
 		CurMaxSpeed = MaxRunSpeed;
 		CurJumpPower = MoveJumpPower;
@@ -1072,7 +1078,7 @@ void AMario::Jump(float _DeltaTime)
 		CurMaxSpeed = MaxMoveSpeed;
 		CurJumpPower = RunJumpPower;
 		CurFireSpawnTime = 0.0f;
-	}
+	}*/
 
 	if (JumpVector.Y == 0.0f && GravityVector.Y == 0.0f)
 	{
