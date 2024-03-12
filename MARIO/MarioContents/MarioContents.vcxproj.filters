@@ -138,6 +138,9 @@
     <ClInclude Include="EndingGate.h">
       <Filter>PlayLevel\Actor\Gate</Filter>
     </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>PlayLevel\Actor\Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -238,6 +241,9 @@
     </ClCompile>
     <ClCompile Include="EndingGate.cpp">
       <Filter>PlayLevel\Actor\Gate</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>PlayLevel\Actor\Monster</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

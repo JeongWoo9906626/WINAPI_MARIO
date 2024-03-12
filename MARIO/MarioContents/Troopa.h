@@ -1,8 +1,8 @@
 #pragma once
-#include <EngineCore/Actor.h>
+#include "Monster.h"
 #include "ContentsHelper.h"
 
-class ATroopa : public AActor
+class ATroopa : public AMonster
 {
 public:
 	ATroopa();
@@ -16,57 +16,32 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-	void StateChange(EMonsterState _State);
-	void StateUpdate(float _DeltaTime);
+	void StateChange(EMonsterState _State) override;
+	void StateUpdate(float _DeltaTime) override;
 
-	void AnimationCheck(EActorDir _Dir);
-
+	bool AnimationCheck(bool _IsDirChange);
 	std::string GetAnimationName(std::string _Name);
 
-	void MoveStart();
-	void HideStart();
-	void DeadStart();
-	void ShootStart();
+	void MoveStart() override;
+	void HeadHitStart() override;
 	void WakeStart();
+	//void ShootStart();
 
-	void GravityMove(float _DeltaTime);
-	void Move(float _DeltaTime);
-	void Hide(float _DeltaTime);
-	void Dead(float _DeltaTime);
-	void Shoot(float _DeltaTime);
+	void Move(float _DeltaTime) override;
+	void HeadHit(float _DeltaTime) override;
 	void Wake(float _DeltaTime);
-
-	void ChangeDir(EActorDir _State);
-	void CheckWindowPosition();
+	//void Shoot(float _DeltaTime);
 
 private:
-	UImageRenderer* Renderer = nullptr;
-	UCollision* BodyCollision = nullptr;
+	UCollision* HideLeftCollision = nullptr;
+	UCollision* HideRightCollision = nullptr;
 
-	EMonsterState State = EMonsterState::None;
-	EActorDir DirState = EActorDir::Left;
-	EActorDir DeadState = EActorDir::Left;
-	EMonsterShootDir ShootState = EMonsterShootDir::Left;
-	
-	FVector ShootMoveVector = FVector::Zero;
+	bool IsShoot = false;
 
-	std::string CurAnimationName = "";
+	float HideTime = 3.0f;
+	float CurHideTime = 0.0f;
 
-	bool DeadValue = false;
-	bool DestoryValue = false;
-
-	bool IsAttack = false;
-
-	float MoveSpeed = 100.0f;
-	float ShootSpeed = 600.0f;
-	float GravitySpeed = 500.0f;
-	
-	float DirUnitVector = -1.0f;
-
-	float CollisionHideTime = 0.1f;
-	float CollisionCurTime = 0.0f;
-
-	float WakeUpTime = 5.0f;
-	float CurTime = 0.0f;
+	float WakeTime = 2.0f;
+	float CurWakeTime = 0.0f;
 };
 

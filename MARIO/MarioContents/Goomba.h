@@ -1,8 +1,8 @@
 #pragma once
-#include <EngineCore/Actor.h>
+#include "Monster.h"
 #include "ContentsHelper.h"
 
-class AGoomba : public AActor
+class AGoomba : public AMonster
 {
 public:
 	AGoomba();
@@ -17,33 +17,16 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-	void StateChange(EMonsterState _State);
-	void StateUpdate(float _DelatTime);
+	void StateChange(EMonsterState _State) override;
+	void StateUpdate(float _DelatTime) override;
 
-	void MoveStart();
-	void CollisionMoveStart();
-	void DeadStart();
+	void MoveStart() override;
+	void HeadHitStart() override;
 
-	void Move(float _DeltaTime);
-	void CollisionMove(float _DeltaTime);
-	void GravityMove(float _DeltaTime);
-
-	void ChangeDir(EActorDir _State);
-	void CheckWindowPosition();
+	void Move(float _DeltaTime) override;
+	void HeadHit(float _DeltaTime) override;
 
 private:
-	UImageRenderer* Renderer = nullptr;
-	UCollision* BodyCollision = nullptr;
-	UCollision* BottomCollision = nullptr;
-
-	EMonsterState State = EMonsterState::None;
-	EActorDir DirState = EActorDir::Left;
-
-	bool DestroyValue = false;
-	bool IsBoxCollision = false;
-
-	float MoveSpeed = 100.0f;
-	float GravitySpeed = 500.0f;
-	float DirUnitVector = -1.0f;
+	float DestroyTime = 1.0f;
 };
 

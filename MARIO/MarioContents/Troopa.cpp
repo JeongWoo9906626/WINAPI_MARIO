@@ -12,108 +12,52 @@ ATroopa::~ATroopa()
 
 void ATroopa::BeginPlay()
 {
-	AActor::BeginPlay();
+	AMonster::BeginPlay();
 
-	{
-		Renderer = CreateImageRenderer(ERenderOrder::Monster);
-		Renderer->SetImage("OpenWorldTroopa_Left.png");
-		Renderer->SetTransform({ {0, 0}, {128 * 1.3f, 128 * 1.3f} });
-	}
+	Renderer = CreateImageRenderer(ERenderOrder::Monster);
+	Renderer->SetImage("OpenWorldTroopa_Left.png");
+	Renderer->SetTransform({ {0, 0}, {128 * 1.3f, 128 * 1.3f} });
 
-	{
-		Renderer->CreateAnimation("Troopa_Move_Left", "OpenWorldTroopa_Left.png", 0, 1, 0.1f, true);
-		Renderer->CreateAnimation("Troopa_Move_Right", "OpenWorldTroopa_Right.png", 0, 1, 0.1f, true);
+	Renderer->CreateAnimation("Troopa_Move_Left", "OpenWorldTroopa_Left.png", 0, 1, 0.1f, true);
+	Renderer->CreateAnimation("Troopa_Move_Right", "OpenWorldTroopa_Right.png", 0, 1, 0.1f, true);
 
-		Renderer->CreateAnimation("TroopaWake", "OpenWorldTroopa_Left.png", 4, 5, 0.2f, true);
-		Renderer->CreateAnimation("TroopaHide", "OpenWorldTroopa_Left.png", 4, 4, 0.1f, true);
-	}
+	Renderer->CreateAnimation("TroopaWake", "OpenWorldTroopa_Left.png", 4, 5, 0.2f, true);
+	Renderer->CreateAnimation("TroopaHide", "OpenWorldTroopa_Left.png", 4, 4, 0.1f, true);
 
-	{
-		BodyCollision = CreateCollision(ECollisionOrder::Troopa);
-		BodyCollision->SetColType(ECollisionType::Rect);
-		BodyCollision->SetPosition({ 0, -30 });
-		BodyCollision->SetScale({ 50, 50 });
-	}
+	Collision = CreateCollision(ECollisionOrder::Monster);
+	Collision->SetColType(ECollisionType::Rect);
+	Collision->SetPosition({ 0, -30 });
+	Collision->SetScale({ 50, 40 });
+
+	HeadCollision = CreateCollision(ECollisionOrder::MonsterHead);
+	HeadCollision->SetColType(ECollisionType::Rect);
+	HeadCollision->SetPosition({ 0, -60 });
+	HeadCollision->SetScale({ 30, 10 });
+
+	BottomCollision = CreateCollision(ECollisionOrder::MonsterBottom);
+	BottomCollision->SetColType(ECollisionType::Rect);
+	BottomCollision->SetPosition({ 0, 0 });
+	BottomCollision->SetScale({ 30, 10 });
+
+	HideLeftCollision = CreateCollision(ECollisionOrder::Troopa);
+	HideLeftCollision->SetColType(ECollisionType::Rect);
+	HideLeftCollision->SetTransform({ { -15, -20 }, { 25, 30 } });
+
+	HideRightCollision = CreateCollision(ECollisionOrder::Troopa);
+	HideRightCollision->SetColType(ECollisionType::Rect);
+	HideRightCollision->SetTransform({ { 15, -20 }, { 25, 30 } });
 
 	StateChange(EMonsterState::Move);
 }
 
 void ATroopa::Tick(float _DeltaTime)
 {
-	AActor::Tick(_DeltaTime);
+	AMonster::Tick(_DeltaTime);
 
-	std::vector<UCollision*> Result;
-	if (true == BodyCollision->CollisionCheck(ECollisionOrder::Player, Result))
+	std::vector<UCollision*> MarioShootResult;
+	if (true == HideLeftCollision->CollisionCheck(ECollisionOrder::Player, MarioShootResult))
 	{
-		UCollision* MarioPosition = Result[0];
-		AMario* Player = (AMario*)MarioPosition->GetOwner();
-
-		FTransform Collision = MarioPosition->GetActorBaseTransform();
-		FTransform MyTransform = BodyCollision->GetActorBaseTransform();
-
-		if (EMonsterState::Move == State)
-		{
-			if (Collision.GetPosition().Y + 32.0f < MyTransform.GetPosition().Y)
-			{
-				if (Collision.GetPosition().X < MyTransform.GetPosition().X)
-				{
-					DeadState = EActorDir::Left;
-				}
-				else
-				{
-					DeadState = EActorDir::Right;
-				}
-
-				Player->StateChange(EPlayState::Kill);
-				StateChange(EMonsterState::Hide);
-				return;
-			}
-			else
-			{
-				Player->StateChange(EPlayState::Die);
-				return;
-			}
-		}
-
-		if (EMonsterState::Hide == State)
-		{
-			if (Collision.GetPosition().X < MyTransform.GetPosition().X)
-			{
-				ShootState = EMonsterShootDir::Left;
-			}
-			else
-			{
-				ShootState = EMonsterShootDir::Right;
-			}
-
-			StateChange(EMonsterState::Shoot);
-			return;
-		}
-
-		if (EMonsterState::Shoot == State)
-		{
-			// TODO : 거북이 Shoot상태일 때 마리오와 콜리전 발생시에 죽게 만들기
-			Player->StateChange(EPlayState::Die);
-			return;
-		}
-	}
-
-	// 상대방 Troopa
-	std::vector<UCollision*> TroopaResult;
-	if (true == BodyCollision->CollisionCheck(ECollisionOrder::Troopa, TroopaResult))
-	{
-		//// TODO : 거북이 Shoot상태에서 충돌했을 때 쓰러져서 죽는 상태로 변경
-		Destroy();
-	}
-
-	std::vector<UCollision*> MarioFireResult;
-	if (true == BodyCollision->CollisionCheck(ECollisionOrder::Fire, MarioFireResult))
-	{
-		UCollision* MarioFireCollision = MarioFireResult[0];
-		AMarioFire* MarioFire = (AMarioFire*)MarioFireCollision->GetOwner();
-		MarioFire->SetIsDestroy(true);
-
-		StateChange(EMonsterState::Dead);
+		StateChange(EMonsterState::Shoot);
 		return;
 	}
 
@@ -122,28 +66,15 @@ void ATroopa::Tick(float _DeltaTime)
 
 void ATroopa::StateChange(EMonsterState _State)
 {
-	if (State != _State)
+	AMonster::StateChange(_State);
+
+	switch (_State)
 	{
-		switch (_State)
-		{
-		case EMonsterState::Move:
-			MoveStart();
-			break;
-		case EMonsterState::Hide:
-			HideStart();
-			break;
-		case EMonsterState::Dead:
-			DeadStart();
-			break;
-		case EMonsterState::Shoot:
-			ShootStart();
-			break;
-		case EMonsterState::Wake:
-			WakeStart();
-			break;
-		default:
-			break;
-		}
+	case EMonsterState::Shoot:
+		break;
+	case EMonsterState::Wake:
+		WakeStart();
+		break;
 	}
 
 	State = _State;
@@ -151,43 +82,34 @@ void ATroopa::StateChange(EMonsterState _State)
 
 void ATroopa::StateUpdate(float _DeltaTime)
 {
+	AMonster::StateUpdate(_DeltaTime);
+
 	switch (State)
 	{
-	case EMonsterState::Move:
-		Move(_DeltaTime);
-		break;
-	case EMonsterState::Hide:
-		Hide(_DeltaTime);
-		break;
-	case EMonsterState::Dead:
-		Dead(_DeltaTime);
-		break;
 	case EMonsterState::Shoot:
-		Shoot(_DeltaTime);
 		break;
 	case EMonsterState::Wake:
 		Wake(_DeltaTime);
 		break;
-	default:
-		break;
 	}
-
 }
 
-void ATroopa::AnimationCheck(EActorDir _Dir)
+bool ATroopa::AnimationCheck(bool _IsDirChange)
 {
-	if (_Dir != DirState)
+	if (true == IsDirChange)
 	{
-		DirState = _Dir;
-		std::string Name = GetAnimationName(CurAnimationName);
-		Renderer->ChangeAnimation(Name, true, Renderer->GetCurAnimationFrame(), Renderer->GetCurAnimationTime());
+		IsDirChange = false;
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
 
 std::string ATroopa::GetAnimationName(std::string _Name)
 {
 	std::string DirName = "";
-
 	switch (DirState)
 	{
 	case EActorDir::Left:
@@ -196,225 +118,76 @@ std::string ATroopa::GetAnimationName(std::string _Name)
 	case EActorDir::Right:
 		DirName = "_Right";
 		break;
-	default:
-		break;
 	}
-
-	CurAnimationName = _Name;
 
 	return _Name + DirName;
 }
 
 void ATroopa::MoveStart()
 {
-	DeadValue = false;
-	BodyCollision->SetPosition({ 0, -30 });
-	BodyCollision->SetScale({ 50, 50 });
+	AMonster::MoveStart();
+	HideLeftCollision->ActiveOff();
+	HideRightCollision->ActiveOff();
 	Renderer->ChangeAnimation(GetAnimationName("Troopa_Move"));
 }
 
-void ATroopa::HideStart()
+void ATroopa::HeadHitStart()
 {
-	DeadValue = true;
-	BodyCollision->ActiveOff();
+	AMonster::HeadHitStart();
+	HideLeftCollision->ActiveOn();
+	HideRightCollision->ActiveOn();
 	Renderer->ChangeAnimation("TroopaHide");
-}
-
-void ATroopa::DeadStart()
-{
-	BodyCollision->ActiveOff();
-}
-
-void ATroopa::ShootStart()
-{
-	BodyCollision->ActiveOff();
-	switch (ShootState)
-	{
-	case EMonsterShootDir::Left:
-		DirState = EActorDir::Right;
-		break;
-	case EMonsterShootDir::Right:
-		DirState = EActorDir::Left;
-		break;
-	default:
-		break;
-	}
 }
 
 void ATroopa::WakeStart()
 {
-	DeadValue = false;
-	BodyCollision->SetPosition({ 0, -30 });
-	BodyCollision->SetScale({ 50, 50 });
-}
-
-void ATroopa::GravityMove(float _DeltaTime)
-{
-	FVector GravityVector = { 0.0f, 1.0f, 0.0f, 0.0f };
-	Color8Bit Color = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
-	if (Color == Color8Bit(255, 0, 255, 0))
-	{
-		GravityVector = FVector::Zero;
-	}
-	else
-	{
-		AddActorLocation(GravityVector * GravitySpeed * _DeltaTime);
-	}
+	Renderer->ChangeAnimation("TroopaWake");
 }
 
 void ATroopa::Move(float _DeltaTime)
 {
-	FVector ForwardVector = { 1.0f, 0.0f, 0.0f, 0.0f };
-	GravityMove(_DeltaTime);
+	AMonster::Move(_DeltaTime);
 
-	FVector CheckPos = GetActorLocation();
-	switch (DirState)
+	if (true == AnimationCheck(IsDirChange))
 	{
-	case EActorDir::Left:
-		CheckPos.X -= 32.0f;
-		break;
-	case EActorDir::Right:
-		CheckPos.X += 32.0f;
-		break;
-	default:
-		break;
-	}
-	CheckPos.Y -= 32.0f;
-
-	Color8Bit Color = UContentsHelper::MapColImage->GetColor(CheckPos.iX(), CheckPos.iY(), Color8Bit::MagentaA);
-	if (Color == Color8Bit(255, 0, 255, 0))
-	{
-		ChangeDir(DirState);
 		Renderer->ChangeAnimation(GetAnimationName("Troopa_Move"));
 	}
-
-	if (EActorDir::Left == DirState)
-	{
-		DirUnitVector = -1.0f;
-	}
-	else
-	{
-		DirUnitVector = 1.0f;
-	}
-
-	CheckWindowPosition();
-
-	if (true == DestoryValue)
-	{
-		Destroy();
-	}
-
-	AddActorLocation(ForwardVector * DirUnitVector * MoveSpeed * _DeltaTime);
 }
 
-void ATroopa::Hide(float _DeltaTime)
+void ATroopa::HeadHit(float _DeltaTime)
 {
-	BodyCollision->ActiveOn();
-	BodyCollision->SetPosition({ 0, -10 });
-	BodyCollision->SetScale({ 50, 30 });
-	if (WakeUpTime <= CurTime)
+	if (false == IsShoot)
 	{
-		CurTime = 0.0f;
-		StateChange(EMonsterState::Wake);
+		if (CurHideTime >= HideTime)
+		{
+			CurHideTime = 0.0f;
+			StateChange(EMonsterState::Wake);
+			return;
+		}
+		CurHideTime += _DeltaTime;
+	}
+	if (true == IsShoot)
+	{
+		StateChange(EMonsterState::Shoot);
 		return;
 	}
-
-	if (3.0f <= CurTime)
-	{
-		Renderer->ChangeAnimation("TroopaWake");
-	}
-
-	if (true == DeadValue)
-	{
-		CurTime += _DeltaTime;
-	}
-}
-
-void ATroopa::Dead(float _DeltaTime)
-{
-	Destroy();
-}
-
-void ATroopa::Shoot(float _DeltaTime)
-{
-	if (CollisionHideTime <= CollisionCurTime)
-	{
-		CollisionCurTime = 0.0f;
-		BodyCollision->ActiveOn();
-	}
-	CollisionCurTime += _DeltaTime;
-	FVector ForwardVector = { 1.0f, 0.0f, 0.0f, 0.0f };
-
-	GravityMove(_DeltaTime);
-
-	FVector CheckPos = GetActorLocation();
-	switch (DirState)
-	{
-	case EActorDir::Left:
-	{
-		CheckPos.X -= 32.0f;
-		break;
-	}
-	case EActorDir::Right:
-	{
-		CheckPos.X += 32.0f;
-		break;
-	}
-	default:
-		break;
-	}
-	CheckPos.Y -= 32.0f;
-
-	Color8Bit Color = UContentsHelper::MapColImage->GetColor(CheckPos.iX(), CheckPos.iY(), Color8Bit::MagentaA);
-	if (Color == Color8Bit(255, 0, 255, 0))
-	{
-		ChangeDir(DirState);
-	}
-
-	if (EActorDir::Left == DirState)
-	{
-		DirUnitVector = -1.0f;
-	}
-	else
-	{
-		DirUnitVector = 1.0f;
-	}
-
-	CheckWindowPosition();
-
-	if (true == DestoryValue)
-	{
-		Destroy();
-	}
-
-	AddActorLocation(ForwardVector * DirUnitVector * ShootSpeed * _DeltaTime);
 }
 
 void ATroopa::Wake(float _DeltaTime)
 {
-	DirState = DeadState;
-	StateChange(EMonsterState::Move);
-	return;
-}
-
-void ATroopa::ChangeDir(EActorDir _State)
-{
-	if (EActorDir::Left == DirState)
+	if (false == IsShoot)
 	{
-		DirState = EActorDir::Right;
+		if (CurWakeTime >= WakeTime)
+		{
+			CurWakeTime = 0.0f;
+			StateChange(EMonsterState::Move);
+			return;
+		}
+		CurWakeTime += _DeltaTime;
 	}
-	else
+	if (true == IsShoot)
 	{
-		DirState = EActorDir::Left;
-	}
-}
-
-void ATroopa::CheckWindowPosition()
-{
-	FVector CurPosition = GetActorLocation();
-	FVector CameraPos = GetWorld()->GetCameraPos();
-	if (CameraPos.X >= CurPosition.X)
-	{
-		DestoryValue = true;
+		StateChange(EMonsterState::Shoot);
+		return;
 	}
 }

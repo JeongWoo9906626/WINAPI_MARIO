@@ -2,6 +2,7 @@
 #include <EngineCore/Actor.h>
 #include "ContentsHelper.h"
 
+class AMonster;
 class AGoomba;
 class ATroopa;
 class APlant;
@@ -20,6 +21,7 @@ class AEndingGate;
 // Ό³Έν :
 class AMario : public AActor
 {
+	friend AMonster;
 	friend AGoomba;
 	friend ATroopa;
 	friend APlant;

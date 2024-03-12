@@ -5,6 +5,7 @@
 #include <EngineCore/EngineDebug.h>
 
 #include "ContentsHelper.h"
+#include "Monster.h"
 #include "Goomba.h"
 #include "Troopa.h"
 #include "Plant.h"
@@ -136,7 +137,6 @@ void AMario::BeginPlay()
 	CurMaxSpeed = MaxMoveSpeed;
 	CurJumpPower = MoveJumpPower;
 	SizeState = EMarioSizeState::Small;
-	UContentsHelper::MSizeState = EMarioSizeState::Red;
 	StateChange(EPlayState::Idle);
 }
 

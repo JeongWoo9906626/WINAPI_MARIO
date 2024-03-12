@@ -13,7 +13,7 @@ AGoomba::~AGoomba()
 
 void AGoomba::BeginPlay()
 {
-	AActor::BeginPlay();
+	AMonster::BeginPlay();
 
 	{
 		Renderer = CreateImageRenderer(ERenderOrder::Monster);
@@ -27,282 +27,67 @@ void AGoomba::BeginPlay()
 	}
 
 	{
-		BodyCollision = CreateCollision(ECollisionOrder::Goomba);
-		BodyCollision->SetColType(ECollisionType::Rect);
-		BodyCollision->SetPosition({ 0, -30 });
-		BodyCollision->SetScale({ 40, 40 });
+		Collision = CreateCollision(ECollisionOrder::Monster);
+		Collision->SetColType(ECollisionType::Rect);
+		Collision->SetPosition({ 0, -20 });
+		Collision->SetScale({ 40, 30 });
 	}
 
 	{
-		BottomCollision = CreateCollision(ECollisionOrder::Goomba);
+		HeadCollision = CreateCollision(ECollisionOrder::MonsterHead);
+		HeadCollision->SetColType(ECollisionType::Rect);
+		HeadCollision->SetPosition({ 0, -50 });
+		HeadCollision->SetScale({ 30, 10 });
+	}
+
+	{
+		BottomCollision = CreateCollision(ECollisionOrder::MonsterBottom);
 		BottomCollision->SetColType(ECollisionType::Rect);
 		BottomCollision->SetPosition({ 0, 0 });
 		BottomCollision->SetScale({ 30, 10 });
 	}
+
 
 	StateChange(EMonsterState::Move);
 }
 
 void AGoomba::Tick(float _DeltaTime)
 {
-	AActor::Tick(_DeltaTime);
+	AMonster::Tick(_DeltaTime);
 	
-	std::vector<UCollision*> MarioResult;
-	if (true == BodyCollision->CollisionCheck(ECollisionOrder::Player, MarioResult))
-	{
-		UCollision* MarioPosition = MarioResult[0];
-		AMario* Player = (AMario*)MarioPosition->GetOwner();
-
-		FTransform Collision = MarioPosition->GetActorBaseTransform();
-
-		FTransform MyTransform = BodyCollision->GetActorBaseTransform();
-
-		if (Collision.GetPosition().Y + 32.0f < MyTransform.GetPosition().Y)
-		{
-			Player->StateChange(EPlayState::Kill);
-			StateChange(EMonsterState::Dead);
-			return;
-		}
-		else
-		{
-			if (Player->SizeState != EMarioSizeState::Small)
-			{
-				Player->StateChange(EPlayState::GrowDown);
-				return;
-			}
-			else
-			{
-				Player->StateChange(EPlayState::Die);
-				return;
-			}
-		}
-	}
-
-	std::vector<UCollision*> BoxTopResult;
-	if (true == BottomCollision->CollisionCheck(ECollisionOrder::BoxTop, BoxTopResult))
-	{
-		for (UCollision* BoxPosition : BoxTopResult)
-		{
-			IsBoxCollision = true;
-		}
-	}
-	else
-	{
-		IsBoxCollision = false;
-	}
-
-	std::vector<UCollision*> TroopaResult;
-	if (true == BodyCollision->CollisionCheck(ECollisionOrder::Troopa, MarioResult))
-	{
-		StateChange(EMonsterState::Dead);
-		return;
-	}
-
-	std::vector<UCollision*> MarioFireResult;
-	if (true == BodyCollision->CollisionCheck(ECollisionOrder::Fire, MarioFireResult))
-	{
-		UCollision* MarioFireCollision = MarioFireResult[0];
-		AMarioFire* MarioFire = (AMarioFire*)MarioFireCollision->GetOwner();
-		MarioFire->SetIsDestroy(true);
-
-		StateChange(EMonsterState::Dead);
-		return;
-	}
-
 	StateUpdate(_DeltaTime);
 }
 
 void AGoomba::StateChange(EMonsterState _State)
 {
-	if (State != _State)
-	{
-		switch (_State)
-		{
-		case EMonsterState::Move:
-			MoveStart();
-			break;
-		case EMonsterState::CollisionMove:
-			CollisionMoveStart();
-			break;
-		case EMonsterState::Dead:
-			DeadStart();
-			break;
-		default:
-			break;
-		}
-	}
-
-	State = _State;
+	AMonster::StateChange(_State);
 }
 
 void AGoomba::StateUpdate(float _DeltaTime)
 {
-	switch (State)
-	{
-	case EMonsterState::Move:
-		Move(_DeltaTime);
-		break;
-	case EMonsterState::CollisionMove:
-		CollisionMove(_DeltaTime);
-		break;
-	default:
-		break;
-	}
+	AMonster::StateUpdate(_DeltaTime);
 }
 
 void AGoomba::MoveStart()
 {
-	DestroyValue = false;
+	AMonster::MoveStart();
 	Renderer->ChangeAnimation("GoombaMove");
 }
 
-void AGoomba::CollisionMoveStart()
+void AGoomba::HeadHitStart()
 {
-	DestroyValue = false;
-	Renderer->ChangeAnimation("GoombaMove");
-}
-
-void AGoomba::DeadStart()
-{
-	DestroyValue = true;
+	AMonster::HeadHitStart();
 	Renderer->ChangeAnimation("GoombaDie");
-	BodyCollision->ActiveOff();
-	BottomCollision->ActiveOff();
-	Destroy(0.5f);
 }
-
 
 void AGoomba::Move(float _DeltaTime)
 {
-	if (true == IsBoxCollision)
-	{
-		StateChange(EMonsterState::CollisionMove);
-		return;
-	}
-
-	FVector ForwardVector = { 1.0f, 0.0f, 0.0f, 0.0f };
-	GravityMove(_DeltaTime);
-
-	FVector CheckPos = GetActorLocation();
-	switch (DirState)
-	{
-	case EActorDir::Left:
-		CheckPos.X -= 32.0f;
-		break;
-	case EActorDir::Right: 
-		CheckPos.X += 32.0f;
-		break;
-	default:
-		break;
-	}
-	CheckPos.Y -= 32.0f;
-
-	Color8Bit Color = UContentsHelper::MapColImage->GetColor(CheckPos.iX(), CheckPos.iY(), Color8Bit::MagentaA);
-	if (Color == Color8Bit(255, 0, 255, 0))
-	{
-		ChangeDir(DirState);
-	}
-
-	if (EActorDir::Left == DirState)
-	{
-		DirUnitVector = -1.0f;
-	}
-	else
-	{
-		DirUnitVector = 1.0f;
-	}
-
-	CheckWindowPosition();
-
-	if (true == DestroyValue)
-	{
-		Destroy();
-	}
-	
-	AddActorLocation(ForwardVector * DirUnitVector * MoveSpeed * _DeltaTime);
+	AMonster::Move(_DeltaTime);
 }
 
-void AGoomba::CollisionMove(float _DeltaTime)
+void AGoomba::HeadHit(float _DeltaTime)
 {
-	if (false == IsBoxCollision)
-	{
-		StateChange(EMonsterState::Move);
-		return;
-	}
+	AMonster::HeadHit(_DeltaTime);
 
-	FVector ForwardVector = { 1.0f, 0.0f, 0.0f, 0.0f };
-
-	FVector CheckPos = GetActorLocation();
-	switch (DirState)
-	{
-	case EActorDir::Left:
-		CheckPos.X -= 32.0f;
-		break;
-	case EActorDir::Right:
-		CheckPos.X += 32.0f;
-		break;
-	default:
-		break;
-	}
-	CheckPos.Y -= 32.0f;
-
-	Color8Bit Color = UContentsHelper::MapColImage->GetColor(CheckPos.iX(), CheckPos.iY(), Color8Bit::MagentaA);
-	if (Color == Color8Bit(255, 0, 255, 0))
-	{
-		ChangeDir(DirState);
-	}
-
-	if (EActorDir::Left == DirState)
-	{
-		DirUnitVector = -1.0f;
-	}
-	else
-	{
-		DirUnitVector = 1.0f;
-	}
-
-	CheckWindowPosition();
-
-	if (true == DestroyValue)
-	{
-		Destroy();
-	}
-
-	AddActorLocation(ForwardVector * DirUnitVector * MoveSpeed * _DeltaTime);
-}
-
-void AGoomba::GravityMove(float _DeltaTime)
-{
-	FVector GravityVector = { 0.0f, 1.0f, 0.0f, 0.0f };
-	Color8Bit Color = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
-	if (Color == Color8Bit(255, 0, 255, 0))
-	{
-		GravityVector = FVector::Zero;
-	}
-	else
-	{
-		AddActorLocation(GravityVector * GravitySpeed * _DeltaTime);
-	}
-}
-
-void AGoomba::ChangeDir(EActorDir _State)
-{
-	if (EActorDir::Left == DirState)
-	{
-		DirState = EActorDir::Right;
-	}
-	else
-	{
-		DirState = EActorDir::Left;
-	}
-}
-
-void AGoomba::CheckWindowPosition()
-{
-	FVector CurPosition = GetActorLocation();
-	FVector CameraPos = GetWorld()->GetCameraPos();
-	if (CameraPos.X >= CurPosition.X)
-	{
-		DestroyValue = true;
-	}
+	Destroy(DestroyTime);
 }

@@ -25,6 +25,9 @@ enum class ECollisionOrder
 	Player,
 	PlayerHead,
 	PlayerBottom,
+	Monster,
+	MonsterHead,
+	MonsterBottom,
 	Goomba,
 	Troopa,
 	Box,
@@ -96,9 +99,8 @@ enum class EKoopaState
 enum class EMonsterState
 {
 	Move,
-	CollisionMove,
-	Dead,
-	Hide,
+	SpinDead,
+	HeadHit,
 	Shoot,
 	Wake,
 	None
