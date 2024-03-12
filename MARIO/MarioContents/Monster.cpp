@@ -38,7 +38,7 @@ void AMonster::Tick(float _DeltaTime)
 	{
 		IsBoxCollision = false;
 	}
-	
+
 	std::vector<UCollision*> MarioFireResult;
 	if (true == Collision->CollisionCheck(ECollisionOrder::Fire, MarioFireResult))
 	{
@@ -54,19 +54,20 @@ void AMonster::Tick(float _DeltaTime)
 		}
 	}
 
+	std::vector<UCollision*> MarioKillResult;
+	if (true == HeadCollision->CollisionCheck(ECollisionOrder::Player, MarioKillResult))
+	{
+		UCollision* MarioCollision = MarioKillResult[0];
+		AMario* Mario = static_cast<AMario*>(MarioCollision->GetOwner());
+		Mario->StateChange(EPlayState::Kill);
+		StateChange(EMonsterState::HeadHit);
+		return;
+	}
+
 	std::vector<UCollision*> TroopaResult;
 	if (true == Collision->CollisionCheck(ECollisionOrder::Troopa, TroopaResult))
 	{
 		StateChange(EMonsterState::SpinDead);
-		return;
-	}
-
-	std::vector<UCollision*> MonsterResult;
-	if (true == Collision->CollisionCheck(ECollisionOrder::Monster, MonsterResult))
-	{
-		UCollision* MonsterCollision = MonsterResult[0];
-		AMonster* Monster = static_cast<AMonster*>(MonsterCollision->GetOwner());
-		Monster->ChangeDir();
 		return;
 	}
 
@@ -78,6 +79,7 @@ void AMonster::Tick(float _DeltaTime)
 
 		if (Mario->SizeState != EMarioSizeState::Small)
 		{
+			Mario->SizeState = EMarioSizeState::Small;
 			Mario->StateChange(EPlayState::GrowDown);
 			return;
 		}
@@ -88,13 +90,26 @@ void AMonster::Tick(float _DeltaTime)
 		}
 	}
 
-	std::vector<UCollision*> MarioKillResult;
-	if (true == HeadCollision->CollisionCheck(ECollisionOrder::Player, MarioKillResult))
+	std::vector<UCollision*> MonsterResult;
+	if (true == Collision->CollisionCheck(ECollisionOrder::Monster, MonsterResult))
 	{
-		UCollision* MarioCollision = MarioKillResult[0];
-		AMario* Mario = static_cast<AMario*>(MarioCollision->GetOwner());
-		Mario->StateChange(EPlayState::Kill);
-		StateChange(EMonsterState::HeadHit);
+		UCollision* MonsterCollision = MonsterResult[0];
+		AMonster* Monster = static_cast<AMonster*>(MonsterCollision->GetOwner());
+
+		if (Monster->DirState == EActorDir::Left)
+		{
+			Monster->ChangeDir();
+			Monster->AddActorLocation(FVector::Right);
+			ChangeDir();
+			AddActorLocation(FVector::Left);
+		}
+		else
+		{
+			Monster->ChangeDir();
+			Monster->AddActorLocation(FVector::Left);
+			ChangeDir();
+			AddActorLocation(FVector::Right);
+		}
 		return;
 	}
 
@@ -222,7 +237,7 @@ void AMonster::Move(float _DeltaTime)
 		break;
 	}
 
-	AddActorLocation({ UnitDir * MoveSpeed * _DeltaTime, 0.0f});
+	AddActorLocation({ UnitDir * MoveSpeed * _DeltaTime, 0.0f });
 }
 
 void AMonster::SpinDead(float _DeltaTime)
@@ -232,7 +247,7 @@ void AMonster::SpinDead(float _DeltaTime)
 
 void AMonster::HeadHit(float _DeltaTime)
 {
-	
+
 }
 
 void AMonster::GravityMove(float _DeltaTime)
