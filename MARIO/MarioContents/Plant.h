@@ -22,14 +22,16 @@ protected:
 	void MoveStart();
 	void WaitStart();
 	void StopStart();
+	void DeadStart();
 
 	void Move(float _DeltaTime);
 	void Wait(float _DeltaTime);
 	void Stop(float _DeltaTime);
+	void Dead(float _DeltaTime);
 
 private:
 	UImageRenderer* Renderer = nullptr;
-	UCollision* BodyCollision = nullptr;
+	UCollision* Collision = nullptr;
 
 	EPlantState State = EPlantState::None;
 
@@ -43,5 +45,8 @@ private:
 
 	float CurTime = 0.0f;
 	float WaitTime = 2.0f;
+
+	float DestroyTime = 0.5f;
+	float CurDestoryTime = 0.0f;
 };
 

@@ -170,6 +170,9 @@ private:
 	float CurBossFinishTime = 0.0f;
 	float BossFinishTime = 4.0f;
 
+	float FireSpawnTime = 0.1f;
+	float CurFireSpawnTime = 0.0f;
+
 	void MoveUpdate(float _DeltaTime);
 	void GroundUp();
 	void WallUp();

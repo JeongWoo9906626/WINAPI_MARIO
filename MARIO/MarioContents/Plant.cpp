@@ -1,5 +1,6 @@
 #include "Plant.h"
 #include "Mario.h"
+#include "MarioFire.h"
 
 APlant::APlant()
 {
@@ -26,10 +27,10 @@ void APlant::BeginPlay()
 	}
 
 	{
-		BodyCollision = CreateCollision(ECollisionOrder::Goomba);
-		BodyCollision->SetColType(ECollisionType::Rect);
-		BodyCollision->SetPosition({ 0, -40 });
-		BodyCollision->SetScale({ 40, 80 });
+		Collision = CreateCollision(ECollisionOrder::Goomba);
+		Collision->SetColType(ECollisionType::Rect);
+		Collision->SetPosition({ 0, -40 });
+		Collision->SetScale({ 40, 80 });
 	}
 	Renderer->ChangeAnimation("PlantIdle");
 
@@ -42,7 +43,7 @@ void APlant::Tick(float _DeltaTime)
 
 
 	std::vector<UCollision*> MarioResult;
-	if (true == BodyCollision->CollisionCheck(ECollisionOrder::Player, MarioResult))
+	if (true == Collision->CollisionCheck(ECollisionOrder::Player, MarioResult))
 	{
 		UCollision* MarioCollision = MarioResult[0];
 		AMario* Mario = (AMario*)MarioCollision->GetOwner();
@@ -58,6 +59,17 @@ void APlant::Tick(float _DeltaTime)
 			return;
 		}
 		
+	}
+
+	std::vector<UCollision*> MarioFireResult;
+	if (true == Collision->CollisionCheck(ECollisionOrder::Fire, MarioFireResult))
+	{
+		UCollision* MarioFireCollision = MarioFireResult[0];
+		AMarioFire* MarioFire = (AMarioFire*)MarioFireCollision->GetOwner();
+		MarioFire->SetIsDestroy(true);
+
+		StateChange(EPlantState::Dead);
+		return;
 	}
 
 	StateUpdate(_DeltaTime);
@@ -78,7 +90,8 @@ void APlant::StateChange(EPlantState _State)
 		case EPlantState::Stop:
 			StopStart();
 			break;
-		default:
+		case EPlantState::Dead:
+			DeadStart();
 			break;
 		}
 	}
@@ -99,7 +112,8 @@ void APlant::StateUpdate(float _DeltaTime)
 	case EPlantState::Stop:
 		Stop(_DeltaTime);
 		break;
-	default:
+	case EPlantState::Dead:
+		Dead(_DeltaTime);
 		break;
 	}
 }
@@ -116,6 +130,12 @@ void APlant::WaitStart()
 
 void APlant::StopStart()
 {
+}
+
+void APlant::DeadStart()
+{
+	Collision->ActiveOff();
+	Renderer->SetAlpha(0.5f);
 }
 
 void APlant::Move(float _DeltaTime)
@@ -155,4 +175,17 @@ void APlant::Wait(float _DeltaTime)
 
 void APlant::Stop(float _DeltaTime)
 {
+	
+}
+
+void APlant::Dead(float _DeltaTime)
+{
+	if (CurDestoryTime >= DestroyTime)
+	{
+		Destroy();
+	}
+	else
+	{
+		CurDestoryTime += _DeltaTime;
+	}
 }

@@ -9,6 +9,7 @@ int UContentsHelper::Score = 1000000;
 int UContentsHelper::Time = 1400;
 int UContentsHelper::MainStage = 1;
 int UContentsHelper::SubStage = 1;
+int UContentsHelper::MarioFireCount = 0;
 
 bool UContentsHelper::KoopaDie = false;
 bool UContentsHelper::KoopaWake = false;

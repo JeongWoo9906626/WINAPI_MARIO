@@ -1,6 +1,7 @@
 #include "Goomba.h"
 #include "Mario.h"
 #include "Troopa.h"
+#include "MarioFire.h"
 
 AGoomba::AGoomba()
 {
@@ -93,6 +94,17 @@ void AGoomba::Tick(float _DeltaTime)
 	std::vector<UCollision*> TroopaResult;
 	if (true == BodyCollision->CollisionCheck(ECollisionOrder::Troopa, MarioResult))
 	{
+		StateChange(EMonsterState::Dead);
+		return;
+	}
+
+	std::vector<UCollision*> MarioFireResult;
+	if (true == BodyCollision->CollisionCheck(ECollisionOrder::Fire, MarioFireResult))
+	{
+		UCollision* MarioFireCollision = MarioFireResult[0];
+		AMarioFire* MarioFire = (AMarioFire*)MarioFireCollision->GetOwner();
+		MarioFire->SetIsDestroy(true);
+
 		StateChange(EMonsterState::Dead);
 		return;
 	}

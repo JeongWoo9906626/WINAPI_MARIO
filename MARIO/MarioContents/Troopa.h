@@ -24,12 +24,14 @@ protected:
 	std::string GetAnimationName(std::string _Name);
 
 	void MoveStart();
+	void HideStart();
 	void DeadStart();
 	void ShootStart();
 	void WakeStart();
 
 	void GravityMove(float _DeltaTime);
 	void Move(float _DeltaTime);
+	void Hide(float _DeltaTime);
 	void Dead(float _DeltaTime);
 	void Shoot(float _DeltaTime);
 	void Wake(float _DeltaTime);

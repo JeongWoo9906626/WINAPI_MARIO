@@ -33,6 +33,7 @@ enum class ECollisionOrder
 	Flag,
 	Step,
 	HiddenCoin,
+	Fire,
 };
 
 enum class EActorDir
@@ -97,6 +98,7 @@ enum class EMonsterState
 	Move,
 	CollisionMove,
 	Dead,
+	Hide,
 	Shoot,
 	Wake,
 	None
@@ -107,6 +109,7 @@ enum class EPlantState
 	Move,
 	Wait,
 	Stop,
+	Dead,
 	None,
 };
 
@@ -168,6 +171,7 @@ public:
 	static float HiddenStageOutCameraPosX;
 	static FVector HiddenStageSpawnPos;
 	static FVector HiddenStageOutSpawnPos;
+	static int MarioFireCount;
 
 protected:
 

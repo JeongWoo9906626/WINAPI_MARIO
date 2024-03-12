@@ -1,5 +1,6 @@
 #include "Troopa.h"
 #include "Mario.h"
+#include "MarioFire.h"
 
 ATroopa::ATroopa()
 {
@@ -64,7 +65,7 @@ void ATroopa::Tick(float _DeltaTime)
 				}
 
 				Player->StateChange(EPlayState::Kill);
-				StateChange(EMonsterState::Dead);
+				StateChange(EMonsterState::Hide);
 				return;
 			}
 			else
@@ -74,7 +75,7 @@ void ATroopa::Tick(float _DeltaTime)
 			}
 		}
 
-		if (EMonsterState::Dead == State)
+		if (EMonsterState::Hide == State)
 		{
 			if (Collision.GetPosition().X < MyTransform.GetPosition().X)
 			{
@@ -105,6 +106,17 @@ void ATroopa::Tick(float _DeltaTime)
 		Destroy();
 	}
 
+	std::vector<UCollision*> MarioFireResult;
+	if (true == BodyCollision->CollisionCheck(ECollisionOrder::Fire, MarioFireResult))
+	{
+		UCollision* MarioFireCollision = MarioFireResult[0];
+		AMarioFire* MarioFire = (AMarioFire*)MarioFireCollision->GetOwner();
+		MarioFire->SetIsDestroy(true);
+
+		StateChange(EMonsterState::Dead);
+		return;
+	}
+
 	StateUpdate(_DeltaTime);
 }
 
@@ -116,6 +128,9 @@ void ATroopa::StateChange(EMonsterState _State)
 		{
 		case EMonsterState::Move:
 			MoveStart();
+			break;
+		case EMonsterState::Hide:
+			HideStart();
 			break;
 		case EMonsterState::Dead:
 			DeadStart();
@@ -140,6 +155,9 @@ void ATroopa::StateUpdate(float _DeltaTime)
 	{
 	case EMonsterState::Move:
 		Move(_DeltaTime);
+		break;
+	case EMonsterState::Hide:
+		Hide(_DeltaTime);
 		break;
 	case EMonsterState::Dead:
 		Dead(_DeltaTime);
@@ -195,11 +213,16 @@ void ATroopa::MoveStart()
 	Renderer->ChangeAnimation(GetAnimationName("Troopa_Move"));
 }
 
-void ATroopa::DeadStart()
+void ATroopa::HideStart()
 {
 	DeadValue = true;
 	BodyCollision->ActiveOff();
 	Renderer->ChangeAnimation("TroopaHide");
+}
+
+void ATroopa::DeadStart()
+{
+	BodyCollision->ActiveOff();
 }
 
 void ATroopa::ShootStart()
@@ -284,7 +307,7 @@ void ATroopa::Move(float _DeltaTime)
 	AddActorLocation(ForwardVector * DirUnitVector * MoveSpeed * _DeltaTime);
 }
 
-void ATroopa::Dead(float _DeltaTime)
+void ATroopa::Hide(float _DeltaTime)
 {
 	BodyCollision->ActiveOn();
 	BodyCollision->SetPosition({ 0, -10 });
@@ -305,6 +328,11 @@ void ATroopa::Dead(float _DeltaTime)
 	{
 		CurTime += _DeltaTime;
 	}
+}
+
+void ATroopa::Dead(float _DeltaTime)
+{
+	Destroy();
 }
 
 void ATroopa::Shoot(float _DeltaTime)

@@ -22,6 +22,7 @@
 #include "KoopaFire.h"
 #include "BirdgeHandle.h"
 #include "EndingGate.h"
+#include "MarioFire.h"
 
 AMario* AMario::MainPlayer = nullptr;
 
@@ -135,6 +136,7 @@ void AMario::BeginPlay()
 	CurMaxSpeed = MaxMoveSpeed;
 	CurJumpPower = MoveJumpPower;
 	SizeState = EMarioSizeState::Small;
+	UContentsHelper::MSizeState = EMarioSizeState::Red;
 	StateChange(EPlayState::Idle);
 }
 
@@ -819,11 +821,27 @@ void AMario::Idle(float _DeltaTime)
 	{
 		CurMaxSpeed = MaxRunSpeed;
 		CurJumpPower = MoveJumpPower;
+		if (EMarioSizeState::Red == SizeState)
+		{
+			if (UContentsHelper::MarioFireCount < 2 && CurFireSpawnTime >= FireSpawnTime)
+			{
+				CurFireSpawnTime = 0.0f;
+				AMarioFire* MarioFire = GetWorld()->SpawnActor<AMarioFire>(ERenderOrder::Fire);
+				MarioFire->SetActorLocation({ GetActorLocation().X, GetActorLocation().Y - 80 });
+				MarioFire->SetDir(DirState);
+			}
+			else
+			{
+				CurFireSpawnTime += _DeltaTime;
+			}
+
+		}
 	}
 	if (true == UEngineInput::IsFree(VK_LSHIFT))
 	{
 		CurMaxSpeed = MaxMoveSpeed;
 		CurJumpPower = RunJumpPower;
+		CurFireSpawnTime = 0.0f;
 	}
 
 	if (true == IsInvincibility && false == IsChange)
@@ -929,12 +947,19 @@ void AMario::Move(float _DeltaTime)
 		CurMaxSpeed = MaxRunSpeed;
 		CurJumpPower = RunJumpPower;
 		Renderer->ChangeAnimation(GetAnimationName("MoveFast"));
+		if (UContentsHelper::MarioFireCount < 2 && EMarioSizeState::Red == SizeState)
+		{
+			AMarioFire* MarioFire = GetWorld()->SpawnActor<AMarioFire>(ERenderOrder::Fire);
+			MarioFire->SetActorLocation({ GetActorLocation().X, GetActorLocation().Y - 80 });
+			MarioFire->SetDir(DirState);
+		}
 	}
 	if (true == UEngineInput::IsFree(VK_LSHIFT))
 	{
 		CurMaxSpeed = MaxMoveSpeed;
 		CurJumpPower = MoveJumpPower;
 		Renderer->ChangeAnimation(GetAnimationName("Move"));
+		CurFireSpawnTime = 0.0f;
 	}
 
 	if (EMarioSizeState::Small != SizeState && abs(MoveVector.X) > 10.0f && true == UEngineInput::IsDown(VK_DOWN))
@@ -1021,6 +1046,33 @@ void AMario::Move(float _DeltaTime)
 void AMario::Jump(float _DeltaTime)
 {
 	MoveUpdate(_DeltaTime);
+
+	if (true == UEngineInput::IsPress(VK_LSHIFT))
+	{
+		CurMaxSpeed = MaxRunSpeed;
+		CurJumpPower = MoveJumpPower;
+		if (EMarioSizeState::Red == SizeState)
+		{
+			if (UContentsHelper::MarioFireCount < 2 && CurFireSpawnTime >= FireSpawnTime)
+			{
+				CurFireSpawnTime = 0.0f;
+				AMarioFire* MarioFire = GetWorld()->SpawnActor<AMarioFire>(ERenderOrder::Fire);
+				MarioFire->SetActorLocation({ GetActorLocation().X, GetActorLocation().Y - 80 });
+				MarioFire->SetDir(DirState);
+			}
+			else
+			{
+				CurFireSpawnTime += _DeltaTime;
+			}
+
+		}
+	}
+	if (true == UEngineInput::IsFree(VK_LSHIFT))
+	{
+		CurMaxSpeed = MaxMoveSpeed;
+		CurJumpPower = RunJumpPower;
+		CurFireSpawnTime = 0.0f;
+	}
 
 	if (JumpVector.Y == 0.0f && GravityVector.Y == 0.0f)
 	{

@@ -2,24 +2,44 @@
 #include <EngineCore/Actor.h>
 #include "ContentsHelper.h"
 
-class MarioFire : public AActor
+class AMarioFire : public AActor
 {
 public:
-	MarioFire();
-	~MarioFire();
+	AMarioFire();
+	~AMarioFire();
 
-	MarioFire(const MarioFire& _Other) = delete;
-	MarioFire(MarioFire&& _Other) noexcept = delete;
-	MarioFire& operator=(const MarioFire& _Other) = delete;
-	MarioFire& operator=(MarioFire&& _Other) noexcept = delete;
+	AMarioFire(const AMarioFire& _Other) = delete;
+	AMarioFire(AMarioFire&& _Other) noexcept = delete;
+	AMarioFire& operator=(const AMarioFire& _Other) = delete;
+	AMarioFire& operator=(AMarioFire&& _Other) noexcept = delete;
+
+	void SetIsDestroy(bool _IsDestroy);
+	void SetDir(EActorDir _Dir);
 
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime);
 
+	void MoveUpdate(float _DeltaTime);
+	void DestroyStart(float _DeltaTime);
+	void CheckWindowPosition();
+
 private:
-	UImageRenderer* Renderer = nullptr;
+	UImageRenderer* FireRenderer = nullptr;
+	UImageRenderer* BombRenderer = nullptr;
 	UCollision* Collision = nullptr;
+
+	EActorDir Dir = EActorDir::Right;
+
+	bool IsDestroy = false;
+
+	float CurDestroyTime = 0.0f;
+	float DestroyTime = 0.3f;
+
+	float MoveSpeed = 600.0f;
+	float CurJumpPower = 0.0f;
+	float JumpPower = -400.0f;
+	float GravityAcc = 800.0f;
 
 };
 
