@@ -54,12 +54,48 @@ void ATroopa::Tick(float _DeltaTime)
 {
 	AMonster::Tick(_DeltaTime);
 
-	std::vector<UCollision*> MarioShootResult;
-	if (true == HideLeftCollision->CollisionCheck(ECollisionOrder::Player, MarioShootResult))
+	if (EMonsterState::Shoot == State)
 	{
-		StateChange(EMonsterState::Shoot);
-		return;
+		std::vector<UCollision*> MarioResult;
+		if (true == HideLeftCollision->CollisionCheck(ECollisionOrder::Player, MarioResult) || true == HideRightCollision->CollisionCheck(ECollisionOrder::Player, MarioResult))
+		{
+			UCollision* MarioCollision = MarioResult[0];
+			AMario* Mario = static_cast<AMario*>(MarioCollision->GetOwner());
+
+			if (Mario->SizeState != EMarioSizeState::Small)
+			{
+				Mario->StateChange(EPlayState::GrowDown);
+				return;
+			}
+			else
+			{
+				Mario->StateChange(EPlayState::Die);
+				return;
+			}
+		}
 	}
+
+	if (EMonsterState::HeadHit == State || EMonsterState::Wake == State)
+	{
+		std::vector<UCollision*> ShootLeftResult;
+		if (true == HideLeftCollision->CollisionCheck(ECollisionOrder::Player, ShootLeftResult))
+		{
+			IsShoot = true;
+			DirState = EActorDir::Right;
+			StateChange(EMonsterState::Shoot);
+			return;
+		}
+
+		std::vector<UCollision*> ShootRightResult;
+		if (true == HideRightCollision->CollisionCheck(ECollisionOrder::Player, ShootRightResult))
+		{
+			IsShoot = true;
+			DirState = EActorDir::Left;
+			StateChange(EMonsterState::Shoot);
+			return;
+		}
+	}
+	
 
 	StateUpdate(_DeltaTime);
 }
@@ -71,6 +107,7 @@ void ATroopa::StateChange(EMonsterState _State)
 	switch (_State)
 	{
 	case EMonsterState::Shoot:
+		ShootStart();
 		break;
 	case EMonsterState::Wake:
 		WakeStart();
@@ -87,6 +124,7 @@ void ATroopa::StateUpdate(float _DeltaTime)
 	switch (State)
 	{
 	case EMonsterState::Shoot:
+		Shoot(_DeltaTime);
 		break;
 	case EMonsterState::Wake:
 		Wake(_DeltaTime);
@@ -144,6 +182,14 @@ void ATroopa::WakeStart()
 	Renderer->ChangeAnimation("TroopaWake");
 }
 
+void ATroopa::ShootStart()
+{
+	MoveSpeed = ShootSpeed;
+	HideLeftCollision->ActiveOff();
+	HideRightCollision->ActiveOff();
+	Renderer->ChangeAnimation("TroopaHide");
+}
+
 void ATroopa::Move(float _DeltaTime)
 {
 	AMonster::Move(_DeltaTime);
@@ -166,11 +212,6 @@ void ATroopa::HeadHit(float _DeltaTime)
 		}
 		CurHideTime += _DeltaTime;
 	}
-	if (true == IsShoot)
-	{
-		StateChange(EMonsterState::Shoot);
-		return;
-	}
 }
 
 void ATroopa::Wake(float _DeltaTime)
@@ -185,9 +226,16 @@ void ATroopa::Wake(float _DeltaTime)
 		}
 		CurWakeTime += _DeltaTime;
 	}
-	if (true == IsShoot)
+}
+
+void ATroopa::Shoot(float _DeltaTime)
+{
+	AMonster::Move(_DeltaTime);
+	
+	if (CurNoCollisionTime >= NoCollisionTime)
 	{
-		StateChange(EMonsterState::Shoot);
-		return;
+		HideLeftCollision->ActiveOn();
+		HideRightCollision->ActiveOn();
 	}
+	CurNoCollisionTime += _DeltaTime;
 }

@@ -77,6 +77,7 @@ void AGoomba::MoveStart()
 void AGoomba::HeadHitStart()
 {
 	AMonster::HeadHitStart();
+	BottomCollision->ActiveOff();
 	Renderer->ChangeAnimation("GoombaDie");
 }
 

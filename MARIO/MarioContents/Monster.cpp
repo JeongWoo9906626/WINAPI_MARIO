@@ -165,7 +165,6 @@ void AMonster::MoveStart()
 {
 	Collision->ActiveOn();
 	HeadCollision->ActiveOn();
-	BottomCollision->ActiveOn();
 }
 
 void AMonster::SpinDeadStart()
@@ -173,6 +172,7 @@ void AMonster::SpinDeadStart()
 	Collision->ActiveOff();
 	HeadCollision->ActiveOff();
 	BottomCollision->ActiveOff();
+
 	UContentsHelper::Score += KillScore;
 }
 
@@ -180,7 +180,7 @@ void AMonster::HeadHitStart()
 {
 	Collision->ActiveOff();
 	HeadCollision->ActiveOff();
-	BottomCollision->ActiveOff();
+
 	UContentsHelper::Score += KillScore;
 }
 
