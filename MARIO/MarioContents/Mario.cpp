@@ -5,24 +5,7 @@
 #include <EngineCore/EngineDebug.h>
 
 #include "ContentsHelper.h"
-#include "Monster.h"
-#include "Goomba.h"
-#include "Troopa.h"
-#include "Plant.h"
-#include "Flag.h"
-#include "Brick.h"
-#include "Gate.h"
-#include "BreakBrick.h"
-#include "ItemBox.h"
-#include "Mushroom.h"
-#include "Sunflower.h"
 #include "HiddenGate.h"
-#include "HiddenCoin.h"
-#include "Koopa.h"
-#include "SpinFire.h"
-#include "KoopaFire.h"
-#include "BirdgeHandle.h"
-#include "EndingGate.h"
 #include "MarioFire.h"
 
 AMario* AMario::MainPlayer = nullptr;
@@ -136,6 +119,8 @@ void AMario::BeginPlay()
 	CurDownTime = 0.0f;
 	CurMaxSpeed = MaxMoveSpeed;
 	CurJumpPower = MoveJumpPower;
+	CurGravityAcc = GravityAcc;
+	CurBreakSpeed = BreakSpeed;
 	SizeState = EMarioSizeState::Small;
 	StateChange(EPlayState::Idle);
 }
@@ -153,11 +138,12 @@ void AMario::Tick(float _DeltaTime)
 		IsRun = true;
 		CurMaxSpeed = MaxRunSpeed;
 		CurJumpPower = MoveJumpPower;
+		CurBreakSpeed = RunBreakSpeed;
 		if (EMarioSizeState::Red == SizeState && UContentsHelper::MarioFireCount < 2)
 		{
-				AMarioFire* MarioFire = GetWorld()->SpawnActor<AMarioFire>(ERenderOrder::Fire);
-				MarioFire->SetActorLocation({ GetActorLocation().X, GetActorLocation().Y - 80 });
-				MarioFire->SetDir(DirState);
+			AMarioFire* MarioFire = GetWorld()->SpawnActor<AMarioFire>(ERenderOrder::Fire);
+			MarioFire->SetActorLocation({ GetActorLocation().X, GetActorLocation().Y - 80 });
+			MarioFire->SetDir(DirState);
 		}
 	}
 	if (true == UEngineInput::IsUp(VK_LSHIFT))
@@ -165,6 +151,7 @@ void AMario::Tick(float _DeltaTime)
 		IsRun = false;
 		CurMaxSpeed = MaxMoveSpeed;
 		CurJumpPower = RunJumpPower;
+		CurBreakSpeed = BreakSpeed;
 	}
 
 	if (true == IsChange)
@@ -390,16 +377,16 @@ void AMario::DirCheck()
 		return;
 	}
 	if (
-			true == UEngineInput::IsPress(VK_RIGHT) && true == UEngineInput::IsUp(VK_LEFT) ||
-			true == UEngineInput::IsPress(VK_RIGHT) && true == UEngineInput::IsFree(VK_LEFT)
+		true == UEngineInput::IsPress(VK_RIGHT) && true == UEngineInput::IsUp(VK_LEFT) ||
+		true == UEngineInput::IsPress(VK_RIGHT) && true == UEngineInput::IsFree(VK_LEFT)
 		)
 	{
 		DirState = EActorDir::Right;
 		return;
 	}
 	if (
-			true == UEngineInput::IsPress(VK_LEFT) && true == UEngineInput::IsUp(VK_RIGHT) ||
-			true == UEngineInput::IsPress(VK_LEFT) && true == UEngineInput::IsFree(VK_RIGHT)
+		true == UEngineInput::IsPress(VK_LEFT) && true == UEngineInput::IsUp(VK_RIGHT) ||
+		true == UEngineInput::IsPress(VK_LEFT) && true == UEngineInput::IsFree(VK_RIGHT)
 		)
 	{
 		DirState = EActorDir::Left;
@@ -957,12 +944,12 @@ void AMario::Idle(float _DeltaTime)
 void AMario::Move(float _DeltaTime)
 {
 	GroundUp();
-	
+
 	if (true == IsRun)
 	{
 		Renderer->ChangeAnimation(GetAnimationName("MoveFast"));
 	}
-	
+
 	if (false == IsRun)
 	{
 		Renderer->ChangeAnimation(GetAnimationName("Move"));
@@ -981,8 +968,8 @@ void AMario::Move(float _DeltaTime)
 	}
 
 	if (
-			(true == UEngineInput::IsFree(VK_RIGHT) && true == UEngineInput::IsFree(VK_LEFT)) ||
-			(true == UEngineInput::IsPress(VK_RIGHT) && true == UEngineInput::IsPress(VK_LEFT))
+		(true == UEngineInput::IsFree(VK_RIGHT) && true == UEngineInput::IsFree(VK_LEFT)) ||
+		(true == UEngineInput::IsPress(VK_RIGHT) && true == UEngineInput::IsPress(VK_LEFT))
 		)
 	{
 		FVector MoveDirVector = FVector::Zero;
@@ -998,7 +985,7 @@ void AMario::Move(float _DeltaTime)
 
 		if (abs(MoveVector.X) > 5.0f)
 		{
-			MoveVector += MoveDirVector * BreakSpeed * _DeltaTime;
+			MoveVector += MoveDirVector * CurBreakSpeed * _DeltaTime;
 			MoveUpdate(_DeltaTime);
 			return;
 		}
@@ -1151,7 +1138,7 @@ void AMario::Crouch(float _DeltaTime)
 		StateChange(EPlayState::Idle);
 		return;
 	}
-	
+
 	if (true == UEngineInput::IsDown(VK_SPACE) && GravityVector.Y == 0.0f)
 	{
 		IsMove = false;
@@ -1205,7 +1192,7 @@ void AMario::CrouchMove(float _DeltaTime)
 
 		if (abs(MoveVector.X) > 5.0f)
 		{
-			MoveVector += MoveDirVector * BreakSpeed * _DeltaTime;
+			MoveVector += MoveDirVector * CurBreakSpeed * _DeltaTime;
 			MoveUpdate(_DeltaTime);
 			return;
 		}
@@ -1260,7 +1247,7 @@ void AMario::Reverse(float _DeltaTime)
 	}
 	else
 	{
-		MoveVector += MoveDirVector * BreakSpeed * _DeltaTime;
+		MoveVector += MoveDirVector * CurBreakSpeed * _DeltaTime;
 	}
 
 	MoveUpdate(_DeltaTime);
@@ -1278,7 +1265,7 @@ void AMario::Die(float _DeltaTime)
 	if (CurDieTime >= DieTime)
 	{
 		AddActorLocation(JumpVector * (_DeltaTime));
-		JumpVector += FVector::Down * GravityAcc * _DeltaTime;
+		JumpVector += FVector::Down * CurGravityAcc * _DeltaTime;
 	}
 	else
 	{
@@ -1467,9 +1454,9 @@ void AMario::MoveUpdate(float _DeltaTime)
 	FVector MarioPos = GetActorLocation();
 	Color8Bit ColorLeft = UContentsHelper::MapColImage->GetColor(MarioPos.iX() - 12, MarioPos.iY(), Color8Bit::MagentaA);
 	Color8Bit ColorRight = UContentsHelper::MapColImage->GetColor(MarioPos.iX() + 12, MarioPos.iY(), Color8Bit::MagentaA);
-	if (ColorLeft != Color8Bit::MagentaA  && ColorRight != Color8Bit::MagentaA && false == IsCollision)
+	if (ColorLeft != Color8Bit::MagentaA && ColorRight != Color8Bit::MagentaA && false == IsCollision)
 	{
-		GravityVector += FVector::Down * GravityAcc * _DeltaTime;
+		GravityVector += FVector::Down * CurGravityAcc * _DeltaTime;
 	}
 	else
 	{
@@ -1521,21 +1508,21 @@ void AMario::GroundUp()
 
 void AMario::WallUp()
 {
-		FVector CheckPos = GetActorLocation();
-		Color8Bit ColorBottomLeft = UContentsHelper::MapColImage->GetColor(CheckPos.iX() - 16, CheckPos.iY() - 5, Color8Bit::MagentaA);
-		Color8Bit ColorTopLeft = UContentsHelper::MapColImage->GetColor(CheckPos.iX() - 16, CheckPos.iY() - 30, Color8Bit::MagentaA);
-		Color8Bit ColorBottomRight = UContentsHelper::MapColImage->GetColor(CheckPos.iX() + 16, CheckPos.iY() - 5, Color8Bit::MagentaA);
-		Color8Bit ColorTopRight = UContentsHelper::MapColImage->GetColor(CheckPos.iX() + 16, CheckPos.iY() - 30, Color8Bit::MagentaA);
-		float CamerPos = GetWorld()->GetCameraPos().X;
-		if (ColorBottomLeft == Color8Bit(255, 0, 255, 0) || ColorTopLeft == Color8Bit(255, 0, 255, 0))
-		{
-			AddActorLocation(FVector::Right);
-			MoveVector = FVector::Zero;
-		}
-		else if (ColorBottomRight == Color8Bit(255, 0, 255, 0) || ColorTopRight == Color8Bit(255, 0, 255, 0))
-		{
-			AddActorLocation(FVector::Left);
-			MoveVector = FVector::Zero;
-		}
+	FVector CheckPos = GetActorLocation();
+	Color8Bit ColorBottomLeft = UContentsHelper::MapColImage->GetColor(CheckPos.iX() - 16, CheckPos.iY() - 5, Color8Bit::MagentaA);
+	Color8Bit ColorTopLeft = UContentsHelper::MapColImage->GetColor(CheckPos.iX() - 16, CheckPos.iY() - 30, Color8Bit::MagentaA);
+	Color8Bit ColorBottomRight = UContentsHelper::MapColImage->GetColor(CheckPos.iX() + 16, CheckPos.iY() - 5, Color8Bit::MagentaA);
+	Color8Bit ColorTopRight = UContentsHelper::MapColImage->GetColor(CheckPos.iX() + 16, CheckPos.iY() - 30, Color8Bit::MagentaA);
+	float CamerPos = GetWorld()->GetCameraPos().X;
+	if (ColorBottomLeft == Color8Bit(255, 0, 255, 0) || ColorTopLeft == Color8Bit(255, 0, 255, 0))
+	{
+		AddActorLocation(FVector::Right);
+		MoveVector = FVector::Zero;
+	}
+	else if (ColorBottomRight == Color8Bit(255, 0, 255, 0) || ColorTopRight == Color8Bit(255, 0, 255, 0))
+	{
+		AddActorLocation(FVector::Left);
+		MoveVector = FVector::Zero;
+	}
 }
 

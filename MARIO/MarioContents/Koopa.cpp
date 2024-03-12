@@ -18,18 +18,20 @@ void AKoopa::BeginPlay()
 	Renderer->SetImage("Koopa_Left.png");
 	Renderer->SetTransform({ {0, 0}, {256 * 2.0f, 256 * 2.0f} });
 
-	Renderer->CreateAnimation("Idle_Left", "Koopa_Left.png", 0, 0, 0.1f, true);
-	Renderer->CreateAnimation("Walk_Left", "Koopa_Left.png", 0, 3, 0.1f, true);
+	Renderer->CreateAnimation("Walk_Left", "Koopa_Left.png", 0, 1, 0.1f, true);
+	Renderer->CreateAnimation("Die_Left", "Koopa_Left.png", 0, 1, 0.05f, true);
+	Renderer->CreateAnimation("Fire_Left", "Koopa_Left.png", 2, 3, 0.1f, false);
 	
-	Renderer->CreateAnimation("Walk_Right", "Koopa_Right.png", 0, 3, 0.1f, true);
-	Renderer->CreateAnimation("Idle_Right", "Koopa_Right.png", 0, 0, 0.1f, true);
+	Renderer->CreateAnimation("Walk_Right", "Koopa_Right.png", 0, 1, 0.1f, true);
+	Renderer->CreateAnimation("Die_Right", "Koopa_Right.png", 0, 1, 0.05f, true);
+	Renderer->CreateAnimation("Fire_Right", "Koopa_Right.png", 2, 3, 0.1f, false);
 
-	Collision = CreateCollision(ECollisionOrder::Goomba);
+	Collision = CreateCollision(ECollisionOrder::Monster);
 	Collision->SetColType(ECollisionType::Rect);
 	Collision->SetPosition({ -30, -70 });
 	Collision->SetScale({ 140, 140 });
 
-	BottomCollision = CreateCollision(ECollisionOrder::Goomba);
+	BottomCollision = CreateCollision(ECollisionOrder::Monster);
 	BottomCollision->SetColType(ECollisionType::Rect);
 	BottomCollision->SetPosition({ 0, 0 });
 	BottomCollision->SetScale({ 10, 10 });
@@ -100,7 +102,7 @@ void AKoopa::DirCheck()
 
 	if (Curdir != DirState)
 	{
-		Renderer->ChangeAnimation(GetAnimationName());
+		Renderer->ChangeAnimation(GetAnimationName("Walk"));
 	}
 }
 
@@ -133,7 +135,6 @@ void AKoopa::Walk(float _DeltaTime)
 		{
 			CurJumpTime += _DeltaTime;
 		}
-
 		AddActorLocation({ Dir * WalkSpeed * _DeltaTime, 0.0f });
 	}
 
@@ -141,6 +142,7 @@ void AKoopa::Walk(float _DeltaTime)
 	{
 		float FirePos = 0.0f;
 		FVector KoopaPos = GetActorLocation();
+
 		int RandomValue = rand() % 10 + 1;
 		if (RandomValue > 5)
 		{
@@ -150,7 +152,8 @@ void AKoopa::Walk(float _DeltaTime)
 		{
 			FirePos = -100.0f;
 		}
-
+		
+		// 한번만 쏘는 것
 		if (false == FirstShot)
 		{
 			AKoopaFire* KoopaFire = GetWorld()->SpawnActor<AKoopaFire>(ERenderOrder::Fire);
@@ -165,8 +168,27 @@ void AKoopa::Walk(float _DeltaTime)
 			AKoopaFire* KoopaFire = GetWorld()->SpawnActor<AKoopaFire>(ERenderOrder::Fire);
 			KoopaFire->SetFireDir(DirState);
 			KoopaFire->SetActorLocation({ KoopaPos.X, KoopaPos.Y + FirePos });
+			IsRendererChange = true;
+			Renderer->ChangeAnimation(GetAnimationName("Fire"));
 		}
-		CurFireTime += _DeltaTime;
+		else
+		{
+			CurFireTime += _DeltaTime;
+		}
+	}
+
+	if (true == IsRendererChange)
+	{
+		if (CurChangeTime >= ChangeTime)
+		{
+			CurChangeTime = 0.0f;
+			IsRendererChange = false;
+			Renderer->ChangeAnimation(GetAnimationName("Walk"));
+		}
+		else
+		{
+			CurChangeTime += _DeltaTime;
+		}
 	}
 
 	if (false == IsCollision)
@@ -176,19 +198,19 @@ void AKoopa::Walk(float _DeltaTime)
 	}
 }
 
-std::string AKoopa::GetAnimationName()
+std::string AKoopa::GetAnimationName(std::string _Name)
 {
 	std::string AnimationName = "";
 	switch (DirState)
 	{
 	case EActorDir::Left:
-		AnimationName = "Walk_Left";
+		AnimationName = "_Left";
 		break;
 	case EActorDir::Right:
-		AnimationName = "Walk_Right";
+		AnimationName = "_Right";
 		break;
 	}
 
-	return AnimationName;
+	return _Name + AnimationName;
 }
 

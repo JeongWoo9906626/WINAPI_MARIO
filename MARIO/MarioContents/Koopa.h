@@ -19,7 +19,7 @@ protected:
 	void DirCheck();
 	void Walk(float _DeltaTime);
 
-	std::string GetAnimationName();
+	std::string GetAnimationName(std::string _Name);
 
 private:
 	UImageRenderer* Renderer = nullptr;
@@ -37,6 +37,8 @@ private:
 	float CurJumpTime = 0.0f;
 	float FireTime = 3.5f;
 	float CurFireTime = 0.0f;
+	float CurChangeTime = 0.0f;
+	float ChangeTime = 0.3f;
 
 	int Dir = -1;
 
@@ -44,6 +46,7 @@ private:
 	bool IsJump = true;
 	bool IsMarioDie = false;
 	bool FirstShot = false;
+	bool IsRendererChange = false;
 
 	FVector JumpVector = FVector::Zero;
 };

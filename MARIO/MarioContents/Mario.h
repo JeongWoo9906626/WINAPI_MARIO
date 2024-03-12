@@ -130,16 +130,22 @@ private:
 
 	FVector MoveVector = FVector::Zero;
 	float MoveAcc = 400.0f;
+
 	float CurMaxSpeed = 0.0f;
 	float MaxMoveSpeed = 400.0f;
 	float MaxRunSpeed = 800.0f;
+
+	float CurBreakSpeed = 0.0f;
 	float BreakSpeed = 600.0f;
+	float RunBreakSpeed = 1000.0f;
 
 	float FinsihWalkSpeed = 100.0f;
 	float FinishDownSpeed = 300.0f;
 
 	FVector GravityVector = FVector::Zero;
+	float CurGravityAcc = 0.0f;
 	float GravityAcc = 600.0f;
+	float RunGravityAcc = 800.0f;
 
 	FVector JumpVector = FVector::Zero;
 	float JumpForce = 0.0f;
@@ -147,7 +153,7 @@ private:
 	float MoveJumpPower = 560.0f;
 	float RunJumpPower = 600.0f;
 	float KillJumpPower = 250.0f;
-	float DieJumpPower = 100.0f;
+	float DieJumpPower = 200.0f;
 
 	FVector TotalForceVector = FVector::Zero;
 
