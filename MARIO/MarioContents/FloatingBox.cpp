@@ -38,6 +38,16 @@ void AFloatingBox::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 
+	std::vector<UCollision*> TopResult;
+	if (true == TopCollision->CollisionCheck(ECollisionOrder::PlayerBottom, TopResult))
+	{
+		IsTopCollision = true;
+	}
+	else
+	{
+		IsTopCollision = false;
+	}
+
 	std::vector<UCollision*> BottomResult;
 	if (true == BottomCollision->CollisionCheck(ECollisionOrder::PlayerHead, BottomResult))
 	{
@@ -97,7 +107,7 @@ void AFloatingBox::Float(float _DeltaTime)
 
 	CurMoveX += DirVector * 100.f * _DeltaTime;
 	float FloatMoveX = DirVector * 100.f * _DeltaTime;
-	if (true == AMario::MainPlayer->IsCollision)
+	if (true == IsTopCollision)
 	{
 		AMario::MainPlayer->AddActorLocation({ FloatMoveX, 0.0f });
 	}

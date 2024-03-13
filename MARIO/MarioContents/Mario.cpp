@@ -739,6 +739,7 @@ void AMario::BossFinishWalkStart()
 	DirState = EActorDir::Right;
 	BodyCollision->SetActive(true);
 	Renderer->ChangeAnimation(GetAnimationName("Move"));
+	UContentsHelper::IsBossStage = false;
 }
 
 void AMario::EndingStart()
@@ -1427,7 +1428,13 @@ void AMario::MoveUpdate(float _DeltaTime)
 	FVector NextMarioPos = MarioPos + (MoveVector * _DeltaTime);
 	float Center = GEngine->MainWindow.GetWindowScale().hX();
 	float ScaleX = GEngine->MainWindow.GetWindowScale().X;
-	if (false == IsHiddenStage && CurCameraPos.X + Center < NextMarioPos.X && CurCameraPos.X + ScaleX <= UContentsHelper::MapColImage->GetScale().X)
+	if 
+		(
+			false == IsHiddenStage && 
+			CurCameraPos.X + Center < NextMarioPos.X &&
+			CurCameraPos.X + ScaleX <= UContentsHelper::MapColImage->GetScale().X &&
+			false == UContentsHelper::IsBossStage
+		)
 	{
 		if (MoveVector.X > 0)
 		{

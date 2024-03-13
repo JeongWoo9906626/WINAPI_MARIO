@@ -12,6 +12,7 @@
 #include "KoopaFire.h"
 #include "EndingGate.h"
 #include "FloatingBox.h"
+#include "BossGate.h"
 
 UFinalLevel::UFinalLevel()
 {
@@ -48,11 +49,14 @@ void UFinalLevel::BeginPlay()
 	AKoopaEvent* KoopaEvent = SpawnActor<AKoopaEvent>(ERenderOrder::Gate);
 	KoopaEvent->SetActorLocation({ 8000, 600 });
 
+	ABossGate* BossGate = SpawnActor<ABossGate>(ERenderOrder::Gate);
+	BossGate->SetActorLocation({ 8640, 400 });
+
 	AKoopa* Koopa = SpawnActor<AKoopa>(ERenderOrder::Monster);
 	Koopa->SetActorLocation({ 8862, 600 });
 
 	AFloatingBox* FloatingBox = SpawnActor<AFloatingBox>(ERenderOrder::Brick);
-	FloatingBox->SetActorLocation({ 8880, 470 });
+	FloatingBox->SetActorLocation({ 8890, 420 });
 
 	AEndingGate* EndingGate = SpawnActor<AEndingGate>(ERenderOrder::Gate);
 	EndingGate->SetActorLocation({ 9800, 800 });

@@ -29,7 +29,9 @@ private:
 
 	EActorDir DirState = EActorDir::Left;
 	
-	float MoveRange = -200.0f;
+	bool IsTopCollision = false;
+
+	float MoveRange = -160.0f;
 	float CurMoveX = 0.0f;
 	float DirVector = -1.0f;
 	float FloatSpeed = 100.0f;
