@@ -54,9 +54,6 @@ void APlant::StateChange(EMonsterState _State)
 	case EMonsterState::Wait:
 		WaitStart();
 		break;
-	case EMonsterState::Stop:
-		StopStart();
-		break;
 	}
 
 	State = _State;

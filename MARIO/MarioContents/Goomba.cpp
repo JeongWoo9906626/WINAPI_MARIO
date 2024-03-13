@@ -10,6 +10,7 @@ AGoomba::AGoomba()
 
 AGoomba::~AGoomba()
 {
+	int a = 0;
 }
 
 void AGoomba::BeginPlay()
@@ -81,6 +82,7 @@ void AGoomba::HeadHitStart()
 	BottomCollision->ActiveOff();
 	Renderer->ChangeAnimation("GoombaDie");
 	Score->SetScore(100);
+	Destroy(DestroyTime);
 }
 
 void AGoomba::Move(float _DeltaTime)
@@ -91,6 +93,4 @@ void AGoomba::Move(float _DeltaTime)
 void AGoomba::HeadHit(float _DeltaTime)
 {
 	AMonster::HeadHit(_DeltaTime);
-
-	Destroy(DestroyTime);
 }

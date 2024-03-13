@@ -108,13 +108,6 @@ enum class EMonsterState
 	None
 };
 
-enum class EPlantState
-{
-	Move,
-	Dead,
-	None,
-};
-
 enum class EBoxState
 {
 	Idle,
