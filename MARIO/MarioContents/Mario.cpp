@@ -133,11 +133,11 @@ void AMario::Tick(float _DeltaTime)
 	UEngineDebug::DebugTextPrint("X : " + std::to_string(PlayerPos.X) + ", Y : " + std::to_string(PlayerPos.Y), 30.0f);
 	UEngineDebug::DebugTextPrint("\nDeltaTime : " + std::to_string(_DeltaTime), 30.0f);
 
-	if (true == UEngineInput::IsDown(VK_LSHIFT))
+	if (true == UEngineInput::IsDown('X'))
 	{
 		IsRun = true;
 		CurMaxSpeed = MaxRunSpeed;
-		CurJumpPower = MoveJumpPower;
+		CurJumpPower = RunJumpPower;
 		CurBreakSpeed = RunBreakSpeed;
 		if (EMarioSizeState::Red == SizeState && UContentsHelper::MarioFireCount < 2)
 		{
@@ -146,11 +146,11 @@ void AMario::Tick(float _DeltaTime)
 			MarioFire->SetDir(DirState);
 		}
 	}
-	if (true == UEngineInput::IsUp(VK_LSHIFT))
+	if (true == UEngineInput::IsUp('X'))
 	{
 		IsRun = false;
 		CurMaxSpeed = MaxMoveSpeed;
-		CurJumpPower = RunJumpPower;
+		CurJumpPower = MoveJumpPower;
 		CurBreakSpeed = BreakSpeed;
 	}
 
@@ -820,45 +820,16 @@ void AMario::FreeMove(float _DeltaTime)
 
 void AMario::Idle(float _DeltaTime)
 {
-	/*if (true == UEngineInput::IsPress(VK_LSHIFT))
-	{
-		CurMaxSpeed = MaxRunSpeed;
-		CurJumpPower = MoveJumpPower;
-		if (EMarioSizeState::Red == SizeState)
-		{
-			if (UContentsHelper::MarioFireCount < 2 && CurFireSpawnTime >= FireSpawnTime)
-			{
-				CurFireSpawnTime = 0.0f;
-				AMarioFire* MarioFire = GetWorld()->SpawnActor<AMarioFire>(ERenderOrder::Fire);
-				MarioFire->SetActorLocation({ GetActorLocation().X, GetActorLocation().Y - 80 });
-				MarioFire->SetDir(DirState);
-			}
-			else
-			{
-				CurFireSpawnTime += _DeltaTime;
-			}
-
-		}
-	}
-	if (true == UEngineInput::IsFree(VK_LSHIFT))
-	{
-		CurMaxSpeed = MaxMoveSpeed;
-		CurJumpPower = RunJumpPower;
-		CurFireSpawnTime = 0.0f;
-	}*/
-
 	if (true == IsInvincibility && false == IsChange)
 	{
 		BodyCollision->SetActive(false);
 		HeadCollision->SetActive(false);
-		//BottomCollision->SetActive(false);
 		Renderer->SetAlpha(0.5f);
 	}
 	else if (false == IsInvincibility && false == IsChange)
 	{
 		BodyCollision->SetActive(true);
 		HeadCollision->SetActive(true);
-		//BottomCollision->SetActive(true);
 		Renderer->SetAlpha(1.0f);
 	}
 
@@ -1040,40 +1011,12 @@ void AMario::Jump(float _DeltaTime)
 {
 	MoveUpdate(_DeltaTime);
 
-	/*if (true == UEngineInput::IsPress(VK_LSHIFT))
-	{
-		CurMaxSpeed = MaxRunSpeed;
-		CurJumpPower = MoveJumpPower;
-		if (EMarioSizeState::Red == SizeState)
-		{
-			if (UContentsHelper::MarioFireCount < 2 && CurFireSpawnTime >= FireSpawnTime)
-			{
-				CurFireSpawnTime = 0.0f;
-				AMarioFire* MarioFire = GetWorld()->SpawnActor<AMarioFire>(ERenderOrder::Fire);
-				MarioFire->SetActorLocation({ GetActorLocation().X, GetActorLocation().Y - 80 });
-				MarioFire->SetDir(DirState);
-			}
-			else
-			{
-				CurFireSpawnTime += _DeltaTime;
-			}
-
-		}
-	}
-	if (true == UEngineInput::IsFree(VK_LSHIFT))
-	{
-		CurMaxSpeed = MaxMoveSpeed;
-		CurJumpPower = RunJumpPower;
-		CurFireSpawnTime = 0.0f;
-	}*/
-
 	if (JumpVector.Y == 0.0f && GravityVector.Y == 0.0f)
 	{
 		if (MoveVector.X == 0.0f)
 		{
 			if (true == IsDown)
 			{
-				//IsMove = false;
 				StateChange(EPlayState::Crouch);
 				return;
 			}
@@ -1127,7 +1070,11 @@ void AMario::Jump(float _DeltaTime)
 	if (UEngineInput::IsUp(VK_SPACE))
 	{
 		JumpVector = FVector::Zero;
+		GravityVector.Y /= 2;
 	}
+	FVector a = JumpVector;
+	FVector b = GravityVector;
+	FVector c;
 }
 
 void AMario::Crouch(float _DeltaTime)
@@ -1456,7 +1403,7 @@ void AMario::MoveUpdate(float _DeltaTime)
 	Color8Bit ColorRight = UContentsHelper::MapColImage->GetColor(MarioPos.iX() + 12, MarioPos.iY(), Color8Bit::MagentaA);
 	if (ColorLeft != Color8Bit::MagentaA && ColorRight != Color8Bit::MagentaA && false == IsCollision)
 	{
-		GravityVector += FVector::Down * CurGravityAcc * _DeltaTime;
+		GravityVector += FVector::Down * GravityAcc * _DeltaTime;
 	}
 	else
 	{

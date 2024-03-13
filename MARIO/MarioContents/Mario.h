@@ -144,16 +144,15 @@ private:
 
 	FVector GravityVector = FVector::Zero;
 	float CurGravityAcc = 0.0f;
-	float GravityAcc = 600.0f;
-	float RunGravityAcc = 800.0f;
+	float GravityAcc = 1500.f;
 
 	FVector JumpVector = FVector::Zero;
 	float JumpForce = 0.0f;
 	float CurJumpPower = 0.0f;
-	float MoveJumpPower = 560.0f;
-	float RunJumpPower = 600.0f;
-	float KillJumpPower = 250.0f;
-	float DieJumpPower = 200.0f;
+	float MoveJumpPower = 880.0f;
+	float RunJumpPower = 900.0f;
+	float KillJumpPower = 500.0f;
+	float DieJumpPower = 500.0f;
 
 	FVector TotalForceVector = FVector::Zero;
 
