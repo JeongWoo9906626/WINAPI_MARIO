@@ -30,14 +30,17 @@ void AMonster::Tick(float _DeltaTime)
 		Destroy();
 	}
 
-	std::vector<UCollision*> BoxTopResult;
-	if (true == BottomCollision->CollisionCheck(ECollisionOrder::BoxTop, BoxTopResult))
+	if (nullptr != BottomCollision)
 	{
-		IsBoxCollision = true;
-	}
-	else
-	{
-		IsBoxCollision = false;
+		std::vector<UCollision*> BoxTopResult;
+		if (true == BottomCollision->CollisionCheck(ECollisionOrder::BoxTop, BoxTopResult))
+		{
+			IsBoxCollision = true;
+		}
+		else
+		{
+			IsBoxCollision = false;
+		}
 	}
 
 	std::vector<UCollision*> MarioFireResult;
@@ -55,14 +58,17 @@ void AMonster::Tick(float _DeltaTime)
 		}
 	}
 
-	std::vector<UCollision*> MarioKillResult;
-	if (true == HeadCollision->CollisionCheck(ECollisionOrder::Player, MarioKillResult))
+	if (nullptr != HeadCollision)
 	{
-		UCollision* MarioCollision = MarioKillResult[0];
-		AMario* Mario = static_cast<AMario*>(MarioCollision->GetOwner());
-		Mario->StateChange(EPlayState::Kill);
-		StateChange(EMonsterState::HeadHit);
-		return;
+		std::vector<UCollision*> MarioKillResult;
+		if (true == HeadCollision->CollisionCheck(ECollisionOrder::Player, MarioKillResult))
+		{
+			UCollision* MarioCollision = MarioKillResult[0];
+			AMario* Mario = static_cast<AMario*>(MarioCollision->GetOwner());
+			Mario->StateChange(EPlayState::Kill);
+			StateChange(EMonsterState::HeadHit);
+			return;
+		}
 	}
 
 	std::vector<UCollision*> MarioResult;
