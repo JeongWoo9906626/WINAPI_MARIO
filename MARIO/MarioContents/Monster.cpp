@@ -1,6 +1,7 @@
 #include "Monster.h"
 #include "MarioFire.h"
 #include "Mario.h"
+#include "Troopa.h"
 
 AMonster::AMonster()
 {
@@ -61,13 +62,6 @@ void AMonster::Tick(float _DeltaTime)
 		AMario* Mario = static_cast<AMario*>(MarioCollision->GetOwner());
 		Mario->StateChange(EPlayState::Kill);
 		StateChange(EMonsterState::HeadHit);
-		return;
-	}
-
-	std::vector<UCollision*> TroopaResult;
-	if (true == Collision->CollisionCheck(ECollisionOrder::Troopa, TroopaResult))
-	{
-		StateChange(EMonsterState::SpinDead);
 		return;
 	}
 

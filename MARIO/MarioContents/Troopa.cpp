@@ -1,6 +1,7 @@
 #include "Troopa.h"
 #include "Mario.h"
 #include "MarioFire.h"
+#include "Monster.h"
 
 ATroopa::ATroopa()
 {
@@ -77,6 +78,28 @@ void ATroopa::Tick(float _DeltaTime)
 
 	if (EMonsterState::HeadHit == State || EMonsterState::Wake == State)
 	{
+		std::vector<UCollision*> MonsterLeftResult;
+		if (true == HideLeftCollision->CollisionCheck(ECollisionOrder::Monster, MonsterLeftResult))
+		{
+			UCollision* MonsterCollision = MonsterLeftResult[0];
+			AMonster* Monster = static_cast<AMonster*>(MonsterCollision->GetOwner());
+
+			Monster->ChangeDir();
+			Monster->AddActorLocation(FVector::Left);
+			return;
+		}
+
+		std::vector<UCollision*> MonsterRightResult;
+		if (true == HideRightCollision->CollisionCheck(ECollisionOrder::Monster, MonsterRightResult))
+		{
+			UCollision* MonsterCollision = MonsterRightResult[0];
+			AMonster* Monster = static_cast<AMonster*>(MonsterCollision->GetOwner());
+
+			Monster->ChangeDir();
+			Monster->AddActorLocation(FVector::Right);
+			return;
+		}
+
 		std::vector<UCollision*> ShootLeftResult;
 		if (true == HideLeftCollision->CollisionCheck(ECollisionOrder::Player, ShootLeftResult))
 		{

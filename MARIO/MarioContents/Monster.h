@@ -14,6 +14,7 @@ public:
 	AMonster& operator=(AMonster&& _Other) noexcept = delete;
 
 	void SetHitCount(int _HitCount);
+	void ChangeDir();
 
 protected:
 	void BeginPlay() override;
@@ -22,7 +23,6 @@ protected:
 	virtual void StateChange(EMonsterState _State);
 	virtual void StateUpdate(float _DeltaTime);
 
-	void ChangeDir();
 	void WindowCheck();
 
 	virtual void MoveStart();
