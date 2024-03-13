@@ -134,6 +134,13 @@ void AMario::Tick(float _DeltaTime)
 	UEngineDebug::DebugTextPrint("X : " + std::to_string(PlayerPos.X) + ", Y : " + std::to_string(PlayerPos.Y), 30.0f);
 	UEngineDebug::DebugTextPrint("\nDeltaTime : " + std::to_string(_DeltaTime), 30.0f);
 
+	if (true == UEngineInput::IsDown('4') && UContentsHelper::SubStage != 4)
+	{
+		GEngine->CreateLevel<UFinalLevel>("Final");
+		GEngine->ChangeLevel("Final");
+		return;
+	}
+
 	if (true == UEngineInput::IsDown('X'))
 	{
 		IsRun = true;
@@ -472,7 +479,6 @@ void AMario::IdleStart()
 		BodyCollision->SetPosition({ 0, -35 });
 		BodyCollision->SetScale({ 50, 64 });
 		HeadCollision->SetPosition({ 0, -62 });
-		//HeadCollision->SetScale({ 10, 10 });
 		BottomCollision->SetPosition({ 0, -5 });
 		BottomCollision->SetScale({ 10, 10 });
 		break;
@@ -483,7 +489,6 @@ void AMario::IdleStart()
 		BodyCollision->SetPosition({ 0, -70 });
 		BodyCollision->SetScale({ 50, 130 });
 		HeadCollision->SetPosition({ 0, -130 });
-		//HeadCollision->SetScale({ 10, 10 });
 		BottomCollision->SetPosition({ 0, -5 });
 		BottomCollision->SetScale({ 10, 10 });
 		break;
@@ -527,7 +532,6 @@ void AMario::CrouchStart()
 	BodyCollision->SetPosition({ 0, -45 });
 	BodyCollision->SetScale({ 50, 80 });
 	HeadCollision->SetPosition({ 0, -82 });
-	//HeadCollision->SetScale({ 10, 10 });
 	Renderer->ChangeAnimation(GetAnimationName("Crouch"));
 }
 
@@ -848,28 +852,24 @@ void AMario::Idle(float _DeltaTime)
 		return;
 	}
 
-	if (true == UEngineInput::IsDown('4'))
+	if (true == UEngineInput::IsDown('S') && UContentsHelper::MSizeState != EMarioSizeState::Small)
 	{
-		GEngine->CreateLevel<UFinalLevel>("Final");
-		GEngine->ChangeLevel("Final");
+		SizeState = EMarioSizeState::Small;
+		StateChange(EPlayState::GrowDown);
 		return;
 	}
 
-	if (true == UEngineInput::IsDown('S'))
+	if (true == UEngineInput::IsDown('B') && UContentsHelper::MSizeState != EMarioSizeState::Big)
 	{
-		UContentsHelper::MSizeState = EMarioSizeState::Small;
+		SizeState = EMarioSizeState::Big;
+		StateChange(EPlayState::GrowUp);
 		return;
 	}
 
-	if (true == UEngineInput::IsDown('B'))
+	if (true == UEngineInput::IsDown('F') && UContentsHelper::MSizeState != EMarioSizeState::Red)
 	{
-		UContentsHelper::MSizeState = EMarioSizeState::Big;
-		return;
-	}
-
-	if (true == UEngineInput::IsDown('F'))
-	{
-		UContentsHelper::MSizeState = EMarioSizeState::Red;
+		SizeState = EMarioSizeState::Red;
+		StateChange(EPlayState::ChangeRed);
 		return;
 	}
 
