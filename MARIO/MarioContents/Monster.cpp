@@ -255,7 +255,8 @@ void AMonster::Move(float _DeltaTime)
 
 void AMonster::SpinDead(float _DeltaTime)
 {
-
+	SpinDieJump += SpinDieGravityAcc * _DeltaTime;
+	AddActorLocation({ 0.0f, SpinDieJump * _DeltaTime });
 }
 
 void AMonster::HeadHit(float _DeltaTime)

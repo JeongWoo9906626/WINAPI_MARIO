@@ -17,11 +17,12 @@ void ATroopa::BeginPlay()
 
 	Renderer = CreateImageRenderer(ERenderOrder::Monster);
 	Renderer->SetImage("OpenWorldTroopa_Left.png");
-	Renderer->SetTransform({ {0, 0}, {128 * 1.3f, 128 * 1.3f} });
+	Renderer->SetTransform({ {0, 0}, {256 * 1.3f, 256 * 1.3f} });
 
 	Renderer->CreateAnimation("Troopa_Move_Left", "OpenWorldTroopa_Left.png", 0, 1, 0.1f, true);
 	Renderer->CreateAnimation("Troopa_Move_Right", "OpenWorldTroopa_Right.png", 0, 1, 0.1f, true);
-
+	Renderer->CreateAnimation("Troopa_SpinDead_Left", "OpenWorldTroopa_Left.png", 6, 6, 0.1f, true);
+	Renderer->CreateAnimation("Troopa_SpinDead_Right", "OpenWorldTroopa_Right.png", 6, 6, 0.1f, true);
 	Renderer->CreateAnimation("TroopaWake", "OpenWorldTroopa_Left.png", 4, 5, 0.2f, true);
 	Renderer->CreateAnimation("TroopaHide", "OpenWorldTroopa_Left.png", 4, 4, 0.1f, true);
 
@@ -217,6 +218,12 @@ void ATroopa::HeadHitStart()
 	HideRightCollision->ActiveOn();
 	Renderer->ChangeAnimation("TroopaHide");
 	Score->SetScore(200);
+}
+
+void ATroopa::SpinDeadStart()
+{
+	AMonster::SpinDeadStart();
+	Renderer->ChangeAnimation(GetAnimationName("Troopa_SpinDead"));
 }
 
 void ATroopa::WakeStart()

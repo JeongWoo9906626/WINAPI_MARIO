@@ -24,6 +24,7 @@ protected:
 
 	void MoveStart() override;
 	void HeadHitStart() override;
+	void SpinDeadStart() override;
 	void WakeStart();
 	void ShootStart();
 

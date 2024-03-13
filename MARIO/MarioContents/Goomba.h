@@ -22,6 +22,7 @@ protected:
 
 	void MoveStart() override;
 	void HeadHitStart() override;
+	void SpinDeadStart() override;
 
 	void Move(float _DeltaTime) override;
 	void HeadHit(float _DeltaTime) override;

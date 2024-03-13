@@ -22,10 +22,7 @@ void UTitleLevel::Tick(float _DeltaTime)
 {
 	ULevel::Tick(_DeltaTime);
 
-	// TODO
-	// 시작하면 레벨 변경하게 작성
-	// 현재 Title레벨 -> PlayLevel
-	if (UEngineInput::IsDown('P'))
+	if (UEngineInput::IsAnykeyPress())
 	{
 		GEngine->ChangeLevel("Play");
 	}

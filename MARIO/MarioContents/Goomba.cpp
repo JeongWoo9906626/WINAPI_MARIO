@@ -26,6 +26,7 @@ void AGoomba::BeginPlay()
 	{
 		Renderer->CreateAnimation("GoombaDie", "OpenWorldGoomba.png", 2, 2, 0.1f, true);
 		Renderer->CreateAnimation("GoombaMove", "OpenWorldGoomba.png", 0, 1, 0.2f, true);
+		Renderer->CreateAnimation("GoombaSpinDie", "OpenWorldGoomba.png", 3, 3, 0.1f, true);
 	}
 
 	{
@@ -83,6 +84,12 @@ void AGoomba::HeadHitStart()
 	Renderer->ChangeAnimation("GoombaDie");
 	Score->SetScore(100);
 	Destroy(DestroyTime);
+}
+
+void AGoomba::SpinDeadStart()
+{
+	AMonster::SpinDeadStart();
+	Renderer->ChangeAnimation("GoombaSpinDie");
 }
 
 void AGoomba::Move(float _DeltaTime)

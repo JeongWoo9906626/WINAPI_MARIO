@@ -55,6 +55,8 @@ protected:
 
 	float GravityAcc = 500.0f;
 	float MoveSpeed = 100.0f;
+	float SpinDieGravityAcc = 500.0f;
+	float SpinDieJump = -300.0f;
 
 private:
 
