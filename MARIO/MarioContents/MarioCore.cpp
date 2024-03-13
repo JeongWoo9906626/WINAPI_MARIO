@@ -53,6 +53,7 @@ void UMarioCore::BeginPlay()
 	ResoucreManager.CuttingImage("MarioItem.png", 5, 2);
 
 	ResoucreManager.CuttingImage("UICoin.png", 3, 1);
+	ResoucreManager.CuttingImage("Score.png", 5, 3);
 
 	ResoucreManager.CuttingImage("Koopa_Left.png", 6, 2);
 	ResoucreManager.CuttingImage("Koopa_Right.png", 6, 2);

@@ -74,6 +74,16 @@ void ATroopa::Tick(float _DeltaTime)
 				return;
 			}
 		}
+
+		std::vector<UCollision*> MonsterResult;
+		if (true == HideLeftCollision->CollisionCheck(ECollisionOrder::Monster, MonsterResult) || true == HideRightCollision->CollisionCheck(ECollisionOrder::Player, MarioResult))
+		{
+			UCollision* MonsterCollision = MonsterResult[0];
+			AMonster* Monster = static_cast<AMonster*>(MonsterCollision->GetOwner());
+
+			Monster->StateChange(EMonsterState::SpinDead);
+			return;
+		}
 	}
 
 	if (EMonsterState::HeadHit == State || EMonsterState::Wake == State)

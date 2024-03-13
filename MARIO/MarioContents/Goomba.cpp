@@ -2,6 +2,7 @@
 #include "Mario.h"
 #include "Troopa.h"
 #include "MarioFire.h"
+#include "ScoreUI.h"
 
 AGoomba::AGoomba()
 {
@@ -79,6 +80,11 @@ void AGoomba::HeadHitStart()
 	AMonster::HeadHitStart();
 	BottomCollision->ActiveOff();
 	Renderer->ChangeAnimation("GoombaDie");
+
+	ScoreUI* Score = GetWorld()->SpawnActor<ScoreUI>(ERenderOrder::UI);
+	FVector MonsterLocation = GetActorLocation();
+	Score->SetActorLocation(MonsterLocation);
+	UContentsHelper::Score += KillScore;
 }
 
 void AGoomba::Move(float _DeltaTime)

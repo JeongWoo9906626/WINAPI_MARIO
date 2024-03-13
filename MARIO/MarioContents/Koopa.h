@@ -50,14 +50,3 @@ private:
 
 	FVector JumpVector = FVector::Zero;
 };
-
-// TODO : 쿠파 이동 로직 (X축 범위 지정 및 랜덤하게 이동)
-// TODO : 몬스터 죽일 때 100, 200, 1000 UI 생성
-// TODO : Troopa가 Hide상태일떄 몬스터 Dir변경
-// TODO : Monster클래스 HeadHit상태 변경 및 (Dead상태 추가 해볼것- > 100UI스폰)
-// TODO : Stage 이동하기 전 점수 추가
-// TODO : 몬스터 MarioFire에 맞을 경우 이미지 뒤집기
-// TODO : 깃발 내려오게 하기
-// TODO : Item 먹을 때 점수 UI 스폰
-// TODO : 마리오 목숨 및 Loading(change Loading) 레벨 생성
-// TODO : 쿠파 클래스 리펙토링

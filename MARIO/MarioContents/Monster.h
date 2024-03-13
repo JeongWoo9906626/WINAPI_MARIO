@@ -13,13 +13,6 @@ public:
 	AMonster& operator=(const AMonster& _Other) = delete;
 	AMonster& operator=(AMonster&& _Other) noexcept = delete;
 
-	void SetHitCount(int _HitCount);
-	void ChangeDir();
-
-protected:
-	void BeginPlay() override;
-	void Tick(float _DeltaTime) override;
-
 	virtual void StateChange(EMonsterState _State);
 	virtual void StateUpdate(float _DeltaTime);
 
@@ -34,6 +27,14 @@ protected:
 	virtual void HeadHit(float _DeltaTime);
 
 	void GravityMove(float _DeltaTime);
+
+	void SetHitCount(int _HitCount);
+	void ChangeDir();
+
+protected:
+	void BeginPlay() override;
+	void Tick(float _DeltaTime) override;
+
 
 	UImageRenderer* Renderer = nullptr;
 	UCollision* Collision = nullptr;
