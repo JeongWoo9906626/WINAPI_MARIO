@@ -151,7 +151,7 @@ private:
 	float CurJumpPower = 0.0f;
 	float MoveJumpPower = 900.0f;
 	float RunJumpPower = 950.0f;
-	float KillJumpPower = 500.0f;
+	float KillJumpPower = 400.0f;
 	float DieJumpPower = 500.0f;
 
 	FVector TotalForceVector = FVector::Zero;

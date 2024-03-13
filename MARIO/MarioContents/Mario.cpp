@@ -7,6 +7,7 @@
 #include "ContentsHelper.h"
 #include "HiddenGate.h"
 #include "MarioFire.h"
+#include "FinalLevel.h"
 
 AMario* AMario::MainPlayer = nullptr;
 
@@ -620,21 +621,6 @@ void AMario::ChangeRedStart()
 		break;
 	}
 
-	//{
-	//	BodyCollision->SetPosition({ 0, -70 });
-	//	BodyCollision->SetScale({ 50, 130 });
-	//}
-
-	//{
-	//	HeadCollision->SetPosition({ 0, -130 });
-	//	//HeadCollision->SetScale({ 10, 10 });
-	//}
-
-	//{
-	//	BottomCollision->SetPosition({ 0, -5 });
-	//	BottomCollision->SetScale({ 10, 10 });
-	//}
-
 	Renderer->ChangeAnimation("ChangeRed" + DirName);
 }
 
@@ -859,6 +845,31 @@ void AMario::Idle(float _DeltaTime)
 	if (true == UEngineInput::IsDown('2'))
 	{
 		StateChange(EPlayState::CameraFreeMove);
+		return;
+	}
+
+	if (true == UEngineInput::IsDown('4'))
+	{
+		GEngine->CreateLevel<UFinalLevel>("Final");
+		GEngine->ChangeLevel("Final");
+		return;
+	}
+
+	if (true == UEngineInput::IsDown('S'))
+	{
+		UContentsHelper::MSizeState = EMarioSizeState::Small;
+		return;
+	}
+
+	if (true == UEngineInput::IsDown('B'))
+	{
+		UContentsHelper::MSizeState = EMarioSizeState::Big;
+		return;
+	}
+
+	if (true == UEngineInput::IsDown('F'))
+	{
+		UContentsHelper::MSizeState = EMarioSizeState::Red;
 		return;
 	}
 
