@@ -101,7 +101,6 @@ enum class EMonsterState
 {
 	Move,
 	Wait,
-	Stop,
 	SpinDead,
 	HeadHit,
 	Shoot,

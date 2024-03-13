@@ -22,12 +22,10 @@ protected:
 
 	void MoveStart() override;
 	void WaitStart();
-	void StopStart();
 	void SpinDeadStart() override;
 
 	void Move(float _DeltaTime) override;
 	void Wait(float _DeltaTime);
-	void Stop(float _DeltaTime);
 	void SpinDead(float _DeltaTime) override;
 
 private:

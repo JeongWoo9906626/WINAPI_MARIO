@@ -70,9 +70,6 @@ void APlant::StateUpdate(float _DeltaTime)
 	case EMonsterState::Wait:
 		Wait(_DeltaTime);
 		break;
-	case EMonsterState::Stop:
-		Stop(_DeltaTime);
-		break;
 	}
 }
 
@@ -87,13 +84,10 @@ void APlant::WaitStart()
 	CurTime = 0.0f;
 }
 
-void APlant::StopStart()
-{
-}
-
 void APlant::SpinDeadStart()
 {
 	AMonster::SpinDeadStart();
+
 	Collision->ActiveOff();
 	Renderer->SetAlpha(0.5f);
 }
@@ -130,11 +124,8 @@ void APlant::Wait(float _DeltaTime)
 		StateChange(EMonsterState::Move);
 		return;
 	}
-	CurTime += _DeltaTime;
-}
 
-void APlant::Stop(float _DeltaTime)
-{
+	CurTime += _DeltaTime;
 }
 
 void APlant::SpinDead(float _DeltaTime)
