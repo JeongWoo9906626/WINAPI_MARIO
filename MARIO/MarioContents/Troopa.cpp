@@ -55,6 +55,13 @@ void ATroopa::Tick(float _DeltaTime)
 {
 	AMonster::Tick(_DeltaTime);
 
+	std::vector<UCollision*> MonsterFireResult;
+	if (true == HideLeftCollision->CollisionCheck(ECollisionOrder::Fire, MonsterFireResult) || true == HideRightCollision->CollisionCheck(ECollisionOrder::Monster, MonsterFireResult))
+	{
+		StateChange(EMonsterState::SpinDead);
+		return;
+	}
+
 	if (EMonsterState::Shoot == State)
 	{
 		std::vector<UCollision*> MarioResult;
@@ -65,6 +72,7 @@ void ATroopa::Tick(float _DeltaTime)
 
 			if (Mario->SizeState != EMarioSizeState::Small)
 			{
+				Mario->SizeState = EMarioSizeState::Small;
 				Mario->StateChange(EPlayState::GrowDown);
 				return;
 			}
