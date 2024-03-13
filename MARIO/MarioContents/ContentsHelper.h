@@ -100,6 +100,8 @@ enum class EKoopaState
 enum class EMonsterState
 {
 	Move,
+	Wait,
+	Stop,
 	SpinDead,
 	HeadHit,
 	Shoot,
@@ -110,8 +112,6 @@ enum class EMonsterState
 enum class EPlantState
 {
 	Move,
-	Wait,
-	Stop,
 	Dead,
 	None,
 };

@@ -20,11 +20,11 @@ public:
 	void WindowCheck();
 
 	virtual void MoveStart();
-	void SpinDeadStart();
+	virtual void SpinDeadStart();
 	virtual void HeadHitStart();
 
 	virtual void Move(float _DeltaTime);
-	void SpinDead(float _DeltaTime);
+	virtual void SpinDead(float _DeltaTime);
 	virtual void HeadHit(float _DeltaTime);
 
 	void GravityMove(float _DeltaTime);

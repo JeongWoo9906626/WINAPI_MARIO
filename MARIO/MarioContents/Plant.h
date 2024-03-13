@@ -1,8 +1,8 @@
 #pragma once
-#include <EngineCore/Actor.h>
+#include "Monster.h"
 #include "ContentsHelper.h"
 
-class APlant : public AActor
+class APlant : public AMonster
 {
 public:
 	APlant();
@@ -12,29 +12,25 @@ public:
 	APlant(APlant&& _Other) noexcept = delete;
 	APlant& operator=(const APlant& _Other) = delete;
 	APlant& operator=(APlant&& _Other) noexcept = delete;
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-	void StateChange(EPlantState _State);
-	void StateUpdate(float _DeltaTime);
+	void StateChange(EMonsterState _State) override;
+	void StateUpdate(float _DeltaTime) override;
 
-	void MoveStart();
+	void MoveStart() override;
 	void WaitStart();
 	void StopStart();
-	void DeadStart();
+	void SpinDeadStart() override;
 
-	void Move(float _DeltaTime);
+	void Move(float _DeltaTime) override;
 	void Wait(float _DeltaTime);
 	void Stop(float _DeltaTime);
-	void Dead(float _DeltaTime);
+	void SpinDead(float _DeltaTime) override;
 
 private:
-	UImageRenderer* Renderer = nullptr;
-	UCollision* Collision = nullptr;
-
-	EPlantState State = EPlantState::None;
-
 	FVector DirVector = FVector::Up;
 
 	bool IsUp = true;

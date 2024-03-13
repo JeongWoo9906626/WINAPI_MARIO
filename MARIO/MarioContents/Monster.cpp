@@ -179,18 +179,27 @@ void AMonster::WindowCheck()
 void AMonster::MoveStart()
 {
 	Collision->ActiveOn();
-	HeadCollision->ActiveOn();
+	if (nullptr != HeadCollision)
+	{
+		HeadCollision->ActiveOn();
+	}
 }
 
 void AMonster::SpinDeadStart()
 {
 	Collision->ActiveOff();
-	HeadCollision->ActiveOff();
-	BottomCollision->ActiveOff();
+	if (nullptr != HeadCollision)
+	{
+		HeadCollision->ActiveOff();
+	}
+	if (nullptr != BottomCollision)
+	{
+		BottomCollision->ActiveOff();
+	}
 
 	Score = GetWorld()->SpawnActor<ScoreUI>(ERenderOrder::UI);
-	Score->SetScore(200);
 	Score->SetActorLocation(GetActorLocation());
+	Score->SetScore(200);
 }
 
 void AMonster::HeadHitStart()

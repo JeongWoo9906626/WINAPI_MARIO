@@ -13,7 +13,7 @@ APlant::~APlant()
 
 void APlant::BeginPlay()
 {
-	AActor::BeginPlay();
+	AMonster::BeginPlay();
 
 	{
 		// TODO : 식물이 파이프보다 뒤에서 나와야함
@@ -35,66 +35,28 @@ void APlant::BeginPlay()
 	}
 	Renderer->ChangeAnimation("PlantIdle");
 
-	StateChange(EPlantState::Move);
+	StateChange(EMonsterState::Move);
 }
 
 void APlant::Tick(float _DeltaTime)
 {
-	AActor::Tick(_DeltaTime);
-
-
-	std::vector<UCollision*> MarioResult;
-	if (true == Collision->CollisionCheck(ECollisionOrder::Player, MarioResult))
-	{
-		UCollision* MarioCollision = MarioResult[0];
-		AMario* Mario = (AMario*)MarioCollision->GetOwner();
-		if (Mario->SizeState != EMarioSizeState::Small)
-		{
-			Mario->SizeState = EMarioSizeState::Small;
-			Mario->StateChange(EPlayState::GrowDown);
-			return;
-		}
-		else
-		{
-			Mario->StateChange(EPlayState::Die);
-			return;
-		}
-		
-	}
-
-	std::vector<UCollision*> MarioFireResult;
-	if (true == Collision->CollisionCheck(ECollisionOrder::Fire, MarioFireResult))
-	{
-		UCollision* MarioFireCollision = MarioFireResult[0];
-		AMarioFire* MarioFire = (AMarioFire*)MarioFireCollision->GetOwner();
-		MarioFire->SetIsDestroy(true);
-
-		StateChange(EPlantState::Dead);
-		return;
-	}
+	AMonster::Tick(_DeltaTime);
 
 	StateUpdate(_DeltaTime);
 }
 
-void APlant::StateChange(EPlantState _State)
+void APlant::StateChange(EMonsterState _State)
 {
-	if (State != _State)
+	AMonster::StateChange(_State);
+
+	switch (_State)
 	{
-		switch (_State)
-		{
-		case EPlantState::Move:
-			MoveStart();
-			break;
-		case EPlantState::Wait:
-			WaitStart();
-			break;
-		case EPlantState::Stop:
-			StopStart();
-			break;
-		case EPlantState::Dead:
-			DeadStart();
-			break;
-		}
+	case EMonsterState::Wait:
+		WaitStart();
+		break;
+	case EMonsterState::Stop:
+		StopStart();
+		break;
 	}
 
 	State = _State;
@@ -102,25 +64,21 @@ void APlant::StateChange(EPlantState _State)
 
 void APlant::StateUpdate(float _DeltaTime)
 {
+	AMonster::StateUpdate(_DeltaTime);
 	switch (State)
 	{
-	case EPlantState::Move:
-		Move(_DeltaTime);
-		break;
-	case EPlantState::Wait:
+	case EMonsterState::Wait:
 		Wait(_DeltaTime);
 		break;
-	case EPlantState::Stop:
+	case EMonsterState::Stop:
 		Stop(_DeltaTime);
-		break;
-	case EPlantState::Dead:
-		Dead(_DeltaTime);
 		break;
 	}
 }
 
 void APlant::MoveStart()
 {
+	AMonster::MoveStart();
 	CurMoveY = 0.0f;
 }
 
@@ -133,15 +91,11 @@ void APlant::StopStart()
 {
 }
 
-void APlant::DeadStart()
+void APlant::SpinDeadStart()
 {
+	AMonster::SpinDeadStart();
 	Collision->ActiveOff();
 	Renderer->SetAlpha(0.5f);
-
-	ScoreUI* Score = GetWorld()->SpawnActor<ScoreUI>(ERenderOrder::UI);
-	FVector MonsterLocation = GetActorLocation();
-	Score->SetActorLocation(MonsterLocation);
-	Score->SetScore(100);
 }
 
 void APlant::Move(float _DeltaTime)
@@ -161,7 +115,7 @@ void APlant::Move(float _DeltaTime)
 	}
 	else
 	{
-		StateChange(EPlantState::Wait);
+		StateChange(EMonsterState::Wait);
 		return;
 	}
 
@@ -173,7 +127,7 @@ void APlant::Wait(float _DeltaTime)
 	if (CurTime >= WaitTime)
 	{
 		IsUp = !IsUp;
-		StateChange(EPlantState::Move);
+		StateChange(EMonsterState::Move);
 		return;
 	}
 	CurTime += _DeltaTime;
@@ -181,10 +135,9 @@ void APlant::Wait(float _DeltaTime)
 
 void APlant::Stop(float _DeltaTime)
 {
-	
 }
 
-void APlant::Dead(float _DeltaTime)
+void APlant::SpinDead(float _DeltaTime)
 {
 	if (CurDestoryTime >= DestroyTime)
 	{
