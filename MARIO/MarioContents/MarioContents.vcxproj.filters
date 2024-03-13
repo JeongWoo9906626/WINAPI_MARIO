@@ -144,6 +144,9 @@
     <ClInclude Include="ScoreUI.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="FloatingBox.h">
+      <Filter>PlayLevel\Actor\Box</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -250,6 +253,9 @@
     </ClCompile>
     <ClCompile Include="ScoreUI.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="FloatingBox.cpp">
+      <Filter>PlayLevel\Actor\Box</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

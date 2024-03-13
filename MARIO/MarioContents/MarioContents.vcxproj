@@ -197,6 +197,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="FloatingBox.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Gate.h" />
     <ClInclude Include="Goomba.h">
       <SubType>
@@ -318,6 +322,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Flag.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="FloatingBox.cpp">
       <SubType>
       </SubType>
     </ClCompile>

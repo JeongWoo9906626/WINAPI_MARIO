@@ -15,7 +15,6 @@
 #include "UI.h"
 #include "Pipe.h"
 #include "TiltedPipe.h"
-#include "MarioFire.h"
 
 UPlayLevel::UPlayLevel()
 {
@@ -47,9 +46,9 @@ void UPlayLevel::BeginPlay()
 	Flag->SetActorLocation({ 705, 700 });
 	Flag->SetActorLocation({ 12705, 700 });
 
-	AGoomba* Goomba = SpawnActor<AGoomba>(ERenderOrder::Monster);
-	Goomba->SetName("OpenWorldGoomba1");
-	Goomba->SetActorLocation({ 1550, 550 });
+	//AGoomba* Goomba = SpawnActor<AGoomba>(ERenderOrder::Monster);
+	//Goomba->SetName("OpenWorldGoomba1");
+	//Goomba->SetActorLocation({ 1550, 550 });
 	//AGoomba* Goomba2 = SpawnActor<AGoomba>(ERenderOrder::Monster);
 	//Goomba2->SetName("OpenWorldGoomba2");
 	//Goomba2->SetActorLocation({ 1260, 600 });

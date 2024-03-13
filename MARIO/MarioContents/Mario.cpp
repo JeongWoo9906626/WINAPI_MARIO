@@ -1429,7 +1429,10 @@ void AMario::MoveUpdate(float _DeltaTime)
 	float ScaleX = GEngine->MainWindow.GetWindowScale().X;
 	if (false == IsHiddenStage && CurCameraPos.X + Center < NextMarioPos.X && CurCameraPos.X + ScaleX <= UContentsHelper::MapColImage->GetScale().X)
 	{
-		GetWorld()->AddCameraPos(MoveVector * _DeltaTime);
+		if (MoveVector.X > 0)
+		{
+			GetWorld()->AddCameraPos(MoveVector * _DeltaTime);
+		}
 	}
 	if (CurCameraPos.X + 20.0f >= NextMarioPos.X)
 	{

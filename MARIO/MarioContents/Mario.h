@@ -10,6 +10,7 @@ class AFlag;
 class ABrick;
 class ABreakBrick;
 class AItemBox;
+class AFloatingBox;
 class AGate;
 class AMushroom;
 class ASunflower;
@@ -18,6 +19,7 @@ class ASpinFire;
 class AKoopaFire;
 class ABirdgeHandle;
 class AEndingGate;
+
 // Ό³Έν :
 class AMario : public AActor
 {
@@ -30,6 +32,7 @@ class AMario : public AActor
 	friend AGate;
 	friend ABreakBrick;
 	friend AItemBox;
+	friend AFloatingBox;
 	friend AMushroom;
 	friend ASunflower;
 	friend AKoopa;

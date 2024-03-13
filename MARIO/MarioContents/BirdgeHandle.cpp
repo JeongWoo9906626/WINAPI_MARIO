@@ -46,6 +46,7 @@ void ABirdgeHandle::Tick(float _DeltaTime)
 
 	if (IsCollision == true)
 	{
+		UContentsHelper::IsBridgeHandleCollision = true;
 		DestroyBridge(_DeltaTime);
 	}
 }

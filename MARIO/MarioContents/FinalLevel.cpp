@@ -11,6 +11,7 @@
 #include "KoopaEvent.h"
 #include "KoopaFire.h"
 #include "EndingGate.h"
+#include "FloatingBox.h"
 
 UFinalLevel::UFinalLevel()
 {
@@ -44,11 +45,14 @@ void UFinalLevel::BeginPlay()
 	BirdgeHandle->SetName("Handle");
 	BirdgeHandle->SetActorLocation({ 9050, 540 });
 
+	AKoopaEvent* KoopaEvent = SpawnActor<AKoopaEvent>(ERenderOrder::Gate);
+	KoopaEvent->SetActorLocation({ 8000, 600 });
+
 	AKoopa* Koopa = SpawnActor<AKoopa>(ERenderOrder::Monster);
 	Koopa->SetActorLocation({ 8862, 600 });
 
-	AKoopaEvent* KoopaEvent = SpawnActor<AKoopaEvent>(ERenderOrder::Gate);
-	KoopaEvent->SetActorLocation({ 8000, 600 });
+	AFloatingBox* FloatingBox = SpawnActor<AFloatingBox>(ERenderOrder::Brick);
+	FloatingBox->SetActorLocation({ 8880, 470 });
 
 	AEndingGate* EndingGate = SpawnActor<AEndingGate>(ERenderOrder::Gate);
 	EndingGate->SetActorLocation({ 9800, 800 });

@@ -15,6 +15,7 @@ bool UContentsHelper::KoopaDie = false;
 bool UContentsHelper::KoopaWake = false;
 bool UContentsHelper::KoopaIsFire = false;
 bool UContentsHelper::MarioDie = false;
+bool UContentsHelper::IsBridgeHandleCollision = false;
 
 FVector UContentsHelper::PortalPos1 = { 3708.0f, 578.0f, 0.0f, 0.0f };
 FVector UContentsHelper::HiddenStageSpawnPos = { 3218.0f, 1262.0f, 0.0f, 0.0f };

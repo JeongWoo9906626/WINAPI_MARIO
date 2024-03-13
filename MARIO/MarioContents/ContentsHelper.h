@@ -160,6 +160,7 @@ public:
 	static bool KoopaWake;
 	static bool KoopaIsFire;
 	static bool MarioDie;
+	static bool IsBridgeHandleCollision;
 
 	static FVector PortalPos1;
 	static float HiddenStageCameraPosX;
