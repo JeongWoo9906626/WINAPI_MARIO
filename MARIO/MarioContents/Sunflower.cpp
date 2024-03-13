@@ -1,5 +1,6 @@
 #include "Sunflower.h"
 #include "Mario.h"
+#include "ScoreUI.h"
 
 ASunflower::ASunflower()
 {
@@ -51,11 +52,16 @@ void ASunflower::Tick(float _DeltaTime)
 		UCollision* MarioPosition = MarioResult[0];
 		AMario* Player = (AMario*)MarioPosition->GetOwner();
 
+		ScoreUI* Score = GetWorld()->SpawnActor<ScoreUI>(ERenderOrder::UI);
+		FVector MonsterLocation = GetActorLocation();
+		Score->SetActorLocation(MonsterLocation);
+		Score->SetScore(1000);
+
 		Renderer->ActiveOff();
 		BodyCollision->ActiveOff();
 		Destroy();
 
-		UContentsHelper::Score += 1000;
+
 		if (EMarioSizeState::Red != Player->SizeState)
 		{
 			Player->SizeState = EMarioSizeState::Red;

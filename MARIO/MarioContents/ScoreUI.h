@@ -13,13 +13,13 @@ public:
 	ScoreUI& operator=(const ScoreUI& _Other) = delete;
 	ScoreUI& operator=(ScoreUI&& _Other) noexcept = delete;
 
-	void SetScore(int _Score = 100);
+	void SetScore(int _Score);
 
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-	void ScorePrintStart(int _Score);
+	void ScorePrintStart();
 	void ScorePrint(float _DeltaTime);
 
 private:

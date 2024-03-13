@@ -1,5 +1,6 @@
 #include "Mushroom.h"
 #include "Mario.h"
+#include "ScoreUI.h"
 
 AMushroom::AMushroom()
 {
@@ -24,14 +25,14 @@ void AMushroom::BeginPlay()
 	}
 
 	{
-		BodyCollision = CreateCollision(ECollisionOrder::Goomba);
+		BodyCollision = CreateCollision(ECollisionOrder::Item);
 		BodyCollision->SetColType(ECollisionType::Rect);
 		BodyCollision->SetPosition({ 0, -30 });
 		BodyCollision->SetScale({ 55, 55 });
 	}
 
 	{
-		BottomCollision = CreateCollision(ECollisionOrder::Goomba);
+		BottomCollision = CreateCollision(ECollisionOrder::Item);
 		BottomCollision->SetColType(ECollisionType::Rect);
 		BottomCollision->SetPosition({ 0, 10 });
 		BottomCollision->SetScale({ 30, 3 });
@@ -54,7 +55,10 @@ void AMushroom::Tick(float _DeltaTime)
 		BodyCollision->ActiveOff();
 		Destroy();
 
-		UContentsHelper::Score += 1000;
+		ScoreUI* Score = GetWorld()->SpawnActor<ScoreUI>(ERenderOrder::UI);
+		FVector MonsterLocation = GetActorLocation();
+		Score->SetActorLocation(MonsterLocation);
+		Score->SetScore(1000);
 
 		Player->SizeState = EMarioSizeState::Big;
 		Player->StateChange(EPlayState::GrowUp);

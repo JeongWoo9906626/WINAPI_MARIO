@@ -11,6 +11,7 @@ ScoreUI::~ScoreUI()
 void ScoreUI::SetScore(int _Score)
 {
 	Score = _Score;
+	UContentsHelper::Score += Score;
 }
 
 void ScoreUI::BeginPlay()
@@ -23,6 +24,7 @@ void ScoreUI::BeginPlay()
 
 	ScoreRenderer->CreateAnimation("100", "Score.png", 0, 0, 0.1f, true);
 	ScoreRenderer->CreateAnimation("200", "Score.png", 1, 1, 0.1f, true);
+	ScoreRenderer->CreateAnimation("400", "Score.png", 2, 2, 0.1f, true);
 	ScoreRenderer->CreateAnimation("1000", "Score.png", 4, 4, 0.1f, true);
 
 	Destroy(1.0f);
@@ -35,7 +37,7 @@ void ScoreUI::Tick(float _DeltaTime)
 	ScorePrint(_DeltaTime);
 }
 
-void ScoreUI::ScorePrintStart(int _Score)
+void ScoreUI::ScorePrintStart()
 {
 	std::string ScoreString = std::to_string(Score);
 	ScoreRenderer->ChangeAnimation(ScoreString);
@@ -43,6 +45,6 @@ void ScoreUI::ScorePrintStart(int _Score)
 
 void ScoreUI::ScorePrint(float _DeltaTime)
 {
-	ScorePrintStart(Score);
+	ScorePrintStart();
 	AddActorLocation(FVector::Up * 100.0f * _DeltaTime);
 }

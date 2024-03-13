@@ -1,5 +1,6 @@
 #include "Coin.h"
 #include "Brick.h"
+#include "ScoreUI.h"
 
 ACoin::ACoin()
 {
@@ -68,12 +69,15 @@ void ACoin::CoinSpawnStart()
 	AddActorLocation({ 0.0f, -60.0f });
 	Renderer->ChangeAnimation("CoinSpawn");
 	UContentsHelper::CoinCount++;
-	UContentsHelper::Score += 100;
 }
 
 void ACoin::CoinDestroyStart()
 {
 	Renderer->SetActive(false);
+	ScoreUI* Score = GetWorld()->SpawnActor<ScoreUI>(ERenderOrder::UI);
+	FVector MonsterLocation = GetActorLocation();
+	Score->SetActorLocation(MonsterLocation);
+	Score->SetScore(200);
 }
 
 void ACoin::CoinSpawn(float _DeltaTime)

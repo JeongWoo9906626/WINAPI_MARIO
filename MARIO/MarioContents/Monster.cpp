@@ -2,7 +2,6 @@
 #include "MarioFire.h"
 #include "Mario.h"
 #include "Troopa.h"
-#include "ScoreUI.h"
 
 AMonster::AMonster()
 {
@@ -183,17 +182,19 @@ void AMonster::SpinDeadStart()
 	HeadCollision->ActiveOff();
 	BottomCollision->ActiveOff();
 
-	ScoreUI* Score = GetWorld()->SpawnActor<ScoreUI>(ERenderOrder::UI);
+	Score = GetWorld()->SpawnActor<ScoreUI>(ERenderOrder::UI);
 	Score->SetScore(200);
 	Score->SetActorLocation(GetActorLocation());
-
-	UContentsHelper::Score += KillScore;
 }
 
 void AMonster::HeadHitStart()
 {
 	Collision->ActiveOff();
 	HeadCollision->ActiveOff();
+
+	Score = GetWorld()->SpawnActor<ScoreUI>(ERenderOrder::UI);
+	FVector MonsterLocation = GetActorLocation();
+	Score->SetActorLocation(MonsterLocation);
 }
 
 void AMonster::Move(float _DeltaTime)

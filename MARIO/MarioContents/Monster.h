@@ -1,6 +1,7 @@
 #pragma once
 #include <EngineCore/Actor.h>
 #include "ContentsHelper.h"
+#include "ScoreUI.h"
 
 class AMonster : public AActor
 {
@@ -35,6 +36,7 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
+	ScoreUI* Score = nullptr;
 
 	UImageRenderer* Renderer = nullptr;
 	UCollision* Collision = nullptr;
@@ -50,7 +52,6 @@ protected:
 	bool IsDirChange = false;
 
 	int HitCount = 1;
-	int KillScore = 100;
 
 	float GravityAcc = 500.0f;
 	float MoveSpeed = 100.0f;

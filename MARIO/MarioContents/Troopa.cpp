@@ -208,6 +208,7 @@ void ATroopa::HeadHitStart()
 	HideLeftCollision->ActiveOn();
 	HideRightCollision->ActiveOn();
 	Renderer->ChangeAnimation("TroopaHide");
+	Score->SetScore(200);
 }
 
 void ATroopa::WakeStart()
@@ -221,6 +222,11 @@ void ATroopa::ShootStart()
 	HideLeftCollision->ActiveOff();
 	HideRightCollision->ActiveOff();
 	Renderer->ChangeAnimation("TroopaHide");
+
+	Score = GetWorld()->SpawnActor<ScoreUI>(ERenderOrder::UI);
+	FVector MonsterLocation = GetActorLocation();
+	Score->SetActorLocation(MonsterLocation);
+	Score->SetScore(400);
 }
 
 void ATroopa::Move(float _DeltaTime)

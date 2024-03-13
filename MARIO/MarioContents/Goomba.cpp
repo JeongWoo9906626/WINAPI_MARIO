@@ -80,11 +80,7 @@ void AGoomba::HeadHitStart()
 	AMonster::HeadHitStart();
 	BottomCollision->ActiveOff();
 	Renderer->ChangeAnimation("GoombaDie");
-
-	ScoreUI* Score = GetWorld()->SpawnActor<ScoreUI>(ERenderOrder::UI);
-	FVector MonsterLocation = GetActorLocation();
-	Score->SetActorLocation(MonsterLocation);
-	UContentsHelper::Score += KillScore;
+	Score->SetScore(100);
 }
 
 void AGoomba::Move(float _DeltaTime)

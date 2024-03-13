@@ -1,6 +1,7 @@
 #include "Plant.h"
 #include "Mario.h"
 #include "MarioFire.h"
+#include "ScoreUI.h"
 
 APlant::APlant()
 {
@@ -136,6 +137,11 @@ void APlant::DeadStart()
 {
 	Collision->ActiveOff();
 	Renderer->SetAlpha(0.5f);
+
+	ScoreUI* Score = GetWorld()->SpawnActor<ScoreUI>(ERenderOrder::UI);
+	FVector MonsterLocation = GetActorLocation();
+	Score->SetActorLocation(MonsterLocation);
+	Score->SetScore(100);
 }
 
 void APlant::Move(float _DeltaTime)
