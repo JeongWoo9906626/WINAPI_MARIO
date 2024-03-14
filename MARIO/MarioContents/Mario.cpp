@@ -562,6 +562,7 @@ void AMario::KillStart()
 
 void AMario::DieStart()
 {
+	UContentsHelper::MarioLife--;
 	JumpVector = FVector::Up * DieJumpPower;;
 	BodyCollision->ActiveOff();
 	HeadCollision->ActiveOff();
@@ -571,9 +572,9 @@ void AMario::DieStart()
 
 void AMario::GrowUpStart()
 {
+	GetWorld()->SetOtherTimeScale(ERenderOrder::Player, 0.0f);
 	UContentsHelper::MSizeState = SizeState;
 	DirCheck();
-
 	std::string DirName = "";
 	switch (DirState)
 	{
@@ -592,6 +593,7 @@ void AMario::GrowUpStart()
 
 void AMario::GrowDownStart()
 {
+	GetWorld()->SetOtherTimeScale(ERenderOrder::Player, 0.0f);
 	UContentsHelper::MSizeState = SizeState;
 	DirCheck();
 	std::string DirName = "";
@@ -615,6 +617,7 @@ void AMario::GrowDownStart()
 void AMario::ChangeRedStart()
 {
 	UContentsHelper::MSizeState = SizeState;
+	GetWorld()->SetOtherTimeScale(ERenderOrder::Player, 0.0f);
 	DirCheck();
 	std::string DirName = "";
 	switch (DirState)
@@ -1237,6 +1240,7 @@ void AMario::GrowUp(float _DeltaTime)
 {
 	if (CurChangeTime > ChangeTime)
 	{
+		GetWorld()->SetOtherTimeScale(ERenderOrder::Player, 1);
 		JumpVector = FVector::Zero;
 		GravityVector = FVector::Zero;
 		CurChangeTime = 0.0f;
@@ -1250,6 +1254,7 @@ void AMario::GrowDown(float _DeltaTime)
 {
 	if (CurChangeTime > ChangeTime)
 	{
+		GetWorld()->SetOtherTimeScale(ERenderOrder::Player, 1);
 		JumpVector = FVector::Zero;
 		GravityVector = FVector::Zero;
 		CurChangeTime = 0.0f;
@@ -1264,6 +1269,7 @@ void AMario::ChangeRed(float _DeltaTime)
 {
 	if (CurChangeTime > ChangeTime)
 	{
+		GetWorld()->SetOtherTimeScale(ERenderOrder::Player, 1);
 		JumpVector = FVector::Zero;
 		GravityVector = FVector::Zero;
 		CurChangeTime = 0.0f;

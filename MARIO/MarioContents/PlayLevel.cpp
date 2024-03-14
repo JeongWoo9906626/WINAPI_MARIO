@@ -15,7 +15,6 @@
 #include "UI.h"
 #include "Pipe.h"
 #include "TiltedPipe.h"
-#include "LoadingUI.h"
 
 UPlayLevel::UPlayLevel()
 {
@@ -29,15 +28,13 @@ void UPlayLevel::BeginPlay()
 {
 	ULevel::BeginPlay();
 
+	UContentsHelper::MarioLife = 3;
 	UContentsHelper::MapName = "FirstStage";
 
 	ABackGround* BackGroundMap = SpawnActor<ABackGround>(ERenderOrder::Map);
 	BackGroundMap->SetMapImage("Stage01.png");
 	BackGroundMap->SetCollisionMapImage("Stage01_Col.png");
 	BackGroundMap->SwitchDebug();
-
-	ALoadingUI* Loading = SpawnActor<ALoadingUI>(ERenderOrder::Loading);
-	Loading->SetActorLocation({ GEngine->MainWindow.GetWindowScale().ihX(), GEngine->MainWindow.GetWindowScale().ihY() });
 
 	AUI* UI = SpawnActor<AUI>(ERenderOrder::UI);
 	UI->SetActorLocation({ 200, 200 });
@@ -70,7 +67,7 @@ void UPlayLevel::BeginPlay()
 	//Turtle2->SetName("OpenWorldTroopa2");
 	//Turtle2->SetActorLocation({ 1000, 700 });
 
-	APlant* Plant = SpawnActor<APlant>(ERenderOrder::Plant);
+	APlant* Plant = SpawnActor<APlant>(ERenderOrder::Monster);
 	Plant->SetName("Plant");
 	// 710 MaxTop 
 	// 800 MaxBottom

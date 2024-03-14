@@ -28,7 +28,7 @@ void APlant::BeginPlay()
 	}
 
 	{
-		Collision = CreateCollision(ECollisionOrder::Goomba);
+		Collision = CreateCollision(ECollisionOrder::Monster);
 		Collision->SetColType(ECollisionType::Rect);
 		Collision->SetPosition({ 0, -40 });
 		Collision->SetScale({ 40, 80 });

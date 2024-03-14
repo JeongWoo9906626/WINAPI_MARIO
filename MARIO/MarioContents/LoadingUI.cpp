@@ -10,6 +10,8 @@ ALoadingUI::~ALoadingUI()
 
 void ALoadingUI::BeginPlay()
 {
+	//ALoadingUI* Loading = SpawnActor<ALoadingUI>(ERenderOrder::Loading);
+	//Loading->SetActorLocation({ GEngine->MainWindow.GetWindowScale().ihX(), GEngine->MainWindow.GetWindowScale().ihY() });
 	AActor::BeginPlay();
 
 	Renderer = CreateImageRenderer(ERenderOrder::Loading);
