@@ -80,7 +80,7 @@ void AMario::BeginPlay()
 
 		Renderer->CreateAnimation("Down_Big", "Mario_Right.png", 16, 17, 0.1f, true);
 		Renderer->CreateAnimation("DownWait_Big", "Mario_Right.png", 17, 17, 0.1f, true);
-		Renderer->CreateAnimation("DownReverse_Big", "Mario_Left.png", 16, 16, 0.1f, true);
+		Renderer->CreateAnimation("DownReverse_Big", "Mario_Left.png", 17, 17, 0.1f, true);
 
 		Renderer->CreateAnimation("Down_Fire", "Mario_Right.png", 27, 28, 0.1f, true);
 		Renderer->CreateAnimation("DownWait_Fire", "Mario_Right.png", 28, 28, 0.1f, true);
@@ -147,7 +147,6 @@ void AMario::Tick(float _DeltaTime)
 
 	if (true == UEngineInput::IsDown('X'))
 	{
-		IsRun = true;
 		CurMaxSpeed = MaxRunSpeed;
 		CurJumpPower = RunJumpPower;
 		CurBreakSpeed = RunBreakSpeed;
@@ -158,12 +157,25 @@ void AMario::Tick(float _DeltaTime)
 			MarioFire->SetDir(DirState);
 		}
 	}
-	if (true == UEngineInput::IsUp('X'))
+	if (true == UEngineInput::IsFree('X'))
 	{
-		IsRun = false;
-		CurMaxSpeed = MaxMoveSpeed;
-		CurJumpPower = MoveJumpPower;
-		CurBreakSpeed = BreakSpeed;
+		if (MoveVector.X <= 410.0f)
+		{
+			CurMaxSpeed = MaxMoveSpeed;
+			CurJumpPower = MoveJumpPower;
+			CurBreakSpeed = RunBreakSpeed;
+		}
+		else
+		{
+			if (MoveVector.X > 0.0f)
+			{
+				MoveVector.X -= CurBreakSpeed * _DeltaTime;
+			}
+			else
+			{
+				MoveVector.X += CurBreakSpeed * _DeltaTime;
+			}
+		}
 	}
 
 	if (true == IsChange)
@@ -654,6 +666,7 @@ void AMario::HiddenStageOutStart()
 	CurPortalTime = 0.0f;
 	CurScreenChangeTime = 0.0f;
 
+	DirState = EActorDir::Right;
 	Renderer->ChangeAnimation(GetAnimationName("Idle"));
 }
 
@@ -934,12 +947,11 @@ void AMario::Move(float _DeltaTime)
 {
 	GroundUp();
 
-	if (true == IsRun)
+	if (abs(MoveVector.X) > 410.0f)
 	{
 		Renderer->ChangeAnimation(GetAnimationName("MoveFast"));
 	}
-
-	if (false == IsRun)
+	else
 	{
 		Renderer->ChangeAnimation(GetAnimationName("Move"));
 	}
@@ -1088,11 +1100,8 @@ void AMario::Jump(float _DeltaTime)
 	if (UEngineInput::IsUp(VK_SPACE))
 	{
 		JumpVector = FVector::Zero;
-		GravityVector.Y /= 2;
+		GravityVector.Y *= 0.5f;
 	}
-	FVector a = JumpVector;
-	FVector b = GravityVector;
-	FVector c;
 }
 
 void AMario::Crouch(float _DeltaTime)
@@ -1345,7 +1354,6 @@ void AMario::HiddenStageOut(float _DeltaTime)
 
 void AMario::HiddenStageOutUp(float _DeltaTime)
 {
-	//GroundUp();
 	if (CurPortalTime < PortalTime)
 	{
 		AddActorLocation(FVector::Up * _DeltaTime * 50.0f);

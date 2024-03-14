@@ -122,7 +122,6 @@ private:
 	float FreeMoveSpeed = 1000.0f;
 
 	bool IsHiddenStage = false;
-	bool IsRun = false;
 	bool IsChange = false;
 	bool IsGround = false;
 	bool IsDown = false;
