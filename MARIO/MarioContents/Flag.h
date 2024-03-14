@@ -16,7 +16,15 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
+	void FlagDown(float _DeltaTime);
+
 private:
+	UImageRenderer* Renderer = nullptr;
 	UCollision* FlagCollision = nullptr;
+
+	float DownSpeed = 300.0f;
+	float DownRange = 500.0f;
+	float CurDownY = 0.0f;
+	bool IsFlagCollision = false;
 };
 

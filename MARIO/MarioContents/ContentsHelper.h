@@ -13,6 +13,7 @@ enum ERenderOrder
 	Monster,
 	Brick,
 	Item,
+	Flag,
 	Player,
 	BreakOne,
 	Fire,
