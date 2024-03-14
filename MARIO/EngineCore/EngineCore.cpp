@@ -74,7 +74,14 @@ void UEngineCore::CoreTick()
 
 		AllLevel.erase(DestroyLevelName[i]);
 
+		if (Level == CurLevel)
+		{
+			CurLevel = nullptr;
+		}
+
 		Level->End();
+
+		
 
 		if (nullptr != Level)
 		{
@@ -177,7 +184,8 @@ void UEngineCore::CoreInit(HINSTANCE _HINSTANCE)
 	}
 
 	UEngineWindow::Init(_HINSTANCE);
-	MainWindow.Open();
+	WindowOpen(WindowTitle, WindowIconPath);
+	MainWindow.Open(WindowTitle, WindowIconPath);
 
 	this->AllLevel;
 
