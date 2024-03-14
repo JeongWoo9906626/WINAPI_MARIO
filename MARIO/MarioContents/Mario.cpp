@@ -1248,7 +1248,7 @@ void AMario::Die(float _DeltaTime)
 	{
 		if (0 == UContentsHelper::MarioLife)
 		{
-			UContentsHelper::Time = 1000;
+			UContentsHelper::Time = 1400;
 			UContentsHelper::SubStage = 1;
 			UContentsHelper::MapName = "Title";
 			UContentsHelper::HighScore = UContentsHelper::Score;
