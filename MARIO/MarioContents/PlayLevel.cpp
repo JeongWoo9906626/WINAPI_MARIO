@@ -15,6 +15,7 @@
 #include "UI.h"
 #include "Pipe.h"
 #include "TiltedPipe.h"
+#include "LoadingUI.h"
 
 UPlayLevel::UPlayLevel()
 {
@@ -34,6 +35,9 @@ void UPlayLevel::BeginPlay()
 	BackGroundMap->SetMapImage("Stage01.png");
 	BackGroundMap->SetCollisionMapImage("Stage01_Col.png");
 	BackGroundMap->SwitchDebug();
+
+	ALoadingUI* Loading = SpawnActor<ALoadingUI>(ERenderOrder::Loading);
+	Loading->SetActorLocation({ GEngine->MainWindow.GetWindowScale().ihX(), GEngine->MainWindow.GetWindowScale().ihY() });
 
 	AUI* UI = SpawnActor<AUI>(ERenderOrder::UI);
 	UI->SetActorLocation({ 200, 200 });

@@ -21,11 +21,11 @@ void ABirdgeHandle::BeginPlay()
 
 	Collision = CreateCollision(ECollisionOrder::Box);
 	Collision->SetColType(ECollisionType::Rect);
-	Collision->SetTransform({ { 0,0 }, { 50, 50 } });
+	Collision->SetTransform({ { 40, -50 }, { 70, 70 } });
 
 	Renderer = CreateImageRenderer(ERenderOrder::Item);
 	Renderer->SetImage("Axe.png");
-	Renderer->SetTransform({ { 0, 0 }, { 64, 64 } });
+	Renderer->SetTransform({ { 0, 0 }, { 170, 180 } });
 }
 
 void ABirdgeHandle::Tick(float _DeltaTime)

@@ -18,7 +18,9 @@ enum ERenderOrder
 	BreakOne,
 	Fire,
 	Pipe,
+	Loading,
 	UI,
+	Cheat,
 };
 
 enum class ECollisionOrder
@@ -149,6 +151,7 @@ public:
 
 	static enum EMarioSizeState MSizeState;
 
+	static int MarioLife;
 	static int CoinCount;
 	static int Score;
 	static int Time;

@@ -150,6 +150,9 @@
     <ClInclude Include="BossGate.h">
       <Filter>PlayLevel\Actor\Gate</Filter>
     </ClInclude>
+    <ClInclude Include="LoadingUI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -262,6 +265,9 @@
     </ClCompile>
     <ClCompile Include="BossGate.cpp">
       <Filter>PlayLevel\Actor\Gate</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingUI.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

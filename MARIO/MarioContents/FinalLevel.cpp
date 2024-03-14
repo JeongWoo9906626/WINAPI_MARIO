@@ -44,7 +44,7 @@ void UFinalLevel::BeginPlay()
 
 	ABirdgeHandle* BirdgeHandle = SpawnActor<ABirdgeHandle>(ERenderOrder::Brick);
 	BirdgeHandle->SetName("Handle");
-	BirdgeHandle->SetActorLocation({ 9050, 540 });
+	BirdgeHandle->SetActorLocation({ 9020, 605 });
 
 	AKoopaEvent* KoopaEvent = SpawnActor<AKoopaEvent>(ERenderOrder::Gate);
 	KoopaEvent->SetActorLocation({ 8000, 600 });
