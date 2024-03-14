@@ -562,6 +562,8 @@ void AMario::KillStart()
 
 void AMario::DieStart()
 {
+	GetWorld()->SetTimeScale(ERenderOrder::Monster, 0.0f);
+	GetWorld()->SetTimeScale(ERenderOrder::UI, 0.0f);
 	UContentsHelper::MarioLife--;
 	JumpVector = FVector::Up * DieJumpPower;;
 	BodyCollision->ActiveOff();
