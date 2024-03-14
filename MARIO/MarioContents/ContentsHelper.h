@@ -154,6 +154,7 @@ public:
 	static int MarioLife;
 	static int CoinCount;
 	static int Score;
+	static int HighScore;
 	static int Time;
 	static int MainStage;
 	static int SubStage;

@@ -6,6 +6,7 @@
 #include <EngineBase/EngineFile.h>	
 #include <EngineCore/EngineResourcesManager.h>
 #include "TitleLevel.h"
+#include "LoadingLevel.h"
 #include "PlayLevel.h"
 #include "FinalLevel.h"
 
@@ -64,6 +65,7 @@ void UMarioCore::BeginPlay()
 	// TODO
 	// 생성할 모든 레벨 Core에서 생성
 	CreateLevel<UTitleLevel>("Title");
+	CreateLevel<ULoadingLevel>("Loading");
 	CreateLevel<UPlayLevel>("Play");
 	//CreateLevel<UFinalLevel>("Final");
 

@@ -1,8 +1,10 @@
 #include "TitleLevel.h"
+
+#include "ContentsHelper.h"
 #include "TitleLogo.h"
+#include "UI.h"
 #include <EnginePlatform/EngineInput.h>
 #include <EngineCore/EngineCore.h>
-#include "BackGround.h"
 
 UTitleLevel::UTitleLevel()
 {
@@ -15,7 +17,10 @@ UTitleLevel::~UTitleLevel()
 void UTitleLevel::BeginPlay()
 {
 	ULevel::BeginPlay();
-	ATitleLogo* Logo = SpawnActor<ATitleLogo>();
+	ATitleLogo* Logo = SpawnActor<ATitleLogo>(ERenderOrder::Map);
+
+	AUI* UI = SpawnActor<AUI>(ERenderOrder::UI);
+	UI->SetActorLocation({ 200, 200 });
 }
 
 void UTitleLevel::Tick(float _DeltaTime)
@@ -24,7 +29,7 @@ void UTitleLevel::Tick(float _DeltaTime)
 
 	if (UEngineInput::IsAnykeyPress())
 	{
-		GEngine->ChangeLevel("Play");
+		GEngine->ChangeLevel("Loading");
 	}
 }
 

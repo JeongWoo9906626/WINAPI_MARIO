@@ -37,6 +37,12 @@
     <Filter Include="UI">
       <UniqueIdentifier>{3ae4fd92-dba5-4ccb-9eee-04b03f357342}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\LoadingLevel">
+      <UniqueIdentifier>{86e56f65-d508-439c-9e31-b7205bbd18b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\LoadingLevel\Actor">
+      <UniqueIdentifier>{4ae09bca-c2dd-4067-9a45-d5d6273e82f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TitleLevel.h">
@@ -150,8 +156,11 @@
     <ClInclude Include="BossGate.h">
       <Filter>PlayLevel\Actor\Gate</Filter>
     </ClInclude>
+    <ClInclude Include="LoadingLevel.h">
+      <Filter>UI\LoadingLevel</Filter>
+    </ClInclude>
     <ClInclude Include="LoadingUI.h">
-      <Filter>UI</Filter>
+      <Filter>UI\LoadingLevel\Actor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -266,8 +275,11 @@
     <ClCompile Include="BossGate.cpp">
       <Filter>PlayLevel\Actor\Gate</Filter>
     </ClCompile>
+    <ClCompile Include="LoadingLevel.cpp">
+      <Filter>UI\LoadingLevel</Filter>
+    </ClCompile>
     <ClCompile Include="LoadingUI.cpp">
-      <Filter>UI</Filter>
+      <Filter>UI\LoadingLevel\Actor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -19,7 +19,10 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-private:
+	void ScoreUpdate();
 
+private:
+	UImageRenderer* TimeHideRenderer = nullptr;
+	UImageRenderer* HighScoreRenderer[6] = { nullptr, };
 };
 
