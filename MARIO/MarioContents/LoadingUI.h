@@ -17,6 +17,10 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
+	void MainStageUpdate();
+	void SubStageUpdate();
+	void MarioLifeUpdate();
+
 	std::string CheckMainStage();
 	std::string CheckSubStage();
 	std::string CheckMarioLife();

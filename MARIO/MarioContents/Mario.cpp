@@ -7,7 +7,6 @@
 #include "ContentsHelper.h"
 #include "HiddenGate.h"
 #include "MarioFire.h"
-#include "FinalLevel.h"
 
 AMario* AMario::MainPlayer = nullptr;
 
@@ -138,10 +137,21 @@ void AMario::Tick(float _DeltaTime)
 	UEngineDebug::DebugTextPrint("X : " + std::to_string(PlayerPos.X) + ", Y : " + std::to_string(PlayerPos.Y), 30.0f);
 	UEngineDebug::DebugTextPrint("\nDeltaTime : " + std::to_string(_DeltaTime), 30.0f);
 
-	if (true == UEngineInput::IsDown('4') && UContentsHelper::SubStage != 4)
+	if (true == UEngineInput::IsDown('4'))
 	{
-		GEngine->CreateLevel<UFinalLevel>("Final");
-		GEngine->ChangeLevel("Final");
+		UContentsHelper::Time = 1300;
+		UContentsHelper::SubStage = 4;
+		UContentsHelper::MapName = "FinalStage";
+		GEngine->ChangeLevel("Loading");
+		return;
+	}
+
+	if (true == UEngineInput::IsDown('3'))
+	{
+		UContentsHelper::Time = 1400;
+		UContentsHelper::SubStage = 1;
+		UContentsHelper::MapName = "FirstStage";
+		GEngine->ChangeLevel("Loading");
 		return;
 	}
 
@@ -241,6 +251,7 @@ void AMario::Tick(float _DeltaTime)
 		IsCollision = false;
 	}
 
+	DieCheck();
 	StateUpdate(_DeltaTime);
 }
 
@@ -1232,15 +1243,25 @@ void AMario::Kill(float _DeltaTime)
 
 void AMario::Die(float _DeltaTime)
 {
-	if (CurDieTime >= DieTime)
+	Color8Bit DieColor = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::YellowA);
+	if (Color8Bit(255, 255, 0, 0) == DieColor)
 	{
-		AddActorLocation(JumpVector * (_DeltaTime));
-		JumpVector += FVector::Down * CurGravityAcc * _DeltaTime;
+		if (0 == UContentsHelper::MarioLife)
+		{
+			UContentsHelper::Time = 1000;
+			UContentsHelper::SubStage = 1;
+			UContentsHelper::MapName = "Title";
+			UContentsHelper::HighScore = UContentsHelper::Score;
+			GEngine->ChangeLevel("GameOver");
+			return;
+		}
+
+		GEngine->ChangeLevel("Loading");
+		return;
 	}
-	else
-	{
-		CurDieTime += _DeltaTime;
-	}
+
+	AddActorLocation(JumpVector * (_DeltaTime));
+	JumpVector += FVector::Down * CurGravityAcc * _DeltaTime;
 }
 
 void AMario::GrowUp(float _DeltaTime)
@@ -1482,6 +1503,16 @@ void AMario::MoveUpdate(float _DeltaTime)
 
 	TotalForceVector = MoveVector + JumpVector + GravityVector;
 	AddActorLocation(TotalForceVector * _DeltaTime);
+}
+
+void AMario::DieCheck()
+{
+	Color8Bit DieColor = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::YellowA);
+	if (Color8Bit(255, 255, 0, 0) == DieColor)
+	{
+		StateChange(EPlayState::Die);
+		return;
+	}
 }
 
 void AMario::GroundUp()

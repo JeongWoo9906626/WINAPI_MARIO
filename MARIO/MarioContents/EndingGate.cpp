@@ -41,6 +41,14 @@ void AEndingGate::Tick(float _DeltaTime)
 			Pos.Y += 32.f;
 			Scale.Y -= 64.f;
 			UIBox->SetTransform({ Pos, Scale });
+
+			if (0.0f > Scale.Y)
+			{
+				UContentsHelper::HighScore = UContentsHelper::Score;
+				GEngine->ChangeLevel("GameOver");
+				return;
+			}
+
 		}
 		CurTime += _DeltaTime;
 	}

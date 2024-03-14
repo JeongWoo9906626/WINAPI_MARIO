@@ -205,6 +205,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameOverLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameOverUI.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Gate.h" />
     <ClInclude Include="Goomba.h">
       <SubType>
@@ -342,6 +350,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="FloatingBox.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameOverLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameOverUI.cpp">
       <SubType>
       </SubType>
     </ClCompile>

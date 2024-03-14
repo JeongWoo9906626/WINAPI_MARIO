@@ -40,12 +40,31 @@ void ALoadingUI::BeginPlay()
 void ALoadingUI::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
+
+	MainStageUpdate();
+	SubStageUpdate();
+	MarioLifeUpdate();
+}
+
+void ALoadingUI::MainStageUpdate()
+{
+	MainStageRenderer->SetImage(CheckMainStage());
+}
+
+void ALoadingUI::SubStageUpdate()
+{
+	SubStageRenderer->SetImage(CheckSubStage());
+}
+
+void ALoadingUI::MarioLifeUpdate()
+{
+	MarioLifeRenderer->SetImage(CheckMarioLife());
 }
 
 std::string ALoadingUI::CheckMainStage()
 {
 	std::string MainStageString = "";
-	switch (UContentsHelper::SubStage)
+	switch (UContentsHelper::MainStage)
 	{
 	case 1:
 		MainStageString = "1.png";

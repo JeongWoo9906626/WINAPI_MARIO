@@ -76,7 +76,7 @@ void AMarioFire::MoveUpdate(float _DeltaTime)
 		CurJumpPower = JumpPower;
 	}
 
-	Color8Bit ColorX = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX() + CheckPos, GetActorLocation().iY() - 10, Color8Bit::MagentaA);
+	Color8Bit ColorX = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX() + static_cast<int>(CheckPos), GetActorLocation().iY() - 10, Color8Bit::MagentaA);
 	if (ColorX == Color8Bit(255, 0, 255, 0))
 	{
 		SetIsDestroy(true);

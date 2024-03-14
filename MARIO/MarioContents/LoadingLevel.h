@@ -19,6 +19,10 @@ protected:
 	void LevelEnd(ULevel* _NextLevel) override;
 
 private:
+	float ChangeTime = 2.0f;
+	float CurChangeTime = 0.0f;
 
+	std::string CurLevelName = "Title";
+	std::string LevelName = "";
 };
 

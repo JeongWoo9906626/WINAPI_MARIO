@@ -43,6 +43,12 @@
     <Filter Include="UI\LoadingLevel\Actor">
       <UniqueIdentifier>{4ae09bca-c2dd-4067-9a45-d5d6273e82f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\GmaeOverLevel">
+      <UniqueIdentifier>{3e67b615-2663-47d4-b363-b3d53434b97b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\GmaeOverLevel\Actor">
+      <UniqueIdentifier>{f7fa5846-0ed1-49fd-b4af-84b9fc81f27a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TitleLevel.h">
@@ -162,6 +168,12 @@
     <ClInclude Include="LoadingUI.h">
       <Filter>UI\LoadingLevel\Actor</Filter>
     </ClInclude>
+    <ClInclude Include="GameOverLevel.h">
+      <Filter>UI\GmaeOverLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverUI.h">
+      <Filter>UI\GmaeOverLevel\Actor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -280,6 +292,12 @@
     </ClCompile>
     <ClCompile Include="LoadingUI.cpp">
       <Filter>UI\LoadingLevel\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverLevel.cpp">
+      <Filter>UI\GmaeOverLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverUI.cpp">
+      <Filter>UI\GmaeOverLevel\Actor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

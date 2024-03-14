@@ -179,6 +179,7 @@ private:
 	float CurFireSpawnTime = 0.0f;
 
 	void MoveUpdate(float _DeltaTime);
+	void DieCheck();
 	void GroundUp();
 	void WallUp();
 };

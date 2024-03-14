@@ -29,6 +29,11 @@ void UTitleLevel::Tick(float _DeltaTime)
 
 	if (UEngineInput::IsAnykeyPress())
 	{
+		UContentsHelper::Time = 1400;
+		UContentsHelper::SubStage = 1;
+		UContentsHelper::MapName = "FirstStage";
+		UContentsHelper::MarioLife = 3;
+		UContentsHelper::Score = 1000000;
 		GEngine->ChangeLevel("Loading");
 	}
 }

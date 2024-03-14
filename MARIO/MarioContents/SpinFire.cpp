@@ -82,7 +82,7 @@ void ASpinFire::FireSpin(float _DeltaTime)
 
 	for (int i = 0; i < 6; ++i)
 	{
-		FVector Pos = SpinPos * 24.0f * static_cast<int>(i);
+		FVector Pos = SpinPos * 24.0f * static_cast<float>(i);
 		Pos.RotationZToDeg(Degree);
 		Renderer[i]->SetPosition(Pos);
 		Collision[i]->SetPosition({Pos.X, Pos.Y - 12});	

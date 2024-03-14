@@ -28,8 +28,7 @@ void UPlayLevel::BeginPlay()
 {
 	ULevel::BeginPlay();
 
-	UContentsHelper::MarioLife = 3;
-	UContentsHelper::MapName = "FirstStage";
+	//UContentsHelper::MapName = "FirstStage";
 
 	ABackGround* BackGroundMap = SpawnActor<ABackGround>(ERenderOrder::Map);
 	BackGroundMap->SetMapImage("Stage01.png");
@@ -372,5 +371,4 @@ void UPlayLevel::LevelStart(ULevel* _PrevLevel)
 void UPlayLevel::LevelEnd(ULevel* _NextLevel)
 {
 	ULevel::LevelEnd(_NextLevel);
-	GEngine->DestroyLevel("Play");
 }
