@@ -90,5 +90,6 @@ bool AKoopaFire::CheckWindowPosition()
 	{
 		return true;
 	}
+	return false;
 }
 

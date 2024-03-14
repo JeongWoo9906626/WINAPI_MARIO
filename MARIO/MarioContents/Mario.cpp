@@ -479,8 +479,6 @@ void AMario::IdleStart()
 	if (false == IsChange && false == IsInvincibility)
 	{
 		BodyCollision->ActiveOn();
-		BottomCollision->ActiveOn();
-		HeadCollision->ActiveOn();
 		Renderer->SetAlpha(1.0f);
 	}
 
@@ -832,14 +830,12 @@ void AMario::Idle(float _DeltaTime)
 {
 	if (true == IsInvincibility && false == IsChange)
 	{
-		BodyCollision->SetActive(false);
-		HeadCollision->SetActive(false);
+		BodyCollision->ActiveOff();
 		Renderer->SetAlpha(0.5f);
 	}
 	else if (false == IsInvincibility && false == IsChange)
 	{
-		BodyCollision->SetActive(true);
-		HeadCollision->SetActive(true);
+		BodyCollision->ActiveOn();
 		Renderer->SetAlpha(1.0f);
 	}
 

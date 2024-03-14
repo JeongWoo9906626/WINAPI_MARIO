@@ -3,9 +3,7 @@
 #include "ContentsHelper.h"
 
 class AMonster;
-class AGoomba;
 class ATroopa;
-class APlant;
 class AFlag;
 class ABrick;
 class ABreakBrick;
@@ -24,12 +22,10 @@ class AEndingGate;
 class AMario : public AActor
 {
 	friend AMonster;
-	friend AGoomba;
 	friend ATroopa;
-	friend APlant;
 	friend AFlag;
-	friend ABrick;
 	friend AGate;
+	friend ABrick;
 	friend ABreakBrick;
 	friend AItemBox;
 	friend AFloatingBox;
