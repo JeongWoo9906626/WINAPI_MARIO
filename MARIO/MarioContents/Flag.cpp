@@ -43,6 +43,7 @@ void AFlag::FlagDown(float _DeltaTime)
 	if (DownRange <= CurDownY)
 	{
 		IsFlagCollision = false;
+		UContentsHelper::IsFlagDown = true;
 	}
 	
 	CurDownY += DownSpeed * _DeltaTime;

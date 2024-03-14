@@ -16,9 +16,14 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
+	void TimeToScore(float _DeltaTime);
+	void StageChange();
+
 private:
 	UCollision* Collision = nullptr;
 
+
+	float Time = 0.0f;
 	float ChangeLevelTime = 1.0f;
 	float CurChangeLevelTime = 0.0f;
 

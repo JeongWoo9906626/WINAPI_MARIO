@@ -37,13 +37,34 @@ void AGate::Tick(float _DeltaTime)
 		Player->IsStageEnd = true;
 		Player->StateChange(EPlayState::Ending);
 
-		if (CurChangeLevelTime >= ChangeLevelTime)
-		{
-			UContentsHelper::Time = 1400;
-			GEngine->CreateLevel<UFinalLevel>("Final");
-			GEngine->ChangeLevel("Final");
-			return;
-		}
-		CurChangeLevelTime += _DeltaTime;
+		TimeToScore(_DeltaTime);
 	}
 }
+
+void AGate::TimeToScore(float _DeltaTime)
+{
+	if (UContentsHelper::Time <= 1000)
+	{
+		UContentsHelper::Time = 1000;
+		StageChange();
+		return;
+	}
+
+	if (Time >= 1.0f && UContentsHelper::Time >= 1000)
+	{
+		Time = 0.0f;
+		UContentsHelper::Time--;
+		UContentsHelper::Score += 100;
+	}
+	Time += _DeltaTime * 100;
+}
+
+
+void AGate::StageChange()
+{
+	UContentsHelper::Time = 1400;
+	GEngine->CreateLevel<UFinalLevel>("Final");
+	GEngine->ChangeLevel("Final");
+	return;
+}
+

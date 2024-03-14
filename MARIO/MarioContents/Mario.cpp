@@ -73,13 +73,17 @@ void AMario::BeginPlay()
 		Renderer->CreateAnimation("Crouch_Fire_Left", "Mario_Left.png", 26, 26, 0.1f, true);
 
 		Renderer->CreateAnimation("Die", "Mario_Left.png", 6, 6, 0.1f, true);
+
 		Renderer->CreateAnimation("Down_Small", "Mario_Right.png", 7, 8, 0.1f, true);
+		Renderer->CreateAnimation("DownWait_Small", "Mario_Right.png", 8, 8, 0.1f, true);
 		Renderer->CreateAnimation("DownReverse_Small", "Mario_Left.png", 8, 8, 0.1f, true);
 
 		Renderer->CreateAnimation("Down_Big", "Mario_Right.png", 16, 17, 0.1f, true);
+		Renderer->CreateAnimation("DownWait_Big", "Mario_Right.png", 17, 17, 0.1f, true);
 		Renderer->CreateAnimation("DownReverse_Big", "Mario_Left.png", 16, 16, 0.1f, true);
 
 		Renderer->CreateAnimation("Down_Fire", "Mario_Right.png", 27, 28, 0.1f, true);
+		Renderer->CreateAnimation("DownWait_Fire", "Mario_Right.png", 28, 28, 0.1f, true);
 		Renderer->CreateAnimation("DownReverse_Fire", "Mario_Left.png", 28, 28, 0.1f, true);
 
 		Renderer->CreateAnimation("GrowUp_Right", "Mario_Right.png", { 0, 19, 18, 19, 18 }, 0.1f, false);
@@ -656,6 +660,7 @@ void AMario::HiddenStageOutUpStart()
 
 void AMario::FinishMoveStart()
 {
+	BodyCollision->ActiveOff();
 	std::string FinishMoveName = "";
 
 	switch (SizeState)
@@ -671,15 +676,14 @@ void AMario::FinishMoveStart()
 		break;
 	case EMarioSizeState::Star:
 		break;
-	default:
-		break;
 	}
 	Renderer->ChangeAnimation("Down" + FinishMoveName);
+	SetActorLocation({ 12675.0f, GetActorLocation().Y });
 }
 
 void AMario::FinishReverseStart()
 {
-	AddActorLocation(FVector::Right * 12.0f);
+	AddActorLocation(FVector::Right * 62.0f);
 
 	std::string FinishMoveName = "";
 
@@ -695,8 +699,6 @@ void AMario::FinishReverseStart()
 		FinishMoveName = "_Fire";
 		break;
 	case EMarioSizeState::Star:
-		break;
-	default:
 		break;
 	}
 
@@ -705,6 +707,7 @@ void AMario::FinishReverseStart()
 
 void AMario::FinishWalkStart()
 {
+	BodyCollision->ActiveOn();
 	std::string FinishMoveName = "";
 
 	switch (SizeState)
@@ -719,8 +722,6 @@ void AMario::FinishWalkStart()
 		FinishMoveName = "_Fire";
 		break;
 	case EMarioSizeState::Star:
-		break;
-	default:
 		break;
 	}
 
@@ -1353,11 +1354,30 @@ void AMario::HiddenStageOutUp(float _DeltaTime)
 void AMario::FinishMove(float _DeltaTime)
 {
 	GroundUp();
+	std::string FinishMoveName = "";
+	switch (SizeState)
+	{
+	case EMarioSizeState::Small:
+		FinishMoveName = "_Small";
+		break;
+	case EMarioSizeState::Big:
+		FinishMoveName = "_Big";
+		break;
+	case EMarioSizeState::Red:
+		FinishMoveName = "_Fire";
+		break;
+	case EMarioSizeState::Star:
+		break;
+	}
 	Color8Bit Color = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
-		StateChange(EPlayState::FinishReverse);
-		return;
+		Renderer->ChangeAnimation("DownWait" + FinishMoveName);
+		if (true == UContentsHelper::IsFlagDown)
+		{
+			StateChange(EPlayState::FinishReverse);
+			return;
+		}
 	}
 	else
 	{

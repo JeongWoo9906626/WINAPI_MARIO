@@ -157,6 +157,7 @@ public:
 
 	static std::string MapName;
 
+	static bool IsFlagDown;
 	static bool KoopaDie;
 	static bool KoopaWake;
 	static bool KoopaIsFire;

@@ -11,6 +11,7 @@ int UContentsHelper::MainStage = 1;
 int UContentsHelper::SubStage = 1;
 int UContentsHelper::MarioFireCount = 0;
 
+bool UContentsHelper::IsFlagDown = false;
 bool UContentsHelper::KoopaDie = false;
 bool UContentsHelper::KoopaWake = false;
 bool UContentsHelper::KoopaIsFire = false;
