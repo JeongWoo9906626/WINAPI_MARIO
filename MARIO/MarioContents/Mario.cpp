@@ -218,7 +218,14 @@ void AMario::Tick(float _DeltaTime)
 		CurMaxSpeed = MaxRunSpeed;
 		CurJumpPower = RunJumpPower;
 		CurBreakSpeed = RunBreakSpeed;
-		if (EMarioSizeState::Red == SizeState && UContentsHelper::MarioFireCount < 2)
+		if 
+			(
+				(EPlayState::Idle == State || 
+				EPlayState::Move == State ||
+				EPlayState::Jump == State) && 
+				EMarioSizeState::Red == SizeState && 
+				UContentsHelper::MarioFireCount < 2
+			)
 		{
 			AMarioFire* MarioFire = GetWorld()->SpawnActor<AMarioFire>(ERenderOrder::Fire);
 			MarioFire->SetActorLocation({ GetActorLocation().X, GetActorLocation().Y - 80 });

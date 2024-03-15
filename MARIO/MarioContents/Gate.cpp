@@ -62,9 +62,13 @@ void AGate::TimeToScore(float _DeltaTime)
 
 void AGate::StageChange()
 {
-	UContentsHelper::Time = 1400;
-	GEngine->CreateLevel<UFinalLevel>("Final");
-	GEngine->ChangeLevel("Final");
+	UContentsHelper::Time = 1300;
+	UContentsHelper::SubStage = 4;
+	UContentsHelper::KoopaWake = false;
+	UContentsHelper::KoopaIsFire = false;
+	UContentsHelper::KoopaDie = false;
+	UContentsHelper::MapName = "FinalStage";
+	GEngine->ChangeLevel("Loading");
 	return;
 }
 
