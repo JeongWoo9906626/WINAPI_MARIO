@@ -1536,19 +1536,33 @@ void AMario::GroundUp()
 {
 	if (false == IsStageEnd)
 	{
-		while (true)
+		FTransform HeadTransform = HeadCollision->GetActorBaseTransform();
+		FVector HeadCollisionPos = HeadTransform.GetPosition();
+		Color8Bit ColorTop = UContentsHelper::MapColImage->GetColor(HeadCollisionPos.iX(), HeadCollisionPos.iY(), Color8Bit::MagentaA);
+		if (ColorTop == Color8Bit(255, 0, 255, 0))
 		{
-			FVector Location = GetActorLocation();
-			Location.Y -= 1.0f;
-			Color8Bit ColorLeft = UContentsHelper::MapColImage->GetColor(Location.iX() - 12, Location.iY(), Color8Bit::MagentaA);
-			Color8Bit ColorRight = UContentsHelper::MapColImage->GetColor(Location.iX() + 12, Location.iY(), Color8Bit::MagentaA);
-			if (ColorLeft == Color8Bit(255, 0, 255, 0) || ColorRight == Color8Bit(255, 0, 255, 0))
+			if (4 == UContentsHelper::SubStage)
 			{
-				AddActorLocation(FVector::Up);
+				JumpVector = FVector::Zero;
 			}
-			else
+			return;
+		}
+		else
+		{
+			while (true)
 			{
-				break;
+				FVector Location = GetActorLocation();
+				Location.Y -= 1.0f;
+				Color8Bit ColorLeft = UContentsHelper::MapColImage->GetColor(Location.iX() - 12, Location.iY(), Color8Bit::MagentaA);
+				Color8Bit ColorRight = UContentsHelper::MapColImage->GetColor(Location.iX() + 12, Location.iY(), Color8Bit::MagentaA);
+				if (ColorLeft == Color8Bit(255, 0, 255, 0) || ColorRight == Color8Bit(255, 0, 255, 0))
+				{
+					AddActorLocation(FVector::Up);
+				}
+				else
+				{
+					break;
+				}
 			}
 		}
 	}
@@ -1562,15 +1576,26 @@ void AMario::WallUp()
 	Color8Bit ColorBottomRight = UContentsHelper::MapColImage->GetColor(CheckPos.iX() + 16, CheckPos.iY() - 5, Color8Bit::MagentaA);
 	Color8Bit ColorTopRight = UContentsHelper::MapColImage->GetColor(CheckPos.iX() + 16, CheckPos.iY() - 30, Color8Bit::MagentaA);
 	float CamerPos = GetWorld()->GetCameraPos().X;
-	if (ColorBottomLeft == Color8Bit(255, 0, 255, 0) || ColorTopLeft == Color8Bit(255, 0, 255, 0))
+	
+	FTransform HeadTransform = HeadCollision->GetActorBaseTransform();
+	FVector HeadCollisionPos = HeadTransform.GetPosition();
+	Color8Bit ColorTop = UContentsHelper::MapColImage->GetColor(HeadCollisionPos.iX(), HeadCollisionPos.iY(), Color8Bit::MagentaA);
+	if (ColorTop == Color8Bit(255, 0, 255, 0))
 	{
-		AddActorLocation(FVector::Right);
-		MoveVector = FVector::Zero;
+		return;
 	}
-	else if (ColorBottomRight == Color8Bit(255, 0, 255, 0) || ColorTopRight == Color8Bit(255, 0, 255, 0))
+	else
 	{
-		AddActorLocation(FVector::Left);
-		MoveVector = FVector::Zero;
+		if (ColorBottomLeft == Color8Bit(255, 0, 255, 0) || ColorTopLeft == Color8Bit(255, 0, 255, 0))
+		{
+			AddActorLocation(FVector::Right);
+			MoveVector = FVector::Zero;
+		}
+		else if (ColorBottomRight == Color8Bit(255, 0, 255, 0) || ColorTopRight == Color8Bit(255, 0, 255, 0))
+		{
+			AddActorLocation(FVector::Left);
+			MoveVector = FVector::Zero;
+		}
 	}
 }
 

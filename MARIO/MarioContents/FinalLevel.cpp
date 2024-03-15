@@ -40,7 +40,7 @@ void UFinalLevel::BeginPlay()
 
 	AMario* Mario = SpawnActor<AMario>(ERenderOrder::Player);
 	Mario->SetName("Player");
-	Mario->SetActorLocation({ 100, 700 });
+	Mario->SetActorLocation({ 100, 400 });
 
 	ABirdgeHandle* BirdgeHandle = SpawnActor<ABirdgeHandle>(ERenderOrder::Brick);
 	BirdgeHandle->SetName("Handle");
