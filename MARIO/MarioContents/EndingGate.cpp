@@ -21,7 +21,6 @@ void AEndingGate::BeginPlay()
 	UIBox->SetImage("UIBlackBox.png");
 	UIBox->SetTransform({ { -50, -360 }, { 768, 320 } });
 
-
 	Collision = CreateCollision(ECollisionOrder::Gate);
 	Collision->SetColType(ECollisionType::Rect);
 	Collision->SetTransform({ { 0, -30 }, { 65, 70 } });

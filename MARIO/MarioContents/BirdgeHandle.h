@@ -25,6 +25,7 @@ protected:
 
 private:
 	UCollision* Collision = nullptr;
+	UCollision* BlockCollision = nullptr;
 	UImageRenderer* Renderer = nullptr;
 
 	float DestroyTime = 0.3f;

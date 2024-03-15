@@ -1,6 +1,8 @@
 #include "BirdgeHandle.h"
 #include "Bridge.h"
 #include "Mario.h"
+#include "MarioFire.h"
+#include "KoopaFire.h"
 
 ABirdgeHandle::ABirdgeHandle()
 {
@@ -21,7 +23,11 @@ void ABirdgeHandle::BeginPlay()
 
 	Collision = CreateCollision(ECollisionOrder::Box);
 	Collision->SetColType(ECollisionType::Rect);
-	Collision->SetTransform({ { 40, -50 }, { 70, 70 } });
+	Collision->SetTransform({ { 50, -50 }, { 60, 70 } });
+
+	BlockCollision = CreateCollision(ECollisionOrder::BlockGate);
+	BlockCollision->SetColType(ECollisionType::Rect);
+	BlockCollision->SetTransform({ { 15, -180 }, { 20, 370 } });
 
 	Renderer = CreateImageRenderer(ERenderOrder::Item);
 	Renderer->SetImage("Axe.png");
@@ -31,6 +37,7 @@ void ABirdgeHandle::BeginPlay()
 void ABirdgeHandle::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
+
 	std::vector<UCollision*> MarioResult;
 	if (true == Collision->CollisionCheck(ECollisionOrder::Player, MarioResult))
 	{

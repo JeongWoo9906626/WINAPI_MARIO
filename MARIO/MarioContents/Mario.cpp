@@ -143,6 +143,8 @@ void AMario::Tick(float _DeltaTime)
 		{
 			UContentsHelper::Time = 1300;
 			UContentsHelper::SubStage = 4;
+			UContentsHelper::KoopaWake = false;
+			UContentsHelper::KoopaIsFire = false;
 			UContentsHelper::MapName = "FinalStage";
 			GEngine->ChangeLevel("Loading");
 			return;
@@ -1264,6 +1266,12 @@ void AMario::Die(float _DeltaTime)
 			UContentsHelper::HighScore = UContentsHelper::Score;
 			GEngine->ChangeLevel("Loading");
 			return;
+		}
+
+		if (UContentsHelper::MapName._Equal("FinalStage"))
+		{
+			UContentsHelper::KoopaWake = false;
+			UContentsHelper::KoopaIsFire = false;
 		}
 
 		GEngine->ChangeLevel("Loading");

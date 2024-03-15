@@ -21,7 +21,7 @@ void AKoopaFire::BeginPlay()
 	Renderer->CreateAnimation("KoopaFire_Right", "Koopa_Right.png", 6, 7, 0.1f, true);
 	Renderer->ChangeAnimation("KoopaFire_Left");
 
-	Collision = CreateCollision(ECollisionOrder::Goomba);
+	Collision = CreateCollision(ECollisionOrder::Monster);
 	Collision->SetColType(ECollisionType::Rect);
 	Collision->SetTransform({ {0, -20}, {90, 35} });
 }

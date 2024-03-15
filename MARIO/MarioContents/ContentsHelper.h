@@ -37,6 +37,7 @@ enum class ECollisionOrder
 	Box,
 	BoxTop,
 	Gate,
+	BlockGate,
 	Flag,
 	Step,
 	HiddenCoin,

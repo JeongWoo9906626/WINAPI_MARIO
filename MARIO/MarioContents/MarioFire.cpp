@@ -36,6 +36,18 @@ void AMarioFire::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 	
+	std::vector<UCollision*> BlockGateResult;
+	if (true == Collision->CollisionCheck(ECollisionOrder::BlockGate, BlockGateResult))
+	{
+		SetIsDestroy(true);
+	}
+
+	std::vector<UCollision*> BoxTopResult;
+	if (true == Collision->CollisionCheck(ECollisionOrder::BoxTop, BoxTopResult))
+	{
+		CurJumpPower = JumpPower;
+	}
+
 	if (true == IsDestroy)
 	{
 		DestroyStart(_DeltaTime);
