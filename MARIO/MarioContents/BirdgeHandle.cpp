@@ -39,11 +39,12 @@ void ABirdgeHandle::Tick(float _DeltaTime)
 	AActor::Tick(_DeltaTime);
 
 	std::vector<UCollision*> MarioResult;
-	if (true == Collision->CollisionCheck(ECollisionOrder::Player, MarioResult))
+	if (true == Collision->CollisionCheck(ECollisionOrder::Player, MarioResult) || true == Collision->CollisionCheck(ECollisionOrder::PlayerBottom, MarioResult))
 	{
 		IsCollision = true;
 		UContentsHelper::KoopaDie = true;
 		Renderer->ActiveOff();
+		Collision->ActiveOff();
 
 		UCollision* MarioCollision = MarioResult[0];
 		AMario* Mario = (AMario*)MarioCollision->GetOwner();

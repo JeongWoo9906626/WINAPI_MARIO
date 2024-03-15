@@ -145,6 +145,7 @@ void AMario::Tick(float _DeltaTime)
 			UContentsHelper::SubStage = 4;
 			UContentsHelper::KoopaWake = false;
 			UContentsHelper::KoopaIsFire = false;
+			UContentsHelper::KoopaDie = false;
 			UContentsHelper::MapName = "FinalStage";
 			GEngine->ChangeLevel("Loading");
 			return;
@@ -156,18 +157,6 @@ void AMario::Tick(float _DeltaTime)
 			UContentsHelper::SubStage = 1;
 			UContentsHelper::MapName = "FirstStage";
 			GEngine->ChangeLevel("Loading");
-			return;
-		}
-
-		if (true == UEngineInput::IsDown('1'))
-		{
-			StateChange(EPlayState::FreeMove);
-			return;
-		}
-
-		if (true == UEngineInput::IsDown('2'))
-		{
-			StateChange(EPlayState::CameraFreeMove);
 			return;
 		}
 
@@ -923,6 +912,18 @@ void AMario::Idle(float _DeltaTime)
 	{
 		BodyCollision->ActiveOn();
 		Renderer->SetAlpha(1.0f);
+	}
+
+	if (true == UEngineInput::IsDown('1'))
+	{
+		StateChange(EPlayState::FreeMove);
+		return;
+	}
+
+	if (true == UEngineInput::IsDown('2'))
+	{
+		StateChange(EPlayState::CameraFreeMove);
+		return;
 	}
 
 	GroundUp();

@@ -25,8 +25,13 @@ private:
 
 	UCollision* Collision = nullptr;
 
+	bool IsCameraMove = false;
 	bool IsEndingMessage = false;
+	
 	float CurTime = 0.0f;
 	float Time = 1.0f;
+
+	float ChangeLevelTime = 2.0f;
+	float CurChangeLevelTime = 0.0f;
 };
 

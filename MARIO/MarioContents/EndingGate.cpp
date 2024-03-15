@@ -30,6 +30,21 @@ void AEndingGate::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 
+	if (true == IsCameraMove)
+	{
+		FVector CurCameraPos = GetWorld()->GetCameraPos();
+		float ScaleX = GEngine->MainWindow.GetWindowScale().X;
+		if (CurCameraPos.X + ScaleX <= UContentsHelper::MapColImage->GetScale().X)
+		{
+			GetWorld()->AddCameraPos(FVector::Right * 200.0f * _DeltaTime);
+		}
+		else
+		{
+			IsCameraMove = false;
+			IsEndingMessage = true;
+		}
+	}
+
 	if (true == IsEndingMessage)
 	{
 		if (CurTime >= Time) 
@@ -43,12 +58,13 @@ void AEndingGate::Tick(float _DeltaTime)
 
 			if (0.0f > Scale.Y)
 			{
-				UContentsHelper::MapName = "GameOver";
+				IsEndingMessage = false;
+				UContentsHelper::MapName = "Title";
+				UContentsHelper::SubStage = 1;
 				UContentsHelper::HighScore = UContentsHelper::Score;
 				GEngine->ChangeLevel("Loading");
 				return;
 			}
-
 		}
 		CurTime += _DeltaTime;
 	}
@@ -61,7 +77,7 @@ void AEndingGate::Tick(float _DeltaTime)
 		
 		Player->StateChange(EPlayState::Ending);
 
-		IsEndingMessage = true;
+		IsCameraMove = true;
 		Collision->Destroy();
 	}
 }

@@ -27,6 +27,27 @@ void UTitleLevel::Tick(float _DeltaTime)
 {
 	ULevel::Tick(_DeltaTime);
 
+	if (true == UEngineInput::IsDown('4'))
+	{
+		UContentsHelper::Time = 1300;
+		UContentsHelper::SubStage = 4;
+		UContentsHelper::KoopaWake = false;
+		UContentsHelper::KoopaIsFire = false;
+		UContentsHelper::KoopaDie = false;
+		UContentsHelper::MapName = "FinalStage";
+		GEngine->ChangeLevel("Loading");
+		return;
+	}
+
+	if (true == UEngineInput::IsDown('3'))
+	{
+		UContentsHelper::Time = 1400;
+		UContentsHelper::SubStage = 1;
+		UContentsHelper::MapName = "FirstStage";
+		GEngine->ChangeLevel("Loading");
+		return;
+	}
+
 	if (UEngineInput::IsAnykeyPress())
 	{
 		UContentsHelper::Time = 1400;
@@ -35,6 +56,7 @@ void UTitleLevel::Tick(float _DeltaTime)
 		UContentsHelper::MarioLife = 3;
 		UContentsHelper::Score = 1000000;
 		GEngine->ChangeLevel("Loading");
+		return;
 	}
 }
 
