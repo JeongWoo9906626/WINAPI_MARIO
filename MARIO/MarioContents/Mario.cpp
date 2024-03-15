@@ -156,6 +156,70 @@ void AMario::Tick(float _DeltaTime)
 			GEngine->ChangeLevel("Loading");
 			return;
 		}
+
+		if (true == UEngineInput::IsDown('1'))
+		{
+			StateChange(EPlayState::FreeMove);
+			return;
+		}
+
+		if (true == UEngineInput::IsDown('2'))
+		{
+			StateChange(EPlayState::CameraFreeMove);
+			return;
+		}
+
+		if (true == UEngineInput::IsDown('S') && UContentsHelper::MSizeState != EMarioSizeState::Small)
+		{
+			SizeState = EMarioSizeState::Small;
+			StateChange(EPlayState::GrowDown);
+			return;
+		}
+
+		if (true == UEngineInput::IsDown('B') && UContentsHelper::MSizeState != EMarioSizeState::Big)
+		{
+			SizeState = EMarioSizeState::Big;
+			StateChange(EPlayState::GrowUp);
+			return;
+		}
+
+		if (true == UEngineInput::IsDown('F') && UContentsHelper::MSizeState != EMarioSizeState::Red)
+		{
+			SizeState = EMarioSizeState::Red;
+			StateChange(EPlayState::ChangeRed);
+			return;
+		}
+
+		if (true == UEngineInput::IsDown('E'))
+		{
+			if (UContentsHelper::MapName._Equal("FinalStage"))
+			{
+				float XPos = 7700.0f;
+				float YPos = 0.0f;
+
+				FVector ChangePos = { XPos, YPos, 0.0f, 0.0f };
+				GetWorld()->SetCameraPos(ChangePos);
+
+				FVector SpawnPos = { 7945.0f, 641.0f, 0.0f, 0.0f };
+				SetActorLocation(SpawnPos);
+			}
+			if (UContentsHelper::MapName._Equal("FirstStage"))
+			{
+				float XPos = 12460.0f;
+				float YPos = 0.0f;
+
+				FVector ChangePos = { XPos, YPos, 0.0f, 0.0f };
+				GetWorld()->SetCameraPos(ChangePos);
+
+				FVector SpawnPos = { 12900.0f, 833.0f, 0.0f, 0.0f };
+				SetActorLocation(SpawnPos);
+			}
+		}
+
+		if (true == UEngineInput::IsDown('K'))
+		{
+			IsInvincibility = !IsInvincibility;
+		}
 	}
 
 	if (true == UEngineInput::IsDown('X'))
@@ -874,70 +938,6 @@ void AMario::Idle(float _DeltaTime)
 	{
 		IsDown = false;
 		Renderer->ChangeAnimation(GetAnimationName("Idle"));
-	}
-
-	if (true == UEngineInput::IsDown('1'))
-	{
-		StateChange(EPlayState::FreeMove);
-		return;
-	}
-
-	if (true == UEngineInput::IsDown('2'))
-	{
-		StateChange(EPlayState::CameraFreeMove);
-		return;
-	}
-
-	if (true == UEngineInput::IsDown('S') && UContentsHelper::MSizeState != EMarioSizeState::Small)
-	{
-		SizeState = EMarioSizeState::Small;
-		StateChange(EPlayState::GrowDown);
-		return;
-	}
-
-	if (true == UEngineInput::IsDown('B') && UContentsHelper::MSizeState != EMarioSizeState::Big)
-	{
-		SizeState = EMarioSizeState::Big;
-		StateChange(EPlayState::GrowUp);
-		return;
-	}
-
-	if (true == UEngineInput::IsDown('F') && UContentsHelper::MSizeState != EMarioSizeState::Red)
-	{
-		SizeState = EMarioSizeState::Red;
-		StateChange(EPlayState::ChangeRed);
-		return;
-	}
-
-	if (true == UEngineInput::IsDown('E'))
-	{
-		if (UContentsHelper::MapName._Equal("FinalStage"))
-		{
-			float XPos = 7700.0f;
-			float YPos = 0.0f;
-
-			FVector ChangePos = { XPos, YPos, 0.0f, 0.0f };
-			GetWorld()->SetCameraPos(ChangePos);
-
-			FVector SpawnPos = { 7945.0f, 641.0f, 0.0f, 0.0f };
-			SetActorLocation(SpawnPos);
-		}
-		if (UContentsHelper::MapName._Equal("FirstStage"))
-		{
-			float XPos = 12460.0f;
-			float YPos = 0.0f;
-
-			FVector ChangePos = { XPos, YPos, 0.0f, 0.0f };
-			GetWorld()->SetCameraPos(ChangePos);
-
-			FVector SpawnPos = { 12900.0f, 833.0f, 0.0f, 0.0f };
-			SetActorLocation(SpawnPos);
-		}
-	}
-
-	if (true == UEngineInput::IsDown('K'))
-	{
-		IsInvincibility = !IsInvincibility;
 	}
 
 	if (true == UEngineInput::IsPress(VK_RIGHT) && true == UEngineInput::IsPress(VK_LEFT))
