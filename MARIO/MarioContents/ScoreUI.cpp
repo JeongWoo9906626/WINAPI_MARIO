@@ -25,6 +25,7 @@ void ScoreUI::BeginPlay()
 	ScoreRenderer->CreateAnimation("100", "Score.png", 0, 0, 0.1f, true);
 	ScoreRenderer->CreateAnimation("200", "Score.png", 1, 1, 0.1f, true);
 	ScoreRenderer->CreateAnimation("400", "Score.png", 2, 2, 0.1f, true);
+	ScoreRenderer->CreateAnimation("500", "Score.png", 3, 3, 0.1f, true);
 	ScoreRenderer->CreateAnimation("1000", "Score.png", 4, 4, 0.1f, true);
 
 	Destroy(1.0f);

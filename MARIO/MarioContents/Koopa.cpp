@@ -56,6 +56,9 @@ void AKoopa::StateChange(EMonsterState _State)
 
 	switch (_State)
 	{
+	case EMonsterState::Dead:
+		DeadStart();
+		break;
 	case EMonsterState::Fire:
 		FireStart();
 		break;
@@ -72,6 +75,9 @@ void AKoopa::StateUpdate(float _DeltaTime)
 
 	switch (State)
 	{
+	case EMonsterState::Dead:
+		Dead(_DeltaTime);
+		break;
 	case EMonsterState::Fire:
 		Fire(_DeltaTime);
 		break;
@@ -92,6 +98,11 @@ void AKoopa::MoveStart()
 void AKoopa::SpinDeadStart()
 {
 	AMonster::SpinDeadStart();
+}
+
+void AKoopa::DeadStart()
+{
+	Renderer->ChangeAnimation(GetAnimationName("Die"));
 }
 
 void AKoopa::FireStart()
@@ -148,6 +159,12 @@ void AKoopa::MoveDirChange()
 
 void AKoopa::Move(float _DeltaTime)
 {
+	if (true == UContentsHelper::KoopaDie)
+	{
+		StateChange(EMonsterState::Dead);
+		return;
+	}
+
 	bool IsDirChange = CheckMarioPos();
 	if (true == IsDirChange)
 	{
@@ -276,6 +293,19 @@ void AKoopa::Jump(float _DeltaTime)
 	{
 		StateChange(EMonsterState::Move);
 		return;
+	}
+}
+
+void AKoopa::Dead(float _DeltaTime)
+{
+	if (IsBoxCollision == false)
+	{
+		AddActorLocation(FVector::Down * GravityAcc * 0.5f * _DeltaTime);
+	}
+	Color8Bit DieColor = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::YellowA);
+	if (DieColor == Color8Bit(255, 255, 0, 0))
+	{
+		Destroy();
 	}
 }
 

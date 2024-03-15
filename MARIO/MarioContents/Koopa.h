@@ -22,6 +22,7 @@ protected:
 
 	void MoveStart() override;
 	void SpinDeadStart() override;
+	void DeadStart();
 	void FireStart();
 	void JumpStart();
 
@@ -31,6 +32,7 @@ protected:
 	void Move(float _DeltaTime) override;
 	void Fire(float _DeltaTime);
 	void Jump(float _DeltaTime);
+	void Dead(float _DeltaTime);
 
 	void MoveUpdate(float _DeltaTime);
 

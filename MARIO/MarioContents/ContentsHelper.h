@@ -107,6 +107,7 @@ enum class EMonsterState
 	Wait,
 	Jump,
 	SpinDead,
+	Dead,
 	HeadHit,
 	Shoot,
 	Fire,
