@@ -49,6 +49,8 @@ void ATroopa::BeginPlay()
 	HideRightCollision->SetColType(ECollisionType::Rect);
 	HideRightCollision->SetTransform({ { 15, -20 }, { 25, 30 } });
 
+	HeadHitScroe = 200;
+
 	StateChange(EMonsterState::Move);
 }
 
@@ -137,7 +139,6 @@ void ATroopa::Tick(float _DeltaTime)
 			return;
 		}
 	}
-	
 
 	StateUpdate(_DeltaTime);
 }
@@ -217,7 +218,6 @@ void ATroopa::HeadHitStart()
 	HideLeftCollision->ActiveOn();
 	HideRightCollision->ActiveOn();
 	Renderer->ChangeAnimation("TroopaHide");
-	Score->SetScore(200);
 }
 
 void ATroopa::SpinDeadStart()
@@ -241,7 +241,7 @@ void ATroopa::ShootStart()
 	Score = GetWorld()->SpawnActor<ScoreUI>(ERenderOrder::UI);
 	FVector MonsterLocation = GetActorLocation();
 	Score->SetActorLocation(MonsterLocation);
-	Score->SetScore(400);
+	Score->SetScore(ShootScore);
 }
 
 void ATroopa::Move(float _DeltaTime)

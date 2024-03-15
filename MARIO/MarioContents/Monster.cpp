@@ -199,7 +199,7 @@ void AMonster::SpinDeadStart()
 
 	Score = GetWorld()->SpawnActor<ScoreUI>(ERenderOrder::UI);
 	Score->SetActorLocation(GetActorLocation());
-	Score->SetScore(200);
+	Score->SetScore(SpinDeadScore);
 }
 
 void AMonster::HeadHitStart()
@@ -210,6 +210,7 @@ void AMonster::HeadHitStart()
 	Score = GetWorld()->SpawnActor<ScoreUI>(ERenderOrder::UI);
 	FVector MonsterLocation = GetActorLocation();
 	Score->SetActorLocation(MonsterLocation);
+	Score->SetScore(HeadHitScroe);
 }
 
 void AMonster::Move(float _DeltaTime)

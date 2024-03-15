@@ -30,7 +30,7 @@ public:
 	void GravityMove(float _DeltaTime);
 
 	void SetHitCount(int _HitCount);
-	void ChangeDir();
+	virtual void ChangeDir();
 
 protected:
 	void BeginPlay() override;
@@ -52,6 +52,8 @@ protected:
 	bool IsDirChange = false;
 
 	int HitCount = 1;
+	int HeadHitScroe = 100;
+	int SpinDeadScore = 200;
 
 	float GravityAcc = 500.0f;
 	float MoveSpeed = 100.0f;

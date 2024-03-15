@@ -37,6 +37,8 @@ private:
 	UCollision* HideLeftCollision = nullptr;
 	UCollision* HideRightCollision = nullptr;
 
+	int ShootScore = 400;
+
 	bool IsShoot = false;
 
 	float ShootSpeed = 400.0f;

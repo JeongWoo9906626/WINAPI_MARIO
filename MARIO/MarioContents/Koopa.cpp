@@ -12,7 +12,7 @@ AKoopa::~AKoopa()
 
 void AKoopa::BeginPlay()
 {
-	AActor::BeginPlay();
+	AMonster::BeginPlay();
 
 	Renderer = CreateImageRenderer(ERenderOrder::Monster);
 	Renderer->SetImage("Koopa_Left.png");
@@ -36,126 +36,142 @@ void AKoopa::BeginPlay()
 	BottomCollision->SetPosition({ 0, 0 });
 	BottomCollision->SetScale({ 10, 10 });
 
-	Renderer->ChangeAnimation("Walk_Left");
+	HitCount = 5;
+	SpinDeadScore = 500;
+
+	Renderer->ChangeAnimation(GetAnimationName("Walk"));
+	StateChange(EMonsterState::Move);
 }
 
 void AKoopa::Tick(float _DeltaTime)
 {
-	AActor::Tick(_DeltaTime);
+	AMonster::Tick(_DeltaTime);
 
-	std::vector<UCollision*> BridgeTopResult;
-	if (true == BottomCollision->CollisionCheck(ECollisionOrder::BoxTop, BridgeTopResult))
-	{
-		IsCollision = true;
-
-		FVector KoopaCollisionPos = BottomCollision->GetActorBaseTransform().GetPosition();
-		FVector KoopaCollisionScale = BottomCollision->GetActorBaseTransform().GetScale();
-
-		FVector BridgeCollisionPos = BridgeTopResult[0]->GetActorBaseTransform().GetPosition();
-		FVector BridgeCollisionScale = BridgeTopResult[0]->GetActorBaseTransform().GetScale();
-
-		SetActorLocation({ KoopaCollisionPos.X, BridgeCollisionPos.Y - 3.0f });
-	}
-	else
-	{
-		IsCollision = false;
-	}
-
-	std::vector<UCollision*> MarioResult;
-	if (true == Collision->CollisionCheck(ECollisionOrder::Player, MarioResult))
-	{
-		UCollision* MarioCollision = MarioResult[0];
-		AMario* Mario = (AMario*)MarioCollision->GetOwner();
-
-		if (Mario->SizeState != EMarioSizeState::Small)
-		{
-			Mario->SizeState = EMarioSizeState::Small;
-			Mario->StateChange(EPlayState::GrowDown);
-			return;
-		}
-		else
-		{
-			UContentsHelper::MarioDie = true;
-			Mario->StateChange(EPlayState::Die);
-			return;
-		}
-	}
-
-	Walk(_DeltaTime);
+	StateUpdate(_DeltaTime);
 }
 
-void AKoopa::DirCheck()
+void AKoopa::StateChange(EMonsterState _State)
+{
+	AMonster::StateChange(_State);
+
+	switch (_State)
+	{
+	case EMonsterState::Fire:
+		FireStart();
+		break;
+	case EMonsterState::Jump:
+		JumpStart();
+		break;
+	}
+	State = _State;
+}
+
+void AKoopa::StateUpdate(float _DeltaTime)
+{
+	AMonster::StateUpdate(_DeltaTime);
+
+	switch (State)
+	{
+	case EMonsterState::Fire:
+		Fire(_DeltaTime);
+		break;
+	case EMonsterState::Jump:
+		Jump(_DeltaTime);
+		break;
+	}
+}
+
+void AKoopa::MoveStart()
+{
+	AMonster::MoveStart();
+
+	CheckMarioPos();
+	Renderer->ChangeAnimation(GetAnimationName("Walk"));
+}
+
+void AKoopa::SpinDeadStart()
+{
+	AMonster::SpinDeadStart();
+}
+
+void AKoopa::FireStart()
+{
+	CheckMarioPos();
+	Renderer->ChangeAnimation(GetAnimationName("Fire"));
+}
+
+void AKoopa::JumpStart()
+{
+	IsBoxCollision = false;
+	AddActorLocation(FVector::Up * 10);
+	CurJumpTime = 0.0f;
+	JumpSpeed = -400.0f;
+}
+
+bool AKoopa::CheckMarioPos()
 {
 	FVector MarioPos = AMario::MainPlayer->GetActorLocation();
-	FVector MyPos = GetActorLocation();
-	
-	EActorDir Curdir = DirState;
-
-	if (MarioPos.X > MyPos.X)
+	FVector KoopaPos = GetActorLocation();
+	std::string AnimationDirName = "";
+	if (MarioPos.X < KoopaPos.X)
 	{
-		DirState = EActorDir::Right;
+		if (MarioToKoopa != EActorDir::Left)
+		{
+			MarioToKoopa = EActorDir::Left;
+			return true;
+		}
+		return false;
 	}
 	else
 	{
-		DirState = EActorDir::Left;
-	}
-
-	if (Curdir != DirState)
-	{
-		Renderer->ChangeAnimation(GetAnimationName("Walk"));
+		if (MarioToKoopa != EActorDir::Right)
+		{
+			MarioToKoopa = EActorDir::Right;
+			return true;
+		}
+		return false;
 	}
 }
 
-void AKoopa::Walk(float _DeltaTime)
+void AKoopa::MoveDirChange()
 {
-	if (false == UContentsHelper::MarioDie)
+	int RandomValue = rand() % 10 + 1;
+	if (RandomValue > 5)
 	{
-		DirCheck();
+		Dir = -1.0f;
 	}
-
-	switch (DirState)
+	else
 	{
-	case EActorDir::Left:
-		Dir = -1;
-		break;
-	case EActorDir::Right:
-		Dir = 1;
-		break;
+		Dir = 1.0f;
 	}
+}
 
-	if (true == UContentsHelper::KoopaWake && false == UContentsHelper::KoopaDie)
+void AKoopa::Move(float _DeltaTime)
+{
+	bool IsDirChange = CheckMarioPos();
+	if (true == IsDirChange)
 	{
-		if (CurJumpTime >= JumpTime)
-		{
-			AddActorLocation(FVector::Up * 10);
-			CurJumpTime = 0.0f;
-			JumpSpeed = -150.0f;
-		}
-		if (IsCollision == true)
-		{
-			CurJumpTime += _DeltaTime;
-		}
-		AddActorLocation({ Dir * WalkSpeed * _DeltaTime, 0.0f });
+		Renderer->ChangeAnimation(GetAnimationName("Walk"));
 	}
 
 	if (true == UContentsHelper::KoopaIsFire && false == UContentsHelper::KoopaDie)
 	{
-		float FirePos = 0.0f;
-		FVector KoopaPos = GetActorLocation();
-
-		int RandomValue = rand() % 10 + 1;
-		if (RandomValue > 5)
-		{
-			FirePos = -10.0f;
-		}
-		else
-		{
-			FirePos = -100.0f;
-		}
-		
 		// 한번만 쏘는 것
 		if (false == FirstShot)
 		{
+			float FirePos = 0.0f;
+			FVector KoopaPos = GetActorLocation();
+
+			int RandomValue = rand() % 10 + 1;
+			if (RandomValue > 5)
+			{
+				FirePos = -10.0f;
+			}
+			else
+			{
+				FirePos = -100.0f;
+			}
+
 			AKoopaFire* KoopaFire = GetWorld()->SpawnActor<AKoopaFire>(ERenderOrder::Fire);
 			KoopaFire->SetFireDir(EActorDir::Left);
 			KoopaFire->SetActorLocation({ 6550.0f, KoopaPos.Y + FirePos });
@@ -164,12 +180,8 @@ void AKoopa::Walk(float _DeltaTime)
 
 		if (CurFireTime >= FireTime)
 		{
-			CurFireTime = 0.0f;
-			AKoopaFire* KoopaFire = GetWorld()->SpawnActor<AKoopaFire>(ERenderOrder::Fire);
-			KoopaFire->SetFireDir(DirState);
-			KoopaFire->SetActorLocation({ KoopaPos.X, KoopaPos.Y + FirePos });
-			IsRendererChange = true;
-			Renderer->ChangeAnimation(GetAnimationName("Fire"));
+			StateChange(EMonsterState::Fire);
+			return;
 		}
 		else
 		{
@@ -177,31 +189,114 @@ void AKoopa::Walk(float _DeltaTime)
 		}
 	}
 
-	if (true == IsRendererChange)
+	// 쿠파 일정 시간 지나면 점프 및 이동
+	if (true == UContentsHelper::KoopaWake && false == UContentsHelper::KoopaDie)
 	{
-		if (CurChangeTime >= ChangeTime)
+		if (CurJumpTime >= JumpTime)
 		{
-			CurChangeTime = 0.0f;
-			IsRendererChange = false;
-			Renderer->ChangeAnimation(GetAnimationName("Walk"));
+			StateChange(EMonsterState::Jump);
+			return;
+			
+		}
+		if (true == IsBoxCollision)
+		{
+			CurJumpTime += _DeltaTime;
+		}
+
+		if (CurWalkTime >= WalkTime)
+		{
+			float KoopaPosX = GetActorLocation().X;
+			MoveDirChange();
+			KoopaPosX += Dir * 100;
+			if (KoopaPosX > FirstKoopaPosX)
+			{
+				Dir = -1.0f;
+			}
+			if (KoopaPosX < LastKoopaPosX)
+			{
+				Dir = 1.0f;
+			}
+			CurWalkTime = 0.0f;
 		}
 		else
 		{
-			CurChangeTime += _DeltaTime;
+			CurWalkTime += _DeltaTime;
 		}
+
+		MoveUpdate(_DeltaTime);
+	}
+}
+
+void AKoopa::Fire(float _DeltaTime)
+{
+	float FirePos = 0.0f;
+	FVector KoopaPos = GetActorLocation();
+
+	int RandomValue = rand() % 10 + 1;
+	if (RandomValue > 5)
+	{
+		FirePos = -10.0f;
+	}
+	else
+	{
+		FirePos = -100.0f;
 	}
 
-	if (false == IsCollision)
+	if (CurChangeTime >= ChangeTime)
 	{
-		JumpSpeed += GravitySpeed * _DeltaTime;
-		AddActorLocation({ 0.0f, JumpSpeed * _DeltaTime });
+		AKoopaFire* KoopaFire = GetWorld()->SpawnActor<AKoopaFire>(ERenderOrder::Fire);
+		KoopaFire->SetFireDir(MarioToKoopa);
+		KoopaFire->SetActorLocation({ KoopaPos.X, KoopaPos.Y + FirePos });
+
+		CurFireTime = 0.0f;
+		CurChangeTime = 0.0f;
+		StateChange(EMonsterState::Move);
+		return;
 	}
+	else
+	{
+		CurChangeTime += _DeltaTime;
+	}
+}
+
+void AKoopa::Jump(float _DeltaTime)
+{
+	MoveUpdate(_DeltaTime);
+	if (CurFireTime >= FireTime)
+	{
+		StateChange(EMonsterState::Fire);
+		return;
+	}
+	else
+	{
+		CurFireTime += _DeltaTime;
+	}
+
+	if (JumpSpeed == 0.0f)
+	{
+		StateChange(EMonsterState::Move);
+		return;
+	}
+}
+
+void AKoopa::MoveUpdate(float _DeltaTime)
+{
+	if (true == IsBoxCollision)
+	{
+		JumpSpeed = 0.0f;
+	}
+	else
+	{
+		JumpSpeed += GravityAcc * _DeltaTime;
+	}
+	AddActorLocation({ Dir * WalkSpeed * _DeltaTime, JumpSpeed * _DeltaTime });
 }
 
 std::string AKoopa::GetAnimationName(std::string _Name)
 {
 	std::string AnimationName = "";
-	switch (DirState)
+
+	switch (MarioToKoopa)
 	{
 	case EActorDir::Left:
 		AnimationName = "_Left";
