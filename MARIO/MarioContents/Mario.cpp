@@ -137,22 +137,25 @@ void AMario::Tick(float _DeltaTime)
 	UEngineDebug::DebugTextPrint("X : " + std::to_string(PlayerPos.X) + ", Y : " + std::to_string(PlayerPos.Y), 30.0f);
 	UEngineDebug::DebugTextPrint("\nDeltaTime : " + std::to_string(_DeltaTime), 30.0f);
 
-	if (true == UEngineInput::IsDown('4'))
+	// 디버그 관련 기능들 
 	{
-		UContentsHelper::Time = 1300;
-		UContentsHelper::SubStage = 4;
-		UContentsHelper::MapName = "FinalStage";
-		GEngine->ChangeLevel("Loading");
-		return;
-	}
+		if (true == UEngineInput::IsDown('4'))
+		{
+			UContentsHelper::Time = 1300;
+			UContentsHelper::SubStage = 4;
+			UContentsHelper::MapName = "FinalStage";
+			GEngine->ChangeLevel("Loading");
+			return;
+		}
 
-	if (true == UEngineInput::IsDown('3'))
-	{
-		UContentsHelper::Time = 1400;
-		UContentsHelper::SubStage = 1;
-		UContentsHelper::MapName = "FirstStage";
-		GEngine->ChangeLevel("Loading");
-		return;
+		if (true == UEngineInput::IsDown('3'))
+		{
+			UContentsHelper::Time = 1400;
+			UContentsHelper::SubStage = 1;
+			UContentsHelper::MapName = "FirstStage";
+			GEngine->ChangeLevel("Loading");
+			return;
+		}
 	}
 
 	if (true == UEngineInput::IsDown('X'))
@@ -202,53 +205,57 @@ void AMario::Tick(float _DeltaTime)
 		CurNoCollisionTime += _DeltaTime;
 	}
 
-	std::vector<UCollision*> HiddenGateInResult;
-	if (true == BottomCollision->CollisionCheck(ECollisionOrder::Gate, HiddenGateInResult))
+	// 마리오 콜리전 체크
 	{
-		AHiddenGate* HiddenGate = (AHiddenGate*)HiddenGateInResult[0]->GetOwner();
-		EGateState GateState = HiddenGate->GetGateState();
-		if (GateState == EGateState::In && true == UEngineInput::IsDown(VK_DOWN))
+		// 비밀 장소로 이동하는 게이트 충돌처리
+		std::vector<UCollision*> HiddenGateInResult;
+		if (true == BottomCollision->CollisionCheck(ECollisionOrder::Gate, HiddenGateInResult))
 		{
-			BottomCollision->ActiveOff();
-			StateChange(EPlayState::HiddenStageEnter);
-			return;
+			AHiddenGate* HiddenGate = (AHiddenGate*)HiddenGateInResult[0]->GetOwner();
+			EGateState GateState = HiddenGate->GetGateState();
+			if (GateState == EGateState::In && true == UEngineInput::IsDown(VK_DOWN))
+			{
+				BottomCollision->ActiveOff();
+				StateChange(EPlayState::HiddenStageEnter);
+				return;
+			}
 		}
-	}
 
-	std::vector<UCollision*> HiddenGateOutResult;
-	if (true == BodyCollision->CollisionCheck(ECollisionOrder::Gate, HiddenGateOutResult))
-	{
-		AHiddenGate* HiddenGate = (AHiddenGate*)HiddenGateOutResult[0]->GetOwner();
-		EGateState GateState = HiddenGate->GetGateState();
-		if (GateState == EGateState::Out && true == UEngineInput::IsDown(VK_RIGHT))
+		// 비밀 장소에서 나가는 게이트 충돌 처리
+		std::vector<UCollision*> HiddenGateOutResult;
+		if (true == BodyCollision->CollisionCheck(ECollisionOrder::Gate, HiddenGateOutResult))
 		{
-			BottomCollision->ActiveOn();
-			StateChange(EPlayState::HiddenStageOut);
-			return;
+			AHiddenGate* HiddenGate = (AHiddenGate*)HiddenGateOutResult[0]->GetOwner();
+			EGateState GateState = HiddenGate->GetGateState();
+			if (GateState == EGateState::Out && true == UEngineInput::IsDown(VK_RIGHT))
+			{
+				BottomCollision->ActiveOn();
+				StateChange(EPlayState::HiddenStageOut);
+				return;
+			}
 		}
-	}
 
-	std::vector<UCollision*> BoxTopResult;
-	if (true == BottomCollision->CollisionCheck(ECollisionOrder::BoxTop, BoxTopResult))
-	{
-		GravityVector = FVector::Zero;
-		JumpVector = FVector::Zero;
+		// 블록 윗부분과 충돌처리
+		std::vector<UCollision*> BoxTopResult;
+		if (true == BottomCollision->CollisionCheck(ECollisionOrder::BoxTop, BoxTopResult))
+		{
+			GravityVector = FVector::Zero;
+			JumpVector = FVector::Zero;
 
-		// BottomCollision 마리오 바닥의 위치
-		FVector MarioBottomCollisionPos = BottomCollision->GetActorBaseTransform().GetPosition();
-		FVector MarioBottomCollisionScale = BottomCollision->GetActorBaseTransform().GetScale();
+			FVector MarioBottomCollisionPos = BottomCollision->GetActorBaseTransform().GetPosition();
+			FVector MarioBottomCollisionScale = BottomCollision->GetActorBaseTransform().GetScale();
 
-		// BoxPosition 박스콜리전의 위치
-		FVector BoxCollisionPos = BoxTopResult[0]->GetActorBaseTransform().GetPosition();
-		FVector BoxCollisionScale = BoxTopResult[0]->GetActorBaseTransform().GetScale();
+			FVector BoxCollisionPos = BoxTopResult[0]->GetActorBaseTransform().GetPosition();
+			FVector BoxCollisionScale = BoxTopResult[0]->GetActorBaseTransform().GetScale();
 
-		SetActorLocation({ MarioBottomCollisionPos.X, BoxCollisionPos.Y - 3.0f });
+			SetActorLocation({ MarioBottomCollisionPos.X, BoxCollisionPos.Y - 3.0f });
 
-		IsCollision = true;
-	}
-	else
-	{
-		IsCollision = false;
+			IsCollision = true;
+		}
+		else
+		{
+			IsCollision = false;
+		}
 	}
 
 	DieCheck();
@@ -585,6 +592,8 @@ void AMario::DieStart()
 {
 	GetWorld()->SetTimeScale(ERenderOrder::Monster, 0.0f);
 	GetWorld()->SetTimeScale(ERenderOrder::UI, 0.0f);
+
+	UContentsHelper::MSizeState = SizeState;
 	UContentsHelper::MarioLife--;
 	JumpVector = FVector::Up * DieJumpPower;;
 	BodyCollision->ActiveOff();
@@ -1243,6 +1252,9 @@ void AMario::Kill(float _DeltaTime)
 
 void AMario::Die(float _DeltaTime)
 {
+	AddActorLocation(JumpVector * (_DeltaTime));
+	JumpVector += FVector::Down * CurGravityAcc * _DeltaTime;
+
 	Color8Bit DieColor = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::YellowA);
 	if (Color8Bit(255, 255, 0, 0) == DieColor)
 	{
@@ -1257,9 +1269,6 @@ void AMario::Die(float _DeltaTime)
 		GEngine->ChangeLevel("Loading");
 		return;
 	}
-
-	AddActorLocation(JumpVector * (_DeltaTime));
-	JumpVector += FVector::Down * CurGravityAcc * _DeltaTime;
 }
 
 void AMario::GrowUp(float _DeltaTime)
@@ -1479,13 +1488,13 @@ void AMario::MoveUpdate(float _DeltaTime)
 	FVector NextMarioPos = MarioPos + (MoveVector * _DeltaTime);
 	float Center = GEngine->MainWindow.GetWindowScale().hX();
 	float ScaleX = GEngine->MainWindow.GetWindowScale().X;
-	if 
+	if
 		(
-			false == IsHiddenStage && 
+			false == IsHiddenStage &&
 			CurCameraPos.X + Center < NextMarioPos.X &&
 			CurCameraPos.X + ScaleX <= UContentsHelper::MapColImage->GetScale().X &&
 			false == UContentsHelper::IsBossStage
-		)
+			)
 	{
 		if (MoveVector.X > 0)
 		{
@@ -1508,6 +1517,7 @@ void AMario::DieCheck()
 	Color8Bit DieColor = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::YellowA);
 	if (Color8Bit(255, 255, 0, 0) == DieColor)
 	{
+		SizeState = EMarioSizeState::Small;
 		StateChange(EPlayState::Die);
 		return;
 	}
