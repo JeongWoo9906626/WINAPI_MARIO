@@ -50,7 +50,7 @@ void AGoomba::BeginPlay()
 		BottomCollision->SetScale({ 30, 10 });
 	}
 
-
+	HeadHitScroe = 100;
 	StateChange(EMonsterState::Move);
 }
 
@@ -82,7 +82,6 @@ void AGoomba::HeadHitStart()
 	AMonster::HeadHitStart();
 	BottomCollision->ActiveOff();
 	Renderer->ChangeAnimation("GoombaDie");
-	Score->SetScore(100);
 	Destroy(DestroyTime);
 }
 

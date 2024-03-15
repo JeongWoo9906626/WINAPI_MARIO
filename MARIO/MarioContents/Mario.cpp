@@ -232,6 +232,13 @@ void AMario::Tick(float _DeltaTime)
 			MarioFire->SetDir(DirState);
 		}
 	}
+	if (true == UEngineInput::IsPress('X'))
+	{
+		CurMaxSpeed = MaxRunSpeed;
+		CurJumpPower = RunJumpPower;
+		CurBreakSpeed = RunBreakSpeed;
+	}
+
 	if (true == UEngineInput::IsFree('X'))
 	{
 		if (MoveVector.X <= 410.0f)
@@ -559,6 +566,8 @@ void AMario::IdleStart()
 	if (false == IsChange && false == IsInvincibility)
 	{
 		BodyCollision->ActiveOn();
+		BottomCollision->ActiveOn();
+		HeadCollision->ActiveOn();
 		Renderer->SetAlpha(1.0f);
 	}
 

@@ -28,8 +28,6 @@ void UPlayLevel::BeginPlay()
 {
 	ULevel::BeginPlay();
 
-	//UContentsHelper::MapName = "FirstStage";
-
 	ABackGround* BackGroundMap = SpawnActor<ABackGround>(ERenderOrder::Map);
 	BackGroundMap->SetMapImage("Stage01.png");
 	BackGroundMap->SetCollisionMapImage("Stage01_Col.png");
@@ -40,31 +38,11 @@ void UPlayLevel::BeginPlay()
 
 	AMario* Mario = SpawnActor<AMario>(ERenderOrder::Player);
 	Mario->SetName("Player");
-	Mario->SetActorLocation({ 200, 500 });
+	Mario->SetActorLocation({ 200, 832 });
 
 	AFlag* Flag = SpawnActor<AFlag>(ERenderOrder::Map);
 	Flag->SetActorLocation({ 705, 700 });
 	Flag->SetActorLocation({ 12705, 700 });
-
-	//AGoomba* Goomba = SpawnActor<AGoomba>(ERenderOrder::Monster);
-	//Goomba->SetName("OpenWorldGoomba1");
-	//Goomba->SetActorLocation({ 1550, 550 });
-	//AGoomba* Goomba2 = SpawnActor<AGoomba>(ERenderOrder::Monster);
-	//Goomba2->SetName("OpenWorldGoomba2");
-	//Goomba2->SetActorLocation({ 1260, 600 });
-	AGoomba* Goomba2 = SpawnActor<AGoomba>(ERenderOrder::Monster);
-	Goomba2->SetName("OpenWorldGoomba2");
-	Goomba2->SetActorLocation({ 2100, 600 });
-	ATroopa* Turtle = SpawnActor<ATroopa>(ERenderOrder::Monster);
-	Turtle->SetName("OpenWorldTroopa");
-	Turtle->SetActorLocation({ 2200, 600 });
-
-	//ATroopa* Turtle = SpawnActor<ATroopa>(ERenderOrder::Monster);
-	//Turtle->SetName("OpenWorldTroopa");
-	//Turtle->SetActorLocation({ 1600, 700 });
-	//ATroopa* Turtle2 = SpawnActor<ATroopa>(ERenderOrder::Monster);
-	//Turtle2->SetName("OpenWorldTroopa2");
-	//Turtle2->SetActorLocation({ 1000, 700 });
 
 	APlant* Plant = SpawnActor<APlant>(ERenderOrder::Monster);
 	Plant->SetName("Plant");
@@ -361,6 +339,113 @@ void UPlayLevel::BeginPlay()
 void UPlayLevel::Tick(float _DeltaTime)
 {
 	ULevel::Tick(_DeltaTime);
+
+	if (AMario::MainPlayer->GetTransform().GetPosition().X >= 625.0f)
+	{
+		if (false == Spawn1)
+		{
+			Spawn1 = true;
+			AGoomba* Goomba = SpawnActor<AGoomba>(ERenderOrder::Monster);
+			Goomba->SetActorLocation({ 1515, 820 });
+		}
+	}
+
+	if (AMario::MainPlayer->GetTransform().GetPosition().X >= 1775.0f)
+	{
+		if (false == Spawn2)
+		{
+			Spawn2 = true;
+			AGoomba* Goomba = SpawnActor<AGoomba>(ERenderOrder::Monster);
+			Goomba->SetActorLocation({ 2905, 820 });
+		}
+	}
+
+	if (AMario::MainPlayer->GetTransform().GetPosition().X >= 2422.0f)
+	{
+		if (false == Spawn3)
+		{
+			Spawn3 = true;
+			AGoomba* Goomba = SpawnActor<AGoomba>(ERenderOrder::Monster);
+			Goomba->SetActorLocation({ 3544, 820 });
+			AGoomba* Goomba2 = SpawnActor<AGoomba>(ERenderOrder::Monster);
+			Goomba2->SetActorLocation({ 3608, 820 });
+		}
+	}
+
+	if (AMario::MainPlayer->GetTransform().GetPosition().X >= 4022.0f)
+	{
+		if (false == Spawn4)
+		{
+			Spawn4 = true;
+			AGoomba* Goomba = SpawnActor<AGoomba>(ERenderOrder::Monster);
+			Goomba->SetActorLocation({ 5342, 335 });
+			AGoomba* Goomba2 = SpawnActor<AGoomba>(ERenderOrder::Monster);
+			Goomba2->SetActorLocation({ 5406, 335 });
+		}
+	}
+
+	if (AMario::MainPlayer->GetTransform().GetPosition().X >= 5050.0f)
+	{
+		if (false == Spawn5)
+		{
+			Spawn5 = true;
+			AGoomba* Goomba = SpawnActor<AGoomba>(ERenderOrder::Monster);
+			Goomba->SetActorLocation({ 6300, 820 });
+			AGoomba* Goomba2 = SpawnActor<AGoomba>(ERenderOrder::Monster);
+			Goomba2->SetActorLocation({ 6364, 820 });
+		}
+	}
+
+	if (AMario::MainPlayer->GetTransform().GetPosition().X >= 6042.0f)
+	{
+		if (false == Spawn6)
+		{
+			Spawn6 = true;
+			ATroopa* Turtle = SpawnActor<ATroopa>(ERenderOrder::Monster);
+			Turtle->SetActorLocation({ 6919, 820 });
+		}
+	}
+
+	if (AMario::MainPlayer->GetTransform().GetPosition().X >= 6500.0f)
+	{
+		if (false == Spawn7)
+		{
+			Spawn7 = true;
+			AGoomba* Goomba = SpawnActor<AGoomba>(ERenderOrder::Monster);
+			Goomba->SetActorLocation({ 7568, 820 });
+			AGoomba* Goomba2 = SpawnActor<AGoomba>(ERenderOrder::Monster);
+			Goomba2->SetActorLocation({ 7632, 820 });
+		}
+	}
+
+	if (AMario::MainPlayer->GetTransform().GetPosition().X >= 7500.0f)
+	{
+		if (false == Spawn8)
+		{
+			Spawn8 = true;
+			AGoomba* Goomba = SpawnActor<AGoomba>(ERenderOrder::Monster);
+			Goomba->SetActorLocation({ 8271, 820 });
+			AGoomba* Goomba2 = SpawnActor<AGoomba>(ERenderOrder::Monster);
+			Goomba2->SetActorLocation({ 8335, 820 });
+
+			AGoomba* Goomba3 = SpawnActor<AGoomba>(ERenderOrder::Monster);
+			Goomba3->SetActorLocation({ 8460, 820 });
+			AGoomba* Goomba4 = SpawnActor<AGoomba>(ERenderOrder::Monster);
+			Goomba4->SetActorLocation({ 8524, 820 });
+		}
+	}
+
+	if (AMario::MainPlayer->GetTransform().GetPosition().X >= 10046.0f)
+	{
+		if (false == Spawn9)
+		{
+			Spawn9 = true;
+			AGoomba* Goomba = SpawnActor<AGoomba>(ERenderOrder::Monster);
+			Goomba->SetActorLocation({ 10900, 820 });
+			AGoomba* Goomba2 = SpawnActor<AGoomba>(ERenderOrder::Monster);
+			Goomba2->SetActorLocation({ 10964, 820 });
+		}
+	}
 }
 
 void UPlayLevel::LevelStart(ULevel* _PrevLevel)

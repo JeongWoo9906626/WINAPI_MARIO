@@ -22,6 +22,14 @@ protected:
 	void LevelEnd(ULevel* _NextLevel) override;
 
 private:
-
+	bool Spawn1 = false;
+	bool Spawn2 = false;
+	bool Spawn3 = false;
+	bool Spawn4 = false;
+	bool Spawn5 = false;
+	bool Spawn6 = false;
+	bool Spawn7 = false;
+	bool Spawn8 = false;
+	bool Spawn9 = false;
 };
 
