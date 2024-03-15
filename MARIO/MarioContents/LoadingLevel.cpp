@@ -6,6 +6,7 @@
 #include "PlayLevel.h"
 #include "FinalLevel.h"
 #include "LoadingUI.h"
+#include "GameOverLevel.h"
 #include "UI.h"
 
 ULoadingLevel::ULoadingLevel()
@@ -31,15 +32,22 @@ void ULoadingLevel::Tick(float _DeltaTime)
 {
 	ULevel::Tick(_DeltaTime);
 
+	CurLevelName = UContentsHelper::MapName;
+	if (true == CurLevelName._Equal("GameOver"))
+	{
+		GEngine->CreateLevel<UGameOverLevel>(CurLevelName);
+		GEngine->ChangeLevel(CurLevelName);
+	}
+	if (true == CurLevelName._Equal("Title"))
+	{
+		GEngine->CreateLevel<UTitleLevel>(CurLevelName);
+		GEngine->ChangeLevel(CurLevelName);
+	}
+
 	if (CurChangeTime >= ChangeTime)
 	{
 		CurChangeTime = 0.0f;
-		CurLevelName = UContentsHelper::MapName;
-
-		if (true == CurLevelName._Equal("Title"))
-		{
-			GEngine->CreateLevel<UTitleLevel>(CurLevelName);
-		}
+		
 		if (true == CurLevelName._Equal("FirstStage"))
 		{
 			GEngine->CreateLevel<UPlayLevel>(CurLevelName);
@@ -48,7 +56,6 @@ void ULoadingLevel::Tick(float _DeltaTime)
 		{
 			GEngine->CreateLevel<UFinalLevel>(CurLevelName);
 		}
-
 		GEngine->ChangeLevel(CurLevelName);
 	}
 	else

@@ -7,7 +7,6 @@
 #include <EngineCore/EngineResourcesManager.h>
 #include "TitleLevel.h"
 #include "LoadingLevel.h"
-#include "GameOverLevel.h"
 
 UMarioCore::UMarioCore() 
 {
@@ -61,19 +60,10 @@ void UMarioCore::BeginPlay()
 	ResoucreManager.CuttingImage("Fire.png", 4, 1);
 	ResoucreManager.CuttingImage("FireBomb.png", 3, 1);
 
-	// TODO
-	// 생성할 모든 레벨 Core에서 생성
 	CreateLevel<UTitleLevel>("Title");
 	CreateLevel<ULoadingLevel>("Loading");
-	CreateLevel<GameOverLevel>("GameOver");
-	//CreateLevel<UPlayLevel>("Play");
-	//CreateLevel<UFinalLevel>("Final");
 
-	// TODO
-	// 처음 시작할 레벨 설정
 	ChangeLevel("Title");
-	//ChangeLevel("Play");
-	//ChangeLevel("Final");
 }
 
 void UMarioCore::Tick(float _DeltaTime)

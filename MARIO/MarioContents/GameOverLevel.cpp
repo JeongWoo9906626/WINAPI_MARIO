@@ -2,19 +2,18 @@
 
 #include <EngineCore/EngineCore.h>
 
-#include "TitleLevel.h"
 #include "GameOverUI.h"
 #include "UI.h"
 
-GameOverLevel::GameOverLevel()
+UGameOverLevel::UGameOverLevel()
 {
 }
 
-GameOverLevel::~GameOverLevel()
+UGameOverLevel::~UGameOverLevel()
 {
 }
 
-void GameOverLevel::BeginPlay()
+void UGameOverLevel::BeginPlay()
 {
 	ULevel::BeginPlay();
 
@@ -25,15 +24,17 @@ void GameOverLevel::BeginPlay()
 	UI->SetActorLocation({ 200, 200 });
 }
 
-void GameOverLevel::Tick(float _DeltaTime)
+void UGameOverLevel::Tick(float _DeltaTime)
 {
 	ULevel::Tick(_DeltaTime);
 
 	if (CurChangeTime >= ChangeTime)
 	{
 		CurChangeTime = 0.0f;
-		GEngine->CreateLevel<UTitleLevel>("Title");
-		GEngine->ChangeLevel("Title");
+		UContentsHelper::Time = 1400;
+		UContentsHelper::SubStage = 1;
+		UContentsHelper::MapName = "Title";
+		GEngine->ChangeLevel("Loading");
 	}
 	else
 	{
@@ -41,12 +42,12 @@ void GameOverLevel::Tick(float _DeltaTime)
 	}
 }
 
-void GameOverLevel::LevelStart(ULevel* _PrevLevel)
+void UGameOverLevel::LevelStart(ULevel* _PrevLevel)
 {
 	ULevel::LevelStart(_PrevLevel);
 }
 
-void GameOverLevel::LevelEnd(ULevel* _NextLevel)
+void UGameOverLevel::LevelEnd(ULevel* _NextLevel)
 {
 	ULevel::LevelEnd(_NextLevel);
 }

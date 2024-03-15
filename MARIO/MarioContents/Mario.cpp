@@ -1248,11 +1248,9 @@ void AMario::Die(float _DeltaTime)
 	{
 		if (0 == UContentsHelper::MarioLife)
 		{
-			UContentsHelper::Time = 1400;
-			UContentsHelper::SubStage = 1;
-			UContentsHelper::MapName = "Title";
+			UContentsHelper::MapName = "GameOver";
 			UContentsHelper::HighScore = UContentsHelper::Score;
-			GEngine->ChangeLevel("GameOver");
+			GEngine->ChangeLevel("Loading");
 			return;
 		}
 

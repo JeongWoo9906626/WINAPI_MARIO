@@ -108,6 +108,9 @@ std::string ALoadingUI::CheckMarioLife()
 	std::string MarioLife = "";
 	switch (UContentsHelper::MarioLife)
 	{
+	case 0:
+		MarioLife = "0.png";
+		break;
 	case 1:
 		MarioLife = "1.png";
 		break;

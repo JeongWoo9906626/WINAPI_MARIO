@@ -44,8 +44,9 @@ void AEndingGate::Tick(float _DeltaTime)
 
 			if (0.0f > Scale.Y)
 			{
+				UContentsHelper::MapName = "GameOver";
 				UContentsHelper::HighScore = UContentsHelper::Score;
-				GEngine->ChangeLevel("GameOver");
+				GEngine->ChangeLevel("Loading");
 				return;
 			}
 

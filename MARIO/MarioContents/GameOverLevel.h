@@ -1,16 +1,16 @@
 #pragma once
 #include <EngineCore/Level.h>
 
-class GameOverLevel : public ULevel
+class UGameOverLevel : public ULevel
 {
 public:
-	GameOverLevel();
-	~GameOverLevel();
+	UGameOverLevel();
+	~UGameOverLevel();
 
-	GameOverLevel(const GameOverLevel& _Other) = delete;
-	GameOverLevel(GameOverLevel&& _Other) noexcept = delete;
-	GameOverLevel& operator=(const GameOverLevel& _Other) = delete;
-	GameOverLevel& operator=(GameOverLevel&& _Other) noexcept = delete;
+	UGameOverLevel(const UGameOverLevel& _Other) = delete;
+	UGameOverLevel(UGameOverLevel&& _Other) noexcept = delete;
+	UGameOverLevel& operator=(const UGameOverLevel& _Other) = delete;
+	UGameOverLevel& operator=(UGameOverLevel&& _Other) noexcept = delete;
 
 protected:
 	void BeginPlay() override;
