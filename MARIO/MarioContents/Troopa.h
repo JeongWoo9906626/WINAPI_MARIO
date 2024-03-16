@@ -40,6 +40,7 @@ private:
 	int ShootScore = 400;
 
 	bool IsShoot = false;
+	bool IsCollisionActive = false;
 
 	float ShootSpeed = 400.0f;
 
