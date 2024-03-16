@@ -68,7 +68,7 @@ void ABreakBrick::Tick(float _DeltaTime)
 	if (true == BottomCollision->CollisionCheck(ECollisionOrder::PlayerHead, BottomResult))
 	{
 		UCollision* MarioPosition = BottomResult[0];
-		AMario* Player = (AMario*)MarioPosition->GetOwner();
+		AMario* Player = static_cast<AMario*>(MarioPosition->GetOwner());
 		MarioState = Player->SizeState;
 
 		if (EBoxState::Idle == State)
@@ -84,7 +84,7 @@ void ABreakBrick::Tick(float _DeltaTime)
 	if (true == LeftCollision->CollisionCheck(ECollisionOrder::Player, LeftResult))
 	{
 		UCollision* MarioPosition = LeftResult[0];
-		AMario* Player = (AMario*)MarioPosition->GetOwner();
+		AMario* Player = static_cast<AMario*>(MarioPosition->GetOwner());
 
 		Player->MoveVector.X = 0.0f;
 		Player->AddActorLocation(FVector::Left);
@@ -95,7 +95,7 @@ void ABreakBrick::Tick(float _DeltaTime)
 	if (true == RightCollision->CollisionCheck(ECollisionOrder::Player, RightResult))
 	{
 		UCollision* MarioPosition = RightResult[0];
-		AMario* Player = (AMario*)MarioPosition->GetOwner();
+		AMario* Player = static_cast<AMario*>(MarioPosition->GetOwner());
 
 		Player->MoveVector.X = 0.0f;
 		Player->AddActorLocation(FVector::Right);

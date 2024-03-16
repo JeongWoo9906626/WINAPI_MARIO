@@ -280,7 +280,7 @@ void AMario::Tick(float _DeltaTime)
 		std::vector<UCollision*> HiddenGateInResult;
 		if (true == BottomCollision->CollisionCheck(ECollisionOrder::Gate, HiddenGateInResult))
 		{
-			AHiddenGate* HiddenGate = (AHiddenGate*)HiddenGateInResult[0]->GetOwner();
+			AHiddenGate* HiddenGate = static_cast<AHiddenGate*>(HiddenGateInResult[0]->GetOwner());
 			EGateState GateState = HiddenGate->GetGateState();
 			if (GateState == EGateState::In && true == UEngineInput::IsDown(VK_DOWN))
 			{
@@ -294,7 +294,7 @@ void AMario::Tick(float _DeltaTime)
 		std::vector<UCollision*> HiddenGateOutResult;
 		if (true == BodyCollision->CollisionCheck(ECollisionOrder::Gate, HiddenGateOutResult))
 		{
-			AHiddenGate* HiddenGate = (AHiddenGate*)HiddenGateOutResult[0]->GetOwner();
+			AHiddenGate* HiddenGate = static_cast<AHiddenGate*>(HiddenGateOutResult[0]->GetOwner());
 			EGateState GateState = HiddenGate->GetGateState();
 			if (GateState == EGateState::Out && true == UEngineInput::IsDown(VK_RIGHT))
 			{

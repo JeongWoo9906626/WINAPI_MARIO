@@ -28,7 +28,7 @@ void AGate::Tick(float _DeltaTime)
 	if (true == Collision->CollisionCheck(ECollisionOrder::Player, Result))
 	{
 		UCollision* MarioPosition = Result[0];
-		AMario* Player = (AMario*)MarioPosition->GetOwner();
+		AMario* Player = static_cast<AMario*>(MarioPosition->GetOwner());
 
 		FTransform MarioCollision = MarioPosition->GetActorBaseTransform();
 		FTransform MyTransform = Collision->GetActorBaseTransform();
@@ -62,12 +62,6 @@ void AGate::TimeToScore(float _DeltaTime)
 
 void AGate::StageChange()
 {
-	UContentsHelper::Time = 1300;
-	UContentsHelper::SubStage = 4;
-	UContentsHelper::KoopaWake = false;
-	UContentsHelper::KoopaIsFire = false;
-	UContentsHelper::KoopaDie = false;
-	UContentsHelper::MapName = "FinalStage";
 	GEngine->ChangeLevel("Loading");
 	return;
 }

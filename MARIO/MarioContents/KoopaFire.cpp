@@ -34,7 +34,7 @@ void AKoopaFire::Tick(float _DeltaTime)
 	if (true == Collision->CollisionCheck(ECollisionOrder::Player, MarioResult))
 	{
 		UCollision* MarioCollision = MarioResult[0];
-		AMario* Mario = (AMario*)MarioCollision->GetOwner();
+		AMario* Mario = static_cast<AMario*>(MarioCollision->GetOwner());
 
 		if (Mario->SizeState != EMarioSizeState::Small)
 		{

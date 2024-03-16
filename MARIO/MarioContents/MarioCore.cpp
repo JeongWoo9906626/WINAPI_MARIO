@@ -5,6 +5,8 @@
 #include <EngineBase/EngineDirectory.h>
 #include <EngineBase/EngineFile.h>	
 #include <EngineCore/EngineResourcesManager.h>
+#include <EnginePlatform\EngineSound.h>
+
 #include "TitleLevel.h"
 #include "LoadingLevel.h"
 
@@ -59,6 +61,12 @@ void UMarioCore::BeginPlay()
 
 	ResoucreManager.CuttingImage("Fire.png", 4, 1);
 	ResoucreManager.CuttingImage("FireBomb.png", 3, 1);
+
+	std::list<UEngineFile> SoundList = NewDir.AllFile({ ".wav", ".mp3" }, true);
+	for (UEngineFile& File : SoundList)
+	{
+		UEngineSound::Load(File.GetFullPath());
+	}
 
 	CreateLevel<UTitleLevel>("Title");
 	CreateLevel<ULoadingLevel>("Loading");

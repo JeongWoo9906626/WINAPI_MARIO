@@ -47,7 +47,7 @@ void ABirdgeHandle::Tick(float _DeltaTime)
 		Collision->ActiveOff();
 
 		UCollision* MarioCollision = MarioResult[0];
-		AMario* Mario = (AMario*)MarioCollision->GetOwner();
+		AMario* Mario = static_cast<AMario*>(MarioCollision->GetOwner());
 		Mario->StateChange(EPlayState::BossFinish);
 		return;
 	}

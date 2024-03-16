@@ -27,7 +27,7 @@ void AFlag::Tick(float _DeltaTime)
 	if (true == FlagCollision->CollisionCheck(ECollisionOrder::Player, MarioResult))
 	{
 		IsFlagCollision = true;
-		AMario* Mario = (AMario*)MarioResult[0]->GetOwner();
+		AMario* Mario = static_cast<AMario*>(MarioResult[0]->GetOwner());
 		Mario->StateChange(EPlayState::FinishMove);
 		return;
 	}

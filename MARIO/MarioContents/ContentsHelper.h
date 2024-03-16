@@ -2,7 +2,6 @@
 #include <EngineBase\EngineMath.h>
 #include <EngineCore\EngineCore.h>
 #include <EngineCore\ImageRenderer.h>
-//#include "Mario.h"
 
 enum ERenderOrder
 {

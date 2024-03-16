@@ -60,8 +60,10 @@ void AEndingGate::Tick(float _DeltaTime)
 			{
 				IsEndingMessage = false;
 				UContentsHelper::MapName = "Title";
-				UContentsHelper::SubStage = 1;
-				UContentsHelper::HighScore = UContentsHelper::Score;
+				if (UContentsHelper::HighScore <= UContentsHelper::Score)
+				{
+					UContentsHelper::HighScore = UContentsHelper::Score;
+				}
 				GEngine->ChangeLevel("Loading");
 				return;
 			}
@@ -73,7 +75,7 @@ void AEndingGate::Tick(float _DeltaTime)
 	if (true == Collision->CollisionCheck(ECollisionOrder::Player, Result))
 	{
 		UCollision* MarioPosition = Result[0];
-		AMario* Player = (AMario*)MarioPosition->GetOwner();
+		AMario* Player = static_cast<AMario*>(MarioPosition->GetOwner());
 		
 		Player->StateChange(EPlayState::Ending);
 

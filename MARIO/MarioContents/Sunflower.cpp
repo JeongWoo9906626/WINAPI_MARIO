@@ -50,7 +50,7 @@ void ASunflower::Tick(float _DeltaTime)
 	if (true == BodyCollision->CollisionCheck(ECollisionOrder::Player, MarioResult))
 	{
 		UCollision* MarioPosition = MarioResult[0];
-		AMario* Player = (AMario*)MarioPosition->GetOwner();
+		AMario* Player = static_cast<AMario*>(MarioPosition->GetOwner());
 
 		ScoreUI* Score = GetWorld()->SpawnActor<ScoreUI>(ERenderOrder::UI);
 		FVector MonsterLocation = GetActorLocation();

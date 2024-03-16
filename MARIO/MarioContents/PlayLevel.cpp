@@ -22,11 +22,18 @@ UPlayLevel::UPlayLevel()
 
 UPlayLevel::~UPlayLevel()
 {
+	SoundPlayer.Off();
 }
 
 void UPlayLevel::BeginPlay()
 {
 	ULevel::BeginPlay();
+
+	SoundPlayer = UEngineSound::SoundPlay("Stage01.mp3");
+
+	//UContentsHelper::Time = 1400;
+	//UContentsHelper::SubStage = 1;
+	//UContentsHelper::MapName = "FirstStage";
 
 	ABackGround* BackGroundMap = SpawnActor<ABackGround>(ERenderOrder::Map);
 	BackGroundMap->SetMapImage("Stage01.png");

@@ -1,5 +1,6 @@
 #pragma once
 #include <EngineCore/Level.h>
+#include <EnginePlatform/EngineSound.h>
 
 class UFinalLevel : public ULevel
 {
@@ -18,6 +19,7 @@ protected:
 	void LevelEnd(ULevel* _NextLevel) override;
 
 private:
+	UEngineSoundPlayer SoundPlayer;
 
 };
 

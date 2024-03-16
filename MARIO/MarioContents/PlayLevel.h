@@ -1,5 +1,6 @@
 #pragma once
 #include <EngineCore/Level.h>
+#include <EnginePlatform/EngineSound.h>
 
 // Ό³Έν :
 class UPlayLevel : public ULevel
@@ -22,6 +23,8 @@ protected:
 	void LevelEnd(ULevel* _NextLevel) override;
 
 private:
+	UEngineSoundPlayer SoundPlayer;
+
 	bool Spawn1 = false;
 	bool Spawn2 = false;
 	bool Spawn3 = false;
@@ -32,4 +35,3 @@ private:
 	bool Spawn8 = false;
 	bool Spawn9 = false;
 };
-
