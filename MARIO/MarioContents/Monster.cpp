@@ -116,6 +116,13 @@ void AMonster::Tick(float _DeltaTime)
 		return;
 	}
 
+	Color8Bit DieColor = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::YellowA);
+	if (DieColor == Color8Bit(255, 255, 0, 0))
+	{
+		Destroy();
+	}
+
+
 	WindowCheck();
 	StateUpdate(_DeltaTime);
 }
@@ -273,10 +280,11 @@ void AMonster::GravityMove(float _DeltaTime)
 	Color8Bit Color = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
-		GravityAcc = 0.0f;
+		CurGravityAcc = 500.0f;
 	}
 	else
 	{
-		AddActorLocation(FVector::Down * GravityAcc * _DeltaTime);
+		CurGravityAcc = GravityAcc;
+		AddActorLocation(FVector::Down * CurGravityAcc * _DeltaTime);
 	}
 }

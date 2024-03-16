@@ -55,6 +55,7 @@ protected:
 	int HeadHitScroe = 100;
 	int SpinDeadScore = 200;
 
+	float CurGravityAcc = 0.0f;
 	float GravityAcc = 500.0f;
 	float MoveSpeed = 100.0f;
 	float SpinDieGravityAcc = 500.0f;
