@@ -29,7 +29,7 @@ void ABirdgeHandle::BeginPlay()
 	BlockCollision->SetColType(ECollisionType::Rect);
 	BlockCollision->SetTransform({ { 15, -180 }, { 20, 370 } });
 
-	Renderer = CreateImageRenderer(ERenderOrder::Item);
+	Renderer = CreateImageRenderer(ERenderOrder::Gate);
 	Renderer->SetImage("Axe.png");
 	Renderer->SetTransform({ { 0, 0 }, { 170, 180 } });
 }

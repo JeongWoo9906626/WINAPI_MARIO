@@ -116,7 +116,7 @@ void AKoopa::JumpStart()
 	IsBoxCollision = false;
 	AddActorLocation(FVector::Up * 10);
 	CurJumpTime = 0.0f;
-	JumpSpeed = -400.0f;
+	JumpSpeed = -300.0f;
 }
 
 bool AKoopa::CheckMarioPos()
@@ -220,25 +220,7 @@ void AKoopa::Move(float _DeltaTime)
 			CurJumpTime += _DeltaTime;
 		}
 
-		if (CurWalkTime >= WalkTime)
-		{
-			float KoopaPosX = GetActorLocation().X;
-			MoveDirChange();
-			KoopaPosX += Dir * 100;
-			if (KoopaPosX > FirstKoopaPosX)
-			{
-				Dir = -1.0f;
-			}
-			if (KoopaPosX < LastKoopaPosX)
-			{
-				Dir = 1.0f;
-			}
-			CurWalkTime = 0.0f;
-		}
-		else
-		{
-			CurWalkTime += _DeltaTime;
-		}
+		
 
 		MoveUpdate(_DeltaTime);
 	}
@@ -311,6 +293,26 @@ void AKoopa::Dead(float _DeltaTime)
 
 void AKoopa::MoveUpdate(float _DeltaTime)
 {
+	if (CurWalkTime >= WalkTime)
+	{
+		float KoopaPosX = GetActorLocation().X;
+		MoveDirChange();
+		KoopaPosX += Dir * 100;
+		if (KoopaPosX > FirstKoopaPosX)
+		{
+			Dir = -1.0f;
+		}
+		if (KoopaPosX < LastKoopaPosX)
+		{
+			Dir = 1.0f;
+		}
+		CurWalkTime = 0.0f;
+	}
+	else
+	{
+		CurWalkTime += _DeltaTime;
+	}
+
 	if (true == IsBoxCollision)
 	{
 		JumpSpeed = 0.0f;

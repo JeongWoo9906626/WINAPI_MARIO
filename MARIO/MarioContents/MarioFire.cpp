@@ -105,6 +105,7 @@ void AMarioFire::SetDir(EActorDir _Dir)
 
 void AMarioFire::SetIsDestroy(bool _IsDestroy)
 {
+	Collision->ActiveOff();
 	IsDestroy = _IsDestroy;
 }
 

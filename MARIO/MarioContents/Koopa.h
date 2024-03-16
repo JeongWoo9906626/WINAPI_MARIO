@@ -42,8 +42,8 @@ private:
 	float JumpSpeed = 0.0f;
 	float WalkSpeed = 100.0f;
 
-	float FirstKoopaPosX = 8862.0f;
-	float LastKoopaPosX = 8562.0f;
+	float FirstKoopaPosX = 8850.0f;
+	float LastKoopaPosX = 8550.0f;
 
 	float TotalMoveRange = 300.0f;
 	
