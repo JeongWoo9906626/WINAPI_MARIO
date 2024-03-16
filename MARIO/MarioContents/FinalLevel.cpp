@@ -27,6 +27,7 @@ void UFinalLevel::BeginPlay()
 {
 	ULevel::BeginPlay();
 
+	UContentsHelper::IsStageSoundOff = false;
 	SoundPlayer = UEngineSound::SoundPlay("Stage04.mp3");
 
 	//UContentsHelper::Time = 1300;
@@ -162,6 +163,11 @@ void UFinalLevel::BeginPlay()
 void UFinalLevel::Tick(float _DeltaTime)
 {
 	ULevel::Tick(_DeltaTime);
+
+	if (true == UContentsHelper::IsStageSoundOff)
+	{
+		SoundPlayer.Off();
+	}
 }
 
 void UFinalLevel::LevelStart(ULevel* _PrevLevel)

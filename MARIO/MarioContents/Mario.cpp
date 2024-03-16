@@ -137,6 +137,11 @@ void AMario::Tick(float _DeltaTime)
 	UEngineDebug::DebugTextPrint("X : " + std::to_string(PlayerPos.X) + ", Y : " + std::to_string(PlayerPos.Y), 30.0f);
 	UEngineDebug::DebugTextPrint("\nDeltaTime : " + std::to_string(_DeltaTime), 30.0f);
 
+	if (GetActorLocation().Y > 1200.0f && EPlayState::Die != State)
+	{
+		UContentsHelper::IsUnderStage = true;
+	}
+
 	// 디버그 관련 기능들 
 	{
 		if (true == UEngineInput::IsDown('4'))
@@ -619,6 +624,16 @@ void AMario::JumpStart()
 	DirCheck();
 	AddActorLocation(FVector::Up * 5);
 	JumpVector = FVector::Up * JumpForce;
+
+	if (EMarioSizeState::Small == SizeState)
+	{
+		SoundPlayer = UEngineSound::SoundPlay("SmallMarioJump.wav");
+	}
+	else
+	{
+		SoundPlayer = UEngineSound::SoundPlay("BigMarioJump.wav");
+	}
+
 	if (true == IsDown)
 	{
 		Renderer->ChangeAnimation(GetAnimationName("Crouch"));
@@ -652,6 +667,7 @@ void AMario::ReverseStart()
 
 void AMario::KillStart()
 {
+	SoundPlayer = UEngineSound::SoundPlay("Kill.wav");
 	DirCheck();
 	GravityVector = FVector::Zero;
 	JumpForce = KillJumpPower;
@@ -661,6 +677,10 @@ void AMario::KillStart()
 
 void AMario::DieStart()
 {
+	UContentsHelper::IsStageSoundOff = true;
+
+	SoundPlayer = UEngineSound::SoundPlay("MarioDie.wav");
+	
 	GetWorld()->SetTimeScale(ERenderOrder::Monster, 0.0f);
 	GetWorld()->SetTimeScale(ERenderOrder::UI, 0.0f);
 
@@ -675,6 +695,7 @@ void AMario::DieStart()
 
 void AMario::GrowUpStart()
 {
+	SoundPlayer = UEngineSound::SoundPlay("GrowUpAndChangeRed.wav");
 	GetWorld()->SetOtherTimeScale(ERenderOrder::Player, 0.0f);
 	UContentsHelper::MSizeState = SizeState;
 	DirCheck();
@@ -696,6 +717,7 @@ void AMario::GrowUpStart()
 
 void AMario::GrowDownStart()
 {
+	SoundPlayer = UEngineSound::SoundPlay("GrowDownAndHiddenGate.wav");
 	GetWorld()->SetOtherTimeScale(ERenderOrder::Player, 0.0f);
 	UContentsHelper::MSizeState = SizeState;
 	DirCheck();
@@ -719,6 +741,7 @@ void AMario::GrowDownStart()
 
 void AMario::ChangeRedStart()
 {
+	SoundPlayer = UEngineSound::SoundPlay("GrowUpAndChangeRed.wav");
 	UContentsHelper::MSizeState = SizeState;
 	GetWorld()->SetOtherTimeScale(ERenderOrder::Player, 0.0f);
 	DirCheck();
@@ -740,6 +763,7 @@ void AMario::ChangeRedStart()
 
 void AMario::HiddenStageEnterStart()
 {
+	SoundPlayer = UEngineSound::SoundPlay("GrowDownAndHiddenGate.wav");
 	IsHiddenStage = true;
 	CurPortalTime = 0.0f;
 	CurScreenChangeTime = 0.0f;
@@ -751,6 +775,7 @@ void AMario::HiddenStageEnterStart()
 
 void AMario::HiddenStageOutStart()
 {
+	SoundPlayer = UEngineSound::SoundPlay("GrowDownAndHiddenGate.wav");
 	IsHiddenStage = false;
 	CurPortalTime = 0.0f;
 	CurScreenChangeTime = 0.0f;
@@ -761,6 +786,7 @@ void AMario::HiddenStageOutStart()
 
 void AMario::HiddenStageOutUpStart()
 {
+	UContentsHelper::IsUnderStage = false;
 	CurPortalTime = 0.0f;
 	CurScreenChangeTime = 0.0f;
 }
@@ -814,6 +840,7 @@ void AMario::FinishReverseStart()
 
 void AMario::FinishWalkStart()
 {
+	FinishSoundPlayer = UEngineSound::SoundPlay("StageFinish.wav");
 	BodyCollision->ActiveOn();
 	std::string FinishMoveName = "";
 

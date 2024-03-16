@@ -64,7 +64,7 @@ void AMonster::Tick(float _DeltaTime)
 	if (nullptr != HeadCollision)
 	{
 		std::vector<UCollision*> MarioKillResult;
-		if (true == HeadCollision->CollisionCheck(ECollisionOrder::Player, MarioKillResult))
+		if (true == HeadCollision->CollisionCheck(ECollisionOrder::PlayerBottom, MarioKillResult))
 		{
 			UCollision* MarioCollision = MarioKillResult[0];
 			AMario* Mario = static_cast<AMario*>(MarioCollision->GetOwner());

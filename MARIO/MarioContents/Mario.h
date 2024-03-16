@@ -1,5 +1,6 @@
 #pragma once
 #include <EngineCore/Actor.h>
+#include <EnginePlatform/EngineSound.h>
 #include "ContentsHelper.h"
 
 class AMonster;
@@ -106,6 +107,8 @@ protected:
 	void BossFinishWalk(float _DeltaTime);
 
 private:
+	UEngineSoundPlayer SoundPlayer;
+	UEngineSoundPlayer FinishSoundPlayer;
 	UImageRenderer* Renderer = nullptr;
 	UCollision* BodyCollision = nullptr;
 	UCollision* HeadCollision = nullptr;

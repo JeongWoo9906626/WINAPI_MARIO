@@ -1,5 +1,6 @@
 #pragma once
 #include <EngineCore/Actor.h>
+#include <EnginePlatform/EngineSound.h>
 #include "ContentsHelper.h"
 
 class AFlag : public AActor
@@ -19,6 +20,7 @@ protected:
 	void FlagDown(float _DeltaTime);
 
 private:
+	UEngineSoundPlayer SoundPlayer;
 	UImageRenderer* Renderer = nullptr;
 	UCollision* FlagCollision = nullptr;
 

@@ -23,7 +23,8 @@ protected:
 	void LevelEnd(ULevel* _NextLevel) override;
 
 private:
-	UEngineSoundPlayer SoundPlayer;
+	UEngineSoundPlayer StageSound;
+	UEngineSoundPlayer HiddenStageSound;
 
 	bool Spawn1 = false;
 	bool Spawn2 = false;

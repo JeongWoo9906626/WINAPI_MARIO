@@ -29,6 +29,8 @@ void AFlag::Tick(float _DeltaTime)
 		IsFlagCollision = true;
 		AMario* Mario = static_cast<AMario*>(MarioResult[0]->GetOwner());
 		Mario->StateChange(EPlayState::FinishMove);
+		UContentsHelper::IsStageSoundOff = true;
+		SoundPlayer = UEngineSound::SoundPlay("FlagDown.wav");
 		return;
 	}
 

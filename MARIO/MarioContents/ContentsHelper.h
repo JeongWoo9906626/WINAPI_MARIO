@@ -171,6 +171,8 @@ public:
 	static bool MarioDie;
 	static bool IsBridgeHandleCollision;
 	static bool IsBossStage;
+	static bool IsStageSoundOff;
+	static bool IsUnderStage;
 
 	static FVector PortalPos1;
 	static float HiddenStageCameraPosX;

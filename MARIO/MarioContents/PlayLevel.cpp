@@ -22,14 +22,18 @@ UPlayLevel::UPlayLevel()
 
 UPlayLevel::~UPlayLevel()
 {
-	SoundPlayer.Off();
+	StageSound.Off();
+	HiddenStageSound.Off();
 }
 
 void UPlayLevel::BeginPlay()
 {
 	ULevel::BeginPlay();
 
-	SoundPlayer = UEngineSound::SoundPlay("Stage01.mp3");
+	UContentsHelper::IsStageSoundOff = false;
+	StageSound = UEngineSound::SoundPlay("Stage01.mp3");
+	HiddenStageSound = UEngineSound::SoundPlay("HiddenStage.mp3");
+	HiddenStageSound.Off();
 
 	//UContentsHelper::Time = 1400;
 	//UContentsHelper::SubStage = 1;
@@ -346,6 +350,26 @@ void UPlayLevel::BeginPlay()
 void UPlayLevel::Tick(float _DeltaTime)
 {
 	ULevel::Tick(_DeltaTime);
+
+	if (true == UContentsHelper::IsStageSoundOff)
+	{
+ 		StageSound.Off();
+	}
+
+	if (true == UContentsHelper::IsUnderStage)
+	{
+		StageSound.Off();
+		HiddenStageSound.On();
+	}
+	else
+	{
+		HiddenStageSound.Off();
+	}
+	
+	if (false == UContentsHelper::IsStageSoundOff && false == UContentsHelper::IsUnderStage)
+	{
+		StageSound.On();
+	}
 
 	if (AMario::MainPlayer->GetTransform().GetPosition().X >= 625.0f)
 	{
