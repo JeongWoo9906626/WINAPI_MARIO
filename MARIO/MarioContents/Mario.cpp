@@ -1301,9 +1301,12 @@ void AMario::Die(float _DeltaTime)
 	AddActorLocation(JumpVector * (_DeltaTime));
 	JumpVector += FVector::Down * CurGravityAcc * _DeltaTime;
 
-	Color8Bit DieColor = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::YellowA);
+	/*Color8Bit DieColor = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::YellowA);
 	if (Color8Bit(255, 255, 0, 0) == DieColor)
+	{*/
+	if (CurLevelChangeTime >= LevelChangeTime)
 	{
+		CurLevelChangeTime = 0.0f;
 		if (0 == UContentsHelper::MarioLife)
 		{
 			UContentsHelper::MapName = "GameOver";
@@ -1324,6 +1327,11 @@ void AMario::Die(float _DeltaTime)
 		GEngine->ChangeLevel("Loading");
 		return;
 	}
+	else
+	{
+		CurLevelChangeTime += _DeltaTime;
+	}
+	/*}*/
 }
 
 void AMario::GrowUp(float _DeltaTime)

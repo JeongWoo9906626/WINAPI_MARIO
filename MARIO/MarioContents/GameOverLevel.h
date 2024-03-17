@@ -1,5 +1,6 @@
 #pragma once
 #include <EngineCore/Level.h>
+#include <EnginePlatform/EngineSound.h>
 
 class UGameOverLevel : public ULevel
 {
@@ -19,7 +20,8 @@ protected:
 	void LevelEnd(ULevel* _NextLevel) override;
 
 private:
-	float ChangeTime = 2.0f;
+	UEngineSoundPlayer SoundPlayer;
+	float ChangeTime = 3.5f;
 	float CurChangeTime = 0.0f;
 };
 

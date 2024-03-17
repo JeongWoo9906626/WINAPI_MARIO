@@ -11,11 +11,14 @@ UGameOverLevel::UGameOverLevel()
 
 UGameOverLevel::~UGameOverLevel()
 {
+	SoundPlayer.Off();
 }
 
 void UGameOverLevel::BeginPlay()
 {
 	ULevel::BeginPlay();
+
+	SoundPlayer = UEngineSound::SoundPlay("GameOver.wav");
 
 	AGameOverUI* GameOver = SpawnActor<AGameOverUI>(ERenderOrder::Loading);
 	GameOver->SetActorLocation({ GEngine->MainWindow.GetWindowScale().ihX(), GEngine->MainWindow.GetWindowScale().ihY() });

@@ -118,6 +118,9 @@ private:
 	EMarioSizeState SizeState = EMarioSizeState::Small;
 	EActorDir DirState = EActorDir::Right;
 
+	float LevelChangeTime = 2.5f;
+	float CurLevelChangeTime = 0.0f;
+
 	float FreeMoveSpeed = 1000.0f;
 
 	bool IsHiddenStage = false;
