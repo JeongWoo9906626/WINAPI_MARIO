@@ -95,6 +95,9 @@ void AMushroom::StateChange(EItemState _State)
 		case EItemState::Move:
 			MoveStart();
 			break;
+		case EItemState::Jump:
+			JumpStart();
+			break;
 		case EItemState::CollisionMove:
 			CollisionMoveStart();
 			break;
@@ -116,6 +119,9 @@ void AMushroom::StateUpdate(float _DeltaTime)
 	case EItemState::Move:
 		Move(_DeltaTime);
 		break;
+	case EItemState::Jump:
+		Jump(_DeltaTime);
+		break;
 	case EItemState::CollisionMove:
 		CollisionMove(_DeltaTime);
 		break;
@@ -132,6 +138,12 @@ void AMushroom::SpawnStart()
 void AMushroom::MoveStart()
 {
 	DestroyValue = false;
+}
+
+void AMushroom::JumpStart()
+{
+	AddActorLocation(FVector::Up * 10.0f);
+	CurJumpPower = JumpPower;
 }
 
 void AMushroom::CollisionMoveStart()
@@ -198,6 +210,22 @@ void AMushroom::Move(float _DeltaTime)
 	}
 
 	AddActorLocation(ForwardVector * DirUnitVector * MoveSpeed * _DeltaTime);
+}
+
+void AMushroom::Jump(float _DeltaTime)
+{
+	FVector GravityVector = { 0.0f, 1.0f, 0.0f, 0.0f };
+	Color8Bit Color = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+	if (Color != Color8Bit(255, 0, 255, 0) && false == IsBoxCollision)
+	{
+		CurJumpPower += GravitySpeed * _DeltaTime;
+		AddActorLocation({ DirUnitVector * MoveSpeed * _DeltaTime, CurJumpPower * _DeltaTime });
+	}
+	else
+	{
+		StateChange(EItemState::Move);
+		return;
+	}
 }
 
 void AMushroom::CollisionMove(float _DeltaTime)

@@ -51,6 +51,9 @@ protected:
 	FVector MoveDownPos = FVector::Zero;
 
 private:
+	float ItemUpTime = 1.0f;
+	float CurItemUpTime = 0.0f;
 
+	bool IsItemHit = false;
 };
 

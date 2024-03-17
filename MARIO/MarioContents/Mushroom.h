@@ -4,8 +4,12 @@
 
 #include "ContentsHelper.h"
 
+class ABrickBase;
+
 class AMushroom : public AActor
 {
+	friend ABrickBase;
+
 public:
 	AMushroom();
 	~AMushroom();
@@ -24,10 +28,12 @@ protected:
 
 	void SpawnStart();
 	void MoveStart();
+	void JumpStart();
 	void CollisionMoveStart();
 
 	void Spawn(float _DeltaTime);
 	void Move(float _DeltaTime);
+	void Jump(float _DeltaTime);
 	void CollisionMove(float _DeltaTime);
 	void GravityMove(float _DeltaTime);
 
@@ -49,6 +55,8 @@ private:
 
 	float SpawnUpSpeed = 100.0f;
 	float MoveSpeed = 200.0f;
+	float JumpPower = -50.0f;
+	float CurJumpPower = 0.0f;
 	float GravitySpeed = 500.0f;
 	float DirUnitVector = -1.0f;
 };

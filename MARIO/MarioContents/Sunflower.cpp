@@ -27,14 +27,14 @@ void ASunflower::BeginPlay()
 	}
 
 	{
-		BodyCollision = CreateCollision(ECollisionOrder::Goomba);
+		BodyCollision = CreateCollision(ECollisionOrder::Item);
 		BodyCollision->SetColType(ECollisionType::Rect);
 		BodyCollision->SetPosition({ 0, -30 });
 		BodyCollision->SetScale({ 30, 55 });
 	}
 
 	{
-		BottomCollision = CreateCollision(ECollisionOrder::Goomba);
+		BottomCollision = CreateCollision(ECollisionOrder::Item);
 		BottomCollision->SetColType(ECollisionType::Rect);
 		BottomCollision->SetPosition({ 0, 0 });
 		BottomCollision->SetScale({ 30, 3 });

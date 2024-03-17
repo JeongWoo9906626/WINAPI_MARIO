@@ -134,6 +134,7 @@ enum class EItemState
 {
 	Spawn,
 	Move,
+	Jump,
 	CollisionMove,
 	Eat,
 	None,

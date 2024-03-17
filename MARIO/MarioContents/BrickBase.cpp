@@ -1,5 +1,7 @@
 #include "BrickBase.h"
 #include "Mario.h"
+#include "Mushroom.h"
+#include "Monster.h"
 
 ABrickBase::ABrickBase()
 {
@@ -16,6 +18,32 @@ void ABrickBase::BeginPlay()
 void ABrickBase::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
+
+	std::vector<UCollision*> ItemBottomResult;
+	if (true == TopCollision->CollisionCheck(ECollisionOrder::Item, ItemBottomResult))
+	{
+		UCollision* MushroomCollision = ItemBottomResult[0];
+		AMushroom* Mushroom = static_cast<AMushroom*>(MushroomCollision->GetOwner());
+
+		if (EBoxState::Hit == State)
+		{
+			Mushroom->StateChange(EItemState::Jump);
+			return;
+		}
+	}
+
+	std::vector<UCollision*> MonsterBottomResult;
+	if (true == TopCollision->CollisionCheck(ECollisionOrder::MonsterBottom, MonsterBottomResult))
+	{
+		UCollision* MonsterBottomCollision = MonsterBottomResult[0];
+		AMonster* Monster = static_cast<AMonster*>(MonsterBottomCollision->GetOwner());
+
+		if (EBoxState::Hit == State)
+		{
+			Monster->StateChange(EMonsterState::SpinDead);
+			return;
+		}
+	}
 
 	std::vector<UCollision*> BottomResult;
 	if (true == BottomCollision->CollisionCheck(ECollisionOrder::PlayerHead, BottomResult))

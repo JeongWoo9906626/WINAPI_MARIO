@@ -49,6 +49,12 @@
     <Filter Include="UI\GmaeOverLevel\Actor">
       <UniqueIdentifier>{f7fa5846-0ed1-49fd-b4af-84b9fc81f27a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PlayLevel\Actor\Box\Brick">
+      <UniqueIdentifier>{3e21c050-e2eb-4312-b112-ac8c5065f62d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlayLevel\Actor\Box\Brick\BrickBase">
+      <UniqueIdentifier>{0decd04d-849f-4959-8470-3cfc197d0852}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TitleLevel.h">
@@ -84,20 +90,11 @@
     <ClInclude Include="Flag.h">
       <Filter>PlayLevel\Actor</Filter>
     </ClInclude>
-    <ClInclude Include="Brick.h">
-      <Filter>PlayLevel\Actor\Box</Filter>
-    </ClInclude>
     <ClInclude Include="Gate.h">
       <Filter>PlayLevel\Actor\Gate</Filter>
     </ClInclude>
     <ClInclude Include="Coin.h">
       <Filter>PlayLevel\Actor\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="BreakBrick.h">
-      <Filter>PlayLevel\Actor\Box</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemBox.h">
-      <Filter>PlayLevel\Actor\Box</Filter>
     </ClInclude>
     <ClInclude Include="Mushroom.h">
       <Filter>PlayLevel\Actor\Item</Filter>
@@ -128,9 +125,6 @@
     </ClInclude>
     <ClInclude Include="BirdgeHandle.h">
       <Filter>PlayLevel\Actor\Gate</Filter>
-    </ClInclude>
-    <ClInclude Include="BreakOne.h">
-      <Filter>PlayLevel\Actor\Box</Filter>
     </ClInclude>
     <ClInclude Include="Bridge.h">
       <Filter>PlayLevel\Actor\Box</Filter>
@@ -174,7 +168,21 @@
     <ClInclude Include="GameOverUI.h">
       <Filter>UI\GmaeOverLevel\Actor</Filter>
     </ClInclude>
-    <ClInclude Include="BrickBase.h" />
+    <ClInclude Include="BrickBase.h">
+      <Filter>PlayLevel\Actor\Box\Brick\BrickBase</Filter>
+    </ClInclude>
+    <ClInclude Include="BreakBrick.h">
+      <Filter>PlayLevel\Actor\Box\Brick</Filter>
+    </ClInclude>
+    <ClInclude Include="Brick.h">
+      <Filter>PlayLevel\Actor\Box\Brick</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemBox.h">
+      <Filter>PlayLevel\Actor\Box\Brick</Filter>
+    </ClInclude>
+    <ClInclude Include="BreakOne.h">
+      <Filter>PlayLevel\Actor\Box\Brick</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -210,20 +218,11 @@
     <ClCompile Include="Flag.cpp">
       <Filter>PlayLevel\Actor</Filter>
     </ClCompile>
-    <ClCompile Include="Brick.cpp">
-      <Filter>PlayLevel\Actor\Box</Filter>
-    </ClCompile>
     <ClCompile Include="Gate.cpp">
       <Filter>PlayLevel\Actor\Gate</Filter>
     </ClCompile>
     <ClCompile Include="Coin.cpp">
       <Filter>PlayLevel\Actor\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="BreakBrick.cpp">
-      <Filter>PlayLevel\Actor\Box</Filter>
-    </ClCompile>
-    <ClCompile Include="ItemBox.cpp">
-      <Filter>PlayLevel\Actor\Box</Filter>
     </ClCompile>
     <ClCompile Include="Mushroom.cpp">
       <Filter>PlayLevel\Actor\Item</Filter>
@@ -254,9 +253,6 @@
     </ClCompile>
     <ClCompile Include="BirdgeHandle.cpp">
       <Filter>PlayLevel\Actor\Gate</Filter>
-    </ClCompile>
-    <ClCompile Include="BreakOne.cpp">
-      <Filter>PlayLevel\Actor\Box</Filter>
     </ClCompile>
     <ClCompile Include="Bridge.cpp">
       <Filter>PlayLevel\Actor\Box</Filter>
@@ -300,6 +296,20 @@
     <ClCompile Include="GameOverUI.cpp">
       <Filter>UI\GmaeOverLevel\Actor</Filter>
     </ClCompile>
-    <ClCompile Include="BrickBase.cpp" />
+    <ClCompile Include="BrickBase.cpp">
+      <Filter>PlayLevel\Actor\Box\Brick\BrickBase</Filter>
+    </ClCompile>
+    <ClCompile Include="BreakBrick.cpp">
+      <Filter>PlayLevel\Actor\Box\Brick</Filter>
+    </ClCompile>
+    <ClCompile Include="Brick.cpp">
+      <Filter>PlayLevel\Actor\Box\Brick</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemBox.cpp">
+      <Filter>PlayLevel\Actor\Box\Brick</Filter>
+    </ClCompile>
+    <ClCompile Include="BreakOne.cpp">
+      <Filter>PlayLevel\Actor\Box\Brick</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
