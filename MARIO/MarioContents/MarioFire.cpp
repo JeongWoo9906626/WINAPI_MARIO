@@ -12,15 +12,17 @@ void AMarioFire::BeginPlay()
 {
 	AActor::BeginPlay();
 
+	SoundPlayer = UEngineSound::SoundPlay("MarioFire.wav");
+
 	FireRenderer = CreateImageRenderer(ERenderOrder::Fire);
 	FireRenderer->SetImage("Fire.png");
-	FireRenderer->SetTransform({ { 0, 0 }, { 128, 128 } });
+	FireRenderer->SetTransform({ { 0, 0 }, { 128 * 1.5f, 128 * 1.5f } });
 	FireRenderer->CreateAnimation("FireShot", "Fire.png", 0, 3, 0.1f, true);
 	FireRenderer->CreateAnimation("FireBomb", "FireBomb.png", 0, 2, 0.1f, false);
 
 	BombRenderer = CreateImageRenderer(ERenderOrder::Fire);
 	BombRenderer->SetImage("FireBomb.png");
-	BombRenderer->SetTransform({ { 0, 0 }, { 256, 256 } });
+	BombRenderer->SetTransform({ { 0, 0 }, { 256 * 1.5f, 256 * 1.5f } });
 	BombRenderer->CreateAnimation("FireBomb", "FireBomb.png", 0, 2, 0.1f, false);
 	BombRenderer->ActiveOff();
 
@@ -36,9 +38,34 @@ void AMarioFire::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 	
+	if (false == IsDestroy)
+	{
+		if (CurNormalDestoryTime >= NoramlDestoryTime)
+		{
+			UContentsHelper::MarioFireCount--;
+			Destroy();
+		}
+		else
+		{
+			CurNormalDestoryTime += _DeltaTime;
+		}
+	}
+	else
+	{
+		CurNormalDestoryTime = 0.0f;
+	}
+
 	std::vector<UCollision*> BlockGateResult;
 	if (true == Collision->CollisionCheck(ECollisionOrder::BlockGate, BlockGateResult))
 	{
+		IsDestroySound = true;
+		SetIsDestroy(true);
+	}
+
+	std::vector<UCollision*> BoxSideResult;
+	if (true == Collision->CollisionCheck(ECollisionOrder::Box, BoxSideResult))
+	{
+		IsDestroySound = true;
 		SetIsDestroy(true);
 	}
 
@@ -91,6 +118,7 @@ void AMarioFire::MoveUpdate(float _DeltaTime)
 	Color8Bit ColorX = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX() + static_cast<int>(CheckPos), GetActorLocation().iY() - 10, Color8Bit::MagentaA);
 	if (ColorX == Color8Bit(255, 0, 255, 0))
 	{
+		IsDestroySound = true;
 		SetIsDestroy(true);
 	}
 
@@ -111,6 +139,11 @@ void AMarioFire::SetIsDestroy(bool _IsDestroy)
 
 void AMarioFire::DestroyStart(float _DeltaTime)
 {
+	if (true == IsDestroySound)
+	{
+		SoundPlayer = UEngineSound::SoundPlay("MarioFireBlock.wav");
+		IsDestroySound = false;
+	}
 	FireRenderer->ActiveOff();
 	BombRenderer->ActiveOn();
 

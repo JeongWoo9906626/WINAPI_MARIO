@@ -1,5 +1,6 @@
 #pragma once
 #include <EngineCore/Actor.h>
+#include <EnginePlatform/EngineSound.h>
 #include "ContentsHelper.h"
 
 class AMarioFire : public AActor
@@ -25,6 +26,7 @@ protected:
 	void CheckWindowPosition();
 
 private:
+	UEngineSoundPlayer SoundPlayer;
 	UImageRenderer* FireRenderer = nullptr;
 	UImageRenderer* BombRenderer = nullptr;
 	UCollision* Collision = nullptr;
@@ -32,14 +34,18 @@ private:
 	EActorDir Dir = EActorDir::Right;
 
 	bool IsDestroy = false;
+	bool IsDestroySound = false;
 
 	float CurDestroyTime = 0.0f;
 	float DestroyTime = 0.3f;
 
-	float MoveSpeed = 600.0f;
+	float NoramlDestoryTime = 1.0f;
+	float CurNormalDestoryTime = 0.0f;
+
+	float MoveSpeed = 1000.0f;
 	float CurJumpPower = 0.0f;
 	float JumpPower = -400.0f;
-	float GravityAcc = 800.0f;
+	float GravityAcc = 2000.0f;
 
 };
 
