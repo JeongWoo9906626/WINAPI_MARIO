@@ -14,7 +14,7 @@ void AGate::BeginPlay()
 {
 	AActor::BeginPlay();
 
-	Collision = CreateCollision(ECollisionOrder::HiddenCoin);
+	Collision = CreateCollision(ECollisionOrder::Gate);
 	Collision->SetColType(ECollisionType::Rect);
 	Collision->SetPosition({ 0, -30 });
 	Collision->SetScale({ 65, 70 });
@@ -62,6 +62,12 @@ void AGate::TimeToScore(float _DeltaTime)
 
 void AGate::StageChange()
 {
+	UContentsHelper::Time = 1300;
+	UContentsHelper::SubStage = 4;
+	UContentsHelper::KoopaWake = false;
+	UContentsHelper::KoopaIsFire = false;
+	UContentsHelper::KoopaDie = false;
+	UContentsHelper::MapName = "FinalStage";
 	GEngine->ChangeLevel("Loading");
 	return;
 }
