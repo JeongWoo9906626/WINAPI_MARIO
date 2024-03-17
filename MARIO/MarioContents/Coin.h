@@ -1,5 +1,7 @@
 #pragma once
 #include <EngineCore/Actor.h>
+#include <EnginePlatform/EngineSound.h>
+
 #include "ContentsHelper.h"
 
 class ABrick;
@@ -28,6 +30,7 @@ protected:
 	void CoinSpawn(float _DeltaTime);
 	void CoinDestroy(float _DeltaTime);
 private:
+	UEngineSoundPlayer SoundPlayer;
 	UImageRenderer* Renderer = nullptr;
 
 	ECoinState State = ECoinState::None;

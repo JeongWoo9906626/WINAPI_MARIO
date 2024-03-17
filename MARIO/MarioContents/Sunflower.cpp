@@ -14,6 +14,8 @@ void ASunflower::BeginPlay()
 {
 	AActor::BeginPlay();
 
+	SoundPlayer = UEngineSound::SoundPlay("MushRoomAndSunflower.wav");
+
 	{
 		Renderer = CreateImageRenderer(ERenderOrder::Monster);
 		Renderer->SetImage("MarioItem.png");

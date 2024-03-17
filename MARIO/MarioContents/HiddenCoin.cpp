@@ -33,6 +33,7 @@ void AHiddenCoin::Tick(float _DeltaTime)
 	std::vector<UCollision*> MarioResult;
 	if (true == Collision->CollisionCheck(ECollisionOrder::Player, MarioResult))
 	{
+		SoundPlayer = UEngineSound::SoundPlay("CoinDestroy.wav");
 		UContentsHelper::CoinCount++;
 		UContentsHelper::Score += 100;
 		Destroy();

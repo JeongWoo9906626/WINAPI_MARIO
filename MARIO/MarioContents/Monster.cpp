@@ -49,15 +49,11 @@ void AMonster::Tick(float _DeltaTime)
 		UCollision* MarioFireCollision = MarioFireResult[0];
 		AMarioFire* MarioFire = static_cast<AMarioFire*>(MarioFireCollision->GetOwner());
 		MarioFire->SetIsDestroy(true);
-
+		HitCount--;
 		if (0 == HitCount)
 		{
 			StateChange(EMonsterState::SpinDead);
 			return;
-		}
-		else
-		{
-			HitCount--;
 		}
 	}
 
@@ -197,6 +193,7 @@ void AMonster::MoveStart()
 
 void AMonster::SpinDeadStart()
 {
+	SoundPlayer = UEngineSound::SoundPlay("SpinDead.wav");
 	Collision->ActiveOff();
 	if (nullptr != HeadCollision)
 	{

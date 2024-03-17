@@ -1,5 +1,7 @@
 #pragma once
 #include <EngineCore/Actor.h>
+#include <EnginePlatform/EngineSound.h>
+
 #include "ContentsHelper.h"
 #include "ScoreUI.h"
 
@@ -37,7 +39,8 @@ protected:
 	void Tick(float _DeltaTime) override;
 
 	ScoreUI* Score = nullptr;
-
+	
+	UEngineSoundPlayer SoundPlayer;
 	UImageRenderer* Renderer = nullptr;
 	UCollision* Collision = nullptr;
 	UCollision* HeadCollision = nullptr;
@@ -57,7 +60,7 @@ protected:
 
 	float CurGravityAcc = 0.0f;
 	float GravityAcc = 500.0f;
-	float MoveSpeed = 100.0f;
+	float MoveSpeed = 70.0f;
 	float SpinDieGravityAcc = 500.0f;
 	float SpinDieJump = -300.0f;
 

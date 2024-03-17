@@ -1,5 +1,7 @@
 #pragma once
 #include <EngineCore/Actor.h>
+#include <EnginePlatform/EngineSound.h>
+
 #include "ContentsHelper.h"
 
 class ABreakBrick : public AActor
@@ -28,11 +30,8 @@ protected:
 	void Break(float _DeltaTime);
 
 private:
+	UEngineSoundPlayer SoundPlayer;
 	UImageRenderer* Renderer = nullptr;
-	/*UImageRenderer* LeftTop = nullptr;
-	UImageRenderer* LeftBottom = nullptr;
-	UImageRenderer* RightTop = nullptr;
-	UImageRenderer* RightBottom = nullptr;*/
 
 	UCollision* TopCollision = nullptr;
 	UCollision* BottomCollision = nullptr;

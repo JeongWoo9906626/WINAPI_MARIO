@@ -141,7 +141,7 @@ void AMarioFire::DestroyStart(float _DeltaTime)
 {
 	if (true == IsDestroySound)
 	{
-		SoundPlayer = UEngineSound::SoundPlay("MarioFireBlock.wav");
+		SoundPlayer = UEngineSound::SoundPlay("MarioFireAndBrickBlock.wav");
 		IsDestroySound = false;
 	}
 	FireRenderer->ActiveOff();

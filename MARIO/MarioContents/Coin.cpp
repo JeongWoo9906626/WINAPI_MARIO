@@ -73,6 +73,7 @@ void ACoin::CoinSpawnStart()
 
 void ACoin::CoinDestroyStart()
 {
+	SoundPlayer = UEngineSound::SoundPlay("CoinDestroy.wav");
 	Renderer->SetActive(false);
 	ScoreUI* Score = GetWorld()->SpawnActor<ScoreUI>(ERenderOrder::UI);
 	FVector MonsterLocation = GetActorLocation();

@@ -155,12 +155,14 @@ void ABreakBrick::IdleStart()
 
 void ABreakBrick::HitStart()
 {
+	SoundPlayer = UEngineSound::SoundPlay("MarioFireAndBrickBlock.wav");
 	FirstPos = GetActorLocation();
 	Renderer->ChangeAnimation("BrickHit");
 }
 
 void ABreakBrick::BreakStart()
 {
+	SoundPlayer = UEngineSound::SoundPlay("BrickBreak.wav");
 	Renderer->ActiveOff();
 
 	TopCollision->ActiveOff();

@@ -1,5 +1,7 @@
 #pragma once
 #include <EngineCore/Actor.h>
+#include <EnginePlatform/EngineSound.h>
+
 #include "ContentsHelper.h"
 
 class AMushroom : public AActor
@@ -33,6 +35,7 @@ protected:
 	void CheckWindowPosition();
 
 private:
+	UEngineSoundPlayer SoundPlayer;
 	UImageRenderer* Renderer = nullptr;
 	UCollision* BodyCollision = nullptr;
 	UCollision* BottomCollision = nullptr;
