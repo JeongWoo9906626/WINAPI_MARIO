@@ -53,10 +53,16 @@ void AGate::TimeToScore(float _DeltaTime)
 	if (Time >= 1.0f && UContentsHelper::Time >= 1000)
 	{
 		Time = 0.0f;
+		if (CurScoreUpSoundTime >= ScoreUpSoundTime)
+		{
+			CurScoreUpSoundTime = 0.0f;
+			SoundPlayer = UEngineSound::SoundPlay("CoinDestroy.wav");
+		}
 		UContentsHelper::Time--;
 		UContentsHelper::Score += 100;
 	}
 	Time += _DeltaTime * 100;
+	CurScoreUpSoundTime += _DeltaTime;
 }
 
 
