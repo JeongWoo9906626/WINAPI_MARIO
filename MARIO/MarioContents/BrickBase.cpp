@@ -25,12 +25,25 @@ void ABrickBase::Tick(float _DeltaTime)
 
 		if (EBoxState::Idle == State)
 		{
-			MarioState = Player->SizeState;
+			MarioSizeState = Player->SizeState;
 			Player->JumpVector = FVector::Zero;
-			//Player->AddActorLocation(FVector::Down * 10);
 			StateChange(EBoxState::Hit);
 			return;
 		}
+		if (EBoxState::Block == State)
+		{
+			if (false == IsBlockSound)
+			{
+				IsBlockSound = true;
+				SoundPlayer = UEngineSound::SoundPlay("MarioFireAndBrickBlock.wav");
+			}
+			Player->JumpVector = FVector::Zero;
+			return;
+		}
+	}
+	else
+	{
+		IsBlockSound = false;
 	}
 
 	std::vector<UCollision*> LeftResult;

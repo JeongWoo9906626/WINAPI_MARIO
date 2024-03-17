@@ -1,8 +1,9 @@
 #pragma once
-#include <EngineCore/Actor.h>
-#include "ContentsHelper.h"
 
-class ABrick : public AActor
+#include "ContentsHelper.h"
+#include "BrickBase.h"
+
+class ABrick : public ABrickBase
 {
 public:
 	ABrick();
@@ -12,38 +13,23 @@ public:
 	ABrick(ABrick&& _Other) noexcept = delete;
 	ABrick& operator=(const ABrick& _Other) = delete;
 	ABrick& operator=(ABrick&& _Other) noexcept = delete;
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-	void SetHitCount(int _HitCount);
+	void StateChange(EBoxState _State) override;
+	void StateUpdate(float _DeltaTime) override;
 
-	void StateChange(EBoxState _State);
-	void StateUpdate(float _DeltaTime);
+	void IdleStart() override;
+	void HitStart() override;
+	void BreakStart() override;
 
-	void IdleStart();
-	void HitStart();
-	void BlockStart();
-
-	void Idle(float _DeltaTime);
-	void Hit(float _DeltaTime);
-	void Block(float _DeltaTime);
+	void Idle(float _DeltaTime) override;
+	void Hit(float _DeltaTime) override;
 
 private:
-	UImageRenderer* Renderer = nullptr;
-	UCollision* TopCollision = nullptr;
-	UCollision* BottomCollision = nullptr;
-	UCollision* LeftCollision = nullptr;
-	UCollision* RightCollision = nullptr;
+	int HitCount = 5;
 
-	EBoxState State = EBoxState::None;
-
-	int HitCount = 10;
-	bool IsBreak = false;
-	float MaxHitUpSize = 30.0f;
-	float HitUpSpeed = 300.0f;
-	FVector FirstPos = FVector::Zero;
-	FVector MoveUpPos = FVector::Zero;
-	FVector MoveDownPos = FVector::Zero;
 };
 

@@ -30,7 +30,6 @@ protected:
 	virtual void Hit(float _DeltaTime);
 	virtual void Break(float _DeltaTime);
 
-private:
 	UEngineSoundPlayer SoundPlayer;
 	UImageRenderer* Renderer = nullptr;
 
@@ -40,14 +39,18 @@ private:
 	UCollision* RightCollision = nullptr;
 
 	EBoxState State = EBoxState::None;
-	EMarioSizeState MarioState = EMarioSizeState::None;
+	EMarioSizeState MarioSizeState = EMarioSizeState::None;
 
 	int HitCount = 10;
 	bool IsBreak = false;
+	bool IsBlockSound = false;
 	float MaxHitUpSize = 30.0f;
 	float HitUpSpeed = 300.0f;
 	FVector FirstPos = FVector::Zero;
 	FVector MoveUpPos = FVector::Zero;
 	FVector MoveDownPos = FVector::Zero;
+
+private:
+
 };
 

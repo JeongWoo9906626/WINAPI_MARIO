@@ -27,7 +27,7 @@ ABreakBrick::~ABreakBrick()
 
 void ABreakBrick::BeginPlay()
 {
-	AActor::BeginPlay();
+	ABrickBase::BeginPlay();
 
 	Renderer = CreateImageRenderer(ERenderOrder::Brick);
 	Renderer->SetImage("OpenWorldBrick.png");
@@ -62,106 +62,39 @@ void ABreakBrick::BeginPlay()
 
 void ABreakBrick::Tick(float _DeltaTime)
 {
-	AActor::Tick(_DeltaTime);
-
-	std::vector<UCollision*> BottomResult;
-	if (true == BottomCollision->CollisionCheck(ECollisionOrder::PlayerHead, BottomResult))
-	{
-		UCollision* MarioPosition = BottomResult[0];
-		AMario* Player = static_cast<AMario*>(MarioPosition->GetOwner());
-		MarioState = Player->SizeState;
-
-		if (EBoxState::Idle == State)
-		{
-			Player->JumpVector = FVector::Zero;
-			Player->AddActorLocation(FVector::Down * 10);
-  			StateChange(EBoxState::Hit);
-			return;
-		}
-	}
-
-	std::vector<UCollision*> LeftResult;
-	if (true == LeftCollision->CollisionCheck(ECollisionOrder::Player, LeftResult))
-	{
-		UCollision* MarioPosition = LeftResult[0];
-		AMario* Player = static_cast<AMario*>(MarioPosition->GetOwner());
-
-		Player->MoveVector.X = 0.0f;
-		Player->AddActorLocation(FVector::Left);
-		return;
-	}
-
-	std::vector<UCollision*> RightResult;
-	if (true == RightCollision->CollisionCheck(ECollisionOrder::Player, RightResult))
-	{
-		UCollision* MarioPosition = RightResult[0];
-		AMario* Player = static_cast<AMario*>(MarioPosition->GetOwner());
-
-		Player->MoveVector.X = 0.0f;
-		Player->AddActorLocation(FVector::Right);
-		return;
-	}
+	ABrickBase::Tick(_DeltaTime);
 
 	StateUpdate(_DeltaTime);
 }
 
 void ABreakBrick::StateChange(EBoxState _State)
 {
-	if (State != _State)
-	{
-		switch (_State)
-		{
-		case EBoxState::Idle:
-			IdleStart();
-			break;
-		case EBoxState::Hit:
-			HitStart();
-			break;
-		case EBoxState::Break:
-			BreakStart();
-			break;
-		default:
-			break;
-		}
-	}
-
-	State = _State;
+	ABrickBase::StateChange(_State);
 }
 
 void ABreakBrick::StateUpdate(float _DeltaTime)
 {
-	switch (State)
-	{
-	case EBoxState::Idle:
-		Idle(_DeltaTime);
-		break;
-	case EBoxState::Hit:
-		Hit(_DeltaTime);
-		break;
-	case EBoxState::Break:
-		Break(_DeltaTime);
-		break;
-	default:
-		break;
-	}
+	ABrickBase::StateUpdate(_DeltaTime);
 }
 
 void ABreakBrick::IdleStart()
 {
-	MoveUpPos = FVector::Zero;
-	MoveDownPos = FVector::Zero;
+	ABrickBase::IdleStart();
+
 	Renderer->ChangeAnimation("BrickIdle");
 }
 
 void ABreakBrick::HitStart()
 {
-	SoundPlayer = UEngineSound::SoundPlay("MarioFireAndBrickBlock.wav");
-	FirstPos = GetActorLocation();
+	ABrickBase::HitStart();
+
 	Renderer->ChangeAnimation("BrickHit");
 }
 
 void ABreakBrick::BreakStart()
 {
+	ABrickBase::BreakStart();
+
 	SoundPlayer = UEngineSound::SoundPlay("BrickBreak.wav");
 	Renderer->ActiveOff();
 
@@ -173,38 +106,23 @@ void ABreakBrick::BreakStart()
 
 void ABreakBrick::Idle(float _DeltaTime)
 {
+	ABrickBase::Idle(_DeltaTime);
 }
 
 void ABreakBrick::Hit(float _DeltaTime)
 {
-	if (EMarioSizeState::Small != MarioState)
+	ABrickBase::Hit(_DeltaTime);
+
+	if (EMarioSizeState::Small != MarioSizeState)
 	{
 		StateChange(EBoxState::Break);
 		return;
-	}
-
-	if (abs(MoveUpPos.Y) >= MaxHitUpSize)
-	{
-		if (abs(MoveDownPos.Y) >= MaxHitUpSize)
-		{
-			SetActorLocation(FirstPos);
-			StateChange(EBoxState::Idle);
-			return;
-		}
-		else
-		{
-			MoveDownPos += FVector::Down * HitUpSpeed * _DeltaTime;
-			AddActorLocation(FVector::Down * HitUpSpeed * _DeltaTime);
-		}
-	}
-	else
-	{
-		MoveUpPos += FVector::Up * HitUpSpeed * _DeltaTime;
-		AddActorLocation(FVector::Up * HitUpSpeed * _DeltaTime);
 	}
 }
 
 void ABreakBrick::Break(float _DeltaTime)
 {
+	ABrickBase::Break(_DeltaTime);
+
 	Destroy();
 }

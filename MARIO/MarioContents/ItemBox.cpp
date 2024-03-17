@@ -13,7 +13,7 @@ AItemBox::~AItemBox()
 
 void AItemBox::BeginPlay()
 {
-	AActor::BeginPlay();
+	ABrickBase::BeginPlay();
 
 	Renderer = CreateImageRenderer(ERenderOrder::Brick);
 	Renderer->SetImage("OpenWorldBox.png");
@@ -49,112 +49,45 @@ void AItemBox::BeginPlay()
 
 void AItemBox::Tick(float _DeltaTime)
 {
-	AActor::Tick(_DeltaTime);
-
-	std::vector<UCollision*> BottomResult;
-	if (true == BottomCollision->CollisionCheck(ECollisionOrder::PlayerHead, BottomResult))
-	{
-		UCollision* MarioPosition = BottomResult[0];
-		AMario* Player = static_cast<AMario*>(MarioPosition->GetOwner());
-
-		if (EBoxState::Idle == State)
-		{
-			MarioSizeState = Player->SizeState;
-			Player->JumpVector = FVector::Zero;
-			StateChange(EBoxState::Hit);
-			return;
-		}
-		if (EBoxState::Block == State)
-		{
-			Player->JumpVector = FVector::Zero;
-			return;
-		}
-	}
-
-	std::vector<UCollision*> LeftResult;
-	if (true == LeftCollision->CollisionCheck(ECollisionOrder::Player, LeftResult))
-	{
-		UCollision* MarioPosition = LeftResult[0];
-		AMario* Player = static_cast<AMario*>(MarioPosition->GetOwner());
-
-		Player->MoveVector.X = 0.0f;
-		Player->AddActorLocation(FVector::Left);
-		return;
-	}
-
-	std::vector<UCollision*> RightResult;
-	if (true == RightCollision->CollisionCheck(ECollisionOrder::Player, RightResult))
-	{
-		UCollision* MarioPosition = RightResult[0];
-		AMario* Player = static_cast<AMario*>(MarioPosition->GetOwner());
-
-		Player->MoveVector.X = 0.0f;
-		Player->AddActorLocation(FVector::Right);
-		return;
-	}
+	ABrickBase::Tick(_DeltaTime);
 
 	StateUpdate(_DeltaTime);
 }
 
 void AItemBox::StateChange(EBoxState _State)
 {
-	if (State != _State)
-	{
-		switch (_State)
-		{
-		case EBoxState::Idle:
-			IdleStart();
-			break;
-		case EBoxState::Hit:
-			HitStart();
-			break;
-		case EBoxState::Block:
-			BlockStart();
-			break;
-		default:
-			break;
-		}
-	}
-
-	State = _State;
+	ABrickBase::StateChange(_State);
 }
 
 void AItemBox::StateUpdate(float _DeltaTime)
 {
-	switch (State)
-	{
-	case EBoxState::Idle:
-		Idle(_DeltaTime);
-		break;
-	case EBoxState::Hit:
-		Hit(_DeltaTime);
-		break;
-	case EBoxState::Block:
-		Block(_DeltaTime);
-		break;
-	default:
-		break;
-	}
+	ABrickBase::StateUpdate(_DeltaTime);
 }
 
 void AItemBox::IdleStart()
 {
+	ABrickBase::IdleStart();
+
 	Renderer->ChangeAnimation("BrickIdle");
 }
 
 void AItemBox::HitStart()
 {	
-	FirstPos = GetActorLocation();
+	ABrickBase::HitStart();
+
 	Renderer->ChangeAnimation("BrickHit");
 }
 
-void AItemBox::BlockStart()
+void AItemBox::BreakStart()
 {
+	ABrickBase::BreakStart();
+
 	Renderer->ChangeAnimation("BrickBlock");
 }
 
 void AItemBox::Idle(float _DeltaTime)
 {
+	ABrickBase::Idle(_DeltaTime);
 }
 
 void AItemBox::Hit(float _DeltaTime)
@@ -191,8 +124,6 @@ void AItemBox::Hit(float _DeltaTime)
 			}
 			case EMarioSizeState::Star:
 				break;
-			default:
-				break;
 			}
 
 			SetActorLocation(FirstPos);
@@ -211,8 +142,3 @@ void AItemBox::Hit(float _DeltaTime)
 		AddActorLocation(FVector::Up * HitUpSpeed * _DeltaTime);
 	}
 }
-
-void AItemBox::Block(float _DeltaTime)
-{
-}
-

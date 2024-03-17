@@ -1,10 +1,8 @@
 #pragma once
-#include <EngineCore/Actor.h>
-#include <EnginePlatform/EngineSound.h>
-
+#include "BrickBase.h"
 #include "ContentsHelper.h"
 
-class ABreakBrick : public AActor
+class ABreakBrick : public ABrickBase
 {
 public:
 	ABreakBrick();
@@ -18,34 +16,17 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-	void StateChange(EBoxState _State);
-	void StateUpdate(float _DeltaTime);
+	void StateChange(EBoxState _State) override;
+	void StateUpdate(float _DeltaTime) override;
 
-	void IdleStart();
-	void HitStart();
-	void BreakStart();
+	void IdleStart() override;
+	void HitStart() override;
+	void BreakStart() override;
 
-	void Idle(float _DeltaTime);
-	void Hit(float _DeltaTime);
-	void Break(float _DeltaTime);
+	void Idle(float _DeltaTime) override;
+	void Hit(float _DeltaTime) override;
+	void Break(float _DeltaTime) override;
 
 private:
-	UEngineSoundPlayer SoundPlayer;
-	UImageRenderer* Renderer = nullptr;
 
-	UCollision* TopCollision = nullptr;
-	UCollision* BottomCollision = nullptr;
-	UCollision* LeftCollision = nullptr;
-	UCollision* RightCollision = nullptr;
-
-	EBoxState State = EBoxState::None;
-	EMarioSizeState MarioState = EMarioSizeState::None;
-
-	int HitCount = 10;
-	bool IsBreak = false;
-	float MaxHitUpSize = 30.0f;
-	float HitUpSpeed = 300.0f;
-	FVector FirstPos = FVector::Zero;
-	FVector MoveUpPos = FVector::Zero;
-	FVector MoveDownPos = FVector::Zero;
 };

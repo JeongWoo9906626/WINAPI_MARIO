@@ -1,8 +1,8 @@
 #pragma once
-#include <EngineCore/Actor.h>
+#include "BrickBase.h"
 #include "ContentsHelper.h"
 
-class AItemBox : public AActor
+class AItemBox : public ABrickBase
 {
 public:
 	AItemBox();
@@ -17,31 +17,17 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-	void StateChange(EBoxState _State);
-	void StateUpdate(float _DeltaTime);
+	void StateChange(EBoxState _State) override;
+	void StateUpdate(float _DeltaTime) override;
 
-	void IdleStart();
-	void HitStart();
-	void BlockStart();
+	void IdleStart() override;
+	void HitStart() override;
+	void BreakStart() override;
 
-	void Idle(float _DeltaTime);
-	void Hit(float _DeltaTime);
-	void Block(float _DeltaTime);
+	void Idle(float _DeltaTime) override;
+	void Hit(float _DeltaTime) override;
 
 private:
-	UImageRenderer* Renderer = nullptr;
-	UCollision* TopCollision = nullptr;
-	UCollision* BottomCollision = nullptr;
-	UCollision* LeftCollision = nullptr;
-	UCollision* RightCollision = nullptr;
 
-	EBoxState State = EBoxState::None;
-	EMarioSizeState MarioSizeState = EMarioSizeState::None;
-
-	float MaxHitUpSize = 30.0f;
-	float HitUpSpeed = 300.0f;
-	FVector FirstPos = FVector::Zero;
-	FVector MoveUpPos = FVector::Zero;
-	FVector MoveDownPos = FVector::Zero;
 };
 
