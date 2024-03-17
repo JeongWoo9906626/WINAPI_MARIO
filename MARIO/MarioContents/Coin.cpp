@@ -65,6 +65,7 @@ void ACoin::StateUpdate(float _DeltaTime)
 
 void ACoin::CoinSpawnStart()
 {
+	SoundPlayer = UEngineSound::SoundPlay("CoinDestroy.wav");
 	FirstPos = GetActorLocation();
 	AddActorLocation({ 0.0f, -60.0f });
 	Renderer->ChangeAnimation("CoinSpawn");
@@ -73,7 +74,6 @@ void ACoin::CoinSpawnStart()
 
 void ACoin::CoinDestroyStart()
 {
-	SoundPlayer = UEngineSound::SoundPlay("CoinDestroy.wav");
 	Renderer->SetActive(false);
 	ScoreUI* Score = GetWorld()->SpawnActor<ScoreUI>(ERenderOrder::UI);
 	FVector MonsterLocation = GetActorLocation();
