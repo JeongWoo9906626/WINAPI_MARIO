@@ -132,11 +132,11 @@ private:
 
 	float CurMaxSpeed = 0.0f;
 	float MaxMoveSpeed = 400.0f;
-	float MaxRunSpeed = 800.0f;
+	float MaxRunSpeed = 600.0f;
 
 	float CurBreakSpeed = 0.0f;
 	float BreakSpeed = 600.0f;
-	float RunBreakSpeed = 1000.0f;
+	float RunBreakSpeed = 800.0f;
 
 	float FinsihWalkSpeed = 100.0f;
 	float FinishDownSpeed = 300.0f;
@@ -183,5 +183,8 @@ private:
 	void DieCheck();
 	void GroundUp();
 	void WallUp();
+
+	int CurDirSpeed = 0;
+	int PrevDirSpeed = 0;
 };
 

@@ -223,14 +223,14 @@ void AMario::Tick(float _DeltaTime)
 		CurMaxSpeed = MaxRunSpeed;
 		CurJumpPower = RunJumpPower;
 		CurBreakSpeed = RunBreakSpeed;
-		if 
+		if
 			(
-				(EPlayState::Idle == State || 
-				EPlayState::Move == State ||
-				EPlayState::Jump == State) && 
-				EMarioSizeState::Red == SizeState && 
+				(EPlayState::Idle == State ||
+					EPlayState::Move == State ||
+					EPlayState::Jump == State) &&
+				EMarioSizeState::Red == SizeState &&
 				UContentsHelper::MarioFireCount < 2
-			)
+				)
 		{
 			AMarioFire* MarioFire = GetWorld()->SpawnActor<AMarioFire>(ERenderOrder::Fire);
 			MarioFire->SetActorLocation({ GetActorLocation().X, GetActorLocation().Y - 80 });
@@ -483,15 +483,6 @@ void AMario::StateUpdate(float _DeltaTime)
 
 void AMario::DirCheck()
 {
-	if (true == UEngineInput::IsFree(VK_RIGHT) && true == UEngineInput::IsFree(VK_LEFT))
-	{
-		DirState;
-		return;
-	}
-	if (true == UEngineInput::IsPress(VK_RIGHT) && true == UEngineInput::IsPress(VK_LEFT))
-	{
-		return;
-	}
 	if (
 		true == UEngineInput::IsPress(VK_RIGHT) && true == UEngineInput::IsUp(VK_LEFT) ||
 		true == UEngineInput::IsPress(VK_RIGHT) && true == UEngineInput::IsFree(VK_LEFT)
@@ -680,7 +671,7 @@ void AMario::DieStart()
 	UContentsHelper::IsStageSoundOff = true;
 
 	SoundPlayer = UEngineSound::SoundPlay("MarioDie.wav");
-	
+
 	GetWorld()->SetTimeScale(ERenderOrder::Monster, 0.0f);
 	GetWorld()->SetTimeScale(ERenderOrder::UI, 0.0f);
 
@@ -873,7 +864,7 @@ void AMario::BossFinishWalkStart()
 {
 	UContentsHelper::IsStageSoundOff = true;
 	SoundPlayer = UEngineSound::SoundPlay("FinalStageClear.wav");
-	
+
 	DirState = EActorDir::Right;
 	BodyCollision->SetActive(true);
 	Renderer->ChangeAnimation(GetAnimationName("Move"));
@@ -1012,6 +1003,38 @@ void AMario::Move(float _DeltaTime)
 {
 	GroundUp();
 
+	if (CurDirSpeed == 1)
+	{
+		DirState = EActorDir::Right;
+	}
+	else if (CurDirSpeed == -1)
+	{
+		DirState = EActorDir::Left;
+	}
+	else
+	{
+		DirCheck();
+	}
+
+	if (PrevDirSpeed != CurDirSpeed)
+	{
+		Renderer->ChangeAnimation(GetAnimationName("Move"));
+		PrevDirSpeed = CurDirSpeed;
+	}
+
+	if (MoveVector.X > 30.0f)
+	{
+		CurDirSpeed = 1;
+	}
+	else if (MoveVector.X < -30.0f) {
+		CurDirSpeed = -1;
+	}
+	else {
+		CurDirSpeed = 0;
+	}
+
+
+
 	if (abs(MoveVector.X) > 410.0f)
 	{
 		Renderer->ChangeAnimation(GetAnimationName("MoveFast"));
@@ -1038,30 +1061,23 @@ void AMario::Move(float _DeltaTime)
 		(true == UEngineInput::IsPress(VK_RIGHT) && true == UEngineInput::IsPress(VK_LEFT))
 		)
 	{
-		FVector MoveDirVector = FVector::Zero;
-		switch (DirState)
+		if (CurDirSpeed == 1)
 		{
-		case EActorDir::Left:
-			MoveDirVector = FVector::Right;
-			break;
-		case EActorDir::Right:
-			MoveDirVector = FVector::Left;
-			break;
+			MoveVector += FVector::Left * _DeltaTime * 400;
 		}
-
-		if (abs(MoveVector.X) > 5.0f)
+		else if (CurDirSpeed == -1)
 		{
-			MoveVector += MoveDirVector * CurBreakSpeed * _DeltaTime;
-			MoveUpdate(_DeltaTime);
-			return;
+			MoveVector += FVector::Right * _DeltaTime * 400;
 		}
 		else
 		{
-			MoveVector = FVector::Zero;
 			StateChange(EPlayState::Idle);
-			return;
 		}
+
+		MoveUpdate(_DeltaTime);
+		return;
 	}
+
 
 	if (true == UEngineInput::IsPress(VK_RIGHT))
 	{
@@ -1246,6 +1262,19 @@ void AMario::CrouchMove(float _DeltaTime)
 
 void AMario::Reverse(float _DeltaTime)
 {
+	if (MoveVector.X > 30.0f)
+	{
+		CurDirSpeed = 1;
+	}
+	else if (MoveVector.X < -30.0f)
+	{
+		CurDirSpeed = -1;
+	}
+	else
+	{
+		CurDirSpeed = 0;
+	}
+
 	FVector MoveDirVector = FVector::Zero;
 
 	if (true == UEngineInput::IsDown(VK_SPACE) && GravityVector.Y == 0.0f)
@@ -1278,377 +1307,382 @@ void AMario::Reverse(float _DeltaTime)
 	}
 	}
 
-	if (abs(MoveVector.X) < 5.0f)
+	if (CurDirSpeed == 1 && DirState == EActorDir::Left)
 	{
-		MoveVector.X = 0.0f;
-		StateChange(EPlayState::Idle);
+		MoveVector += FVector::Left * _DeltaTime * CurBreakSpeed;
+		MoveUpdate(_DeltaTime);
+		return;
+	}
+	else if (CurDirSpeed == -1 && DirState == EActorDir::Right)
+	{
+		MoveVector += FVector::Right * _DeltaTime * CurBreakSpeed;
+		MoveUpdate(_DeltaTime);
 		return;
 	}
 	else
 	{
-		MoveVector += MoveDirVector * CurBreakSpeed * _DeltaTime;
+		StateChange(EPlayState::Move);
+		return;
+	}
 	}
 
-	MoveUpdate(_DeltaTime);
-}
-
-void AMario::Kill(float _DeltaTime)
-{
-	MoveUpdate(_DeltaTime);
-	State = EPlayState::Jump;
-	return;
-}
-
-void AMario::Die(float _DeltaTime)
-{
-	AddActorLocation(JumpVector * (_DeltaTime));
-	JumpVector += FVector::Down * CurGravityAcc * _DeltaTime;
-
-	if (CurLevelChangeTime >= LevelChangeTime)
+	void AMario::Kill(float _DeltaTime)
 	{
-		CurLevelChangeTime = 0.0f;
-		if (0 == UContentsHelper::MarioLife)
+		MoveUpdate(_DeltaTime);
+		State = EPlayState::Jump;
+		return;
+	}
+
+	void AMario::Die(float _DeltaTime)
+	{
+		AddActorLocation(JumpVector * (_DeltaTime));
+		JumpVector += FVector::Down * CurGravityAcc * _DeltaTime;
+
+		if (CurLevelChangeTime >= LevelChangeTime)
 		{
-			UContentsHelper::MapName = "GameOver";
-			if (UContentsHelper::HighScore <= UContentsHelper::Score)
+			CurLevelChangeTime = 0.0f;
+			if (0 == UContentsHelper::MarioLife)
 			{
-				UContentsHelper::HighScore = UContentsHelper::Score;
+				UContentsHelper::MapName = "GameOver";
+				if (UContentsHelper::HighScore <= UContentsHelper::Score)
+				{
+					UContentsHelper::HighScore = UContentsHelper::Score;
+				}
+				GEngine->ChangeLevel("Loading");
+				return;
 			}
+
+			if (UContentsHelper::MapName._Equal("FinalStage"))
+			{
+				UContentsHelper::KoopaWake = false;
+				UContentsHelper::KoopaIsFire = false;
+			}
+
 			GEngine->ChangeLevel("Loading");
 			return;
 		}
-
-		if (UContentsHelper::MapName._Equal("FinalStage"))
+		else
 		{
-			UContentsHelper::KoopaWake = false;
-			UContentsHelper::KoopaIsFire = false;
+			CurLevelChangeTime += _DeltaTime;
 		}
+	}
 
-		GEngine->ChangeLevel("Loading");
-		return;
-	}
-	else
+	void AMario::GrowUp(float _DeltaTime)
 	{
-		CurLevelChangeTime += _DeltaTime;
-	}
-}
-
-void AMario::GrowUp(float _DeltaTime)
-{
-	if (CurChangeTime > ChangeTime)
-	{
-		GetWorld()->SetOtherTimeScale(ERenderOrder::Player, 1);
-		JumpVector = FVector::Zero;
-		GravityVector = FVector::Zero;
-		CurChangeTime = 0.0f;
-		StateChange(EPlayState::Idle);
-		return;
-	}
-	CurChangeTime += _DeltaTime;
-}
-
-void AMario::GrowDown(float _DeltaTime)
-{
-	if (CurChangeTime > ChangeTime)
-	{
-		GetWorld()->SetOtherTimeScale(ERenderOrder::Player, 1);
-		JumpVector = FVector::Zero;
-		GravityVector = FVector::Zero;
-		CurChangeTime = 0.0f;
-		IsChange = true;
-		StateChange(EPlayState::Idle);
-		return;
-	}
-	CurChangeTime += _DeltaTime;
-}
-
-void AMario::ChangeRed(float _DeltaTime)
-{
-	if (CurChangeTime > ChangeTime)
-	{
-		GetWorld()->SetOtherTimeScale(ERenderOrder::Player, 1);
-		JumpVector = FVector::Zero;
-		GravityVector = FVector::Zero;
-		CurChangeTime = 0.0f;
-		StateChange(EPlayState::Idle);
-		return;
-	}
-	CurChangeTime += _DeltaTime;
-}
-
-void AMario::HiddenStageEnter(float _DeltaTime)
-{
-	float DownSpeed = 0.0f;
-	switch (SizeState)
-	{
-	case EMarioSizeState::Small:
-		DownSpeed = 32.0f;
-		break;
-	case EMarioSizeState::Big:
-	case EMarioSizeState::Red:
-		DownSpeed = 63.0f;
-		break;
-	}
-	if (CurPortalTime <= PortalTime)
-	{
-		AddActorLocation(FVector::Down * _DeltaTime * DownSpeed);
-		CurPortalTime += _DeltaTime;
-	}
-	else
-	{
-		if (CurScreenChangeTime <= ScreenChangeTime)
+		if (CurChangeTime > ChangeTime)
 		{
-			CurScreenChangeTime += _DeltaTime;
+			GetWorld()->SetOtherTimeScale(ERenderOrder::Player, 1);
+			JumpVector = FVector::Zero;
+			GravityVector = FVector::Zero;
+			CurChangeTime = 0.0f;
+			StateChange(EPlayState::Idle);
+			return;
+		}
+		CurChangeTime += _DeltaTime;
+	}
+
+	void AMario::GrowDown(float _DeltaTime)
+	{
+		if (CurChangeTime > ChangeTime)
+		{
+			GetWorld()->SetOtherTimeScale(ERenderOrder::Player, 1);
+			JumpVector = FVector::Zero;
+			GravityVector = FVector::Zero;
+			CurChangeTime = 0.0f;
+			IsChange = true;
+			StateChange(EPlayState::Idle);
+			return;
+		}
+		CurChangeTime += _DeltaTime;
+	}
+
+	void AMario::ChangeRed(float _DeltaTime)
+	{
+		if (CurChangeTime > ChangeTime)
+		{
+			GetWorld()->SetOtherTimeScale(ERenderOrder::Player, 1);
+			JumpVector = FVector::Zero;
+			GravityVector = FVector::Zero;
+			CurChangeTime = 0.0f;
+			StateChange(EPlayState::Idle);
+			return;
+		}
+		CurChangeTime += _DeltaTime;
+	}
+
+	void AMario::HiddenStageEnter(float _DeltaTime)
+	{
+		float DownSpeed = 0.0f;
+		switch (SizeState)
+		{
+		case EMarioSizeState::Small:
+			DownSpeed = 32.0f;
+			break;
+		case EMarioSizeState::Big:
+		case EMarioSizeState::Red:
+			DownSpeed = 63.0f;
+			break;
+		}
+		if (CurPortalTime <= PortalTime)
+		{
+			AddActorLocation(FVector::Down * _DeltaTime * DownSpeed);
+			CurPortalTime += _DeltaTime;
 		}
 		else
 		{
-			float YPos = GEngine->MainWindow.GetWindowScale().Y;
-			FVector ChangePos = { UContentsHelper::HiddenStageCameraPosX, YPos, 0.0f, 0.0f };
-			GetWorld()->SetCameraPos(ChangePos);
+			if (CurScreenChangeTime <= ScreenChangeTime)
+			{
+				CurScreenChangeTime += _DeltaTime;
+			}
+			else
+			{
+				float YPos = GEngine->MainWindow.GetWindowScale().Y;
+				FVector ChangePos = { UContentsHelper::HiddenStageCameraPosX, YPos, 0.0f, 0.0f };
+				GetWorld()->SetCameraPos(ChangePos);
 
-			SetActorLocation(UContentsHelper::HiddenStageSpawnPos);
+				SetActorLocation(UContentsHelper::HiddenStageSpawnPos);
+				StateChange(EPlayState::Idle);
+				return;
+			}
+		}
+	}
+
+	void AMario::HiddenStageOut(float _DeltaTime)
+	{
+		if (CurPortalTime <= PortalTime)
+		{
+			AddActorLocation(FVector::Right * _DeltaTime * 30.f);
+			CurPortalTime += _DeltaTime;
+		}
+		else
+		{
+			if (CurScreenChangeTime <= ScreenChangeTime)
+			{
+				CurScreenChangeTime += _DeltaTime;
+			}
+			else
+			{
+				FVector ChangePos = { UContentsHelper::HiddenStageOutCameraPosX, 0.0f, 0.0f, 0.0f };
+				GetWorld()->SetCameraPos(ChangePos);
+
+				SetActorLocation(UContentsHelper::HiddenStageOutSpawnPos);
+				StateChange(EPlayState::HiddenStageOutUp);
+				return;
+			}
+		}
+	}
+
+	void AMario::HiddenStageOutUp(float _DeltaTime)
+	{
+		if (CurPortalTime < PortalTime)
+		{
+			AddActorLocation(FVector::Up * _DeltaTime * 50.0f);
+			CurPortalTime += _DeltaTime;
+		}
+		else
+		{
+			GroundUp();
 			StateChange(EPlayState::Idle);
 			return;
 		}
 	}
-}
 
-void AMario::HiddenStageOut(float _DeltaTime)
-{
-	if (CurPortalTime <= PortalTime)
+	void AMario::FinishMove(float _DeltaTime)
 	{
-		AddActorLocation(FVector::Right * _DeltaTime * 30.f);
-		CurPortalTime += _DeltaTime;
-	}
-	else
-	{
-		if (CurScreenChangeTime <= ScreenChangeTime)
+		GroundUp();
+		std::string FinishMoveName = "";
+		switch (SizeState)
 		{
-			CurScreenChangeTime += _DeltaTime;
+		case EMarioSizeState::Small:
+			FinishMoveName = "_Small";
+			break;
+		case EMarioSizeState::Big:
+			FinishMoveName = "_Big";
+			break;
+		case EMarioSizeState::Red:
+			FinishMoveName = "_Fire";
+			break;
+		case EMarioSizeState::Star:
+			break;
+		}
+		Color8Bit Color = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
+		if (Color == Color8Bit(255, 0, 255, 0))
+		{
+			Renderer->ChangeAnimation("DownWait" + FinishMoveName);
+			if (true == UContentsHelper::IsFlagDown)
+			{
+				StateChange(EPlayState::FinishReverse);
+				return;
+			}
 		}
 		else
 		{
-			FVector ChangePos = { UContentsHelper::HiddenStageOutCameraPosX, 0.0f, 0.0f, 0.0f };
-			GetWorld()->SetCameraPos(ChangePos);
-
-			SetActorLocation(UContentsHelper::HiddenStageOutSpawnPos);
-			StateChange(EPlayState::HiddenStageOutUp);
-			return;
+			AddActorLocation(FVector::Down * FinishDownSpeed * _DeltaTime);
 		}
 	}
-}
 
-void AMario::HiddenStageOutUp(float _DeltaTime)
-{
-	if (CurPortalTime < PortalTime)
+	void AMario::FinishReverse(float _DeltaTime)
 	{
-		AddActorLocation(FVector::Up * _DeltaTime * 50.0f);
-		CurPortalTime += _DeltaTime;
+		if (DownTime <= CurDownTime)
+		{
+			StateChange(EPlayState::FinishWalk);
+			return;
+		}
+		else
+		{
+			CurDownTime += _DeltaTime;
+		}
 	}
-	else
+
+	void AMario::FinishWalk(float _DeltaTime)
+	{
+		MoveUpdate(_DeltaTime);
+		JumpVector = FVector::Zero;
+		MoveVector = FVector::Right * FinsihWalkSpeed;
+	}
+
+	void AMario::BossFinish(float _DeltaTime)
+	{
+		if (CurBossFinishTime >= BossFinishTime)
+		{
+			MoveVector.X = 0.0f;
+			JumpVector.Y = 0.0f;
+			GravityVector.Y = 0.0f;
+			StateChange(EPlayState::BossFinishWalk);
+			return;
+		}
+		else
+		{
+			CurBossFinishTime += _DeltaTime;
+		}
+	}
+
+	void AMario::BossFinishWalk(float _DeltaTime)
+	{
+		MoveVector = FVector::Right * 200.0f;
+		MoveUpdate(_DeltaTime);
+	}
+
+	void AMario::MoveUpdate(float _DeltaTime)
 	{
 		GroundUp();
-		StateChange(EPlayState::Idle);
-		return;
-	}
-}
-
-void AMario::FinishMove(float _DeltaTime)
-{
-	GroundUp();
-	std::string FinishMoveName = "";
-	switch (SizeState)
-	{
-	case EMarioSizeState::Small:
-		FinishMoveName = "_Small";
-		break;
-	case EMarioSizeState::Big:
-		FinishMoveName = "_Big";
-		break;
-	case EMarioSizeState::Red:
-		FinishMoveName = "_Fire";
-		break;
-	case EMarioSizeState::Star:
-		break;
-	}
-	Color8Bit Color = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
-	if (Color == Color8Bit(255, 0, 255, 0))
-	{
-		Renderer->ChangeAnimation("DownWait" + FinishMoveName);
-		if (true == UContentsHelper::IsFlagDown)
+		FVector MarioPos = GetActorLocation();
+		Color8Bit ColorLeft = UContentsHelper::MapColImage->GetColor(MarioPos.iX() - 12, MarioPos.iY(), Color8Bit::MagentaA);
+		Color8Bit ColorRight = UContentsHelper::MapColImage->GetColor(MarioPos.iX() + 12, MarioPos.iY(), Color8Bit::MagentaA);
+		if (ColorLeft != Color8Bit::MagentaA && ColorRight != Color8Bit::MagentaA && false == IsCollision)
 		{
-			StateChange(EPlayState::FinishReverse);
+			GravityVector += FVector::Down * GravityAcc * _DeltaTime;
+		}
+		else
+		{
+			IsGround = true;
+			GravityVector = FVector::Zero;
+			JumpVector = FVector::Zero;
+		}
+
+		FVector CurCameraPos = GetWorld()->GetCameraPos();
+		FVector NextMarioPos = MarioPos + (MoveVector * _DeltaTime);
+		float Center = GEngine->MainWindow.GetWindowScale().hX();
+		float ScaleX = GEngine->MainWindow.GetWindowScale().X;
+		if
+			(
+				false == IsHiddenStage &&
+				CurCameraPos.X + Center < NextMarioPos.X &&
+				CurCameraPos.X + ScaleX <= UContentsHelper::MapColImage->GetScale().X &&
+				false == UContentsHelper::IsBossStage
+				)
+		{
+			if (MoveVector.X > 0)
+			{
+				GetWorld()->AddCameraPos(MoveVector * _DeltaTime);
+			}
+		}
+		if (CurCameraPos.X + 20.0f >= NextMarioPos.X)
+		{
+			MoveVector = FVector::Zero;
+		}
+
+		WallUp();
+
+		TotalForceVector = MoveVector + JumpVector + GravityVector;
+		AddActorLocation(TotalForceVector * _DeltaTime);
+	}
+
+	void AMario::DieCheck()
+	{
+		Color8Bit DieColor = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::YellowA);
+		if (Color8Bit(255, 255, 0, 0) == DieColor)
+		{
+			SizeState = EMarioSizeState::Small;
+			StateChange(EPlayState::Die);
 			return;
 		}
 	}
-	else
-	{
-		AddActorLocation(FVector::Down * FinishDownSpeed * _DeltaTime);
-	}
-}
 
-void AMario::FinishReverse(float _DeltaTime)
-{
-	if (DownTime <= CurDownTime)
+	void AMario::GroundUp()
 	{
-		StateChange(EPlayState::FinishWalk);
-		return;
-	}
-	else
-	{
-		CurDownTime += _DeltaTime;
-	}
-}
-
-void AMario::FinishWalk(float _DeltaTime)
-{
-	MoveUpdate(_DeltaTime);
-	JumpVector = FVector::Zero;
-	MoveVector = FVector::Right * FinsihWalkSpeed;
-}
-
-void AMario::BossFinish(float _DeltaTime)
-{
-	if (CurBossFinishTime >= BossFinishTime)
-	{
-		MoveVector.X = 0.0f;
-		JumpVector.Y = 0.0f;
-		GravityVector.Y = 0.0f;
-		StateChange(EPlayState::BossFinishWalk);
-		return;
-	}
-	else
-	{
-		CurBossFinishTime += _DeltaTime;
-	}
-}
-
-void AMario::BossFinishWalk(float _DeltaTime)
-{
-	MoveVector = FVector::Right * 200.0f;
-	MoveUpdate(_DeltaTime);
-}
-
-void AMario::MoveUpdate(float _DeltaTime)
-{
-	GroundUp();
-	FVector MarioPos = GetActorLocation();
-	Color8Bit ColorLeft = UContentsHelper::MapColImage->GetColor(MarioPos.iX() - 12, MarioPos.iY(), Color8Bit::MagentaA);
-	Color8Bit ColorRight = UContentsHelper::MapColImage->GetColor(MarioPos.iX() + 12, MarioPos.iY(), Color8Bit::MagentaA);
-	if (ColorLeft != Color8Bit::MagentaA && ColorRight != Color8Bit::MagentaA && false == IsCollision)
-	{
-		GravityVector += FVector::Down * GravityAcc * _DeltaTime;
-	}
-	else
-	{
-		IsGround = true;
-		GravityVector = FVector::Zero;
-		JumpVector = FVector::Zero;
-	}
-
-	FVector CurCameraPos = GetWorld()->GetCameraPos();
-	FVector NextMarioPos = MarioPos + (MoveVector * _DeltaTime);
-	float Center = GEngine->MainWindow.GetWindowScale().hX();
-	float ScaleX = GEngine->MainWindow.GetWindowScale().X;
-	if
-		(
-			false == IsHiddenStage &&
-			CurCameraPos.X + Center < NextMarioPos.X &&
-			CurCameraPos.X + ScaleX <= UContentsHelper::MapColImage->GetScale().X &&
-			false == UContentsHelper::IsBossStage
-			)
-	{
-		if (MoveVector.X > 0)
+		if (false == IsStageEnd)
 		{
-			GetWorld()->AddCameraPos(MoveVector * _DeltaTime);
+			FTransform HeadTransform = HeadCollision->GetActorBaseTransform();
+			FVector HeadCollisionPos = HeadTransform.GetPosition();
+			Color8Bit ColorTop = UContentsHelper::MapColImage->GetColor(HeadCollisionPos.iX(), HeadCollisionPos.iY(), Color8Bit::MagentaA);
+			if (ColorTop == Color8Bit(255, 0, 255, 0))
+			{
+				if (4 == UContentsHelper::SubStage)
+				{
+					JumpVector = FVector::Zero;
+				}
+				return;
+			}
+			else
+			{
+				while (true)
+				{
+					FVector Location = GetActorLocation();
+					Location.Y -= 1.0f;
+					Color8Bit ColorLeft = UContentsHelper::MapColImage->GetColor(Location.iX() - 12, Location.iY(), Color8Bit::MagentaA);
+					Color8Bit ColorRight = UContentsHelper::MapColImage->GetColor(Location.iX() + 12, Location.iY(), Color8Bit::MagentaA);
+					if (ColorLeft == Color8Bit(255, 0, 255, 0) || ColorRight == Color8Bit(255, 0, 255, 0))
+					{
+						AddActorLocation(FVector::Up);
+					}
+					else
+					{
+						break;
+					}
+				}
+			}
 		}
 	}
-	if (CurCameraPos.X + 20.0f >= NextMarioPos.X)
+
+	void AMario::WallUp()
 	{
-		MoveVector = FVector::Zero;
-	}
+		FVector CheckPos = GetActorLocation();
+		Color8Bit ColorBottomLeft = UContentsHelper::MapColImage->GetColor(CheckPos.iX() - 16, CheckPos.iY() - 5, Color8Bit::MagentaA);
+		Color8Bit ColorTopLeft = UContentsHelper::MapColImage->GetColor(CheckPos.iX() - 16, CheckPos.iY() - 30, Color8Bit::MagentaA);
+		Color8Bit ColorBottomRight = UContentsHelper::MapColImage->GetColor(CheckPos.iX() + 16, CheckPos.iY() - 5, Color8Bit::MagentaA);
+		Color8Bit ColorTopRight = UContentsHelper::MapColImage->GetColor(CheckPos.iX() + 16, CheckPos.iY() - 30, Color8Bit::MagentaA);
+		float CamerPos = GetWorld()->GetCameraPos().X;
 
-	WallUp();
-
-	TotalForceVector = MoveVector + JumpVector + GravityVector;
-	AddActorLocation(TotalForceVector * _DeltaTime);
-}
-
-void AMario::DieCheck()
-{
-	Color8Bit DieColor = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::YellowA);
-	if (Color8Bit(255, 255, 0, 0) == DieColor)
-	{
-		SizeState = EMarioSizeState::Small;
-		StateChange(EPlayState::Die);
-		return;
-	}
-}
-
-void AMario::GroundUp()
-{
-	if (false == IsStageEnd)
-	{
 		FTransform HeadTransform = HeadCollision->GetActorBaseTransform();
 		FVector HeadCollisionPos = HeadTransform.GetPosition();
 		Color8Bit ColorTop = UContentsHelper::MapColImage->GetColor(HeadCollisionPos.iX(), HeadCollisionPos.iY(), Color8Bit::MagentaA);
 		if (ColorTop == Color8Bit(255, 0, 255, 0))
 		{
-			if (4 == UContentsHelper::SubStage)
-			{
-				JumpVector = FVector::Zero;
-			}
 			return;
 		}
 		else
 		{
-			while (true)
+			if (ColorBottomLeft == Color8Bit(255, 0, 255, 0) || ColorTopLeft == Color8Bit(255, 0, 255, 0))
 			{
-				FVector Location = GetActorLocation();
-				Location.Y -= 1.0f;
-				Color8Bit ColorLeft = UContentsHelper::MapColImage->GetColor(Location.iX() - 12, Location.iY(), Color8Bit::MagentaA);
-				Color8Bit ColorRight = UContentsHelper::MapColImage->GetColor(Location.iX() + 12, Location.iY(), Color8Bit::MagentaA);
-				if (ColorLeft == Color8Bit(255, 0, 255, 0) || ColorRight == Color8Bit(255, 0, 255, 0))
-				{
-					AddActorLocation(FVector::Up);
-				}
-				else
-				{
-					break;
-				}
+				AddActorLocation(FVector::Right);
+				MoveVector = FVector::Zero;
+			}
+			else if (ColorBottomRight == Color8Bit(255, 0, 255, 0) || ColorTopRight == Color8Bit(255, 0, 255, 0))
+			{
+				AddActorLocation(FVector::Left);
+				MoveVector = FVector::Zero;
 			}
 		}
 	}
-}
-
-void AMario::WallUp()
-{
-	FVector CheckPos = GetActorLocation();
-	Color8Bit ColorBottomLeft = UContentsHelper::MapColImage->GetColor(CheckPos.iX() - 16, CheckPos.iY() - 5, Color8Bit::MagentaA);
-	Color8Bit ColorTopLeft = UContentsHelper::MapColImage->GetColor(CheckPos.iX() - 16, CheckPos.iY() - 30, Color8Bit::MagentaA);
-	Color8Bit ColorBottomRight = UContentsHelper::MapColImage->GetColor(CheckPos.iX() + 16, CheckPos.iY() - 5, Color8Bit::MagentaA);
-	Color8Bit ColorTopRight = UContentsHelper::MapColImage->GetColor(CheckPos.iX() + 16, CheckPos.iY() - 30, Color8Bit::MagentaA);
-	float CamerPos = GetWorld()->GetCameraPos().X;
-	
-	FTransform HeadTransform = HeadCollision->GetActorBaseTransform();
-	FVector HeadCollisionPos = HeadTransform.GetPosition();
-	Color8Bit ColorTop = UContentsHelper::MapColImage->GetColor(HeadCollisionPos.iX(), HeadCollisionPos.iY(), Color8Bit::MagentaA);
-	if (ColorTop == Color8Bit(255, 0, 255, 0))
-	{
-		return;
-	}
-	else
-	{
-		if (ColorBottomLeft == Color8Bit(255, 0, 255, 0) || ColorTopLeft == Color8Bit(255, 0, 255, 0))
-		{
-			AddActorLocation(FVector::Right);
-			MoveVector = FVector::Zero;
-		}
-		else if (ColorBottomRight == Color8Bit(255, 0, 255, 0) || ColorTopRight == Color8Bit(255, 0, 255, 0))
-		{
-			AddActorLocation(FVector::Left);
-			MoveVector = FVector::Zero;
-		}
-	}
-}
 
