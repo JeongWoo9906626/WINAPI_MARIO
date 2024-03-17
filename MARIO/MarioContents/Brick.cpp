@@ -54,11 +54,6 @@ void ABrick::Tick(float _DeltaTime)
 	StateUpdate(_DeltaTime);
 }
 
-//void ABrick::SetHitCount(int _HitCount)
-//{
-//	HitCount = _HitCount;
-//}
-
 void ABrick::StateChange(EBoxState _State)
 {
 	ABrickBase::StateChange(_State);
@@ -79,7 +74,7 @@ void ABrick::IdleStart()
 void ABrick::HitStart()
 {
 	ABrickBase::HitStart();
-
+	HitCount--;
 	ACoin* Coin = GetWorld()->SpawnActor<ACoin>(ERenderOrder::Coin);
 	Coin->SetName("Coin");
 	Coin->SetActorLocation(GetActorLocation());
@@ -106,7 +101,7 @@ void ABrick::Hit(float _DeltaTime)
 
 	if (0 == HitCount)
 	{
-		StateChange(EBoxState::Block);
+		StateChange(EBoxState::Break);
 		return;
 	}
 }

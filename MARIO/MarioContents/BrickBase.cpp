@@ -58,7 +58,7 @@ void ABrickBase::Tick(float _DeltaTime)
 			StateChange(EBoxState::Hit);
 			return;
 		}
-		if (EBoxState::Block == State)
+		if (EBoxState::Break == State)
 		{
 			if (false == IsBlockSound)
 			{

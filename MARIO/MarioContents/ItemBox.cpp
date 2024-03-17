@@ -142,7 +142,7 @@ void AItemBox::Hit(float _DeltaTime)
 			
 
 			SetActorLocation(FirstPos);
-			StateChange(EBoxState::Block);
+			StateChange(EBoxState::Break);
 			return;
 		}
 		else

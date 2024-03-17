@@ -119,7 +119,6 @@ enum class EBoxState
 	Idle,
 	Hit,
 	Break,
-	Block,
 	None,
 };
 

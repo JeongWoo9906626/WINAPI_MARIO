@@ -41,7 +41,6 @@ protected:
 	EBoxState State = EBoxState::None;
 	EMarioSizeState MarioSizeState = EMarioSizeState::None;
 
-	int HitCount = 10;
 	bool IsBreak = false;
 	bool IsBlockSound = false;
 	float MaxHitUpSize = 30.0f;
