@@ -5,6 +5,7 @@
 
 class AMonster;
 class ATroopa;
+class ABrickBase;
 class AFlag;
 class ABrick;
 class ABreakBrick;
@@ -24,6 +25,7 @@ class AMario : public AActor
 {
 	friend AMonster;
 	friend ATroopa;
+	friend ABrickBase;
 	friend AFlag;
 	friend AGate;
 	friend ABrick;

@@ -180,6 +180,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="BrickBase.h" />
     <ClInclude Include="Bridge.h" />
     <ClInclude Include="Coin.h">
       <SubType>
@@ -328,6 +329,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="BrickBase.cpp" />
     <ClCompile Include="Bridge.cpp" />
     <ClCompile Include="Coin.cpp">
       <SubType>
