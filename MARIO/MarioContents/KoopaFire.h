@@ -1,5 +1,7 @@
 #pragma once
 #include <EngineCore/Actor.h>
+#include <EnginePlatform/EngineSound.h>
+
 #include "ContentsHelper.h"
 
 class AKoopaFire : public AActor
@@ -19,11 +21,16 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-	float Speed = 300.0f;
+	void CheckFireSound();
+
+	float Speed = 400.0f;
+	float PlaySoundRange = 300.0f;
 
 	bool CheckWindowPosition();
+	bool IsFirePlaySound = false;
 
 private:
+	UEngineSoundPlayer SoundPlayer;
 	UImageRenderer* Renderer = nullptr;
 	UCollision* Collision = nullptr;
 

@@ -1,5 +1,7 @@
 #pragma once
 #include <EngineCore/Actor.h>
+#include <EnginePlatform/EngineSound.h>
+
 #include "ContentsHelper.h"
 
 class ABridge;
@@ -24,6 +26,7 @@ protected:
 	void DestroyBridge(float _DeltaTime);
 
 private:
+	UEngineSoundPlayer SoundPlayer;
 	UCollision* Collision = nullptr;
 	UCollision* BlockCollision = nullptr;
 	UImageRenderer* Renderer = nullptr;

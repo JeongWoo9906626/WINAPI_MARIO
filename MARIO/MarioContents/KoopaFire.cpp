@@ -30,6 +30,11 @@ void AKoopaFire::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 
+	if (false == IsFirePlaySound)
+	{
+		CheckFireSound();
+	}
+
 	std::vector<UCollision*> MarioResult;
 	if (true == Collision->CollisionCheck(ECollisionOrder::Player, MarioResult))
 	{
@@ -58,6 +63,18 @@ void AKoopaFire::Tick(float _DeltaTime)
 	else
 	{
 		AddActorLocation(MoveDirVector * Speed * _DeltaTime);
+	}
+}
+
+void AKoopaFire::CheckFireSound()
+{
+	float MarioX = AMario::MainPlayer->GetActorLocation().X;
+	float FireX = GetActorLocation().X;
+
+	if (FireX - MarioX <= PlaySoundRange)
+	{
+		SoundPlayer = UEngineSound::SoundPlay("KoopaFire.mp3");
+		IsFirePlaySound = true;
 	}
 }
 

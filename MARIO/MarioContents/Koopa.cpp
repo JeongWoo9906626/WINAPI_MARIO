@@ -102,6 +102,7 @@ void AKoopa::SpinDeadStart()
 
 void AKoopa::DeadStart()
 {
+	SoundPlayer = UEngineSound::SoundPlay("KoopaFall.mp3");
 	Renderer->ChangeAnimation(GetAnimationName("Die"));
 }
 

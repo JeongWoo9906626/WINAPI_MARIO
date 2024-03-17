@@ -871,6 +871,9 @@ void AMario::BossFinishStart()
 
 void AMario::BossFinishWalkStart()
 {
+	UContentsHelper::IsStageSoundOff = true;
+	SoundPlayer = UEngineSound::SoundPlay("FinalStageClear.wav");
+	
 	DirState = EActorDir::Right;
 	BodyCollision->SetActive(true);
 	Renderer->ChangeAnimation(GetAnimationName("Move"));
@@ -1301,9 +1304,6 @@ void AMario::Die(float _DeltaTime)
 	AddActorLocation(JumpVector * (_DeltaTime));
 	JumpVector += FVector::Down * CurGravityAcc * _DeltaTime;
 
-	/*Color8Bit DieColor = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::YellowA);
-	if (Color8Bit(255, 255, 0, 0) == DieColor)
-	{*/
 	if (CurLevelChangeTime >= LevelChangeTime)
 	{
 		CurLevelChangeTime = 0.0f;
@@ -1331,7 +1331,6 @@ void AMario::Die(float _DeltaTime)
 	{
 		CurLevelChangeTime += _DeltaTime;
 	}
-	/*}*/
 }
 
 void AMario::GrowUp(float _DeltaTime)

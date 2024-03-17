@@ -70,6 +70,7 @@ void ABirdgeHandle::DestroyBridge(float _DeltaTime)
 
 	if (CurDestroyTime >= DestroyTime)
 	{
+		SoundPlayer = UEngineSound::SoundPlay("BrickBreak.wav");
 		++Count;
 		CurDestroyTime = 0.0f;
 		BridgeList.front()->Destroy();

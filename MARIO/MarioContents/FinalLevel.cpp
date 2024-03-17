@@ -30,13 +30,6 @@ void UFinalLevel::BeginPlay()
 	UContentsHelper::IsStageSoundOff = false;
 	SoundPlayer = UEngineSound::SoundPlay("Stage04.mp3");
 
-	//UContentsHelper::Time = 1300;
-	//UContentsHelper::SubStage = 4;
-	//UContentsHelper::KoopaWake = false;
-	//UContentsHelper::KoopaIsFire = false;
-	//UContentsHelper::KoopaDie = false;
-	//UContentsHelper::MapName = "FinalStage";
-
 	ABackGround* BackGroundMap = SpawnActor<ABackGround>(ERenderOrder::Map);
 	BackGroundMap->SetMapImage("Stage04.png");
 	BackGroundMap->SetCollisionMapImage("Stage04_Col.png");
