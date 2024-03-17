@@ -69,19 +69,19 @@ void UFinalLevel::BeginPlay()
 	// SpinFire
 	{
 		ASpinFire* SpinFire1 = SpawnActor<ASpinFire>(ERenderOrder::Monster);
-		SpinFire1->SetActorLocation({ 1950, 690 });
+		SpinFire1->SetActorLocation({ 1950, 680 });
 		SpinFire1->SetSpinDir(EActorDir::Left);
 
 		ASpinFire* SpinFire2 = SpawnActor<ASpinFire>(ERenderOrder::Monster);
-		SpinFire2->SetActorLocation({ 3165, 440 });
+		SpinFire2->SetActorLocation({ 3165, 430 });
 		SpinFire2->SetSpinDir(EActorDir::Left);
 
 		ASpinFire* SpinFire3 = SpawnActor<ASpinFire>(ERenderOrder::Monster);
-		SpinFire3->SetActorLocation({ 3870, 440 });
+		SpinFire3->SetActorLocation({ 3870, 430 });
 		SpinFire3->SetSpinDir(EActorDir::Left);
 
 		ASpinFire* SpinFire4 = SpawnActor<ASpinFire>(ERenderOrder::Monster);
-		SpinFire4->SetActorLocation({ 4324, 440 });
+		SpinFire4->SetActorLocation({ 4324, 430 });
 		SpinFire4->SetSpinDir(EActorDir::Left);
 
 		ASpinFire* SpinFire5 = SpawnActor<ASpinFire>(ERenderOrder::Monster);
@@ -93,7 +93,7 @@ void UFinalLevel::BeginPlay()
 		SpinFire6->SetSpinDir(EActorDir::Left);
 
 		ASpinFire* SpinFire7 = SpawnActor<ASpinFire>(ERenderOrder::Monster);
-		SpinFire7->SetActorLocation({ 5660, 315 });
+		SpinFire7->SetActorLocation({ 5660, 305 });
 		SpinFire7->SetSpinDir(EActorDir::Right);
 	}
 

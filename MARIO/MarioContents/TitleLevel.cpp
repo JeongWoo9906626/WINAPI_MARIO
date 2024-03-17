@@ -34,6 +34,7 @@ void UTitleLevel::Tick(float _DeltaTime)
 		UContentsHelper::KoopaWake = false;
 		UContentsHelper::KoopaIsFire = false;
 		UContentsHelper::KoopaDie = false;
+		UContentsHelper::MarioLife = 3;
 		UContentsHelper::MapName = "FinalStage";
 		GEngine->ChangeLevel("Loading");
 		return;
@@ -43,6 +44,7 @@ void UTitleLevel::Tick(float _DeltaTime)
 	{
 		UContentsHelper::Time = 1400;
 		UContentsHelper::SubStage = 1;
+		UContentsHelper::MarioLife = 3;
 		UContentsHelper::MapName = "FirstStage";
 		GEngine->ChangeLevel("Loading");
 		return;

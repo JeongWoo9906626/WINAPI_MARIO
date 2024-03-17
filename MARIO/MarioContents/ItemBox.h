@@ -13,6 +13,8 @@ public:
 	AItemBox& operator=(const AItemBox& _Other) = delete;
 	AItemBox& operator=(AItemBox&& _Other) noexcept = delete;
 
+	void SetItem(std::string _ItemName);
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -28,6 +30,6 @@ protected:
 	void Hit(float _DeltaTime) override;
 
 private:
-
+	std::string ItemName = "Coin";
 };
 

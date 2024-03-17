@@ -277,7 +277,7 @@ void AMonster::GravityMove(float _DeltaTime)
 	Color8Bit Color = UContentsHelper::MapColImage->GetColor(GetActorLocation().iX(), GetActorLocation().iY(), Color8Bit::MagentaA);
 	if (Color == Color8Bit(255, 0, 255, 0))
 	{
-		CurGravityAcc = 500.0f;
+		CurGravityAcc = 0.0f;
 	}
 	else
 	{

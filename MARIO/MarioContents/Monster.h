@@ -59,7 +59,7 @@ protected:
 	int SpinDeadScore = 200;
 
 	float CurGravityAcc = 0.0f;
-	float GravityAcc = 500.0f;
+	float GravityAcc = 300.0f;
 	float MoveSpeed = 70.0f;
 	float SpinDieGravityAcc = 500.0f;
 	float SpinDieJump = -300.0f;

@@ -30,6 +30,11 @@ void AKoopaFire::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 
+	if (true == UContentsHelper::KoopaDie)
+	{
+		Destroy();
+	}
+
 	if (false == IsFirePlaySound)
 	{
 		CheckFireSound();

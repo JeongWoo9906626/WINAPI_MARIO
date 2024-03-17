@@ -39,8 +39,8 @@ void AGoomba::BeginPlay()
 	{
 		HeadCollision = CreateCollision(ECollisionOrder::MonsterHead);
 		HeadCollision->SetColType(ECollisionType::Rect);
-		HeadCollision->SetPosition({ 0, -50 });
-		HeadCollision->SetScale({ 30, 10 });
+		HeadCollision->SetPosition({ 0, -45 });
+		HeadCollision->SetScale({ 50, 15 });
 	}
 
 	{

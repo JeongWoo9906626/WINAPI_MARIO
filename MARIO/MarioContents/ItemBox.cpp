@@ -2,6 +2,7 @@
 #include "Mario.h"
 #include "Mushroom.h"
 #include "Sunflower.h"
+#include "Coin.h"
 
 AItemBox::AItemBox()
 {
@@ -9,6 +10,11 @@ AItemBox::AItemBox()
 
 AItemBox::~AItemBox()
 {
+}
+
+void AItemBox::SetItem(std::string _ItemName)
+{
+	ItemName = _ItemName;
 }
 
 void AItemBox::BeginPlay()
@@ -96,35 +102,44 @@ void AItemBox::Hit(float _DeltaTime)
 	{
 		if (abs(MoveDownPos.Y) >= MaxHitUpSize)
 		{
-			switch (MarioSizeState)
+			if (ItemName._Equal("Coin"))
 			{
-			case EMarioSizeState::Small:
+				ACoin* Coin = GetWorld()->SpawnActor<ACoin>(ERenderOrder::Coin);
+				Coin->SetName("Coin");
+				Coin->SetActorLocation(GetActorLocation());
+				Coin->StateChange(ECoinState::CoinSpawn);
+			}
+			if (ItemName._Equal("Mushroom"))
 			{
-				AMushroom* Mushroom = GetWorld()->SpawnActor<AMushroom>(ERenderOrder::Item);
-				Mushroom->SetName("Mushroom");
-				FVector BoxLocation = GetActorLocation();
-				Mushroom->SetActorLocation({ BoxLocation.X, BoxLocation.Y - 15.0f });
-				break;
+				switch (MarioSizeState)
+				{
+				case EMarioSizeState::Small:
+				{
+					AMushroom* Mushroom = GetWorld()->SpawnActor<AMushroom>(ERenderOrder::Item);
+					Mushroom->SetName("Mushroom");
+					FVector BoxLocation = GetActorLocation();
+					Mushroom->SetActorLocation({ BoxLocation.X, BoxLocation.Y - 15.0f });
+					break;
+				}
+				case EMarioSizeState::Big:
+				{
+					ASunflower* Sunflower = GetWorld()->SpawnActor<ASunflower>(ERenderOrder::Item);
+					Sunflower->SetName("Sunflower");
+					FVector BoxLocation = GetActorLocation();
+					Sunflower->SetActorLocation({ BoxLocation.X, BoxLocation.Y - 15.0f });
+					break;
+				}
+				case EMarioSizeState::Red:
+				{
+					ASunflower* Sunflower = GetWorld()->SpawnActor<ASunflower>(ERenderOrder::Item);
+					Sunflower->SetName("Sunflower");
+					FVector BoxLocation = GetActorLocation();
+					Sunflower->SetActorLocation({ BoxLocation.X, BoxLocation.Y - 15.0f });
+					break;
+				}
+				}
 			}
-			case EMarioSizeState::Big:
-			{
-				ASunflower* Sunflower = GetWorld()->SpawnActor<ASunflower>(ERenderOrder::Item);
-				Sunflower->SetName("Sunflower");
-				FVector BoxLocation = GetActorLocation();
-				Sunflower->SetActorLocation({ BoxLocation.X, BoxLocation.Y - 15.0f });
-				break;
-			}
-			case EMarioSizeState::Red:
-			{
-				ASunflower* Sunflower = GetWorld()->SpawnActor<ASunflower>(ERenderOrder::Item);
-				Sunflower->SetName("Sunflower");
-				FVector BoxLocation = GetActorLocation();
-				Sunflower->SetActorLocation({ BoxLocation.X, BoxLocation.Y - 15.0f });
-				break;
-			}
-			case EMarioSizeState::Star:
-				break;
-			}
+			
 
 			SetActorLocation(FirstPos);
 			StateChange(EBoxState::Block);

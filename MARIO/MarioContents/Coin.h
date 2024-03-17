@@ -5,9 +5,11 @@
 #include "ContentsHelper.h"
 
 class ABrick;
+class AItemBox;
 class ACoin : public AActor
 {
 	friend ABrick;
+	friend AItemBox;
 
 public:
 	ACoin();

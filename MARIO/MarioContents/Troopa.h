@@ -42,7 +42,7 @@ private:
 	bool IsShoot = false;
 	bool IsCollisionActive = false;
 
-	float ShootSpeed = 400.0f;
+	float ShootSpeed = 200.0f;
 
 	float HideTime = 3.0f;
 	float CurHideTime = 0.0f;

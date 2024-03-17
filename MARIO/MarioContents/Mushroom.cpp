@@ -53,18 +53,21 @@ void AMushroom::Tick(float _DeltaTime)
 		UCollision* MarioPosition = MarioResult[0];
 		AMario* Player = static_cast<AMario*>(MarioPosition->GetOwner());
 
-		Renderer->ActiveOff();
-		BodyCollision->ActiveOff();
-		Destroy();
-
 		ScoreUI* Score = GetWorld()->SpawnActor<ScoreUI>(ERenderOrder::UI);
 		FVector MonsterLocation = GetActorLocation();
 		Score->SetActorLocation(MonsterLocation);
 		Score->SetScore(1000);
 
-		Player->SizeState = EMarioSizeState::Big;
-		Player->StateChange(EPlayState::GrowUp);
-		return;
+		Renderer->ActiveOff();
+		BodyCollision->ActiveOff();
+		Destroy();
+
+		if (EMarioSizeState::Big != Player->SizeState)
+		{
+			Player->SizeState = EMarioSizeState::Big;
+			Player->StateChange(EPlayState::GrowUp);
+			return;
+		}
 	}
 
 	std::vector<UCollision*> BoxTopResult;
@@ -143,6 +146,7 @@ void AMushroom::MoveStart()
 void AMushroom::JumpStart()
 {
 	AddActorLocation(FVector::Up * 10.0f);
+	BottomCollision->SetPosition({ 0, 0 });
 	CurJumpPower = JumpPower;
 }
 
@@ -221,7 +225,7 @@ void AMushroom::Jump(float _DeltaTime)
 		CurJumpPower += GravitySpeed * _DeltaTime;
 		AddActorLocation({ DirUnitVector * MoveSpeed * _DeltaTime, CurJumpPower * _DeltaTime });
 	}
-	else
+	if (true == IsBoxCollision || Color == Color8Bit(255, 0, 255, 0))
 	{
 		StateChange(EItemState::Move);
 		return;

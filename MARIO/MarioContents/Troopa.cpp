@@ -34,7 +34,7 @@ void ATroopa::BeginPlay()
 	HeadCollision = CreateCollision(ECollisionOrder::MonsterHead);
 	HeadCollision->SetColType(ECollisionType::Rect);
 	HeadCollision->SetPosition({ 0, -60 });
-	HeadCollision->SetScale({ 30, 10 });
+	HeadCollision->SetScale({ 50, 15 });
 
 	BottomCollision = CreateCollision(ECollisionOrder::MonsterBottom);
 	BottomCollision->SetColType(ECollisionType::Rect);
