@@ -29,6 +29,7 @@ void UTitleLevel::Tick(float _DeltaTime)
 
 	if (true == UEngineInput::IsDown('4'))
 	{
+		UContentsHelper::CoinCount = 100;
 		UContentsHelper::Time = 1300;
 		UContentsHelper::SubStage = 4;
 		UContentsHelper::KoopaWake = false;
@@ -42,6 +43,7 @@ void UTitleLevel::Tick(float _DeltaTime)
 
 	if (true == UEngineInput::IsDown('3'))
 	{
+		UContentsHelper::CoinCount = 100;
 		UContentsHelper::Time = 1400;
 		UContentsHelper::SubStage = 1;
 		UContentsHelper::MarioLife = 3;
@@ -52,6 +54,7 @@ void UTitleLevel::Tick(float _DeltaTime)
 
 	if (UEngineInput::IsAnykeyPress())
 	{
+		UContentsHelper::CoinCount = 100;
 		UContentsHelper::Time = 1400;
 		UContentsHelper::SubStage = 1;
 		UContentsHelper::MapName = "FirstStage";
