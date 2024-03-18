@@ -6,6 +6,7 @@ ABossGate::ABossGate()
 
 ABossGate::~ABossGate()
 {
+	UContentsHelper::IsBossStage = false;
 }
 
 void ABossGate::BeginPlay()
